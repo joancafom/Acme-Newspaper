@@ -1,0 +1,5 @@
+Instrucciones para importar el SampleProject:
+
+1) Cambiar el pom.xml
+2) buscar con crtl+R "data" y cambiar todas las Strings: "Sample" -> "Acme-XXX"
+3) cambiar el persistence.xml: "Sample" -> "Acme-XXX"

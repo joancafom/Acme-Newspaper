@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        
+            $(document).ready(function(){
+                
+                $("#checkbox").click(function(){
+                    $("#boton").attr("disabled", !this.checked);
+                })
+            
+            
+            
+            })
+            
+        </script>
+        
+        <input id="checkbox" name="checkbox" type="checkbox">Acepto los Términos y Condiciones Legales
+        <br><br>
+        <button id="boton" name="boton" type="button" disabled="" onclick="window.location.href='https://www.google.es'">Aceptar</button>
+    </body>
+
+
+</html>
