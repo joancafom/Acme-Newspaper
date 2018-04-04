@@ -704,11 +704,6 @@
 
 	<bean id="newspaper3" class="domain.Newspaper">
 		<property name="title" value="Orbes"/>
-		<property name="publicationDate">
-			<bean factory-method="parse" factory-bean="dateFormat2">
-				<constructor-arg value="20/04/2019"/>
-			</bean>
-		</property>
 		<property name="description" value="All you can learn about science is right here. Or probably on another parallel universe."/>
 		<property name="picture" value="http://og.github.com/atom-mark/atom-mark@1200x630.png"/>
 		<property name="articles">
@@ -721,11 +716,6 @@
 
 	<bean id="newspaper4" class="domain.Newspaper">
 		<property name="title" value="Technotaka"/>
-		<property name="publicationDate">
-			<bean factory-method="parse" factory-bean="dateFormat2">
-				<constructor-arg value="04/09/2019"/>
-			</bean>
-		</property>
 		<property name="description" value="Our news are more than zeros and ones."/>
 		<property name="picture" value="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Circle-icons-computer.svg/1024px-Circle-icons-computer.svg.png"/>
 		<property name="articles">

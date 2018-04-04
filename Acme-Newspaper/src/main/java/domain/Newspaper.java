@@ -13,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -37,6 +38,7 @@ public class Newspaper extends DomainEntity {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Past
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getPublicationDate() {
 		return this.publicationDate;
