@@ -47,7 +47,7 @@ public class User extends Actor {
 
 	@NotNull
 	@Valid
-	@ManyToMany(mappedBy = "followee")
+	@ManyToMany(mappedBy = "followees")
 	public Collection<User> getFollowers() {
 		return this.followers;
 	}
@@ -57,6 +57,26 @@ public class User extends Actor {
 	@ManyToMany()
 	public Collection<User> getFollowees() {
 		return this.followees;
+	}
+
+	public void setNewspapers(final Collection<Newspaper> newspapers) {
+		this.newspapers = newspapers;
+	}
+
+	public void setArticles(final Collection<Article> articles) {
+		this.articles = articles;
+	}
+
+	public void setChirps(final Collection<Chirp> chirps) {
+		this.chirps = chirps;
+	}
+
+	public void setFollowers(final Collection<User> followers) {
+		this.followers = followers;
+	}
+
+	public void setFollowees(final Collection<User> followees) {
+		this.followees = followees;
 	}
 
 }

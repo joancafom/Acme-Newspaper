@@ -28,56 +28,42 @@ window.onload = function(){
 
 </script>
 
-<div>
-	<img src="images/logo.png" alt="Sample Co., Inc." />
-</div>
-
-<div>
-	<ul id="jMenu">
-		<!-- Do not forget the "fNiv" class for the first level links !! -->
-		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
-				</ul>
-			</li>
-		</security:authorize>
-		
-		<security:authorize access="hasRole('CUSTOMER')">
-			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
-				</ul>
-			</li>
-		</security:authorize>
-		
-		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
-		</security:authorize>
-		
-		<security:authorize access="isAuthenticated()">
-			<li>
-				<a class="fNiv"> 
-					<spring:message code="master.page.profile" /> 
-			        (<security:authentication property="principal.username" />)
-				</a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
-					<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>					
-					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-				</ul>
-			</li>
-		</security:authorize>
-	</ul>
-</div>
-
-<div>
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
-</div>
-
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+    
+      <!-- TODO: Place here the name and logo of the company -->
+      <img src="images/logo.png" alt="Sample Co., Inc." style="max-height: 50px;"/>
+      <a class="navbar-brand" href="#">Sample Co.</a>
+    </div>
+    
+    <!-- TODO: Place here the role of the Actor -->
+    <security:authorize access="hasRole('roleX')">
+    	<ul class="nav navbar-nav">
+    		
+    		<!-- TODO: Place here the roles, actions and messageCodes -->
+			<li ><a href="roleX/actionX.do"><spring:message code="master.page.sample"/></a></li>
+			
+			<li ><a href="#"><security:authentication property="principal.username" /></a></li>
+		</ul>
+	</security:authorize>
+	
+    <security:authorize access="isAnonymous()">
+    	<ul class="nav navbar-nav">
+    	
+			<!-- TODO: Place here the entities, actions and messageCodes -->
+			<li ><a href="entityX/actionX.do"><spring:message code="master.page.sample"/></a></li>
+			
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+      		<li ><a href="security/login.do"><span class="glyphicon glyphicon-log-in"></span> <spring:message code="master.page.login" /></a></li>
+    	</ul>
+	</security:authorize>
+	
+	<security:authorize access="isAuthenticated()">
+		<ul class="nav navbar-nav navbar-right">
+      		<li ><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /></a></li>
+    	</ul>
+	</security:authorize>
+  </div>
+</nav>

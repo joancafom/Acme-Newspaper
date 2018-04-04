@@ -1,7 +1,6 @@
 
 package domain;
 
-import java.beans.Transient;
 import java.util.Collection;
 import java.util.Date;
 
@@ -11,6 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -37,7 +37,7 @@ public class Article extends DomainEntity {
 
 	@Transient
 	public Date getPublicationDate() {
-		return null;
+		return this.getNewspaper().getPublicationDate();
 	}
 
 	@NotBlank
@@ -79,7 +79,7 @@ public class Article extends DomainEntity {
 		this.pictures = pictures;
 	}
 
-	public void setFinal(final boolean isFinal) {
+	public void setIsFinal(final boolean isFinal) {
 		this.isFinal = isFinal;
 	}
 
@@ -117,6 +117,22 @@ public class Article extends DomainEntity {
 	@OneToMany(mappedBy = "mainArticle")
 	public Collection<Article> getFollowUps() {
 		return this.followUps;
+	}
+
+	public void setNewspaper(final Newspaper newspaper) {
+		this.newspaper = newspaper;
+	}
+
+	public void setWriter(final User writer) {
+		this.writer = writer;
+	}
+
+	public void setMainArticle(final Article mainArticle) {
+		this.mainArticle = mainArticle;
+	}
+
+	public void setFollowUps(final Collection<Article> followUps) {
+		this.followUps = followUps;
 	}
 
 }

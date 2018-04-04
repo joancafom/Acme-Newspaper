@@ -82,4 +82,8 @@ public class Newspaper extends DomainEntity {
 		return this.articles;
 	}
 
+	public void setArticles(final Collection<Article> articles) {
+		this.articles = articles;
+	}
+
 }

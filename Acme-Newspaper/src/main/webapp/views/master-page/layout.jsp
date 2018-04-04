@@ -28,20 +28,17 @@
 
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/jquery-ui.js"></script>
-<script type="text/javascript" src="scripts/jmenu.js"></script>
 <script type="text/javascript" src="scripts/cookieBanner.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="styles/common.css" type="text/css">
-<link rel="stylesheet" href="styles/jmenu.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="styles/displaytag.css" type="text/css">
 <link rel="stylesheet" href="styles/cookieBanner.css" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#jMenu").jMenu();
-	});
 
 	function askSubmission(msg, form) {
 		if (confirm(msg))
@@ -61,10 +58,14 @@
 
 </head>
 
-<body>
+<body style="margin: 0px; font-family: Arial;">
 
 	<div>
 		<tiles:insertAttribute name="header" />
+	</div>
+	<div id="content-wrapper">
+	<div>
+		<a href="?language=en">en</a> | <a href="?language=es">es</a>
 	</div>
 	<div>
 		<h1>
@@ -75,6 +76,7 @@
 			<br />
 			<span class="message"><spring:message code="${message}" /></span>
 		</jstl:if>	
+	</div>
 	</div>
 	<div>
 		<tiles:insertAttribute name="footer" />

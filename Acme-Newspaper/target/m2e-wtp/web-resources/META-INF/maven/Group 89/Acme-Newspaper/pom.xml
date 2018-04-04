@@ -19,7 +19,7 @@
 
 	<!-- Artifact identification and properties -->
 
-	<groupId>Group89</groupId>
+	<groupId>Group 89</groupId>
 	<version>1.15</version>
 	<packaging>war</packaging>
 	

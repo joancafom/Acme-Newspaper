@@ -3,14 +3,14 @@ var cookieName = 'bannerCookie';
 var cookieValue = 'on';
 
 function createDiv(inContent) {
-	var body = document.getElementsByTagName('body')[0];
+	var contentWrapper = document.getElementById("content-wrapper");
 	var div = document.createElement('div');
 
 	div.setAttribute('id', 'cookieBanner');
 	div.innerHTML = inContent;
 
-	// Adds the Cookie Banner just after the opening <body> tag
-	body.insertBefore(div, body.firstChild);
+	// Adds the Cookie Banner just after the content-wrapper
+	contentWrapper.insertBefore(div, contentWrapper.firstChild);
 
 	// Create the cookie
 	createCookie(window.cookieName, window.cookieValue, window.cookieDuration);

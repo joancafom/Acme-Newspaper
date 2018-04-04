@@ -72,4 +72,8 @@ public class Chirp extends DomainEntity {
 		return this.user;
 	}
 
+	public void setUser(final User user) {
+		this.user = user;
+	}
+
 }

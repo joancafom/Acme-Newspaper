@@ -17,3 +17,8 @@
 	color: red;
 	font-weight: bolder;
 }
+
+#content-wrapper{
+	margin-left: 10px;
+	margin-right: 10px;
+}

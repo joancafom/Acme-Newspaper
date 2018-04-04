@@ -5,9 +5,11 @@
     border-radius: 17px;
     -webkit-border-radius: 17px;
     -moz-border-radius: 17px;
+    position: relative;
+    z-index: 10;
 }
  
-#cookieBanner p, input { 
+#cookieBanner p, #cookieBanner input { 
     padding:10px; 
     font-size:1.2em; 
     font-weight:bold; 
