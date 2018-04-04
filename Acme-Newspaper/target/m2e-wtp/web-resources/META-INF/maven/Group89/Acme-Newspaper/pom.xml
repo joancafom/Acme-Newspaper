@@ -310,6 +310,12 @@
 		    <version>1.7.4</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<artifactId>Acme-Newspaper</artifactId>
