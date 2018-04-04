@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -31,6 +32,7 @@ public class Article extends DomainEntity {
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Column(columnDefinition = "TEXT")
 	public String getTitle() {
 		return this.title;
 	}
@@ -42,12 +44,14 @@ public class Article extends DomainEntity {
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Column(columnDefinition = "TEXT")
 	public String getSummary() {
 		return this.summary;
 	}
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Column(columnDefinition = "TEXT")
 	public String getBody() {
 		return this.body;
 	}
