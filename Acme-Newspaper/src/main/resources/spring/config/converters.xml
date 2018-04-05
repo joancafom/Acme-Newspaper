@@ -22,10 +22,15 @@
 			Add your own converters using entries of the following form: 
 			<bean class="converters.Class1ToClass2" /> 
 		-->
-		
 		<bean class="converters.ActorToStringConverter"/>
 		<bean class="converters.StringToActorConverter"/>
 		
+		<bean class="converters.ArticleToStringConverter"/>
+		<bean class="converters.StringToArticleConverter"/>
+		
+		<bean class="converters.NewspaperToStringConverter"/>
+		<bean class="converters.StringToNewspaperConverter"/>
+
 		<bean class="converters.UserAccountToStringConverter"/>
 		<bean class="converters.StringToUserAccountConverter"/>
 		

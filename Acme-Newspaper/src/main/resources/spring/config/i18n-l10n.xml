@@ -18,8 +18,10 @@
 	">
 
 	<util:list id="messages">
+		<value>/views/article/messages</value>
 		<value>/views/master-page/messages</value>
 		<value>/views/misc/messages</value>
+		<value>/views/newspaper/messages</value>
 		<value>/views/security/messages</value>		
 		<value>/views/welcome/messages</value>
 	</util:list>

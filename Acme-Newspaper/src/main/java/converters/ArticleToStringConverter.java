@@ -6,21 +6,21 @@ import javax.transaction.Transactional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import domain.Actor;
+import domain.Article;
 
 @Component
 @Transactional
-public class ActorToStringConverter implements Converter<Actor, String> {
+public class ArticleToStringConverter implements Converter<Article, String> {
 
 	@Override
-	public String convert(final Actor actor) {
-		String result;
+	public String convert(final Article article) {
+		final String result;
 
-		if (actor == null)
+		if (article == null)
 			result = null;
 		else
-			result = String.valueOf(actor.getId());
+			result = String.valueOf(article.getId());
+
 		return result;
 	}
-
 }

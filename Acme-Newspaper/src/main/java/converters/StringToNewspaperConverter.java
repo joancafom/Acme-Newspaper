@@ -8,32 +8,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import repositories.ActorRepository;
-import domain.Actor;
+import repositories.NewspaperRepository;
+import domain.Newspaper;
 
 @Component
 @Transactional
-public class StringToActorConverter implements Converter<String, Actor> {
+public class StringToNewspaperConverter implements Converter<String, Newspaper> {
 
 	@Autowired
-	ActorRepository	actorRepository;
+	NewspaperRepository	newspaperRepository;
 
 
 	@Override
-	public Actor convert(final String text) {
-		final Actor result;
-		final int id;
+	public Newspaper convert(final String text) {
+		Newspaper result;
+		int id;
 
 		try {
 			if (StringUtils.isEmpty(text))
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = this.actorRepository.findOne(id);
+				result = this.newspaperRepository.findOne(id);
 			}
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
+
 		return result;
 	}
 }

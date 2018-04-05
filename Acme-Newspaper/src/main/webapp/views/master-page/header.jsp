@@ -52,7 +52,7 @@ window.onload = function(){
     	<ul class="nav navbar-nav">
     	
 			<!-- TODO: Place here the entities, actions and messageCodes -->
-			<li ><a href="entityX/actionX.do"><spring:message code="master.page.sample"/></a></li>
+			<li ><a href="newspaper/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			
 		</ul>
 		<ul class="nav navbar-nav navbar-right">

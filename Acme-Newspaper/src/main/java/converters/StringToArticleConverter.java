@@ -8,20 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import repositories.UserRepository;
-import domain.User;
+import repositories.ArticleRepository;
+import domain.Article;
 
 @Component
 @Transactional
-public class StringToUserConverter implements Converter<String, User> {
+public class StringToArticleConverter implements Converter<String, Article> {
 
 	@Autowired
-	UserRepository	userRepository;
+	ArticleRepository	articleRepository;
 
 
 	@Override
-	public User convert(final String text) {
-		User result;
+	public Article convert(final String text) {
+		Article result;
 		int id;
 
 		try {
@@ -29,12 +29,12 @@ public class StringToUserConverter implements Converter<String, User> {
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = this.userRepository.findOne(id);
+				result = this.articleRepository.findOne(id);
 			}
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
+
 		return result;
 	}
-
 }
