@@ -18,6 +18,7 @@
 	">
 
 	<util:list id="tiles">
+		<value>/views/administrator/tiles.xml</value>
 		<value>/views/master-page/tiles.xml</value>		
 		<value>/views/misc/tiles.xml</value>		
 		<value>/views/security/tiles.xml</value>

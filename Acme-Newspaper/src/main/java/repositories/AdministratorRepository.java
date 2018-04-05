@@ -47,7 +47,7 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	Collection<Newspaper> getNewspapers10MoreArticlesThanAverage();
 
 	// v1.0 - Implemented by Alicia
-	@Query("select n1 from Newspaper n1 where n1.articles.size > (select avg(n2.articles.size) - (select avg(n3.articles.size) * 0.1 from Newspaper n3) from Newspaper n2)")
+	@Query("select n1 from Newspaper n1 where n1.articles.size < (select avg(n2.articles.size) - (select avg(n3.articles.size) * 0.1 from Newspaper n3) from Newspaper n2)")
 	Collection<Newspaper> getNewspapers10FewerArticlesThanAverage();
 
 	// v1.0 - Implemented by Alicia
