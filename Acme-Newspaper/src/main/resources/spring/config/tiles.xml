@@ -19,8 +19,10 @@
 
 	<util:list id="tiles">
 		<value>/views/administrator/tiles.xml</value>
+		<value>/views/article/tiles.xml</value> 
 		<value>/views/master-page/tiles.xml</value>		
-		<value>/views/misc/tiles.xml</value>		
+		<value>/views/misc/tiles.xml</value>
+		<value>/views/newspaper/tiles.xml</value> 		
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 	</util:list>

@@ -26,11 +26,21 @@
 		<bean class="converters.ActorToStringConverter"/>
 		<bean class="converters.StringToActorConverter"/>
 		
+		<bean class="converters.ArticleToStringConverter" /> 
+  		<bean class="converters.StringToArticleConverter" />
+  		
+  		<bean class="converters.NewspaperToStringConverter" /> 
+  		<bean class="converters.StringToNewspaperConverter" /> 
+		
 		<bean class="converters.UserAccountToStringConverter"/>
 		<bean class="converters.StringToUserAccountConverter"/>
 		
 		<bean class="converters.UserToStringConverter"/>
 		<bean class="converters.StringToUserConverter"/>
+		
+		 
+  
+		
 		
 	</util:list>
 	
