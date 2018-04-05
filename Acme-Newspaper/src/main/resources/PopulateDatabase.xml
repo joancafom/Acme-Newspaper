@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ * PopulateDatabase.xml
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+	
+	<bean class="java.text.SimpleDateFormat" id="dateFormat">
+		<constructor-arg value="dd/MM/yyyy HH:mm"/>
+	</bean>
+	
+	<bean class="java.text.SimpleDateFormat" id="dateFormat2">
+		<constructor-arg value="dd/MM/yyyy"/>
+	</bean>
+	
+	<!-- User accounts -->
+
+	<bean id="userAccountAdmin" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMINISTRATOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount1" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount2" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount3" class="security.UserAccount">
+		<property name="username" value="user3" />
+		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="user4" />
+		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount5" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccount6" class="security.UserAccount">
+		<property name="username" value="user6" />
+		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Administrator -->	
+
+	<bean id="admin" class="domain.Administrator">
+		<property name="name" value="Scott" />
+		<property name="surnames" value="Mercer" />
+		<property name="email" value="scott@gmail.com" />
+		<property name="userAccount" ref="userAccountAdmin"/>
+	</bean>
+
+	<!-- Articles -->
+
+	<bean id="article1" class="domain.Article">
+		<property name="title" value="Here's What a Single Milkshake Does to Your Blood Vessels"/>
+		<property name="summary" value="A chocolate milkshake may be bliss for your taste buds, but it's not so good for your blood vessels."/>
+		<property name="body" value="A small new study suggests that consuming just a single, high-fat meal or food item, like a milkshake, may lead to unhealthy changes in your blood vessels and red blood cells.
+
+		In the study, researchers had 10 healthy men drink a milkshake made with whole milk, whipped cream and ice cream; the shake contained 80 grams of fat and 1,000 calories. Four hours later, lab tests revealed evidence that the men's blood vessels were less able to relax (or dilate) and that some of their red blood cells changed shaped, becoming 'spiky' instead of smooth.
+
+		'Your red blood cells are normally nice and smooth and beautiful, and the cells, after consumption of a high-fat meal, get these spikes on them,' which could affect blood flow, Julia Brittain, a professor of cell biology and anatomy at Augusta University's Medical College of Georgia, said in a statement.
+
+		But there's no need to panic if you just downed a double cheeseburger or a large milkshake; the researchers said the effects of a single high-fat meal are likely temporary for healthy people. But over time, it could add up. [11 Ways Processed Food Is Different from Real Food]
+
+		'The take-home message is that your body can usually handle this if you don't do it again at the next meal and the next and the next,' Brittain said. The researchers added that their findings may help explain isolated reports of death or heart attack in people right after they consumed a super-high-fat meal.
+
+		The men in the study also had temporary increases in levels of an enzyme called myeloperoxidase, which has been linked with stiff blood vessels and heart attacks in humans.
+
+		It's important to note that the study was very small, and the researchers don't know for sure if the spiky blood cells are harmful to people's vascular health. Future studies are needed to investigate these effects further.
+
+		However, in studies in mice, the researchers previously found that, when the animals were continuously fed a high-fat diet, they experienced permanent changes in the shape of their red blood cells, which triggered an immune response that could contribute to cardiovascular disease.
+
+		The American Heart Association recommends that healthy adults limit their fat intake to 20 to 35 percent of their daily calories. (For a person consuming a 2000 calorie diet, this would trasnlate to about 44 to 78 grams of fat a day, according to the Mayo Clinic.).
+
+		The study was published March 23 in the journal Laboratory Investigation."/>
+		<property name="pictures">
+			<list>
+				<value>http://www.eatformula.com/wp-content/uploads/2017/03/Second-MilkShake-Recipe-575x428.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper1"/>
+		<property name="writer" ref="user1"/>
+		<property name="followUps">
+			<list>
+				<ref bean="article2"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article2" class="domain.Article">
+		<property name="title" value="Chocolate Facts"/>
+		<property name="summary" value="Chocolate is the most popular sweet treat in the world. People around the world (but mostly in Europe and the United States) consume more than 3 million tons of cocoa beans a year, according to the World Cocoa Foundation. And, not only does eating chocolate make you feel good, it may also be good for your heart and your brain."/>
+
+		<property name="body" value="Several recent studies have examined the role that chocolate may have on heart health. Cacao beans are full of phytonutrients, which act as antioxidants and provide additional benefits. Furthermore, cacao beans are rich sources of iron, copper, magnesium, zinc and phosphorus, according to the Harvard T.H. Chan School of Public Health. Dark chocolate contains two to three times more beneficial flavanols than milk chocolate because milk chocolate's cacao concentration is diluted with milk and possibly more sugar.
+
+		While most studies have found some correlation between chocolate consumption and reduced risk of heart problems, the amount and type of chocolate needed requires further study. A 2017 meta-analysis of the effects of chocolate on coronary heart disease, stroke and diabetes published in the journal Nutrients concluded that the most benefit was associated with moderate chocolate intake. The authors found little benefit in heart disease or stroke reduction among people who consumed chocolate more than three times a week. Protective effects against diabetes emerged at two servings a week, but that benefit disappeared if people had more than six servings a week.
+
+		On the other hand, the findings of a large-scale study of more than 150,000 primarily male U.S. veterans who did not have coronary artery disease at the beginning of the study, suggest that eating an ounce of chocolate at least five times a week may help prevent the risk of coronary artery disease-related events like heart attack and heart failure.
+
+		Chocolate may also help prevent the development of atrial fibrillation, a type of irregular heartbeat that increases the risk of heart failure, stroke and more. A study, published in the journal Heart in 2017, found that adults who ate chocolate at least once a month had 10 to 20 percent lower rates of developing atrial fibrillation than those who never or rarely ate chocolate."/>
+
+		<property name="pictures">
+			<list>
+				<value>http://www.runners.es/media/cache/runners_all/upload/images/article/870/chocolate.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper1"/>
+		<property name="writer" ref="user1"/>
+		<property name="mainArticle" ref="article1"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article3" class="domain.Article">
+		<property name="title" value="Playing video games is good for your brain"/>
+		<property name="summary" value="Whether playing video games has negative effects is something that has been debated for 30 years, in much the same way that rock and roll, television, and even the novel faced similar criticisms in their time."/>
+
+		<property name="body" value="Purported negative effects such as addiction, increased aggression, and various health consequences such as obesity and repetitive strain injuries tend to get far more media coverage than the positives. I know from my own research examining both sides that my papers on video game addiction receive far more publicity than my research into the social benefits of, for example, playing online role-playing games.
+
+		However there is now a wealth of research which shows that video games can be put to educational and therapeutic uses, as well as many studies which reveal how playing video games can improve reaction times and hand-eye co-ordination. For example, research has shown that spatial visualization ability, such as mentally rotating and manipulating two- and three-dimensional objects, improves with video game playing.
+
+		To add to this long line of studies demonstrating the more positive effects of video games is a study in the Proceedings of the National Academy of Sciences by Vikranth Bejjanki and colleagues. Their newly published paper demonstrates that the playing of action video games – the sort of fast-paced, 3D shoot-em-up beloved of doomsayers in the media – confirms what other studies have revealed, that players show improved performance in perception, attention, and cognition.
+
+		In a series of experiments on small numbers of gamers (10 to 14 people in each study), the researchers reported that gamers with previous experience of playing such action video games were better at perceptual tasks such as pattern discrimination than gamers with less experience."/>
+
+		<property name="pictures">
+			<list>
+				<value>https://papercrush.pk/wp-content/uploads/2017/12/online-gaming-featured.jpg</value>
+				<value>http://cdn2-www.mandatory.com/assets/uploads/2017/02/Nintendo-Switch-Friends.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper2"/>
+		<property name="writer" ref="user2"/>
+		<property name="followUps">
+			<list>
+				<ref bean="article4"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article4" class="domain.Article">
+		<property name="title" value="6 Scientific Benefits of Playing Videogames"/>
+		<property name="summary" value="Not only can gaming be a whole lot of fun, but recent research has revealed there's also a range of scientific benefits to playing videogames – everything from increasing brain matter to pain relief.
+
+		Here are six of the best benefits to tell your friends next time you blow off drinks to game:"/>
+
+		<property name="body" value="1. 3D video games could increase memory capacity
+
+		In a 2015 study in The Journal of Neuroscience, researchers from the University of California, Irvine recruited 69 participants, and asked a third to play Super Mario 3D World for two weeks, a third to play Angry Birds, and the rest to play nothing.
+
+		2. Gaming could be good for pain relief
+
+		This one is the best excuse for playing video games on your next sick day – a 2012 literature review published in the American Journal of Preventive Medicine found that in the 38 studies examined, video games improved the health outcomes of 195 patients on every front, including psychological and physical therapy.
+
+		3. There's evidence games help dyslexic kids improve their reading
+
+		Video games can help kids, too!
+		A 2013 study published in Cell investigated the effect that playing action games, like 'Rayman Raving Rabbids', could help dyslexic children aged 7 to 13 year read faster, with no loss in accuracy.
+
+		4. Tetris could help limit trauma
+
+		Trusty old Tetris might be good for more than just time wasting if this new study is anything to go by.
+		Last year, 37 patients that arrived at a hospital emergency department in Oxford, UK, to be treated for a traffic accident were randomly selected to play 20 minutes of Tetris.
+
+		5. Some research shows that video games might actually make you smarter
+
+		A study published in PLoS ONE in 2013 goes as far as saying that your cognition might be enhanced when you start up your Xbox or PlayStation.
+		The researchers took five groups of non-gamers, and made them play a phone game for one hour a day over four weeks.
+
+		6. Gaming is linked to an increase in brain matter
+
+		And finally – a 2014 study published in Molecular Psychiatry by researchers from the Max Planck Institute in Germany from the found that playing Super Mario 64 caused an increase in the size of brain regions.
+		Specifically the bits of the brain responsible for spatial orientation, memory formation, strategic planning, and fine motor skills."/>
+
+		<property name="pictures">
+			<list>
+				<value>https://www.sciencealert.com/images/articles/processed/GamingBenefits_web_1024.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper2"/>
+		<property name="writer" ref="user2"/>
+		<property name="mainArticle" ref="article3"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article5" class="domain.Article">
+		<property name="title" value="Lorde's Melodrama up for album of the year at Grammys"/>
+		<property name="summary" value="Lorde has been nominated for album of the year at the Grammy Awards for Melodrama."/>
+
+		<property name="body" value="Lorde will compete against Jay-Z's 4.44, RnB star Bruno Mars' 24K Magic, Childish Gambino's Awaken, My Love! and Kendrick Lamar's Damn.
+
+		The absence of some of the biggest female artists marked a stark contrast with the 2017 awards, when Beyonce led the nominations and Britain's Adele swept the top awards. Neither released new music this year.
+
+		Taylor Swift's Reputation album will not be eligible this year due to its November release, but she garnered two nominations including writing country group Little Big Town's Better Man.
+
+		Katy Perry, who is yet to win a Grammy award, did not score a single nomination for her Witness album.
+
+		Nick Cave and The Bad Seeds and director Andrew Dominik were named in the best music film category for One More Time With Feeling.
+
+		The most notable omission from Tuesday's Grammy nominations was Canadian hip hop artist Drake, whose More Life album dominated streaming, charts and radio play since its March release.
+
+		British singer-songwriter Ed Sheeran, whose Divide album topped charts around the world, garnered two nominations in the pop categories. Lady Gaga and Kesha landed two nods each in the same categories as Sheeran."/>
+
+		<property name="pictures">
+			<list>
+				<value>https://cdn-images-1.medium.com/max/1080/0*WlOYc9TkdB3U5b5c.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper6"/>
+		<property name="writer" ref="user2"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article6" class="domain.Article">
+		<property name="title" value="USDA Will Not Regulate CRISPR-Edited Crops"/>
+		<property name="summary" value="Restrictions will remain on transgenic plants, which contain artificially inserted genes from other species."/>
+
+		<property name="body" value="The US Department of Agriculture (USDA) will not regulate plants that have been modified through genome editing, according to statement released last week (March 28) by the agency.
+
+		In the announcement, the USDA states that it won’t oversee the use of genetically altered plants, as long as they could have also been developed through traditional breeding methods, such as cross-breeding or selecting for desirable properties. The agency adds that genome editing allows breeders to introduce new traits more precisely, and at a faster rate.
+
+		'With this approach, USDA seeks to allow innovation when there is no risk present,' US Secretary of Agriculture Sonny Perdue says in the statement. 'Plant breeding innovation holds enormous promise for helping protect crops against drought and diseases while increasing nutritional value and eliminating allergens.'
+
+		MIT Technology Review notes that transgenic crops—plants that contain artificially inserted genes from other species—will still be regulated.
+
+		See 'The Unregulation of Biotech Crops'
+
+		This announcement comes as good news to biotech companies using CRISPR to modify plants. According to Wired, this move will '[shave] years and tens of millions of dollars off the cost of developing a designer plant.'
+
+		'Having this consistent position enables smaller companies and academic labs to form this ecosystem of innovation to bring options to consumers,' Federico Tripodi, CEO of Calyxt, a Minnesota-based biotech that has already developed soybeans that produce oil low in trans fats that can be cooked at high heat, tells Wired.  
+
+		Whether gene-edited plants require special labeling is still unclear. 'Bioengineered foods are defined by containing genetic material that could not otherwise have been conventionally bred or obtained in nature,' Deepti Kulkarni, a former member of the FDA’s Office of Chief Counsel who currently works at Sidley Austin, a corporate law firm in the U.S., tells Wired. 'If USDA is construing the language this way, there is some suggestive signaling that these products might not be subject to disclosure.'"/>
+
+		<property name="pictures">
+			<list>
+				<value>https://www.the-scientist.com/images/Nutshell/April2018/agriculture.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="false"/>
+		<property name="newspaper" ref="newspaper3"/>
+		<property name="writer" ref="user3"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article7" class="domain.Article">
+		<property name="title" value="Louise Slaughter, Scientist and Congresswoman, Dies"/>
+		<property name="summary" value="Trained in microbiology, Slaughter championed science, women’s health, and consumer protections as a member of the US House of Representatives."/>
+
+		<property name="body" value="Louise Slaughter (D-NY), a longtime member of the US House of Representatives who trained as a microbiologist, died last week (March 16) at age 88. Among Slaughter’s accomplishments as a lawmaker, she composed the Genetic Information and Nondiscrimination Act (GINA), which provides protections for people with genetic mutations, and advocated against the overuse of antibiotics.
+
+		“She had just a wonderful understanding of the scientific process, of what science can create in terms of improving the health of the world,” Mark Taubman, CEO of the University of Rochester Medical Center, tells the Democrat and Chronicle. “And as such she was a great supporter of the NIH (National Institutes of Health), and a great supporter of increasing funding for science.”
+
+		Slaughter was born in Kentucky in 1929, and earned a bachelor’s degree in microbiology and a master’s in public health from the University of Kentucky. According to her website, she wrote her graduate thesis on antibiotic resistance.
+
+		In the 1970s and ‘80s, Slaughter served in various state government positions in New York before being elected to the US House in 1986. “Early in her congressional career, she successfully fought for the passage of legislation that guarantees women and minorities are included in all federal health trials, established the Office of Research on Women’s Health (ORWH) at the National Institutes of Health (NIH), and allocated the first $500 million in federal funding for breast cancer research at the NIH,” according to her website.
+
+		The passage of GINA in 2008 was intended to ease patients’ fears of insurance or professional discrimination in an era of growing opportunities for clinical genetics. “We have truly lost a genomics champion,” Eric Green, Director of the National Human Genome Research Institute, says in a statement. “Louise Slaughter had the vision that GINA was needed to ensure continued advances in genetics and genomics research, especially for clinical applications—and she was completely right. Our research community will remember her commitment to these important social and ethical issues.”
+
+		According to The Washington Post, she is survived by three daughters, seven grandchildren, and one great-grandson."/>
+
+		<property name="pictures">
+			<list>
+				<value>https://www.the-scientist.com/images/Nutshell/March2018/louise%20slaughter%20640.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="false"/>
+		<property name="newspaper" ref="newspaper3"/>
+		<property name="writer" ref="user4"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="article9" class="domain.Article">
+		<property name="title" value="Environment ministry responds to Aris Oil Company pollution allegations"/>
+		<property name="summary" value="According to the MET Spokesperson, Romeo Muyunda, after learning about the concerns on 28 March, the ministry immediately dispatched an inspection team to investigate the allegations at the site and found that the allegations made by the public were false."/>
+
+		<property name="body" value="“This was not the first time the site has been inspected, the Environmental Commissioner has inspected the site in 2017 and it was found that the site operation is an enclosed system that is meant for smoke and odor recovery,” Muyunda said.
+
+		Muyunda further said that the mitigation measures put in place after the site was issued with a Compliance Order was to rectify all their non -compliance at the time.
+
+		He said that, regular environmental monitoring has been done and the site has pollution measures in place and that monitoring reports were sent to the ministry’s offices.
+
+		Muyunda said that the inspection team had instructed the project owner to elongate the exhaust pipes in line with ISO standards or recognized standard institutions in Namibia within a period of six weeks, to which the owner has agreed."/>
+
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper5"/>
+		<property name="writer" ref="user4"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article10" class="domain.Article">
+		<property name="title" value="MIT researchers develop new portable device to monitor white blood cell levels"/>
+		<property name="summary" value="One of the major side effects of chemotherapy is a sharp drop in white blood cells, which leaves patients vulnerable to dangerous infections. MIT researchers have now developed a portable device that could be used to monitor patients' white blood cell levels at home, without taking blood samples."/>
+
+		<property name="body" value="Such a device could prevent thousands of infections every year among chemotherapy patients, the researchers say. Their tabletop prototype records video of blood cells flowing through capillaries just below the surface of the skin at the base of the fingernail. A computer algorithm can analyze the images to determine if white blood cell levels are below the threshold that doctors consider dangerous.
+
+		'Our vision is that patients will have this portable device that they can take home, and they can monitor daily how they are reacting to the treatment. If they go below the threshold, then preventive treatment can be deployed,' says Carlos Castro-Gonzalez, a postdoc in MIT's Research Laboratory of Electronics (RLE) and the leader of the research team.
+
+		In a paper appearing in Scientific Reports, the researchers showed that the device could accurately determine whether white blood cell levels were too low, in a study of 11 patients undergoing chemotherapy.
+
+		The paper's first author is Aurélien Bourquard, an RLE postdoc. Other team members who developed the new technology include RLE research engineer Ian Butterworth, former MIT postdoc Alvaro Sanchez-Ferro, and Technical University of Madrid graduate student Alberto Pablo Trinidad."/>
+
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper1"/>
+		<property name="writer" ref="user5"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article11" class="domain.Article">
+		<property name="title" value="Tired of Sucking in 'Overwatch?' Try Cognitive-Behavioral Therapy"/>
+		<property name="summary" value="A series of bad losses sent an 'Overwatch' player over the edge, until his therapist wife handed him a mood log worksheet."/>
+
+		<property name="body" value="An Overwatch player has been very frustrated with his matches recently, so his wife, who is a therapist, gave him a mood log worksheet to help manage his emotions. The sheet went viral on Reddit, with 14,500 upvotes and more than a thousand comments. Many are from other players who can relate and are asking how they, too, can calm the fuck down after particularly soul-sucking loss.
+
+		I talked to Ben and Anna (they asked to remain anonymous because of the sensitive nature of her work) over email about this viral piece of gamer therapy. She said she often overhears Ben’s grumbles while playing Overwatch, muttering about losses and teammates.
+
+		One night, Ben stayed up way too late playing Overwatch, trying to break a brutal losing streak. “I couldn't sleep for at least an hour, and I was clearly sleep-deprived the next day,” Ben said. “The usual progression is that I'll be upbeat and encouraging for a match or two, then quiet, then visibly annoyed.” He doesn’t scream at anyone in the chat, but he broods, he said, and it started impacting the rest of his life.
+
+		When Ben admitted to Anna that his exhaustion the next day was because of the game, she suggested the worksheet. She’s a family therapist who uses Cognitive-Behavioral Therapy approaches to help her clients, and happened to have a few extra mood assessment worksheets in her bag.
+
+		“My teammates are hot garbage,” Ben scrawled on the sheet in pencil, after a particularly brutal Overwatch losing streak. “Blizzard always makes me fight Diamond Smurfs.” “I’m just going to keep losing.”
+
+		Next to these slots are ways to reframe the thoughts by examining how they might be distorted by emotion, and turn them into positive thoughts, like “I can learn from my mistakes” and “My [Skill Rating] is an accurate reflection.”
+
+		It’s been less than a week since he filled out the worksheet for the first time, but laying out frustrations on paper is a step in the right direction, Anna said. “Seeing our thoughts on paper, in black and white can be a powerful experience. It makes us more aware of those unhelpful thought patterns that we are engaging in, and gives us the opportunity to make some changes.”
+
+		“A lot of this probably sounds obvious to someone outside of the world of the game, but when you're concentrating super hard, it's amazing how fast your brain will make these logical leaps...without you even noticing. If you're not careful to think mindfully and realize the tricks your brain is playing, you will literally feel lower self-worth after a series of losses. What this exercise does is help you understand how your brain and your emotions work—and how to change your mindset so that those things don't subconsciously beat you down.”
+
+		And Ben says that his in-game skill rating has gone up since trying the worksheet, so there’s that."/>
+
+		<property name="pictures">
+			<list>
+				<value>http://media.esports.eldesmarque.com/wp-content/uploads/2016/07/overwatch-ed.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper2"/>
+		<property name="writer" ref="user5"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article12" class="domain.Article">
+		<property name="title" value="Underwater melting of Antarctic ice far greater than thought, study finds"/>
+		<property name="summary" value="The base of the ice around the south pole shrank by 1,463 square kilometres between 2010 and 2016."/>
+
+		<property name="body" value="Hidden underwater melt-off in the Antarctic is doubling every 20 years and could soon overtake Greenland to become the biggest source of sea-level rise, according to the first complete underwater map of the world’s largest body of ice.
+
+		Warming waters have caused the base of ice near the ocean floor around the south pole to shrink by 1,463 square kilometres – an area the size of Greater London – between 2010 and 2016, according to .
+
+		The research by the  at the University of Leeds suggests climate change is affecting the Antarctic more than previously believed and is likely to prompt global projections of sea-level rise to be revised upward.
+
+		Until recently, the Antarctic was seen as relatively stable. Viewed from above, the extent of land and sea ice in the far south has not changed as dramatically as in the far north.
+
+		But the new study found even a small increase in temperature has been enough to cause a loss of five metres every year from the bottom edge of the ice sheet, some of which is more than 2km underwater.
+
+		“What’s happening is that Antarctica is being melted away at its base. We can’t see it, because it’s happening below the sea surface,” said Professor Andrew Shepherd, one of the authors of the paper. “The changes mean that very soon the sea-level contribution from Antarctica could outstrip that from Greenland.”
+
+		The study measures the Antarctic’s “grounding line” – the bottommost edge of the ice sheet across 16,000km of coastline. This is done by using elevation data from the European Space Agency’s CryoSat-2 and applying Archimedes’s principle of buoyancy, which relates the thickness of floating ice to the height of its surface."/>
+
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper5"/>
+		<property name="writer" ref="user5"/>
+		<property name="followUps">
+			<list>
+				<ref bean="article13"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="article13" class="domain.Article">
+		<property name="title" value="5 Things: All about ice"/>
+		<property name="summary" value="Important facts aboout ice and climate change"/>
+
+		<property name="body" value="1. Earth’s changing cryosphere
+
+		This year, NASA will launch two satellite missions that will increase our understanding of Earth’s frozen reaches. Snow, ice sheets, glaciers, sea ice and permafrost, known as the cryosphere, act as Earth’s thermostat and deep freeze, regulating temperatures by reflecting heat from the Sun and storing most of our fresh water.
+
+		2. GRACE-FO: Building on a legacy and forging ahead
+
+		The next Earth science satellites set to launch are twins! The identical satellites of the GRACE Follow-On mission will build on the legacy of their predecessor GRACE by also tracking the ever-changing movement of water around our planet, including Earth’s frozen regions.GRACE-FO, a partnership between NASA and the German Research Center for Geosciences (GFZ), will provide critical information about how the Greenland and Antarctic ice sheets are changing. GRACE-FO, workingtogether, will measure the distance between the two satellites to within 1 micron (much less than the width of a human hair) to determine the mass below.
+
+		Greenland has been losing about 280 gigatons of ice per year on average, and Antarctica has lost almost 120 gigatons a year with indications that both melt rates are increasing. A single gigaton of water would fill about 400,000 Olympic-sized swimming pools; each gigaton represents a billion tons of water.
+
+		3. ICESat-2: 10,000 laser pulses a second
+
+		In September, NASA will launch ICESat-2, which uses a laser instrument to precisely measure the changing elevation of ice around the world, allowing scientists to see whether ice sheets and glaciers are accumulating snow and ice or getting thinner over time. ICESat-2 will also make critical measurements of the thickness of sea ice from space. Its laser instrument sends 10,000 pulses per second to the surface and will measure the photons’ return trip to satellite. The trip from ICESat-2 to Earth and back takes about 3.3 milliseconds.
+
+		4. Seeing less sea ice
+
+		Summertime sea ice in the Arctic Ocean now routinely covers about 40 percent less area than it did in the late 1970s, when continuous satellite observations began. This kind of significant change could increase the rate of warming already in progress and affect global weather patterns.
+
+		5. The snow we drink
+	
+		In the western United States, 1 in 6 people rely on snowpack for water. NASA field campaigns such as the Airborne Snow Observatory and SnowEx seek to better understand how much water is held in Earth’s snow cover, and how we could ultimately measure this comprehensively from space."/>
+
+		<property name="pictures">
+			<list>
+				<value>https://climate.nasa.gov/system/news_items/main_images/2702_Jan_2014-768px.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="newspaper" ref="newspaper5"/>
+		<property name="writer" ref="user5"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+		<property name="mainArticle" ref="article12"/>
+	</bean>
+
+
+	<!-- Chirps -->
+
+	<bean id="chirp1" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="01/01/2018 13:00"/>
+			</bean>
+		</property>
+		<property name="title" value="Happy new year everybody!"/>
+		<property name="description" value="Ich bin da!"/>
+		<property name="user" ref="user1"/>
+	</bean>
+
+	<bean id="chirp2" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="24/02/2018 15:29"/>
+			</bean>
+		</property>
+		<property name="title" value="Did someone call a doctor?"/>
+		<property name="description" value="Heroes never die!"/>
+		<property name="user" ref="user1"/>
+	</bean>
+
+	<bean id="chirp3" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="25/02/2018 21:33"/>
+			</bean>
+		</property>
+		<property name="title" value="I'm right here"/>
+		<property name="description" value="The battle continues!"/>
+		<property name="user" ref="user1"/>
+	</bean>
+
+	<bean id="chirp4" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="05/03/2018 00:45"/>
+			</bean>
+		</property>
+		<property name="title" value="That's a star performance!"/>
+		<property name="description" value="Thanks for the support"/>
+		<property name="user" ref="user2"/>
+	</bean>
+
+	<bean id="chirp5" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="03/03/2018 00:01"/>
+			</bean>
+		</property>
+		<property name="title" value="I play to win!"/>
+		<property name="description" value="Think you can keep up with me?"/>
+		<property name="user" ref="user2"/>
+	</bean>
+
+	<bean id="chirp6" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="05/03/2018 02:34"/>
+			</bean>
+		</property>
+		<property name="title" value="Showtime!"/>
+		<property name="description" value="I'm not a good loser"/>
+		<property name="user" ref="user2"/>
+	</bean>
+
+	<bean id="chirp7" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="11/03/2018 12:03"/>
+			</bean>
+		</property>
+		<property name="title" value="Nerf this!"/>
+		<property name="description" value="I'm going to own all these noobs! Ha ha ha"/>
+		<property name="user" ref="user2"/>
+	</bean>
+
+	<bean id="chirp8" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="29/10/2017 00:07"/>
+			</bean>
+		</property>
+		<property name="title" value="Science will reveal the truth"/>
+		<property name="description" value="It is not my preference to see to matters personally, but I will see them done."/>
+		<property name="user" ref="user4"/>
+	</bean>
+
+	<bean id="chirp9" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="25/12/2017 09:01"/>
+			</bean>
+		</property>
+		<property name="title" value="Mei-rry christmas!"/>
+		<property name="description" value="It's good to get out of the lab :)"/>
+		<property name="user" ref="user5"/>
+	</bean>
+
+	<bean id="chirp10" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="29/12/2017 18:56"/>
+			</bean>
+		</property>
+		<property name="title" value="Our world is worth fighting for"/>
+		<property name="description" value="Let's gather some valuable data on this mission"/>
+		<property name="user" ref="user5"/>
+	</bean>
+
+	<bean id="chirp11" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="31/12/2017 23:47"/>
+			</bean>
+		</property>
+		<property name="title" value="My new year's resolution?"/>
+		<property name="description" value="Hmmm... I could do a better job controlling my temper"/>
+		<property name="user" ref="user5"/>
+	</bean>
+
+	<bean id="chirp12" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="31/12/2017 23:48"/>
+			</bean>
+		</property>
+		<property name="title" value="Give yourself to the rhythm"/>
+		<property name="description" value="I'm not hearing that noise!"/>
+		<property name="user" ref="user6"/>
+	</bean>
+
+	<bean id="chirp13" class="domain.Chirp">
+		<property name="moment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="01/01/2018 14:21"/>
+			</bean>
+		</property>
+		<property name="title" value="Aw man, I'm loving this!"/>
+		<property name="description" value="Nothing's gonna stop me"/>
+		<property name="user" ref="user6"/>
+	</bean>
+	
+	<!-- Newspapers -->
+
+	<bean id="newspaper1" class="domain.Newspaper">
+		<property name="title" value="New Heart Times"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="29/10/2017"/>
+			</bean>
+		</property>
+		<property name="description" value="From the depth of our bodies to the palm of your hand"/>
+		<property name="picture" value="https://t3.ftcdn.net/jpg/00/70/36/78/160_F_70367832_ihTcosFQmN2Np22HZj6Fhm1nCEeEt69S.jpg"/>
+		<property name="articles">
+			<list>
+				<ref bean="article1"/>
+				<ref bean="article2"/>
+				<ref bean="article10"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="newspaper2" class="domain.Newspaper">
+		<property name="title" value="Gamepolitan"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="08/02/2018"/>
+			</bean>
+		</property>
+		<property name="description" value="The cake is a lie. Our news, aren't"/>
+		<property name="picture" value="https://image.flaticon.com/icons/png/512/39/39596.png"/>
+		<property name="articles">
+			<list>
+				<ref bean="article3"/>
+				<ref bean="article4"/>
+				<ref bean="article11"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="newspaper3" class="domain.Newspaper">
+		<property name="title" value="Orbes"/>
+		<property name="description" value="All you can learn about science is right here. Or probably on another parallel universe."/>
+		<property name="picture" value="http://og.github.com/atom-mark/atom-mark@1200x630.png"/>
+		<property name="articles">
+			<list>
+				<ref bean="article6"/>
+				<ref bean="article7"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="newspaper4" class="domain.Newspaper">
+		<property name="title" value="Technotaka"/>
+		<property name="description" value="Our news are more than zeros and ones."/>
+		<property name="picture" value="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Circle-icons-computer.svg/1024px-Circle-icons-computer.svg.png"/>
+		<property name="articles">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="newspaper5" class="domain.Newspaper">
+		<property name="title" value="Good Morning World"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="21/05/2017"/>
+			</bean>
+		</property>
+		<property name="description" value="These news will give you life!"/>
+		<property name="picture" value="https://logoobject.com/wp-content/uploads/edd/2017/11/Earth-Logo-PNG3-820x820.png"/>
+		<property name="articles">
+			<list>
+				<ref bean="article12"/>
+				<ref bean="article13"/>
+				<ref bean="article9"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="newspaper6" class="domain.Newspaper">
+		<property name="title" value="Rolling Tones"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="21/02/2018"/>
+			</bean>
+		</property>
+		<property name="description" value="Discover bops and not flops!"/>
+		<property name="picture" value="https://www.lacupulamusic.com/wp-content/uploads/2016/11/itunes-logo-700.jpg"/>
+		<property name="articles">
+			<list>
+				<ref bean="article5"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Users -->
+
+	<bean id="user1" class="domain.User">
+		<property name="name" value="Angela" />
+		<property name="surnames" value="Ziegler" />
+		<property name="postalAddress" value="C/ Largerstrasse 2, Zúrich, Suiza" />
+		<property name="phoneNumber" value="+34677890120" />
+		<property name="email" value="mercy@gmail.com" />
+		<property name="userAccount" ref="userAccount1"/>
+		<property name="followers">
+			<list>
+				<ref bean="user2"/>
+				<ref bean="user3"/>
+				<ref bean="user4"/>
+			</list>
+		</property>
+		<property name="followees">
+			<list>
+				<ref bean="user2"/>
+				<ref bean="user4"/>
+			</list>
+		</property>
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper1"/>
+			</list>
+		</property>
+		<property name="articles">
+			<list>
+				<ref bean="article1"/>
+				<ref bean="article2"/>
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+				<ref bean="chirp1"/>
+				<ref bean="chirp2"/>
+				<ref bean="chirp3"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user2" class="domain.User">
+		<property name="name" value="Hana" />
+		<property name="surnames" value="Song" />
+		<property name="postalAddress" value="C/ Simingongwon-ro 12, Busan, Corea del Sur" />
+		<property name="phoneNumber" value="+34699120772" />
+		<property name="email" value="dva@gmail.com" />
+		<property name="userAccount" ref="userAccount2"/>
+		<property name="followers">
+			<list>
+				<ref bean="user1"/>
+				<ref bean="user3"/>
+				<ref bean="user4"/>
+				<ref bean="user5"/>
+			</list>
+		</property>
+		<property name="followees">
+			<list>
+				<ref bean="user1"/>
+				<ref bean="user5"/>
+			</list>
+		</property>
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper2"/>
+			</list>
+		</property>
+		<property name="articles">
+			<list>
+				<ref bean="article3"/>
+				<ref bean="article4"/>
+				<ref bean="article5"/>
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+				<ref bean="chirp4"/>
+				<ref bean="chirp5"/>
+				<ref bean="chirp6"/>
+				<ref bean="chirp7"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user3" class="domain.User">
+		<property name="name" value="Jesse" />
+		<property name="surnames" value="McCree" />
+		<property name="postalAddress" value="C/ Cerrillos Rd 66, Santa Fe, Nuevo México, EE.UU" />
+		<property name="phoneNumber" value="+34644990154" />
+		<property name="email" value="mccree@gmail.com" />
+		<property name="userAccount" ref="userAccount3"/>
+		<property name="followers">
+			<list>
+			</list>
+		</property>
+		<property name="followees">
+			<list>
+				<ref bean="user1"/>
+				<ref bean="user2"/>
+			</list>
+		</property>
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper3"/>
+				<ref bean="newspaper4"/>
+			</list>
+		</property>
+		<property name="articles">
+			<list>
+				<ref bean="article6"/>
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user4" class="domain.User">
+		<property name="name" value="Moira" />
+		<property name="surnames" value="O'Deorain" />
+		<property name="postalAddress" value="C/ Oliver Bond St 122, Dublin, Irlanda" />
+		<property name="email" value="moira@gmail.com" />
+		<property name="userAccount" ref="userAccount4"/>
+		<property name="followers">
+			<list>
+				<ref bean="user1"/>
+				<ref bean="user5"/>
+			</list>
+		</property>
+		<property name="followees">
+			<list>
+				<ref bean="user1"/>
+				<ref bean="user2"/>
+			</list>
+		</property>
+		<property name="newspapers">
+			<list>
+			</list>
+		</property>
+		<property name="articles">
+			<list>
+				<ref bean="article7"/>
+				<ref bean="article9"/>
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+				<ref bean="chirp8"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user5" class="domain.User">
+		<property name="name" value="Mei-Ling" />
+		<property name="surnames" value="Zhou" />
+		<property name="phoneNumber" value="+34651998332" />
+		<property name="email" value="mei@gmail.com" />
+		<property name="userAccount" ref="userAccount5"/>
+		<property name="followers">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
+		<property name="followees">
+			<list>
+				<ref bean="user2"/>
+				<ref bean="user4"/>
+				<ref bean="user6"/>
+			</list>
+		</property>
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper5"/>
+			</list>
+		</property>
+		<property name="articles">
+			<list>
+				<ref bean="article10"/>
+				<ref bean="article11"/>
+				<ref bean="article12"/>
+				<ref bean="article13"/>
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+				<ref bean="chirp9"/>
+				<ref bean="chirp10"/>
+				<ref bean="chirp11"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user6" class="domain.User">
+		<property name="name" value="Lúcio" />
+		<property name="surnames" value="Correia dos Santos" />
+		<property name="email" value="lucio@gmail.com" />
+		<property name="userAccount" ref="userAccount6"/>
+		<property name="followers">
+			<list>
+				<ref bean="user5"/>
+			</list>
+		</property>
+		<property name="followees">
+			<list>
+			</list>
+		</property>
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper6"/>
+			</list>
+		</property>
+		<property name="articles">
+			<list>
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+				<ref bean="chirp12"/>
+				<ref bean="chirp13"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

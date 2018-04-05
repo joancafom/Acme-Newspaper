@@ -1,0 +1,44 @@
+#cookieBanner { 
+    max-width:940px;
+    background:#F5F5F5; 
+    margin:10px auto 0; 
+    border-radius: 17px;
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    position: relative;
+    z-index: 10;
+}
+ 
+#cookieBanner p, #cookieBanner input { 
+    padding:10px; 
+    font-size:1.2em; 
+    font-weight:bold; 
+    text-align:center; 
+    color:#6699ff; 
+    margin:0;
+}
+
+ 
+#cookieBanner input { 
+	border: none;
+	margin: 10px;
+	background: none; 
+}
+
+
+
+#cookieBanner input:hover { 
+	background: #d5d5d5; 
+}
+
+#actions{
+	display: table;
+	margin:0  auto;
+}
+
+#readMore{
+	display: inline-block;
+	margin:0  auto;
+	padding-left: 25%;
+	padding-right: 25%;
+}
