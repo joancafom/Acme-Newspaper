@@ -15,16 +15,21 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ArticleService;
-import services.NewspaperService;
-import controllers.AbstractController;
 import domain.Article;
+import security.LoginService;
+import services.NewspaperService;
+import services.UserService;
+import controllers.AbstractController;
 import domain.Newspaper;
+import domain.User;
+
 
 @Controller
 @RequestMapping("/newspaper/user")
@@ -37,6 +42,9 @@ public class NewspaperUserController extends AbstractController {
 
 	@Autowired
 	private ArticleService		articleService;
+
+	@Autowired
+	private UserService			userService;
 
 
 	// C-Level Requirements -------------------------------------
@@ -88,6 +96,54 @@ public class NewspaperUserController extends AbstractController {
 		return res;
 	}
 
+		//v1.0 - Implemented by JA
+	@RequestMapping(value = "/publish", method = RequestMethod.POST, params = "save")
+	public ModelAndView publish(final Newspaper prunedNewspaper, final BindingResult binding) {
+
+		ModelAndView res;
+
+		final Newspaper newspaperToPublish = this.newspaperService.reconstructPruned(prunedNewspaper, binding);
+
+		if (binding.hasErrors()) {
+			res = new ModelAndView("newspaper/publish");
+			res.addObject("newspaper", prunedNewspaper);
+			res.addObject("message", "newspaper.commit.error");
+		} else
+			try {
+				this.newspaperService.publish(prunedNewspaper);
+				res = new ModelAndView("newspaper/user/display.do?newspaperId=" + newspaperToPublish.getId());
+			} catch (final RuntimeException oops) {
+				res = new ModelAndView("newspaper/publish");
+				res.addObject("newspaper", prunedNewspaper);
+				res.addObject("message", "newspaper.articles.notFinal");
+			} catch (final Throwable oops) {
+				res = new ModelAndView("newspaper/publish");
+				res.addObject("newspaper", prunedNewspaper);
+				res.addObject("message", "newspaper.commit.error");
+			}
+
+		return res;
+	}
+
+	//v1.0 - Implemented by JA
+	@RequestMapping(value = "/publish", method = RequestMethod.GET)
+	public ModelAndView requestPublish(@RequestParam final int newspaperId) {
+
+		final ModelAndView res;
+
+		final User publisher = this.userService.findByUserAccount(LoginService.getPrincipal());
+		final Newspaper newspaperToPublish = this.newspaperService.findOne(newspaperId);
+
+		//No newspaper can be published if any of its articles is in draft
+		Assert.isTrue(this.newspaperService.canBePublished(newspaperToPublish, publisher));
+
+		res = new ModelAndView("newspaper/publish");
+		res.addObject("newspaper", newspaperToPublish);
+
+		return res;
+
+	}
+
 	// v1.0 Implemented by Alicia
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView search() {
@@ -99,4 +155,5 @@ public class NewspaperUserController extends AbstractController {
 
 		return res;
 	}
+
 }

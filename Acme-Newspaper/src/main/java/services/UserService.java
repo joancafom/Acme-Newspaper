@@ -108,6 +108,19 @@ public class UserService {
 	// Other Business Methods -------------------------------
 
 	//v1.0 - Implemented by JA
+	public User findByUserAccount(final UserAccount userAccount) {
+
+		final User res;
+
+		Assert.notNull(userAccount);
+
+		res = this.userRepository.findByUserAccountId(userAccount.getId());
+
+		return res;
+
+	}
+
+	//v1.0 - Implemented by JA
 	public User reconstruct(final UserRegistrationForm userRegistrationForm, final BindingResult binding) {
 
 		final User res = this.create();
