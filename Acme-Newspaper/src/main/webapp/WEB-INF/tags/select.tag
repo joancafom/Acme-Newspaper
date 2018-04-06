@@ -42,7 +42,7 @@
 
 <div>
 	<form:label path="${path}">
-		<spring:message code="${code}" />
+		<strong><spring:message code="${code}" /></strong>
 	</form:label>	
 	<form:select id="${id}" path="${path}" onchange="${onchange}">
 		<form:option value="0" label="----" />		
