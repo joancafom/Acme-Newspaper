@@ -60,6 +60,7 @@ window.onload = function(){
     	
     		<li><a href="user/list.do"><spring:message code="master.page.user.list"/></a></li>
 			<li><a href="newspaper/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
+			<li ><a href="article/search.do"><spring:message code="master.page.searchArticles"/></a></li>
 			
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
