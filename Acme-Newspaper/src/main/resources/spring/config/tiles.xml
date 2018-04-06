@@ -24,9 +24,8 @@
 		<value>/views/misc/tiles.xml</value>
 		<value>/views/newspaper/tiles.xml</value> 		
 		<value>/views/security/tiles.xml</value>
-		<value>/views/welcome/tiles.xml</value>
-		
 		<value>/views/user/tiles.xml</value>
+		<value>/views/welcome/tiles.xml</value>
 	</util:list>
 
 </beans>

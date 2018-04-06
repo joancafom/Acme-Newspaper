@@ -41,15 +41,15 @@
 		<security:intercept-url pattern="/misc/termsAndConditions.do" access="permitAll" />
 		<security:intercept-url pattern="/misc/identification.do" access="permitAll" />
 
-		<security:intercept-url pattern="/newspaper/list.do" access="isAnonymous()" /> 
- 		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
-
 		<security:intercept-url pattern="/security/login.do" access="permitAll" /> 
 		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 		
 		<!-- Acme-Newspaper Security Rules Here -->
+
+		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/newspaper/list.do" access="isAnonymous()" /> 
 		
 		<security:intercept-url pattern="/user/register.do" access="isAnonymous()" /> 
 
