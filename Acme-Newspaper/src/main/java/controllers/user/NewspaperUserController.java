@@ -8,7 +8,7 @@
  * http://www.tdg-seville.info/License.html
  */
 
-package controllers.administrator;
+package controllers.user;
 
 import java.util.Collection;
 
@@ -27,8 +27,8 @@ import domain.Article;
 import domain.Newspaper;
 
 @Controller
-@RequestMapping("/newspaper/administrator")
-public class NewspaperAdministratorController extends AbstractController {
+@RequestMapping("/newspaper/user")
+public class NewspaperUserController extends AbstractController {
 
 	// Services -------------------------------------------------
 
@@ -55,7 +55,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		res.addObject("newspaper", newspaper);
 		res.addObject("articles", articles);
 
-		res.addObject("actorWS", "administrator/");
+		res.addObject("actorWS", "user/");
 
 		return res;
 	}
@@ -69,7 +69,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		result = new ModelAndView("newspaper/list");
 
 		result.addObject("newspapers", newspapers);
-		result.addObject("actorWS", "administrator/");
+		result.addObject("actorWS", "user/");
 
 		return result;
 	}

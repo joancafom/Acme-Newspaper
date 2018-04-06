@@ -20,7 +20,7 @@
 <div style="text-align: center;">
 	<h3 style="text-align:center"><spring:message code="article.search.message"/></h3>
 	<br>
-	<form action="article/list.do" method="get">
+	<form action="article/${actorWS}list.do" method="get">
 		<input type="text" name="keyword" style="width: 50%"/>
 		<input type="submit" value="<spring:message code="article.search"/>"/>
 	</form>

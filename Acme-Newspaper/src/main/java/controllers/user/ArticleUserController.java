@@ -8,7 +8,7 @@
  * http://www.tdg-seville.info/License.html
  */
 
-package controllers.administrator;
+package controllers.user;
 
 import java.util.Collection;
 
@@ -25,8 +25,8 @@ import controllers.AbstractController;
 import domain.Article;
 
 @Controller
-@RequestMapping("/article/administrator")
-public class ArticleAdministratorController extends AbstractController {
+@RequestMapping("/article/user")
+public class ArticleUserController extends AbstractController {
 
 	// Services -------------------------------------------------
 
@@ -34,23 +34,21 @@ public class ArticleAdministratorController extends AbstractController {
 	private ArticleService	articleService;
 
 
-	// C-Level Requirements -------------------------------------
+	/* Level C Requirements */
 
-	// v1.0 - Implemented by Alicia
+	/* v1.0 - josembell */
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
-		final ModelAndView res;
-
+		ModelAndView result;
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
-		Assert.isTrue(article.getIsFinal());
+		Assert.isTrue(article.getPublicationDate() != null);
 
-		res = new ModelAndView("article/display");
-		res.addObject("article", article);
+		result = new ModelAndView("article/display");
+		result.addObject("article", article);
+		result.addObject("actorWS", "user/");
 
-		res.addObject("actorWS", "administrator/");
-
-		return res;
+		return result;
 	}
 
 	/* v1.0 - josembell */
@@ -59,7 +57,7 @@ public class ArticleAdministratorController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("article/search");
-		result.addObject("actorWS", "administrator/");
+		result.addObject("actorWS", "user/");
 
 		return result;
 	}
@@ -71,7 +69,7 @@ public class ArticleAdministratorController extends AbstractController {
 		result = new ModelAndView("article/list");
 		result.addObject("articles", articles);
 		result.addObject("keyword", keyword);
-		result.addObject("actorWS", "administrator/");
+		result.addObject("actorWS", "user/");
 
 		return result;
 	}

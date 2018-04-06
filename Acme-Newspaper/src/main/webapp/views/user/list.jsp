@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="users" id="user" requestURI="user/${actorWS}list.do" pagesize="5" class="displaytag">
+<display:table name="users" id="user" requestURI="user/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%">
 
 	<display:column titleKey="user.name">
 		<a href="user/${actorWS}display.do?userId=${user.id}"><jstl:out value="${user.name}"/></a>

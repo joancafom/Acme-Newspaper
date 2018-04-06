@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="newspapers" id="newspaper" requestURI="newspaper/list.do" pagesize="5" class="displaytag">
+<display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%">
 	<display:column titleKey="newspaper.title">
 		<jstl:out value="${newspaper.title}"/>
 	</display:column>
@@ -28,6 +28,6 @@
 		<acme:dateFormat code="date.format2" value="${newspaper.publicationDate}"/>
 	</display:column>
 	<display:column>
-		<a href="newspaper/display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
+		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
 	</display:column>
 </display:table>
