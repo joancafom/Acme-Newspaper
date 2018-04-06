@@ -10,6 +10,8 @@
 
 package controllers;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -38,10 +40,32 @@ public class ArticleController extends AbstractController {
 		ModelAndView result;
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
-		Assert.notNull(article.getPublicationDate() != null);
+		Assert.isTrue(article.getPublicationDate() != null);
 
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
+
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ModelAndView search() {
+		ModelAndView result;
+
+		result = new ModelAndView("article/search");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final String keyword) {
+		ModelAndView result;
+		final Collection<Article> articles = this.articleService.findPublishedByKeyword(keyword);
+
+		result = new ModelAndView("article/list");
+		result.addObject("articles", articles);
+		result.addObject("keyword", keyword);
 
 		return result;
 	}

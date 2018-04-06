@@ -21,12 +21,12 @@
 <h1 style="text-align:center"><strong><jstl:out value="${article.title}"/></strong></h1>
 <h3 style="text-align:center"><jstl:out value="${article.summary}"/></h3>
 <p style="text-align:center"><spring:message code="article.by"/> <a href="user/display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a></p>
+<br>
 <jstl:if test="${article.pictures[0]!=null}">
 	<img src="${article.pictures[0]}" style="display:block; margin-left: auto; margin-right:auto; width: 50%">
 </jstl:if>
 
-<br><br>
-<p><jstl:out value="${article.body}"/></p>
+<p style="padding: 70px;"><jstl:out value="${article.body}"/></p>
 <br><br>
 <jstl:forEach begin="1" end="${fn:length(article.pictures)}" items="${article.pictures}" var="picture">
 	<img src="${picture}" style="display:block; margin-left: auto; margin-right:auto; width: 50%"><br>

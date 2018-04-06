@@ -43,6 +43,10 @@ public class ArticleService {
 		Assert.notNull(res);
 
 		return res;
+	}
 
+	/* v1.0 - josembell */
+	public Collection<Article> findPublishedByKeyword(final String keyword) {
+		return this.articleRepository.findPublishedByKeyword(keyword);
 	}
 }
