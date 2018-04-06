@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.transaction.Transactional;
 
@@ -64,6 +65,18 @@ public class UserService {
 
 		return res;
 
+	}
+
+	//v1.0 - Implemented by JA
+	public Collection<User> findAll() {
+
+		return this.userRepository.findAll();
+	}
+
+	//v1.0 - Implemented by JA
+	public User findOne(final int userId) {
+
+		return this.userRepository.findOne(userId);
 	}
 
 	//v1.0 - Implemented by JA

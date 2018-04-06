@@ -37,22 +37,29 @@ window.onload = function(){
       <a class="navbar-brand" href="#">Sample Co.</a>
     </div>
     
-    <!-- TODO: Place here the role of the Actor -->
-    <security:authorize access="hasRole('roleX')">
+    <security:authorize access="hasRole('ADMINISTRATOR')">
     	<ul class="nav navbar-nav">
     		
-    		<!-- TODO: Place here the roles, actions and messageCodes -->
-			<li ><a href="roleX/actionX.do"><spring:message code="master.page.sample"/></a></li>
+			<li><a href="user/administrator/list.do"><spring:message code="master.page.user.list"/></a></li>
 			
-			<li ><a href="#"><security:authentication property="principal.username" /></a></li>
+			<li><a href="#"><security:authentication property="principal.username" /></a></li>
+		</ul>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('USER')">
+    	<ul class="nav navbar-nav">
+    		
+    		<li><a href="user/user/list.do"><spring:message code="master.page.user.list"/></a></li>
+			
+			<li><a href="#"><security:authentication property="principal.username" /></a></li>
 		</ul>
 	</security:authorize>
 	
     <security:authorize access="isAnonymous()">
     	<ul class="nav navbar-nav">
     	
-			<!-- TODO: Place here the entities, actions and messageCodes -->
-			<li ><a href="newspaper/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
+    		<li><a href="user/list.do"><spring:message code="master.page.user.list"/></a></li>
+			<li><a href="newspaper/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
@@ -63,7 +70,7 @@ window.onload = function(){
 	
 	<security:authorize access="isAuthenticated()">
 		<ul class="nav navbar-nav navbar-right">
-      		<li ><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /></a></li>
+      		<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /></a></li>
     	</ul>
 	</security:authorize>
   </div>
