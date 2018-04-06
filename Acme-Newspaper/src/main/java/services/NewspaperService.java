@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -67,7 +68,7 @@ public class NewspaperService {
 
 	// C-Level Requirements  ----------------------------
 
-	//v1.0 - Implemented by JA
+	//v2.0 - Implemented by JA
 	public Boolean canBePublished(final Newspaper newspaperToPublish, final User publisher) {
 
 		Boolean res = true;
@@ -76,6 +77,7 @@ public class NewspaperService {
 		Assert.notNull(publisher);
 		Assert.notNull(publisher.getNewspapers());
 		Assert.isTrue(publisher.getNewspapers().contains(newspaperToPublish));
+		Assert.isNull(newspaperToPublish.getPublicationDate());
 
 		for (final Article a : newspaperToPublish.getArticles())
 			if (!a.getIsFinal()) {
@@ -91,7 +93,7 @@ public class NewspaperService {
 		return this.newspaperRepository.findPublishedByKeyword(keyword);
 	}
 
-		//v1.0 - Implemented by JA
+	//v2.0 - Implemented by JA
 	public Newspaper publish(final Newspaper newspaperToPublish) {
 
 		Assert.notNull(newspaperToPublish);
@@ -102,9 +104,11 @@ public class NewspaperService {
 		if (!publishVeredict)
 			throw new RuntimeException("All articles must be in final mode for a Newspaper to be published");
 
+		final Date nowMinusMillis = new Date(System.currentTimeMillis() - 1000L);
+		newspaperToPublish.setPublicationDate(nowMinusMillis);
+
 		return this.save(newspaperToPublish);
 	}
-
 	//v1.0 - Implemented by JA
 	public Newspaper reconstructPruned(final Newspaper prunedNewspaper, final BindingResult binding) {
 

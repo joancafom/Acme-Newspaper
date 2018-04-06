@@ -21,15 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ArticleService;
-import domain.Article;
 import security.LoginService;
+import services.ArticleService;
 import services.NewspaperService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Article;
 import domain.Newspaper;
 import domain.User;
-
 
 @Controller
 @RequestMapping("/newspaper/user")
@@ -96,7 +95,7 @@ public class NewspaperUserController extends AbstractController {
 		return res;
 	}
 
-		//v1.0 - Implemented by JA
+	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/publish", method = RequestMethod.POST, params = "save")
 	public ModelAndView publish(final Newspaper prunedNewspaper, final BindingResult binding) {
 
@@ -110,7 +109,7 @@ public class NewspaperUserController extends AbstractController {
 			res.addObject("message", "newspaper.commit.error");
 		} else
 			try {
-				this.newspaperService.publish(prunedNewspaper);
+				this.newspaperService.publish(newspaperToPublish);
 				res = new ModelAndView("newspaper/user/display.do?newspaperId=" + newspaperToPublish.getId());
 			} catch (final RuntimeException oops) {
 				res = new ModelAndView("newspaper/publish");
