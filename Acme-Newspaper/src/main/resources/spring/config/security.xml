@@ -36,6 +36,8 @@
 
 		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" />
 		
+		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/article/list.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/article/display.do" access="isAnonymous()" /> 
 		
 		<security:intercept-url pattern="/misc/termsAndConditions.do" access="permitAll" />
