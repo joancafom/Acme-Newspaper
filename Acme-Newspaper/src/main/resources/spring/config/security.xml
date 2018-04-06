@@ -51,19 +51,25 @@
 		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/article/list.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/article/display.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/article/user/search.do" access="hasRole('USER')" /> 
-		<security:intercept-url pattern="/article/user/list.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/article/user/display.do" access="hasRole('USER')" /> 
-		<security:intercept-url pattern="/article/administrator/search.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/article/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
-		<security:intercept-url pattern="/article/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/article/administrator/search.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/article/user/display.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/article/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/article/user/search.do" access="hasRole('USER')" />
 
 		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/list.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/newspaper/listSearchResults.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/newspaper/search.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/newspaper/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/newspaper/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/newspaper/administrator/listSearchResults.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/newspaper/administrator/search.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/user/display.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/newspaper/user/list.do" access="hasRole('USER')" />  
-		<security:intercept-url pattern="/newspaper/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
-		<security:intercept-url pattern="/newspaper/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/newspaper/user/listSearchResults.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/newspaper/user/search.do" access="hasRole('USER')" />    
 		
 		<security:intercept-url pattern="/user/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 

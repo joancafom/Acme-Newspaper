@@ -42,6 +42,7 @@ window.onload = function(){
 			<li><a href="user/administrator/list.do"><spring:message code="master.page.user.list"/></a></li>
 			<li><a href="newspaper/administrator/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			<li ><a href="article/administrator/search.do"><spring:message code="master.page.searchArticles"/></a></li>
+			<li><a href="newspaper/administrator/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			
 			<li><a href="#"><security:authentication property="principal.username" /></a></li>
@@ -51,11 +52,11 @@ window.onload = function(){
 	<security:authorize access="hasRole('USER')">
     	<ul class="nav navbar-nav">
     		
-    		<li><a href="user/user/list.do"><spring:message code="master.page.user.list"/></a></li>
-    		<li><a href="newspaper/user/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
+			<li><a href="user/user/list.do"><spring:message code="master.page.user.list"/></a></li>
+			<li><a href="newspaper/user/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			<li ><a href="article/user/search.do"><spring:message code="master.page.searchArticles"/></a></li>
-			
-			
+    		<li><a href="newspaper/user/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
+
 			<li><a href="#"><security:authentication property="principal.username" /></a></li>
 		</ul>
 	</security:authorize>
@@ -66,6 +67,7 @@ window.onload = function(){
     		<li><a href="user/list.do"><spring:message code="master.page.user.list"/></a></li>
 			<li><a href="newspaper/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			<li ><a href="article/search.do"><spring:message code="master.page.searchArticles"/></a></li>
+			<li><a href="newspaper/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			
 		</ul>
 		<ul class="nav navbar-nav navbar-right">

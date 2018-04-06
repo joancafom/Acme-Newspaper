@@ -34,4 +34,13 @@ public class NewspaperService {
 	public Newspaper findOne(final int newspaperId) {
 		return this.newspaperRepository.findOne(newspaperId);
 	}
+
+	// Other Business Process --------------------------------------------
+
+	// C-Level Requirements  ----------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Newspaper> findPublishedByKeyword(final String keyword) {
+		return this.newspaperRepository.findPublishedByKeyword(keyword);
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * NewspaperAdministratorController.java
+ * NewspaperUserController.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -72,5 +72,31 @@ public class NewspaperUserController extends AbstractController {
 		result.addObject("actorWS", "user/");
 
 		return result;
+	}
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/listSearchResults", method = RequestMethod.GET)
+	public ModelAndView listSearchResults(@RequestParam final String keyword) {
+		final ModelAndView res;
+		final Collection<Newspaper> newspapers = this.newspaperService.findPublishedByKeyword(keyword);
+
+		res = new ModelAndView("newspaper/list");
+		res.addObject("newspapers", newspapers);
+
+		res.addObject("actorWS", "user/");
+
+		return res;
+	}
+
+	// v1.0 Implemented by Alicia
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ModelAndView search() {
+		ModelAndView res;
+
+		res = new ModelAndView("newspaper/search");
+
+		res.addObject("actorWS", "user/");
+
+		return res;
 	}
 }
