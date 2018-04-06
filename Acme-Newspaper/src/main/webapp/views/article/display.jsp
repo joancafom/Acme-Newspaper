@@ -20,7 +20,7 @@
 
 <h1 style="text-align:center"><strong><jstl:out value="${article.title}"/></strong></h1>
 <h3 style="text-align:center"><jstl:out value="${article.summary}"/></h3>
-<p style="text-align:center"><spring:message code="article.by"/> <a href="user/display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a></p>
+<p style="text-align:center"><spring:message code="article.by"/> <a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a></p>
 <br>
 <jstl:if test="${article.pictures[0]!=null}">
 	<img src="${article.pictures[0]}" style="display:block; margin-left: auto; margin-right:auto; width: 50%">

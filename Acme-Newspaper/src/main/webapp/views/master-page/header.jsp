@@ -39,8 +39,8 @@ window.onload = function(){
     
     <security:authorize access="hasRole('ADMINISTRATOR')">
     	<ul class="nav navbar-nav">
-    		
 			<li><a href="user/administrator/list.do"><spring:message code="master.page.user.list"/></a></li>
+			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			
 			<li><a href="#"><security:authentication property="principal.username" /></a></li>
 		</ul>

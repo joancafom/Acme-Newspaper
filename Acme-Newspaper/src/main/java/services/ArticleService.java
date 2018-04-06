@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.ArticleRepository;
 import domain.Article;
+import domain.Newspaper;
 import domain.User;
 
 @Service
@@ -48,5 +49,15 @@ public class ArticleService {
 	/* v1.0 - josembell */
 	public Collection<Article> findPublishedByKeyword(final String keyword) {
 		return this.articleRepository.findPublishedByKeyword(keyword);
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getAllFinalByNewspaper(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+
+		final Collection<Article> res = this.articleRepository.getAllFinalByNewspaperId(newspaper.getId());
+		Assert.notNull(res);
+
+		return res;
 	}
 }

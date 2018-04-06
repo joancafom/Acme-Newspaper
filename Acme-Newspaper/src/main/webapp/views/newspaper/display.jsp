@@ -24,10 +24,10 @@
 
 <display:table name="articles" id="article" requestURI="article/list.do" pagesize="5" class="displaytag" style="width:100%">
 	<display:column titleKey="newspaper.article.title" style="width:30%">
-		<a href="article/display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 	</display:column>
 	<display:column titleKey="newspaper.article.writer" style="width:10%">
-		<a href="user/display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>
+		<a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>
 	</display:column>
 	<display:column titleKey="newspaper.article.summary" style="width:60%">
 		<jstl:if test="${fn:length(article.summary)<=100}">

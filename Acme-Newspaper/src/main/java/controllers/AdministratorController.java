@@ -48,6 +48,8 @@ public class AdministratorController extends AbstractController {
 		res.addObject("ratioUsersHaveCreatedANewspaper", this.administratorService.getRatioUsersHaveCreatedANewspaper());
 		res.addObject("ratioUsersHaveWrittenAnArticle", this.administratorService.getRatioUsersHaveWrittenAnArticle());
 
+		res.addObject("actorWS", "administrator/");
+
 		return res;
 	}
 }

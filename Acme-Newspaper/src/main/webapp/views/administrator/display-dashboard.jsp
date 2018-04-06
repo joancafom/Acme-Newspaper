@@ -9,9 +9,9 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <spring:message code="number.format" var="numberFormat"/>
-<spring:message code="date.format" var="dateFormat"/>
 
 <!-- C-Level Requirements -->
 
@@ -24,10 +24,34 @@
 
 <h4><spring:message code="newspapers10MoreArticlesThanAverage"/>:</h4>
 <display:table name="newspapers10MoreArticlesThanAverage" id="newspaper" requestURI="administrator/display-dashboard.do" class="displaytag" pagesize="5">
+	<display:column titleKey="newspaper.title">
+		<jstl:out value="${newspaper.title}"/>
+	</display:column>
+	<display:column titleKey="newspaper.description">
+		<jstl:out value="${newspaper.description}"/>
+	</display:column>
+	<display:column titleKey="newspaper.publicationDate">
+		<acme:dateFormat code="date.format" value="${newspaper.publicationDate}"/>
+	</display:column>
+	<display:column>
+		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
+	</display:column>
 </display:table>
 
 <h4><spring:message code="newspapers10FewerArticlesThanAverage"/>:</h4>
 <display:table name="newspapers10FewerArticlesThanAverage" id="newspaper" requestURI="administrator/display-dashboard.do" class="displaytag" pagesize="5">
+	<display:column titleKey="newspaper.title">
+		<jstl:out value="${newspaper.title}"/>
+	</display:column>
+	<display:column titleKey="newspaper.description">
+		<jstl:out value="${newspaper.description}"/>
+	</display:column>
+	<display:column titleKey="newspaper.publicationDate">
+		<acme:dateFormat code="date.format" value="${newspaper.publicationDate}"/>
+	</display:column>
+	<display:column>
+		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
+	</display:column>
 </display:table>
 
 <p><strong><spring:message code="ratioUsersHaveCreatedANewspaper"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioUsersHaveCreatedANewspaper}"/></p>
