@@ -69,16 +69,36 @@ public class NewspaperUserController extends AbstractController {
 		return res;
 	}
 
-	/* v1.0 - josembell */
+	/* v2.0 - josembell */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final String list) {
 		final ModelAndView result;
-		final Collection<Newspaper> newspapers = this.newspaperService.findAllPublished();
-
+		Collection<Newspaper> newspapers = null;
 		result = new ModelAndView("newspaper/list");
 
+		if (list.equals("published"))
+			newspapers = this.newspaperService.findAllPublished();
+		else if (list.equals("mine")) {
+			final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+			newspapers = user.getNewspapers();
+			result.addObject("mine", true);
+
+		} else if (list.equals("unpublished")) {
+			/* TODO: findAllUnpublished() */
+		}
+
 		result.addObject("newspapers", newspapers);
-		result.addObject("actorWS", this.ACTOR_WS);
+		res.addObject("actorWS", this.ACTOR_WS);
+
+		
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		final ModelAndView result;
+		final Newspaper newspaper = this.newspaperService.create();
+
+		result = this.createEditModelAndView(newspaper);
 
 		return result;
 	}
@@ -170,6 +190,47 @@ public class NewspaperUserController extends AbstractController {
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
+	}
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(final Newspaper newspaper, final BindingResult binding) {
+		ModelAndView res;
+		final Newspaper newspaperToSave;
+
+		newspaperToSave = this.newspaperService.reconstruct(newspaper, binding);
+
+		if (binding.hasErrors())
+			res = this.createEditModelAndView(newspaper);
+		else
+			try {
+
+				this.newspaperService.save(newspaperToSave);
+
+				res = new ModelAndView("redirect:/newspaper/user/list.do?list=mine");
+
+			} catch (final Throwable oops) {
+				res = this.createEditModelAndView(newspaper, "newspaper.commit.error");
+			}
+
+		return res;
+
+	}
+
+	/* v1.0 - josembell */
+	protected ModelAndView createEditModelAndView(final Newspaper newspaper) {
+		ModelAndView result;
+		result = this.createEditModelAndView(newspaper, null);
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	protected ModelAndView createEditModelAndView(final Newspaper newspaper, final String message) {
+		ModelAndView result;
+		result = new ModelAndView("newspaper/edit");
+		result.addObject("newspaper", newspaper);
+		result.addObject("message", message);
+		return result;
 	}
 
 }
