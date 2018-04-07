@@ -28,6 +28,7 @@ public class Article extends DomainEntity {
 	private String				body;
 	private Collection<String>	pictures;
 	private boolean				isFinal;
+	private boolean				containsTaboo;
 
 
 	@NotBlank
@@ -67,6 +68,11 @@ public class Article extends DomainEntity {
 		return this.isFinal;
 	}
 
+	@NotNull
+	public boolean getContainsTaboo() {
+		return this.containsTaboo;
+	}
+
 	public void setTitle(final String title) {
 		this.title = title;
 	}
@@ -85,6 +91,10 @@ public class Article extends DomainEntity {
 
 	public void setIsFinal(final boolean isFinal) {
 		this.isFinal = isFinal;
+	}
+
+	public void setContainsTaboo(final boolean containsTaboo) {
+		this.containsTaboo = containsTaboo;
 	}
 
 

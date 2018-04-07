@@ -31,3 +31,7 @@
 <jstl:forEach begin="1" end="${fn:length(article.pictures)}" items="${article.pictures}" var="picture">
 	<img src="${picture}" style="display:block; margin-left: auto; margin-right:auto; width: 50%"><br>
 </jstl:forEach>
+
+<jstl:if test="${owned and !article.isFinal}">
+	<h4><a href="article/user/edit.do?articleId=${article.id}"><spring:message code="article.edit"/></a></h4>
+</jstl:if>

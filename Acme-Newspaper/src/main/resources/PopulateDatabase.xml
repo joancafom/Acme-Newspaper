@@ -149,6 +149,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user1"/>
 		<property name="followUps">
@@ -176,6 +177,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user1"/>
 		<property name="mainArticle" ref="article1"/>
@@ -204,6 +206,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper2"/>
 		<property name="writer" ref="user2"/>
 		<property name="followUps">
@@ -253,6 +256,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper2"/>
 		<property name="writer" ref="user2"/>
 		<property name="mainArticle" ref="article3"/>
@@ -286,6 +290,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper6"/>
 		<property name="writer" ref="user2"/>
 		<property name="followUps">
@@ -320,6 +325,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="false"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user3"/>
 		<property name="followUps">
@@ -350,6 +356,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="false"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user4"/>
 		<property name="followUps">
@@ -376,6 +383,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper5"/>
 		<property name="writer" ref="user4"/>
 		<property name="followUps">
@@ -401,6 +409,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user5"/>
 		<property name="followUps">
@@ -437,6 +446,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper2"/>
 		<property name="writer" ref="user5"/>
 		<property name="followUps">
@@ -468,6 +478,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper5"/>
 		<property name="writer" ref="user5"/>
 		<property name="followUps">
@@ -509,6 +520,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper5"/>
 		<property name="writer" ref="user5"/>
 		<property name="followUps">
@@ -529,6 +541,7 @@
 		</property>
 		<property name="title" value="Happy new year everybody!"/>
 		<property name="description" value="Ich bin da!"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user1"/>
 	</bean>
 
@@ -540,6 +553,7 @@
 		</property>
 		<property name="title" value="Did someone call a doctor?"/>
 		<property name="description" value="Heroes never die!"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user1"/>
 	</bean>
 
@@ -551,6 +565,7 @@
 		</property>
 		<property name="title" value="I'm right here"/>
 		<property name="description" value="The battle continues!"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user1"/>
 	</bean>
 
@@ -562,6 +577,7 @@
 		</property>
 		<property name="title" value="That's a star performance!"/>
 		<property name="description" value="Thanks for the support"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user2"/>
 	</bean>
 
@@ -573,6 +589,7 @@
 		</property>
 		<property name="title" value="I play to win!"/>
 		<property name="description" value="Think you can keep up with me?"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user2"/>
 	</bean>
 
@@ -584,6 +601,7 @@
 		</property>
 		<property name="title" value="Showtime!"/>
 		<property name="description" value="I'm not a good loser"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user2"/>
 	</bean>
 
@@ -595,6 +613,7 @@
 		</property>
 		<property name="title" value="Nerf this!"/>
 		<property name="description" value="I'm going to own all these noobs! Ha ha ha"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user2"/>
 	</bean>
 
@@ -606,6 +625,7 @@
 		</property>
 		<property name="title" value="Science will reveal the truth"/>
 		<property name="description" value="It is not my preference to see to matters personally, but I will see them done."/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user4"/>
 	</bean>
 
@@ -617,6 +637,7 @@
 		</property>
 		<property name="title" value="Mei-rry christmas!"/>
 		<property name="description" value="It's good to get out of the lab :)"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user5"/>
 	</bean>
 
@@ -628,6 +649,7 @@
 		</property>
 		<property name="title" value="Our world is worth fighting for"/>
 		<property name="description" value="Let's gather some valuable data on this mission"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user5"/>
 	</bean>
 
@@ -639,6 +661,7 @@
 		</property>
 		<property name="title" value="My new year's resolution?"/>
 		<property name="description" value="Hmmm... I could do a better job controlling my temper"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user5"/>
 	</bean>
 
@@ -650,6 +673,7 @@
 		</property>
 		<property name="title" value="Give yourself to the rhythm"/>
 		<property name="description" value="I'm not hearing that noise!"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user6"/>
 	</bean>
 
@@ -661,6 +685,7 @@
 		</property>
 		<property name="title" value="Aw man, I'm loving this!"/>
 		<property name="description" value="Nothing's gonna stop me"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="user" ref="user6"/>
 	</bean>
 	
@@ -675,6 +700,7 @@
 		</property>
 		<property name="description" value="From the depth of our bodies to the palm of your hand"/>
 		<property name="picture" value="https://t3.ftcdn.net/jpg/00/70/36/78/160_F_70367832_ihTcosFQmN2Np22HZj6Fhm1nCEeEt69S.jpg"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="articles">
 			<list>
 				<ref bean="article1"/>
@@ -693,6 +719,7 @@
 		</property>
 		<property name="description" value="The cake is a lie. Our news, aren't"/>
 		<property name="picture" value="https://image.flaticon.com/icons/png/512/39/39596.png"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="articles">
 			<list>
 				<ref bean="article3"/>
@@ -706,6 +733,7 @@
 		<property name="title" value="Orbes"/>
 		<property name="description" value="All you can learn about science is right here. Or probably on another parallel universe."/>
 		<property name="picture" value="http://og.github.com/atom-mark/atom-mark@1200x630.png"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="articles">
 			<list>
 				<ref bean="article6"/>
@@ -718,6 +746,7 @@
 		<property name="title" value="Technotaka"/>
 		<property name="description" value="Our news are more than zeros and ones."/>
 		<property name="picture" value="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Circle-icons-computer.svg/1024px-Circle-icons-computer.svg.png"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="articles">
 			<list>
 			</list>
@@ -733,6 +762,7 @@
 		</property>
 		<property name="description" value="These news will give you life!"/>
 		<property name="picture" value="https://logoobject.com/wp-content/uploads/edd/2017/11/Earth-Logo-PNG3-820x820.png"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="articles">
 			<list>
 				<ref bean="article12"/>
@@ -751,6 +781,7 @@
 		</property>
 		<property name="description" value="Discover bops and not flops!"/>
 		<property name="picture" value="https://www.lacupulamusic.com/wp-content/uploads/2016/11/itunes-logo-700.jpg"/>
+		<property name="containsTaboo" value="false"/>
 		<property name="articles">
 			<list>
 				<ref bean="article5"/>

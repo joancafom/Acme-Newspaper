@@ -25,6 +25,7 @@ public class Chirp extends DomainEntity {
 	private Date	moment;
 	private String	title;
 	private String	description;
+	private boolean	containsTaboo;
 
 
 	@NotNull
@@ -47,6 +48,11 @@ public class Chirp extends DomainEntity {
 		return this.description;
 	}
 
+	@NotNull
+	public boolean getContainsTaboo() {
+		return this.containsTaboo;
+	}
+
 	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
@@ -57,6 +63,10 @@ public class Chirp extends DomainEntity {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public void setContainsTaboo(final boolean containsTaboo) {
+		this.containsTaboo = containsTaboo;
 	}
 
 

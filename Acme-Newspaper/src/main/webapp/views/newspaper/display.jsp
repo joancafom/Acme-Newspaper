@@ -56,7 +56,7 @@
 	<br> 
 </jstl:if>
 
-<display:table name="articles" id="article" requestURI="article/list.do" pagesize="5" class="displaytag" style="width:100%">
+<display:table name="articles" id="article" requestURI="article/${actorWS}list.do" pagesize="20" class="displaytag" style="width:100%">
 	<display:column titleKey="newspaper.article.title" style="width:30%">
 		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 	</display:column>
@@ -84,3 +84,5 @@
 	</display:column>
 	</security:authorize>
 </display:table>
+
+<h4><a href="article/user/create.do?newspaperId=${newspaper.id}"><spring:message code="article.create"/></a></h4>

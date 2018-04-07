@@ -1,15 +1,21 @@
 
 package services;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.ArticleRepository;
+import security.LoginService;
 import domain.Article;
 import domain.Newspaper;
 import domain.User;
@@ -22,6 +28,36 @@ public class ArticleService {
 	@Autowired
 	private ArticleRepository	articleRepository;
 
+	// Supporting Services ---------------------------------------------------
+
+	@Autowired
+	private UserService			userService;
+
+	// Validator -------------------------------------------------------------
+
+	@Autowired
+	private Validator			validator;
+
+
+	// CRUD Methods ----------------------------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Article create(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+		Assert.isNull(newspaper.getPublicationDate());
+
+		final Article article = new Article();
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+
+		article.setContainsTaboo(false);
+		article.setNewspaper(newspaper);
+		article.setWriter(user);
+
+		final Collection<Article> followUps = new HashSet<Article>();
+		article.setFollowUps(followUps);
+
+		return article;
+	}
 
 	/* v1.0 - josembell */
 	public Collection<Article> findAll() {
@@ -31,6 +67,35 @@ public class ArticleService {
 	/* v1.0 - josembell */
 	public Article findOne(final int articleId) {
 		return this.articleRepository.findOne(articleId);
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Article save(final Article article) {
+		Assert.notNull(article);
+
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+
+		Assert.isTrue(article.getWriter().equals(user));
+
+		Article oldArticle = null;
+
+		if (article.getId() != 0) {
+			oldArticle = this.articleRepository.findOne(article.getId());
+			Assert.isTrue(!oldArticle.getIsFinal());
+			Assert.isNull(oldArticle.getPublicationDate());
+		}
+
+		if (!article.getPictures().isEmpty())
+			for (final String s : article.getPictures())
+				try {
+					@SuppressWarnings("unused")
+					final URL url = new java.net.URL(s);
+				} catch (final MalformedURLException e) {
+					throw new IllegalArgumentException();
+				}
+
+		return this.articleRepository.save(article);
 	}
 
 	//Other Business Methods -------------------
@@ -68,6 +133,20 @@ public class ArticleService {
 
 		final Collection<Article> res = this.articleRepository.getAllFinalByNewspaperId(newspaper.getId());
 		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Article reconstruct(final Article prunedArticle, final BindingResult binding) {
+		final Article res;
+
+		final User writer = this.userService.findByUserAccount(LoginService.getPrincipal());
+
+		res = prunedArticle;
+		res.setWriter(writer);
+
+		this.validator.validate(res, binding);
 
 		return res;
 	}

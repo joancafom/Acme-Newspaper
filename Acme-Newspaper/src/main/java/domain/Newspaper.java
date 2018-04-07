@@ -29,6 +29,7 @@ public class Newspaper extends DomainEntity {
 	private Date	publicationDate;
 	private String	description;
 	private String	picture;
+	private boolean	containsTaboo;
 
 
 	@NotBlank
@@ -55,6 +56,11 @@ public class Newspaper extends DomainEntity {
 		return this.picture;
 	}
 
+	@NotNull
+	public boolean getContainsTaboo() {
+		return this.containsTaboo;
+	}
+
 	public void setTitle(final String title) {
 		this.title = title;
 	}
@@ -69,6 +75,10 @@ public class Newspaper extends DomainEntity {
 
 	public void setPicture(final String picture) {
 		this.picture = picture;
+	}
+
+	public void setContainsTaboo(final boolean containsTaboo) {
+		this.containsTaboo = containsTaboo;
 	}
 
 

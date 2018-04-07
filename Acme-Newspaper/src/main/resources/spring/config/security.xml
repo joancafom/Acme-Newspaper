@@ -54,7 +54,9 @@
 		<security:intercept-url pattern="/article/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/search.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/article/user/create.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/article/user/display.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/article/user/edit.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/article/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/article/user/search.do" access="hasRole('USER')" />
 
