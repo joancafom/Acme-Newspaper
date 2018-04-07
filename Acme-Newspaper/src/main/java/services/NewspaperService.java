@@ -3,6 +3,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -35,6 +36,16 @@ public class NewspaperService {
 
 
 	/* v1.0 - josembell */
+	public Newspaper create() {
+		//final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		final Newspaper newspaper = new Newspaper();
+
+		newspaper.setArticles(new HashSet<Article>());
+
+		return newspaper;
+	}
+
+	/* v1.0 - josembell */
 	public Collection<Newspaper> findAll() {
 		return this.newspaperRepository.findAll();
 	}
@@ -50,6 +61,7 @@ public class NewspaperService {
 	}
 
 	//v1.0 - Implemented by JA
+	/* v2.0 - updated by josembell */
 	public Newspaper save(final Newspaper newspaperToSave) {
 
 		Assert.notNull(newspaperToSave);
@@ -60,7 +72,12 @@ public class NewspaperService {
 		if (newspaperToSave.getId() != 0)
 			Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
 
-		return this.newspaperRepository.save(newspaperToSave);
+		final Newspaper savedNewspaper = this.newspaperRepository.save(newspaperToSave);
+
+		if (newspaperToSave.getId() == 0)
+			publisher.getNewspapers().add(savedNewspaper);
+
+		return savedNewspaper;
 
 	}
 
@@ -128,5 +145,18 @@ public class NewspaperService {
 
 		return res;
 
+	}
+
+	/* v1.0 - josembell */
+	public Newspaper reconstruct(final Newspaper newspaper, final BindingResult binding) {
+		if (newspaper.getId() == 0) {
+			newspaper.setArticles(new HashSet<Article>());
+			this.validator.validate(newspaper, binding);
+		} else {
+			final Newspaper oldNewspaper = this.findOne(newspaper.getId());
+			newspaper.setArticles(oldNewspaper.getArticles());
+			this.validator.validate(newspaper, binding);
+		}
+		return newspaper;
 	}
 }

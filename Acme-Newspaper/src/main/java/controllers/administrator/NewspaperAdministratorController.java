@@ -61,7 +61,7 @@ public class NewspaperAdministratorController extends AbstractController {
 	}
 
 	/* v1.0 - josembell */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listPublished", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 		final Collection<Newspaper> newspapers = this.newspaperService.findAllPublished();

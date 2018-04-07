@@ -33,3 +33,7 @@
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
 	</display:column>
 </display:table>
+
+<jstl:if test="${mine==true}">
+	<a href="newspaper/user/create.do"><spring:message code="newspaper.create"/></a>
+</jstl:if>
