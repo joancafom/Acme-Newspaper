@@ -54,6 +54,7 @@ window.onload = function(){
     		
 			<li><a href="user/user/list.do"><spring:message code="master.page.user.list"/></a></li>
 			<li><a href="newspaper/user/list.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
+			<li><a href="newspaper/user/listUnpublished.do"><spring:message code="master.page.unpublishedNewspapers"/></a></li>
 			<li ><a href="article/user/search.do"><spring:message code="master.page.searchArticles"/></a></li>
     		<li><a href="newspaper/user/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 

@@ -24,9 +24,11 @@
 	<display:column titleKey="newspaper.description">
 		<jstl:out value="${newspaper.description}"/>
 	</display:column>
-	<display:column titleKey="newspaper.publicationDate">
-		<acme:dateFormat code="date.format2" value="${newspaper.publicationDate}"/>
-	</display:column>
+	<jstl:if test="${!unpublished}">
+		<display:column titleKey="newspaper.publicationDate">
+			<acme:dateFormat code="date.format2" value="${newspaper.publicationDate}"/>
+		</display:column>
+	</jstl:if>
 	<display:column>
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
 	</display:column>

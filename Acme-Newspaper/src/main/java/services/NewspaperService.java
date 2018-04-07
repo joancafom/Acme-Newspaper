@@ -89,6 +89,11 @@ public class NewspaperService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	public Collection<Newspaper> findAllUnpublished() {
+		return this.newspaperRepository.findAllUnpublished();
+	}
+
+	// v1.0 - Implemented by Alicia
 	public Collection<Newspaper> findPublishedByKeyword(final String keyword) {
 		return this.newspaperRepository.findPublishedByKeyword(keyword);
 	}
@@ -109,6 +114,7 @@ public class NewspaperService {
 
 		return this.save(newspaperToPublish);
 	}
+
 	//v1.0 - Implemented by JA
 	public Newspaper reconstructPruned(final Newspaper prunedNewspaper, final BindingResult binding) {
 
