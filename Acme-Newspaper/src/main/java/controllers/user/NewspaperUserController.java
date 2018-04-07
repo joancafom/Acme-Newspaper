@@ -35,6 +35,8 @@ import domain.User;
 @RequestMapping("/newspaper/user")
 public class NewspaperUserController extends AbstractController {
 
+	private final String		ACTOR_WS	= "user/";
+
 	// Services -------------------------------------------------
 
 	@Autowired
@@ -80,7 +82,7 @@ public class NewspaperUserController extends AbstractController {
 		res = new ModelAndView("newspaper/display");
 		res.addObject("newspaper", newspaper);
 		res.addObject("articles", articles);
-		res.addObject("actorWS", "user/");
+		res.addObject("actorWS", this.ACTOR_WS);
 		res.addObject("own", own);
 		res.addObject("canBePublished", canBePublished);
 
@@ -95,7 +97,7 @@ public class NewspaperUserController extends AbstractController {
 		result = new ModelAndView("newspaper/list");
 
 		result.addObject("newspapers", newspapers);
-		result.addObject("actorWS", "user/");
+		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
 	}
@@ -109,7 +111,24 @@ public class NewspaperUserController extends AbstractController {
 		res = new ModelAndView("newspaper/list");
 		res.addObject("newspapers", newspapers);
 
-		res.addObject("actorWS", "user/");
+		res.addObject("actorWS", this.ACTOR_WS);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/listUnpublished", method = RequestMethod.GET)
+	public ModelAndView listUnpublished() {
+		final Boolean unpublished = true;
+		final ModelAndView res;
+		final Collection<Newspaper> newspapers = this.newspaperService.findAllUnpublished();
+
+		res = new ModelAndView("newspaper/list");
+
+		res.addObject("newspapers", newspapers);
+		res.addObject("unpublished", unpublished);
+
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}
@@ -169,7 +188,7 @@ public class NewspaperUserController extends AbstractController {
 
 		res = new ModelAndView("newspaper/search");
 
-		res.addObject("actorWS", "user/");
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}
