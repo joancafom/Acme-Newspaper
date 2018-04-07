@@ -76,7 +76,7 @@ practices, including the collection, the utilization, the processing and the sha
 information, as well as the transfer and the processing of your information in Spain and other 
 countries where we have or use facilities, service providers or partners, no matter where you use our 
 services.</p>
-<p>In any moment, you can send a message to <strong>rendezvous@acme.com</strong> requesting to modify 
+<p>In any moment, you can send a message to <strong>newspaper@acme.com</strong> requesting to modify 
 or delete (as well as to see) any of the information we store about you in our servers. You will be 
 sent in the next 24h further instructions on how to continue with this process.</p>
 
@@ -85,7 +85,7 @@ sent in the next 24h further instructions on how to continue with this process.<
 competent authorities will be the courts and tribunals of <strong>Madrid</strong>. All the 
 notifications, requirements, petitions and other communications that the User desires to make to the 
 Company owner of the web Portal must be written and will be consider correctly made when they are 
-received in the following address <strong>rendezvous@acme.com</strong>.</p>
+received in the following address <strong>newspaper@acme.com</strong>.</p>
 
 </jstl:if>
 
@@ -154,7 +154,7 @@ aceptas nuestras prácticas de datos, que incluyen la recopilación, la utilizació
 el uso compartido de tu información, así como la transferencia y el procesamiento de tu información en 
 España y otros países donde tenemos o usamos instalaciones, proveedores de servicios o socios, sin 
 importar dónde uses nuestros Servicios.</p>
-<p>En cualquier momento, puedes enviar un mensaje a <strong>rendezvous@acme.com</strong> para solicitar 
+<p>En cualquier momento, puedes enviar un mensaje a <strong>newspaper@acme.com</strong> para solicitar 
 la modificación o eliminación (además de ver) toda la información sobre ti que guardamos en nuestros 
 servidores. Se te enviará en las siguientes 24h instrucciones más a fondo sobre cómo continuar con el 
 proceso.</p>
@@ -164,7 +164,7 @@ proceso.</p>
 cualquier reclamación serán competentes los juzgados y tribunales de <strong>Madrid</strong>. Todas 
 las notificaciones, requerimientos, peticiones y otras comunicaciones que el Usuario desee efectuar a 
 la Empresa titular del Portal deberán realizarse por escrito y se entenderá que han sido correctamente 
-realizadas cuando hayan sido recibidas en la siguiente dirección <strong>rendezvous@acme.com</strong>.
+realizadas cuando hayan sido recibidas en la siguiente dirección <strong>newspaper@acme.com</strong>.
 </p>
 
 </jstl:if>
