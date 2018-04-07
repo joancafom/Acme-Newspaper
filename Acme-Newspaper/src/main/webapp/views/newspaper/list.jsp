@@ -19,7 +19,7 @@
 
 <display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%">
 	<display:column titleKey="newspaper.title">
-		<jstl:out value="${newspaper.title}"/>
+		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>
 	</display:column>
 	<display:column titleKey="newspaper.description">
 		<jstl:out value="${newspaper.description}"/>
@@ -29,9 +29,11 @@
 			<acme:dateFormat code="date.format2" value="${newspaper.publicationDate}"/>
 		</display:column>
 	</jstl:if>
-	<display:column>
-		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.display"/></a>
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+		<a href="newspaper/administrator/delete.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.delete"/></a>
 	</display:column>
+	</security:authorize>
 </display:table>
 
 <jstl:if test="${mine==true}">

@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 
 import repositories.NewspaperRepository;
 import security.LoginService;
+import domain.Administrator;
 import domain.Article;
 import domain.Newspaper;
 import domain.User;
@@ -25,14 +26,20 @@ public class NewspaperService {
 
 	/* Managed Repository */
 	@Autowired
-	private NewspaperRepository	newspaperRepository;
+	private NewspaperRepository		newspaperRepository;
 
 	//Supporting Services
 	@Autowired
-	private UserService			userService;
+	private UserService				userService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	adminService;
+
+	@Autowired
+	private ArticleService			articleService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	/* v1.0 - josembell */
@@ -78,6 +85,26 @@ public class NewspaperService {
 			publisher.getNewspapers().add(savedNewspaper);
 
 		return savedNewspaper;
+
+	}
+
+	// v1.0 - Implemented by JA
+	public void delete(final Newspaper newspaper) {
+
+		Assert.notNull(newspaper);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		for (final Article a : newspaper.getArticles())
+			this.articleService.delete(a);
+
+		final User publisher = this.userService.getPublisher(newspaper);
+		Assert.notNull(publisher);
+
+		publisher.getNewspapers().remove(newspaper);
+
+		this.newspaperRepository.delete(newspaper);
 
 	}
 

@@ -108,6 +108,18 @@ public class UserService {
 	// Other Business Methods -------------------------------
 
 	//v1.0 - Implemented by JA
+
+	public User getPublisher(final Newspaper newspaper) {
+
+		final User res;
+
+		Assert.notNull(newspaper);
+		res = this.userRepository.findPublisherByNewspaper(newspaper);
+
+		return res;
+
+	}
+
 	public User findByUserAccount(final UserAccount userAccount) {
 
 		final User res;

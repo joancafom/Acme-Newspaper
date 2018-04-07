@@ -40,7 +40,7 @@ window.onload = function(){
     <security:authorize access="hasRole('ADMINISTRATOR')">
     	<ul class="nav navbar-nav">
 			<li><a href="user/administrator/list.do"><spring:message code="master.page.user.list"/></a></li>
-			<li><a href="newspaper/administrator/listPublished.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
+			<li><a href="newspaper/administrator/list.do"><spring:message code="master.page.newspapers"/></a></li>
 			<li ><a href="article/administrator/search.do"><spring:message code="master.page.searchArticles"/></a></li>
 			<li><a href="newspaper/administrator/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>

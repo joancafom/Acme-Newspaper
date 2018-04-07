@@ -15,14 +15,24 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
       
 <tiles-definitions>
-
-	<definition name="newspaper/list" extends="master.page">	
-		<put-attribute name="title" value="Periódicos" />
-		<put-attribute name="body" value="/views/newspaper/list.jsp" />
+	
+	<definition name="newspaper/delete" extends="master.page">	
+		<put-attribute name="title" value="Eliminar Periódico" />
+		<put-attribute name="body" value="/views/newspaper/delete.jsp" />
 	</definition>
 	
 	<definition name="newspaper/display" extends="master.page">	
 		<put-attribute name="body" value="/views/newspaper/display.jsp" />
+	</definition>
+	
+	<definition name="newspaper/edit" extends="master.page">
+		<put-attribute name="title" value="Editar un Periódico"/>	
+		<put-attribute name="body" value="/views/newspaper/edit.jsp" />
+	</definition>
+	
+	<definition name="newspaper/list" extends="master.page">	
+		<put-attribute name="title" value="Periódicos" />
+		<put-attribute name="body" value="/views/newspaper/list.jsp" />
 	</definition>
 	
 	<definition name="newspaper/publish" extends="master.page">	
@@ -34,9 +44,5 @@
 		<put-attribute name="body" value="/views/newspaper/search.jsp" />
 	</definition>
 	
-	<definition name="newspaper/edit" extends="master.page">
-		<put-attribute name="title" value="Editar un Periódico"/>	
-		<put-attribute name="body" value="/views/newspaper/edit.jsp" />
-	</definition>
 	
 </tiles-definitions>

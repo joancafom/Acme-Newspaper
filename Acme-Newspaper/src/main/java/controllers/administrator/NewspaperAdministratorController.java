@@ -15,6 +15,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +42,26 @@ public class NewspaperAdministratorController extends AbstractController {
 
 	// C-Level Requirements -------------------------------------
 
+	// v1.0 - Implemented by JA
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, params = "save")
+	public ModelAndView delete(final Newspaper prunedNewspaper, final BindingResult binding) {
+
+		ModelAndView res;
+
+		final Newspaper newspaperToDelete = this.newspaperService.reconstructPruned(prunedNewspaper, binding);
+		Assert.notNull(newspaperToDelete);
+
+		try {
+			this.newspaperService.delete(newspaperToDelete);
+			res = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			res = new ModelAndView("newspaper/delete");
+			res.addObject("newspaper", prunedNewspaper);
+			res.addObject("message", "newspaper.commit.error");
+		}
+
+		return res;
+	}
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int newspaperId) {
@@ -61,10 +82,11 @@ public class NewspaperAdministratorController extends AbstractController {
 	}
 
 	/* v1.0 - josembell */
-	@RequestMapping(value = "/listPublished", method = RequestMethod.GET)
+	// v2.0 - Modified by JA
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
-		final Collection<Newspaper> newspapers = this.newspaperService.findAllPublished();
+		final Collection<Newspaper> newspapers = this.newspaperService.findAll();
 
 		result = new ModelAndView("newspaper/list");
 
@@ -84,6 +106,21 @@ public class NewspaperAdministratorController extends AbstractController {
 		res.addObject("newspapers", newspapers);
 
 		res.addObject("actorWS", "administrator/");
+
+		return res;
+	}
+
+	// v1.0 - Implemented by JA
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView requestDelete(@RequestParam final int newspaperId) {
+
+		final ModelAndView res;
+
+		final Newspaper newspaperToDelete = this.newspaperService.findOne(newspaperId);
+		Assert.notNull(newspaperToDelete);
+
+		res = new ModelAndView("newspaper/delete");
+		res.addObject("newspaper", newspaperToDelete);
 
 		return res;
 	}

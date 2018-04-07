@@ -16,6 +16,7 @@ import org.springframework.validation.Validator;
 
 import repositories.ArticleRepository;
 import security.LoginService;
+import domain.Administrator;
 import domain.Article;
 import domain.Newspaper;
 import domain.User;
@@ -26,17 +27,20 @@ public class ArticleService {
 
 	/* Managed Repository */
 	@Autowired
-	private ArticleRepository	articleRepository;
+	private ArticleRepository		articleRepository;
 
 	// Supporting Services ---------------------------------------------------
 
 	@Autowired
-	private UserService			userService;
+	private AdministratorService	adminService;
+
+	@Autowired
+	private UserService				userService;
 
 	// Validator -------------------------------------------------------------
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 
 	// CRUD Methods ----------------------------------------------------------
@@ -96,6 +100,17 @@ public class ArticleService {
 				}
 
 		return this.articleRepository.save(article);
+	}
+
+	// v1.0 - Implemented by JA
+	public void delete(final Article article) {
+
+		Assert.notNull(article);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		this.articleRepository.delete(article);
 	}
 
 	//Other Business Methods -------------------

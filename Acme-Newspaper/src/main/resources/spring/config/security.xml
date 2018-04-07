@@ -64,8 +64,9 @@
 		<security:intercept-url pattern="/newspaper/listPublished.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listSearchResults.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/search.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/newspaper/administrator/delete.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
-		<security:intercept-url pattern="/newspaper/administrator/listPublished.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/newspaper/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/newspaper/administrator/listSearchResults.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/search.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/user/display.do" access="hasRole('USER')" />
