@@ -20,7 +20,9 @@
 
 <h1 style="text-align:center"><strong><jstl:out value="${newspaper.title}"/></strong></h1>
 <h3 style="text-align:center"><jstl:out value="${newspaper.description}"/></h3><br>
-<img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
+<jstl:if test="${newspaper.picture!=null}">
+	<img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
+</jstl:if>
 
 <display:table name="articles" id="article" requestURI="article/list.do" pagesize="5" class="displaytag" style="width:100%">
 	<display:column titleKey="newspaper.article.title" style="width:30%">

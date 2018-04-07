@@ -2,13 +2,12 @@
 package services;
 
 import java.util.Collection;
-import java.util.Date;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -26,13 +25,41 @@ public class NewspaperService {
 	@Autowired
 	private NewspaperRepository	newspaperRepository;
 
-	//Supporting Services
-	@Autowired
-	private UserService			userService;
-
 	@Autowired
 	private Validator			validator;
 
+	@Autowired
+	private UserService			userService;
+
+
+	/* v1.0 - josembell */
+	public Newspaper create() {
+		//final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		final Newspaper newspaper = new Newspaper();
+
+		newspaper.setArticles(new HashSet<Article>());
+
+		return newspaper;
+	}
+
+	//v1.0 - Implemented by JA
+	/*v2.0 - updated by josembell */
+	public Newspaper save(final Newspaper newspaperToSave) {
+
+		Assert.notNull(newspaperToSave);
+
+		final User publisher = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(publisher);
+
+		if (newspaperToSave.getId() != 0)
+			Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
+
+		final Newspaper savedNewspaper = this.newspaperRepository.save(newspaperToSave);
+
+		publisher.getNewspapers().add(savedNewspaper);
+
+		return savedNewspaper;
+	}
 
 	/* v1.0 - josembell */
 	public Collection<Newspaper> findAll() {
@@ -49,24 +76,26 @@ public class NewspaperService {
 		return this.newspaperRepository.findOne(newspaperId);
 	}
 
-	//v1.0 - Implemented by JA
-	public Newspaper save(final Newspaper newspaperToSave) {
-
-		Assert.notNull(newspaperToSave);
-
-		final User publisher = this.userService.findByUserAccount(LoginService.getPrincipal());
-		Assert.notNull(publisher);
-
-		if (newspaperToSave.getId() != 0)
-			Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
-
-		return this.newspaperRepository.save(newspaperToSave);
-
+	/* v1.0 - josembell */
+	public Newspaper reconstruct(final Newspaper newspaper, final BindingResult binding) {
+		if (newspaper.getId() == 0) {
+			newspaper.setArticles(new HashSet<Article>());
+			this.validator.validate(newspaper, binding);
+		} else {
+			final Newspaper oldNewspaper = this.findOne(newspaper.getId());
+			newspaper.setArticles(oldNewspaper.getArticles());
+			this.validator.validate(newspaper, binding);
+		}
+		return newspaper;
 	}
-
-	// Other Business Methods -------------------------------
+	// Other Business Process --------------------------------------------
 
 	// C-Level Requirements  ----------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Newspaper> findPublishedByKeyword(final String keyword) {
+		return this.newspaperRepository.findPublishedByKeyword(keyword);
+	}
 
 	//v2.0 - Implemented by JA
 	public Boolean canBePublished(final Newspaper newspaperToPublish, final User publisher) {
@@ -91,11 +120,6 @@ public class NewspaperService {
 	// v1.0 - Implemented by Alicia
 	public Collection<Newspaper> findAllUnpublished() {
 		return this.newspaperRepository.findAllUnpublished();
-	}
-
-	// v1.0 - Implemented by Alicia
-	public Collection<Newspaper> findPublishedByKeyword(final String keyword) {
-		return this.newspaperRepository.findPublishedByKeyword(keyword);
 	}
 
 	//v2.0 - Implemented by JA
@@ -129,4 +153,5 @@ public class NewspaperService {
 		return res;
 
 	}
+
 }

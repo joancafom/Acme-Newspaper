@@ -24,7 +24,7 @@
 	<definition name="newspaper/display" extends="master.page">	
 		<put-attribute name="body" value="/views/newspaper/display.jsp" />
 	</definition>
-	
+
 	<definition name="newspaper/publish" extends="master.page">	
 		<put-attribute name="title" value="Publish Newspaper" />
 		<put-attribute name="body" value="/views/newspaper/publish.jsp" />
@@ -33,5 +33,11 @@
 	<definition name="newspaper/search" extends="master.page">	
 		<put-attribute name="body" value="/views/newspaper/search.jsp" />
 	</definition>
+	
+	<definition name="newspaper/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit a Newspaper"/>
+		<put-attribute name="body" value="/views/newspaper/edit.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>
