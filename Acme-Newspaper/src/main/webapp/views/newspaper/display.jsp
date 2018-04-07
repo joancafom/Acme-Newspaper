@@ -18,10 +18,44 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<style>
+
+.div-ok{
+	background-color:#cbffc9;
+	padding:10px;
+	color:green;
+}
+
+.div-not{
+	background-color:#feffc9;
+	padding:10px;
+	color:#c1be00;
+}
+</style>
+
 <h1 style="text-align:center"><strong><jstl:out value="${newspaper.title}"/></strong></h1>
 <h3 style="text-align:center"><jstl:out value="${newspaper.description}"/></h3><br>
 <jstl:if test="${newspaper.picture!=null}">
 	<img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
+</jstl:if>
+
+<jstl:if test="${own and (newspaper.publicationDate eq null)}">
+
+	<br>
+		<jstl:choose>
+			<jstl:when test="${canBePublished}">
+				<div class="div-ok" id="publisherActions">
+					<span><spring:message code="newspaper.publish.infoOk" /></span> <a href="newspaper/user/publish.do?newspaperId=<jstl:out value="${newspaper.id}" />" ><spring:message code="newspaper.publish" /></a>
+				</div>
+			</jstl:when>
+			<jstl:otherwise>
+				<div class="div-not" id="publisherActions">
+					<span><spring:message code="newspaper.publish.infoNot" /></span>
+				</div>
+			</jstl:otherwise>
+		</jstl:choose>
+	
+	<br> 
 </jstl:if>
 
 <display:table name="articles" id="article" requestURI="article/list.do" pagesize="5" class="displaytag" style="width:100%">
@@ -39,4 +73,16 @@
 			<jstl:out value="${fn:substring(article.summary, 0, 100)}"/>...
 		</jstl:if>
 	</display:column>
+	<security:authorize access="isAuthenticated()">
+		<display:column titleKey="newspaper.status">
+		<jstl:choose>
+			<jstl:when test="${article.isFinal}">
+				<spring:message code="newspaper.status.final" />
+			</jstl:when>
+			<jstl:otherwise>
+				<spring:message code="newspaper.status.draft" />
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
+	</security:authorize>
 </display:table>

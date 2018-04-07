@@ -46,6 +46,17 @@ public class ArticleService {
 		return res;
 	}
 
+	//v1.0 - Implemented by JA
+	public Collection<Article> getUnpublisedArticles(final User writer) {
+
+		Assert.notNull(writer);
+
+		final Collection<Article> res = this.articleRepository.unpublishedArticlesByWriterId(writer.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
 	/* v1.0 - josembell */
 	public Collection<Article> findPublishedByKeyword(final String keyword) {
 		return this.articleRepository.findPublishedByKeyword(keyword);

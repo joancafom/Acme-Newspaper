@@ -10,6 +10,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,8 @@ public class NewspaperUserController extends AbstractController {
 	// C-Level Requirements -------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Modified by josembell
+	// v3.0 - Modified by JA
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int newspaperId) {
 		final ModelAndView res;
@@ -58,18 +61,34 @@ public class NewspaperUserController extends AbstractController {
 		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
 		Assert.notNull(newspaper);
 
-		final Collection<Article> articles = this.articleService.getAllFinalByNewspaper(newspaper);
+		final User viewer = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(viewer);
+
+		final Boolean own = viewer.getNewspapers().contains(newspaper);
+
+		final Collection<Article> articles = new ArrayList<Article>();
+		final Collection<Article> finalArticles = this.articleService.getAllFinalByNewspaper(newspaper);
+
+		if (own)
+			//If the user is the publisher, he/she can see all articles
+			articles.addAll(newspaper.getArticles());
+		else {
+			//If not, he/she can only see the published ones and his/her articles in draft mode
+			articles.addAll(finalArticles);
+			articles.addAll(this.articleService.getUnpublisedArticles(viewer));
+		}
+
+		final Boolean canBePublished = (newspaper.getArticles().size() != 0) && (finalArticles.size() == newspaper.getArticles().size());
 
 		res = new ModelAndView("newspaper/display");
 		res.addObject("newspaper", newspaper);
 		res.addObject("articles", articles);
-
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}
 
-	/* v2.0 - josembell */
+	/* v1.0 - josembell */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final String list) {
 		final ModelAndView result;
@@ -147,7 +166,7 @@ public class NewspaperUserController extends AbstractController {
 		} else
 			try {
 				this.newspaperService.publish(newspaperToPublish);
-				res = new ModelAndView("newspaper/user/display.do?newspaperId=" + newspaperToPublish.getId());
+				res = new ModelAndView("redirect:display.do?newspaperId=" + newspaperToPublish.getId());
 			} catch (final RuntimeException oops) {
 				res = new ModelAndView("newspaper/publish");
 				res.addObject("newspaper", prunedNewspaper);

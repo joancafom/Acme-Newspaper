@@ -107,6 +107,7 @@ public class NewspaperService {
 		Assert.notNull(publisher.getNewspapers());
 		Assert.isTrue(publisher.getNewspapers().contains(newspaperToPublish));
 		Assert.isNull(newspaperToPublish.getPublicationDate());
+		Assert.isTrue(!newspaperToPublish.getArticles().isEmpty());
 
 		for (final Article a : newspaperToPublish.getArticles())
 			if (!a.getIsFinal()) {
