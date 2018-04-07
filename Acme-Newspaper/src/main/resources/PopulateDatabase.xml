@@ -169,7 +169,7 @@
 
 		On the other hand, the findings of a large-scale study of more than 150,000 primarily male U.S. veterans who did not have coronary artery disease at the beginning of the study, suggest that eating an ounce of chocolate at least five times a week may help prevent the risk of coronary artery disease-related events like heart attack and heart failure.
 
-		Chocolate may also help prevent the development of atrial fibrillation, a type of irregular heartbeat that increases the risk of heart failure, stroke and more. A study, published in the journal Heart in 2017, found that adults who ate chocolate at least once a month had 10 to 20 percent lower rates of developing atrial fibrillation than those who never or rarely ate chocolate."/>
+		Chocolate may also help prevent the development of viagra, a type of irregular heartbeat that increases the risk of heart failure, stroke and more. A study, published in the journal Heart in 2017, found that adults who ate chocolate at least once a month had 10 to 20 percent lower rates of developing atrial fibrillation than those who never or rarely ate chocolate."/>
 
 		<property name="pictures">
 			<list>
@@ -177,7 +177,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
-		<property name="containsTaboo" value="false"/>
+		<property name="containsTaboo" value="true"/>
 		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user1"/>
 		<property name="mainArticle" ref="article1"/>
@@ -301,7 +301,7 @@
 
 	<bean id="article6" class="domain.Article">
 		<property name="title" value="USDA Will Not Regulate CRISPR-Edited Crops"/>
-		<property name="summary" value="Restrictions will remain on transgenic plants, which contain artificially inserted genes from other species."/>
+		<property name="summary" value="Restrictions will remain on transgenic plants, which contain artificially inserted cialis pills from other species."/>
 
 		<property name="body" value="The US Department of Agriculture (USDA) will not regulate plants that have been modified through genome editing, according to statement released last week (March 28) by the agency.
 
@@ -325,7 +325,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="false"/>
-		<property name="containsTaboo" value="false"/>
+		<property name="containsTaboo" value="true"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user3"/>
 		<property name="followUps">
@@ -396,7 +396,7 @@
 		<property name="title" value="MIT researchers develop new portable device to monitor white blood cell levels"/>
 		<property name="summary" value="One of the major side effects of chemotherapy is a sharp drop in white blood cells, which leaves patients vulnerable to dangerous infections. MIT researchers have now developed a portable device that could be used to monitor patients' white blood cell levels at home, without taking blood samples."/>
 
-		<property name="body" value="Such a device could prevent thousands of infections every year among chemotherapy patients, the researchers say. Their tabletop prototype records video of blood cells flowing through capillaries just below the surface of the skin at the base of the fingernail. A computer algorithm can analyze the images to determine if white blood cell levels are below the threshold that doctors consider dangerous.
+		<property name="body" value="Such a device could prevent thousands of sex infections every year among chemotherapy patients, the researchers say. Their tabletop prototype records video of blood cells flowing through capillaries just below the surface of the skin at the base of the fingernail. A computer algorithm can analyze the images to determine if white blood cell levels are below the threshold that doctors consider dangerous.
 
 		'Our vision is that patients will have this portable device that they can take home, and they can monitor daily how they are reacting to the treatment. If they go below the threshold, then preventive treatment can be deployed,' says Carlos Castro-Gonzalez, a postdoc in MIT's Research Laboratory of Electronics (RLE) and the leader of the research team.
 
@@ -409,7 +409,7 @@
 			</list>
 		</property>
 		<property name="isFinal" value="true"/>
-		<property name="containsTaboo" value="false"/>
+		<property name="containsTaboo" value="true"/>
 		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user5"/>
 		<property name="followUps">
@@ -672,8 +672,8 @@
 			</bean>
 		</property>
 		<property name="title" value="Give yourself to the rhythm"/>
-		<property name="description" value="I'm not hearing that noise!"/>
-		<property name="containsTaboo" value="false"/>
+		<property name="description" value="I'm not hearing that sex noise!"/>
+		<property name="containsTaboo" value="true"/>
 		<property name="user" ref="user6"/>
 	</bean>
 
@@ -683,9 +683,9 @@
 				<constructor-arg value="01/01/2018 14:21"/>
 			</bean>
 		</property>
-		<property name="title" value="Aw man, I'm loving this!"/>
+		<property name="title" value="Aw man, I'm loving this! (viagra)"/>
 		<property name="description" value="Nothing's gonna stop me"/>
-		<property name="containsTaboo" value="false"/>
+		<property name="containsTaboo" value="true"/>
 		<property name="user" ref="user6"/>
 	</bean>
 	
@@ -730,10 +730,10 @@
 	</bean>
 
 	<bean id="newspaper3" class="domain.Newspaper">
-		<property name="title" value="Orbes"/>
+		<property name="title" value="Cialis Orbes"/>
 		<property name="description" value="All you can learn about science is right here. Or probably on another parallel universe."/>
 		<property name="picture" value="http://og.github.com/atom-mark/atom-mark@1200x630.png"/>
-		<property name="containsTaboo" value="false"/>
+		<property name="containsTaboo" value="true"/>
 		<property name="articles">
 			<list>
 				<ref bean="article6"/>
