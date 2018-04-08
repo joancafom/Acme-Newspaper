@@ -155,11 +155,12 @@ public class ArticleService {
 	}
 
 	//v1.0 - Implemented by JA
-	public Collection<Article> getUnpublisedArticles(final User writer) {
+	public Collection<Article> getUnpublisedArticles(final User writer, final Newspaper newspaper) {
 
 		Assert.notNull(writer);
+		Assert.notNull(newspaper);
 
-		final Collection<Article> res = this.articleRepository.unpublishedArticlesByWriterId(writer.getId());
+		final Collection<Article> res = this.articleRepository.unpublishedArticlesByWriterNewspaperId(writer.getId(), newspaper.getId());
 		Assert.notNull(res);
 
 		return res;

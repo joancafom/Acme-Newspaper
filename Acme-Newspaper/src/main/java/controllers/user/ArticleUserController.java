@@ -66,21 +66,11 @@ public class ArticleUserController extends AbstractController {
 
 		if (newspaper != null) {
 			article = this.articleService.create(newspaper);
-
 			res = this.createEditModelAndView(article);
-			res.addObject("newspaperId", entityId);
-			res.addObject("isFollowUp", false);
 
-		}
-
-		else {
+		} else {
 			article = this.articleService.create(mainArticle);
 			res = this.createEditModelAndView(article);
-
-			final Collection<Newspaper> unpublishedNewspapers = this.newspaperService.findAllUnpublished();
-			res.addObject("mainArticleId", mainArticle.getId());
-			res.addObject("unpublishedNewspapers", unpublishedNewspapers);
-			res.addObject("isFollowUp", true);
 		}
 
 		return res;
@@ -184,14 +174,29 @@ public class ArticleUserController extends AbstractController {
 		return result;
 	}
 
+	// v1.0 - Unknown (josembell maybe)
+	// v2.0 - Modified by JA
 	private ModelAndView createEditModelAndView(final Article article, final String message) {
 
-		final ModelAndView result;
-		result = new ModelAndView("article/edit");
-		result.addObject("article", article);
-		result.addObject("message", message);
+		final ModelAndView res;
 
-		return result;
+		res = new ModelAndView("article/edit");
+
+		res.addObject("article", article);
+		res.addObject("message", message);
+
+		if (article.getMainArticle() != null) {
+			//We are in a Follow Up
+			final Collection<Newspaper> unpublishedNewspapers = this.newspaperService.findAllUnpublished();
+			res.addObject("mainArticleId", article.getMainArticle().getId());
+			res.addObject("unpublishedNewspapers", unpublishedNewspapers);
+			res.addObject("isFollowUp", true);
+		} else {
+			res.addObject("newspaperId", article.getNewspaper().getId());
+			res.addObject("isFollowUp", false);
+		}
+
+		return res;
 	}
 
 }

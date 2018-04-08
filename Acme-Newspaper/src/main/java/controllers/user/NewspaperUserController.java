@@ -10,8 +10,9 @@
 
 package controllers.user;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,7 +66,7 @@ public class NewspaperUserController extends AbstractController {
 
 		final Boolean own = viewer.getNewspapers().contains(newspaper);
 
-		final Collection<Article> articles = new ArrayList<Article>();
+		final Set<Article> articles = new HashSet<Article>();
 		final Collection<Article> finalArticles = this.articleService.getAllFinalByNewspaper(newspaper);
 
 		if (own)
@@ -74,7 +75,7 @@ public class NewspaperUserController extends AbstractController {
 		else {
 			//If not, he/she can only see the published ones and his/her articles in draft mode
 			articles.addAll(finalArticles);
-			articles.addAll(this.articleService.getUnpublisedArticles(viewer));
+			articles.addAll(this.articleService.getUnpublisedArticles(viewer, newspaper));
 		}
 
 		final Boolean canBePublished = (newspaper.getArticles().size() != 0) && (finalArticles.size() == newspaper.getArticles().size());
