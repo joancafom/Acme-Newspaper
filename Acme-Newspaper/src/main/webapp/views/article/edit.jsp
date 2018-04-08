@@ -26,9 +26,16 @@
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<form:hidden path="containsTaboo"/>
-	<form:hidden path="newspaper"/>
-	<form:hidden path="mainArticle"/>
 	<form:hidden path="followUps"/>
+	
+	<jstl:choose>
+		<jstl:when test="${isFollowUp}">
+			<form:hidden path="mainArticle"/>
+		</jstl:when>
+		<jstl:otherwise>
+			<form:hidden path="newspaper"/>
+		</jstl:otherwise>
+	</jstl:choose>
 	
 	<!-- Inputs -->
 	
@@ -37,6 +44,10 @@
 	<acme:textarea code="article.body" path="body"/><br>
 	<acme:textarea code="article.pictures" path="pictures"/><br>
 	
+	<jstl:if test="${isFollowUp}">
+		<acme:select items="${unpublishedNewspapers}" itemLabel="title" code="article.newspaper" path="newspaper"/>
+	</jstl:if>
+	
 	<form:label path="isFinal"><spring:message code="article.isFinal"/></form:label>
 	<form:radiobutton path="isFinal" value="false"/><spring:message code="article.draft"/>
 	<form:radiobutton path="isFinal" value="true"/><spring:message code="article.final"/>
@@ -44,6 +55,13 @@
 	<br/>
 	
 	<acme:submit name="save" code="article.save"/>
-	<acme:cancel url="newspaper/user/display.do?newspaperId=${article.newspaper.id}" code="article.cancel"/>
+	<jstl:choose>
+		<jstl:when test="${isFollowUp}">
+			<acme:cancel url="newspaper/user/display.do?newspaperId=${mainArticleId}" code="article.cancel"/>
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:cancel url="newspaper/user/display.do?newspaperId=${article.newspaper.id}" code="article.cancel"/>
+		</jstl:otherwise>
+	</jstl:choose>
 
 </form:form>

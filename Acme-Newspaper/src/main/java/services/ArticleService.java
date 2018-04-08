@@ -46,16 +46,44 @@ public class ArticleService {
 	// CRUD Methods ----------------------------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA
 	public Article create(final Newspaper newspaper) {
 		Assert.notNull(newspaper);
 		Assert.isNull(newspaper.getPublicationDate());
 
 		final Article article = new Article();
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
 
 		article.setContainsTaboo(false);
 		article.setNewspaper(newspaper);
 		article.setWriter(user);
+
+		final Collection<Article> followUps = new HashSet<Article>();
+		article.setFollowUps(followUps);
+
+		return article;
+	}
+
+	// v1.0 - Implemented by JA
+	public Article create(final Article mainArticle) {
+
+		Assert.notNull(mainArticle);
+		Assert.isTrue(mainArticle.getIsFinal());
+		Assert.notNull(mainArticle.getNewspaper());
+		Assert.notNull(mainArticle.getNewspaper().getPublicationDate());
+
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+		Assert.isTrue(user.equals(mainArticle.getWriter()));
+
+		final Article article = new Article();
+
+		article.setContainsTaboo(false);
+		article.setMainArticle(mainArticle);
+		article.setWriter(user);
+
+		mainArticle.getFollowUps().add(article);
 
 		final Collection<Article> followUps = new HashSet<Article>();
 		article.setFollowUps(followUps);

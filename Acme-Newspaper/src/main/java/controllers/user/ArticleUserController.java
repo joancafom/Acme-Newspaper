@@ -49,24 +49,43 @@ public class ArticleUserController extends AbstractController {
 	/* Level C Requirements */
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int newspaperId) {
+	public ModelAndView create(@RequestParam final int entityId) {
 		final ModelAndView res;
+
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
-		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
-
 		Assert.notNull(user);
-		Assert.notNull(newspaper);
 
-		final Article article = this.articleService.create(newspaper);
+		final Newspaper newspaper = this.newspaperService.findOne(entityId);
+		final Article mainArticle = this.articleService.findOne(entityId);
 
-		res = this.createEditModelAndView(article);
+		Assert.isTrue((newspaper != null) || (mainArticle != null));
 
-		res.addObject("newspaperId", newspaperId);
+		final Article article;
+
+		if (newspaper != null) {
+			article = this.articleService.create(newspaper);
+
+			res = this.createEditModelAndView(article);
+			res.addObject("newspaperId", entityId);
+			res.addObject("isFollowUp", false);
+
+		}
+
+		else {
+			article = this.articleService.create(mainArticle);
+			res = this.createEditModelAndView(article);
+
+			final Collection<Newspaper> unpublishedNewspapers = this.newspaperService.findAllUnpublished();
+			res.addObject("mainArticleId", mainArticle.getId());
+			res.addObject("unpublishedNewspapers", unpublishedNewspapers);
+			res.addObject("isFollowUp", true);
+		}
 
 		return res;
-
 	}
+
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)

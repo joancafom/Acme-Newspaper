@@ -29,6 +29,7 @@
 
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onchange" required="false" %>
+<%@ attribute name="selected" required="false" %>
 
 <jstl:if test="${id == null}">
 	<jstl:set var="id" value="${UUID.randomUUID().toString()}" />
@@ -46,7 +47,16 @@
 	</form:label>	
 	<form:select id="${id}" path="${path}" onchange="${onchange}">
 		<form:option value="0" label="----" />		
-		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
+		<jstl:forEach var="item" items="${items}">
+			<jstl:choose>
+				<jstl:when test="${selected eq item}">
+					<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" selected=""/>
+				</jstl:when>
+				<jstl:otherwise>
+					<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
+				</jstl:otherwise>
+			</jstl:choose>
+		</jstl:forEach>
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />
 </div>

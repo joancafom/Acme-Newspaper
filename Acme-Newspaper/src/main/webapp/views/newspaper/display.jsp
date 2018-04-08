@@ -85,4 +85,7 @@
 	</security:authorize>
 </display:table>
 
-<h4><a href="article/user/create.do?newspaperId=${newspaper.id}"><spring:message code="article.create"/></a></h4>
+<jstl:if test="${newspaper.publicationDate eq null}">
+	<h4><a href="article/user/create.do?entityId=${newspaper.id}"><spring:message code="article.create"/></a></h4>
+</jstl:if>
+

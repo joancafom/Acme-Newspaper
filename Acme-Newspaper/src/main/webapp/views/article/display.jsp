@@ -35,3 +35,7 @@
 <jstl:if test="${owned and !article.isFinal}">
 	<h4><a href="article/user/edit.do?articleId=${article.id}"><spring:message code="article.edit"/></a></h4>
 </jstl:if>
+
+<jstl:if test="${owned and article.isFinal}">
+	<h4><a href="article/user/create.do?entityId=${article.id}"><spring:message code="article.followUp.write"/></a></h4>
+</jstl:if>
