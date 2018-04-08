@@ -194,4 +194,11 @@ public class NewspaperService {
 		}
 		return newspaper;
 	}
+
+	// B-Level Requirements  ----------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Newspaper> getTabooed() {
+		return this.newspaperRepository.findTabooed();
+	}
 }

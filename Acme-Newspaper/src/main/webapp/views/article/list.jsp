@@ -47,4 +47,9 @@
 			<jstl:out value="${fn:substring(article.summary, 0, 100)}"/>...
 		</jstl:if>
 	</display:column>
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+			<a href="article/administrator/delete.do?articleId=${article.id}"><spring:message code="article.delete"/></a>
+		</display:column>
+	</security:authorize>
 </display:table>

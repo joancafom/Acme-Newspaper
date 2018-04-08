@@ -31,6 +31,8 @@ import domain.Newspaper;
 @RequestMapping("/newspaper/administrator")
 public class NewspaperAdministratorController extends AbstractController {
 
+	private final String		ACTOR_WS	= "administrator/";
+
 	// Services -------------------------------------------------
 
 	@Autowired
@@ -76,7 +78,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		res.addObject("newspaper", newspaper);
 		res.addObject("articles", articles);
 
-		res.addObject("actorWS", "administrator/");
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}
@@ -91,7 +93,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		result = new ModelAndView("newspaper/list");
 
 		result.addObject("newspapers", newspapers);
-		result.addObject("actorWS", "administrator/");
+		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
 	}
@@ -105,7 +107,21 @@ public class NewspaperAdministratorController extends AbstractController {
 		res = new ModelAndView("newspaper/list");
 		res.addObject("newspapers", newspapers);
 
-		res.addObject("actorWS", "administrator/");
+		res.addObject("actorWS", this.ACTOR_WS);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/listTabooed", method = RequestMethod.GET)
+	public ModelAndView listTabooed() {
+		final ModelAndView res;
+		final Collection<Newspaper> newspapers = this.newspaperService.getTabooed();
+
+		res = new ModelAndView("newspaper/list");
+		res.addObject("newspapers", newspapers);
+
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}
@@ -132,7 +148,7 @@ public class NewspaperAdministratorController extends AbstractController {
 
 		res = new ModelAndView("newspaper/search");
 
-		res.addObject("actorWS", "administrator/");
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}

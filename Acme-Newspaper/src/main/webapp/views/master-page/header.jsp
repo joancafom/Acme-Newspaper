@@ -44,6 +44,7 @@ window.onload = function(){
 			<li ><a href="article/administrator/search.do"><spring:message code="master.page.searchArticles"/></a></li>
 			<li ><a href="article/administrator/list.do"><spring:message code="master.page.tabooedArticles"/></a></li>
 			<li><a href="newspaper/administrator/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
+			<li><a href="newspaper/administrator/listTabooed.do"><spring:message code="master.page.tabooedNewspapers"/></a></li>
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			
 			<li><a><security:authentication property="principal.username" /></a></li>

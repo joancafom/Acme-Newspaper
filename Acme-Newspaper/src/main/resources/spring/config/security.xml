@@ -73,6 +73,7 @@
 		<security:intercept-url pattern="/newspaper/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/list.do" access="hasRole('ADMINISTRATOR')" />  
 		<security:intercept-url pattern="/newspaper/administrator/listSearchResults.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/newspaper/administrator/listTabooed.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/search.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/user/display.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/create.do" access="hasRole('USER')" />
