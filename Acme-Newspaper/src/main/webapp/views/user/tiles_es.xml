@@ -21,6 +21,11 @@
 		<put-attribute name="body" value="/views/user/display.jsp" />
 	</definition>
 	
+	<definition name="user/followers" extends="master.page">
+		<put-attribute name="title" value="Mis seguidores" />
+		<put-attribute name="body" value="/views/user/list.jsp" />
+	</definition>
+	
 	<definition name="user/following" extends="master.page">
 		<put-attribute name="title" value="Usuarios a los que sigo" />
 		<put-attribute name="body" value="/views/user/list.jsp" />

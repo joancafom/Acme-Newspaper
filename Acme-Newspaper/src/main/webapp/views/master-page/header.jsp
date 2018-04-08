@@ -55,6 +55,7 @@ window.onload = function(){
     	<ul class="nav navbar-nav">
     		
 			<li><a href="user/user/list.do"><spring:message code="master.page.user.list"/></a></li>
+			<li><a href="user/user/followers.do"><spring:message code="master.page.user.followers"/></a></li>
 			<li><a href="user/user/following.do"><spring:message code="master.page.user.following"/></a></li>
 			<li><a href="newspaper/user/listPublished.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			<li><a href="newspaper/user/listMine.do"><spring:message code="master.page.myNewspapers"/></a></li>

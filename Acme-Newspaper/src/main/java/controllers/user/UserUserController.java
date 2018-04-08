@@ -64,6 +64,27 @@ public class UserUserController extends AbstractController {
 
 	}
 
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/followers", method = RequestMethod.GET)
+	public ModelAndView listFollowers() {
+
+		final ModelAndView res;
+
+		final User viewer = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(viewer);
+
+		final Collection<User> usersToList = viewer.getFollowers();
+
+		Assert.notNull(usersToList);
+
+		res = new ModelAndView("user/followers");
+		res.addObject("users", usersToList);
+		res.addObject("actorWS", this.ACTOR_WS);
+
+		return res;
+
+	}
+
 	// v1.0 - Implemented by JA
 	@RequestMapping(value = "/following", method = RequestMethod.GET)
 	public ModelAndView listFollowing() {
