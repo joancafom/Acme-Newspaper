@@ -29,6 +29,9 @@
 		<bean class="converters.ArticleToStringConverter" /> 
   		<bean class="converters.StringToArticleConverter" />
   		
+  		<bean class="converters.ChirpToStringConverter" /> 
+  		<bean class="converters.StringToChirpConverter" />
+  		
   		<bean class="converters.NewspaperToStringConverter" /> 
   		<bean class="converters.StringToNewspaperConverter" /> 
 		

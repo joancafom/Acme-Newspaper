@@ -154,7 +154,7 @@
 		<property name="writer" ref="user1"/>
 		<property name="followUps">
 			<list>
-				<ref bean="article2"/>
+				<ref bean="article4"/>
 			</list>
 		</property>
 	</bean>
@@ -180,7 +180,6 @@
 		<property name="containsTaboo" value="true"/>
 		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user1"/>
-		<property name="mainArticle" ref="article1"/>
 		<property name="followUps">
 			<list>
 			</list>
@@ -211,7 +210,6 @@
 		<property name="writer" ref="user2"/>
 		<property name="followUps">
 			<list>
-				<ref bean="article4"/>
 			</list>
 		</property>
 	</bean>
@@ -259,7 +257,7 @@
 		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper2"/>
 		<property name="writer" ref="user2"/>
-		<property name="mainArticle" ref="article3"/>
+		<property name="mainArticle" ref="article1"/>
 		<property name="followUps">
 			<list>
 			</list>
@@ -388,6 +386,7 @@
 		<property name="writer" ref="user4"/>
 		<property name="followUps">
 			<list>
+				<ref bean="article13"/>
 			</list>
 		</property>
 	</bean>
@@ -483,7 +482,6 @@
 		<property name="writer" ref="user5"/>
 		<property name="followUps">
 			<list>
-				<ref bean="article13"/>
 			</list>
 		</property>
 	</bean>
@@ -527,7 +525,7 @@
 			<list>
 			</list>
 		</property>
-		<property name="mainArticle" ref="article12"/>
+		<property name="mainArticle" ref="article9"/>
 	</bean>
 
 
@@ -1012,6 +1010,10 @@
 				<ref bean="chirp13"/>
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="systemConfiguration" class="domain.SystemConfiguration">
+		<property name="tabooWords" value="sex|sexo|viagra|cialis"/>
 	</bean>
 
 </beans>

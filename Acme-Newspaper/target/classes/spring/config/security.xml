@@ -61,6 +61,9 @@
 		<security:intercept-url pattern="/article/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/article/user/search.do" access="hasRole('USER')" />
 
+		<security:intercept-url pattern="/chirp/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/chirp/user/edit.do" access="hasRole('USER')" />
+
 		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listPublished.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listSearchResults.do" access="isAnonymous()" />
@@ -87,7 +90,7 @@
 		<security:intercept-url pattern="/user/list.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/user/register.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/user/user/display.do" access="hasRole('USER')" /> 
-		<security:intercept-url pattern="/user/user/following.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/user/user/following.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/user/user/list.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/register.do" access="hasRole('USER')" /> 
 

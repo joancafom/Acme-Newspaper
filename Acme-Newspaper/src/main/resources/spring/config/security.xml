@@ -61,13 +61,16 @@
 		<security:intercept-url pattern="/article/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/article/user/search.do" access="hasRole('USER')" />
 
+		<security:intercept-url pattern="/chirp/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/chirp/user/edit.do" access="hasRole('USER')" />
+
 		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listPublished.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listSearchResults.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/search.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/newspaper/administrator/delete.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
-		<security:intercept-url pattern="/newspaper/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/newspaper/administrator/list.do" access="hasRole('ADMINISTRATOR')" />  
 		<security:intercept-url pattern="/newspaper/administrator/listSearchResults.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/search.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/user/display.do" access="hasRole('USER')" />

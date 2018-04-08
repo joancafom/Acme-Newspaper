@@ -60,6 +60,8 @@ window.onload = function(){
 			<li><a href="newspaper/user/listUnpublished.do"><spring:message code="master.page.unpublishedNewspapers"/></a></li>
 			<li ><a href="article/user/search.do"><spring:message code="master.page.searchArticles"/></a></li>
     		<li><a href="newspaper/user/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
+    		<li><a href="chirp/user/create.do"><spring:message code="master.page.postAChirp"/></a></li>
+    		
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
