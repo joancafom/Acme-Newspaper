@@ -136,7 +136,7 @@ public class ArticleUserController extends AbstractController {
 	public ModelAndView edit(final Article prunedArticle, final BindingResult binding) {
 		ModelAndView res;
 
-		final Article article = this.articleService.reconstruct(prunedArticle, binding);
+		final Article article = this.articleService.reconstructSave(prunedArticle, binding);
 
 		if (binding.hasErrors())
 			res = this.createEditModelAndView(article);

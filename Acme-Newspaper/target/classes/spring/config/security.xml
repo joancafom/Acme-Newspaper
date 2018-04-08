@@ -51,6 +51,7 @@
 		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/article/list.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/article/display.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/article/administrator/delete.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/search.do" access="hasRole('ADMINISTRATOR')" /> 

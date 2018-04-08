@@ -83,6 +83,11 @@
 		</jstl:choose>
 	</display:column>
 	</security:authorize>
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+			<a href="article/administrator/delete.do?articleId=${article.id}"><spring:message code="article.delete"/></a>
+		</display:column>
+	</security:authorize>
 </display:table>
 
 <jstl:if test="${newspaper.publicationDate eq null}">

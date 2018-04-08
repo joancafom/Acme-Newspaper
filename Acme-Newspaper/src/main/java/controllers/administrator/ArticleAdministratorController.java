@@ -15,6 +15,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,42 @@ public class ArticleAdministratorController extends AbstractController {
 
 
 	// C-Level Requirements -------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int articleId) {
+
+		final ModelAndView res;
+
+		final Article article = this.articleService.findOne(articleId);
+		Assert.notNull(article);
+
+		res = new ModelAndView("article/delete");
+		res.addObject("article", article);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final Article prunedArticle, final BindingResult binding) {
+
+		ModelAndView res;
+
+		final Article article = this.articleService.reconstructDelete(prunedArticle, binding);
+		Assert.notNull(article);
+
+		try {
+			this.articleService.delete(article);
+			res = new ModelAndView("redirect:/newspaper/administrator/display.do?newspaperId=" + article.getNewspaper().getId());
+		} catch (final Throwable oops) {
+			res = new ModelAndView("article/delete");
+			res.addObject("article", prunedArticle);
+			res.addObject("message", "article.commit.error");
+		}
+
+		return res;
+	}
 
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)

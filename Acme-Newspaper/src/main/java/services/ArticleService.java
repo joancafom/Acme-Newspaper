@@ -180,8 +180,21 @@ public class ArticleService {
 		return res;
 	}
 
+	//v1.0 - Implemented by Alicia
+	public Article reconstructDelete(final Article prunedArticle, final BindingResult binding) {
+		Article res;
+
+		Assert.notNull(prunedArticle);
+		res = this.findOne(prunedArticle.getId());
+
+		Assert.notNull(res);
+		this.validator.validate(res, binding);
+
+		return res;
+	}
+
 	// v1.0 - Implemented by Alicia
-	public Article reconstruct(final Article prunedArticle, final BindingResult binding) {
+	public Article reconstructSave(final Article prunedArticle, final BindingResult binding) {
 		final Article res;
 
 		final User writer = this.userService.findByUserAccount(LoginService.getPrincipal());
