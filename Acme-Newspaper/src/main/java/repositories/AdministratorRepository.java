@@ -58,4 +58,30 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	@Query("select count(u1)*1.0 / (select count(u2)*1.0 from User u2) from User u1 where u1.articles.size > 0")
 	Double ratioUsersHaveWrittenAnArticle();
 
+	// B-Level Requirements  ---------------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	@Query("select avg(a.followUps.size) from Article a")
+	Double avgFollowUpsPerArticle();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select count(a1) * 1.0 / (select count(a2) * 1.0 from Article a2) from Article a1 where a1.mainArticle != null and datediff(a1.newspaper.publicationDate, a1.mainArticle.newspaper.publicationDate) <= 7")
+	Double avgFollowUpsPerArticleOneWeek();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select count(a1) * 1.0 / (select count(a2) * 1.0 from Article a2) from Article a1 where a1.mainArticle != null and datediff(a1.newspaper.publicationDate, a1.mainArticle.newspaper.publicationDate) <= 14")
+	Double avgFollowUpsPerArticleTwoWeeks();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select avg(u.chirps.size) from User u")
+	Double avgChirpsPerUser();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select sqrt(sum(u.chirps.size * u.chirps.size) / count(u.chirps.size) - avg(u.chirps.size) * avg(u.chirps.size)) from User u")
+	Double stdChirpsPerUser();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select count(u1) * 1.0 / (select count(u3) * 1.0 from User u3) from User u1 where u1.chirps.size > (select avg(u2.chirps.size) * 1.75 from User u2)")
+	Double ratioUsersAbove75AvgChirps();
+
 }

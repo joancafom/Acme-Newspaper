@@ -56,3 +56,13 @@
 
 <p><strong><spring:message code="ratioUsersHaveCreatedANewspaper"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioUsersHaveCreatedANewspaper}"/></p>
 <p><strong><spring:message code="ratioUsersHaveWrittenAnArticle"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioUsersHaveWrittenAnArticle}"/></p>
+
+
+<!-- B-Level Requirements -->
+
+<p><strong><spring:message code="avg.followUpsPerArticle"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgFollowUpsPerArticle}" /></p>
+<p><strong><spring:message code="avg.followUpsPerArticleOneWeek"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgFollowUpsPerArticleOneWeek}" /></p>
+<p><strong><spring:message code="avg.followUpsPerArticleTwoWeeks"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgFollowUpsPerArticleTwoWeeks}" /></p>
+<p><strong><spring:message code="avg.chirpsPerUser"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgChirpsPerUser}" /></p>
+<p><strong><spring:message code="std.chirpsPerUser"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${stdChirpsPerUser}" /></p>
+<p><strong><spring:message code="ratioUsersAbove75AvgChirps"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioUsersAbove75AvgChirps}" /></p>

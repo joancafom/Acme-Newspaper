@@ -114,4 +114,54 @@ public class AdministratorService {
 
 		return this.administratorRepository.ratioUsersHaveWrittenAnArticle();
 	}
+
+	// B-Level Requirements  ----------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Double getAvgFollowUpsPerArticle() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.avgFollowUpsPerArticle();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Double getAvgFollowUpsPerArticleOneWeek() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.avgFollowUpsPerArticleOneWeek();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Double getAvgFollowUpsPerArticleTwoWeeks() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.avgFollowUpsPerArticleTwoWeeks();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Double getAvgChirpsPerUser() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.avgChirpsPerUser();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Double getStdChirpsPerUser() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.stdChirpsPerUser();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Double getRatioUsersAbove75AvgChirps() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.ratioUsersAbove75AvgChirps();
+	}
 }

@@ -48,6 +48,15 @@ public class AdministratorController extends AbstractController {
 		res.addObject("ratioUsersHaveCreatedANewspaper", this.administratorService.getRatioUsersHaveCreatedANewspaper());
 		res.addObject("ratioUsersHaveWrittenAnArticle", this.administratorService.getRatioUsersHaveWrittenAnArticle());
 
+		// B-Level Requirements
+
+		res.addObject("avgFollowUpsPerArticle", this.administratorService.getAvgFollowUpsPerArticle());
+		res.addObject("avgFollowUpsPerArticleOneWeek", this.administratorService.getAvgFollowUpsPerArticleOneWeek());
+		res.addObject("avgFollowUpsPerArticleTwoWeeks", this.administratorService.getAvgFollowUpsPerArticleTwoWeeks());
+		res.addObject("avgChirpsPerUser", this.administratorService.getAvgChirpsPerUser());
+		res.addObject("stdChirpsPerUser", this.administratorService.getStdChirpsPerUser());
+		res.addObject("ratioUsersAbove75AvgChirps", this.administratorService.getRatioUsersAbove75AvgChirps());
+
 		res.addObject("actorWS", "administrator/");
 
 		return res;
