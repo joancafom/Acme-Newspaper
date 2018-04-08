@@ -171,6 +171,11 @@ public class ArticleService {
 		return this.articleRepository.findPublishedByKeyword(keyword);
 	}
 
+	// v1.0 - Implemented by JA
+	public Collection<Article> findTabooedArticles() {
+		return this.articleRepository.findTabooedArticles();
+	}
+
 	// v1.0 - Implemented by Alicia
 	public Collection<Article> getAllFinalByNewspaper(final Newspaper newspaper) {
 		Assert.notNull(newspaper);

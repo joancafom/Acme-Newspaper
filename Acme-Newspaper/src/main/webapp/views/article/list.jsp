@@ -18,7 +18,19 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<h3><spring:message code="article.resultsWith"/> <u><jstl:out value="${keyword}"/></u></h3><br>
+<jstl:choose>
+	<jstl:when test="${keyword ne null}">
+		<h3><spring:message code="article.resultsWith"/> <span style="text-decoration:underline;"><jstl:out value="${keyword}"/></span></h3><br>
+	</jstl:when>
+	<jstl:otherwise>
+	
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<h3><spring:message code="article.tabooed"/></h3>
+		</security:authorize>
+	
+	</jstl:otherwise>
+</jstl:choose>
+
 
 <display:table name="articles" id="article" requestURI="article/${actorWS}list.do" pagesize="5" class="displaytag" style="width:100%">
 	<display:column titleKey="article.title" style="width:30%">

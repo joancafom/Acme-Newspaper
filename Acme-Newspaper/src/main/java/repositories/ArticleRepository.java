@@ -28,4 +28,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.isFinal = true and a.newspaper.id = ?1")
 	Collection<Article> getAllFinalByNewspaperId(int newspaperId);
 
+	// v1.0 - Implemented by JA
+	@Query("select a from Article a where a.containsTaboo = true")
+	Collection<Article> findTabooedArticles();
+
 }

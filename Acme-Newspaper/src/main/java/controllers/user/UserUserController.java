@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.ArticleService;
 import services.UserService;
 import controllers.AbstractController;
@@ -57,6 +58,27 @@ public class UserUserController extends AbstractController {
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publishedArticles", publishedArticles);
+		res.addObject("actorWS", this.ACTOR_WS);
+
+		return res;
+
+	}
+
+	// v1.0 - Implemented by JA
+	@RequestMapping(value = "/following", method = RequestMethod.GET)
+	public ModelAndView listFollowing() {
+
+		final ModelAndView res;
+
+		final User viewer = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(viewer);
+
+		final Collection<User> usersToList = viewer.getFollowees();
+
+		Assert.notNull(usersToList);
+
+		res = new ModelAndView("user/following");
+		res.addObject("users", usersToList);
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;

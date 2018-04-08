@@ -57,7 +57,7 @@
 	<acme:submit name="save" code="article.save"/>
 	<jstl:choose>
 		<jstl:when test="${isFollowUp}">
-			<acme:cancel url="newspaper/user/display.do?newspaperId=${mainArticleId}" code="article.cancel"/>
+			<acme:cancel url="article/user/display.do?articleId=${mainArticleId}" code="article.cancel"/>
 		</jstl:when>
 		<jstl:otherwise>
 			<acme:cancel url="newspaper/user/display.do?newspaperId=${article.newspaper.id}" code="article.cancel"/>

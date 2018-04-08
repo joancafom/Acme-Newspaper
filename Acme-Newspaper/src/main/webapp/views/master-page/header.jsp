@@ -42,6 +42,7 @@ window.onload = function(){
 			<li><a href="user/administrator/list.do"><spring:message code="master.page.user.list"/></a></li>
 			<li><a href="newspaper/administrator/list.do"><spring:message code="master.page.newspapers"/></a></li>
 			<li ><a href="article/administrator/search.do"><spring:message code="master.page.searchArticles"/></a></li>
+			<li ><a href="article/administrator/list.do"><spring:message code="master.page.tabooedArticles"/></a></li>
 			<li><a href="newspaper/administrator/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			
@@ -53,6 +54,7 @@ window.onload = function(){
     	<ul class="nav navbar-nav">
     		
 			<li><a href="user/user/list.do"><spring:message code="master.page.user.list"/></a></li>
+			<li><a href="user/user/following.do"><spring:message code="master.page.user.following"/></a></li>
 			<li><a href="newspaper/user/listPublished.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			<li><a href="newspaper/user/listMine.do"><spring:message code="master.page.myNewspapers"/></a></li>
 			<li><a href="newspaper/user/listUnpublished.do"><spring:message code="master.page.unpublishedNewspapers"/></a></li>

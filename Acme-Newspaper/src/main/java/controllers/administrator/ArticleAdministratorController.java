@@ -100,16 +100,25 @@ public class ArticleAdministratorController extends AbstractController {
 
 		return result;
 	}
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final String keyword) {
-		ModelAndView result;
-		final Collection<Article> articles = this.articleService.findPublishedByKeyword(keyword);
+	public ModelAndView list(@RequestParam(required = false) final String keyword) {
 
-		result = new ModelAndView("article/list");
-		result.addObject("articles", articles);
-		result.addObject("keyword", keyword);
-		result.addObject("actorWS", "administrator/");
+		final ModelAndView res;
+		final Collection<Article> articles;
 
-		return result;
+		res = new ModelAndView("article/list");
+		res.addObject("actorWS", "administrator/");
+
+		if (keyword != null) {
+			articles = this.articleService.findPublishedByKeyword(keyword);
+			res.addObject("articles", articles);
+			res.addObject("keyword", keyword);
+		} else {
+			articles = this.articleService.findTabooedArticles();
+			res.addObject("articles", articles);
+		}
+
+		return res;
 	}
 }
