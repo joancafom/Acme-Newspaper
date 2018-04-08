@@ -26,20 +26,23 @@ public class NewspaperService {
 
 	/* Managed Repository */
 	@Autowired
-	private NewspaperRepository		newspaperRepository;
+	private NewspaperRepository			newspaperRepository;
 
 	//Supporting Services
 	@Autowired
-	private UserService				userService;
+	private UserService					userService;
 
 	@Autowired
-	private AdministratorService	adminService;
+	private AdministratorService		adminService;
 
 	@Autowired
-	private ArticleService			articleService;
+	private ArticleService				articleService;
 
 	@Autowired
-	private Validator				validator;
+	private SystemConfigurationService	systemConfigurationService;
+
+	@Autowired
+	private Validator					validator;
 
 
 	/* v1.0 - josembell */
@@ -69,6 +72,7 @@ public class NewspaperService {
 
 	//v1.0 - Implemented by JA
 	/* v2.0 - updated by josembell */
+	// v3.0 - Updated by JA (taboo)
 	public Newspaper save(final Newspaper newspaperToSave) {
 
 		Assert.notNull(newspaperToSave);
@@ -78,6 +82,10 @@ public class NewspaperService {
 
 		if (newspaperToSave.getId() != 0)
 			Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
+
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(newspaperToSave.getTitle() + " " + newspaperToSave.getDescription());
+		newspaperToSave.setContainsTaboo(containsTabooVeredict);
 
 		final Newspaper savedNewspaper = this.newspaperRepository.save(newspaperToSave);
 

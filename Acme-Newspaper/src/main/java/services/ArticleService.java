@@ -27,20 +27,23 @@ public class ArticleService {
 
 	/* Managed Repository */
 	@Autowired
-	private ArticleRepository		articleRepository;
+	private ArticleRepository			articleRepository;
 
 	// Supporting Services ---------------------------------------------------
 
 	@Autowired
-	private AdministratorService	adminService;
+	private AdministratorService		adminService;
 
 	@Autowired
-	private UserService				userService;
+	private UserService					userService;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 	// Validator -------------------------------------------------------------
 
 	@Autowired
-	private Validator				validator;
+	private Validator					validator;
 
 
 	// CRUD Methods ----------------------------------------------------------
@@ -102,6 +105,7 @@ public class ArticleService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Modified by JA (taboo)
 	public Article save(final Article article) {
 		Assert.notNull(article);
 
@@ -126,6 +130,10 @@ public class ArticleService {
 				} catch (final MalformedURLException e) {
 					throw new IllegalArgumentException();
 				}
+
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(article.getTitle() + " " + article.getSummary() + " " + article.getBody());
+		article.setContainsTaboo(containsTabooVeredict);
 
 		return this.articleRepository.save(article);
 	}

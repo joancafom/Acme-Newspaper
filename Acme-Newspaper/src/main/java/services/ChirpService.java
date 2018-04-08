@@ -21,14 +21,17 @@ public class ChirpService {
 
 	/* Managed Repository */
 	@Autowired
-	private ChirpRepository			chirpRepository;
+	private ChirpRepository				chirpRepository;
 
 	/* Services */
 	@Autowired
-	private UserService				userService;
+	private UserService					userService;
 
 	@Autowired
-	private AdministratorService	adminService;
+	private AdministratorService		adminService;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	/* Level B Requirements */
@@ -54,6 +57,7 @@ public class ChirpService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Modified by JA (taboo)
 	public Chirp save(final Chirp chirp) {
 		Assert.notNull(chirp);
 
@@ -61,6 +65,12 @@ public class ChirpService {
 		Assert.isTrue(chirp.getUser().equals(user));
 
 		chirp.setMoment(new Date());
+
+		//Taboo check
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(chirp.getTitle() + " " + chirp.getDescription());
+		chirp.setContainsTaboo(containsTabooVeredict);
+
 		final Chirp savedChirp = this.chirpRepository.save(chirp);
 
 		user.getChirps().add(savedChirp);
