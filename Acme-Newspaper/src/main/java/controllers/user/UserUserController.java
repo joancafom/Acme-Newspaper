@@ -44,6 +44,7 @@ public class UserUserController extends AbstractController {
 	//C-level requirements -------------------------------
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int userId) {
 
@@ -55,15 +56,22 @@ public class UserUserController extends AbstractController {
 		final Collection<Article> publishedArticles = this.articleService.getPublisedArticles(userToDisplay);
 		//Null is checked inside the method already
 
+		final User principal = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Boolean following = false;
+
+		if (principal.getFollowees().contains(userToDisplay))
+			following = true;
+
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publishedArticles", publishedArticles);
+		res.addObject("following", following);
+
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 
 	}
-
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/followers", method = RequestMethod.GET)
 	public ModelAndView listFollowers() {
@@ -121,6 +129,46 @@ public class UserUserController extends AbstractController {
 
 		return res;
 
+	}
+
+	// B-Level Requirements -------------------------------
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/follow", method = RequestMethod.GET)
+	public ModelAndView follow(@RequestParam final int userId) {
+		ModelAndView res;
+		final User user = this.userService.findOne(userId);
+
+		Assert.notNull(user);
+
+		res = new ModelAndView("redirect:/user/user/display.do?userId=" + user.getId());
+
+		try {
+			this.userService.follow(user);
+		} catch (final Throwable oops) {
+			res.addObject("message", "user.commit.error");
+		}
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/unfollow", method = RequestMethod.GET)
+	public ModelAndView unfollow(@RequestParam final int userId) {
+		ModelAndView res;
+		final User user = this.userService.findOne(userId);
+
+		Assert.notNull(user);
+
+		res = new ModelAndView("redirect:/user/user/display.do?userId=" + user.getId());
+
+		try {
+			this.userService.unfollow(user);
+		} catch (final Throwable oops) {
+			res.addObject("message", "user.commit.error");
+		}
+
+		return res;
 	}
 
 }

@@ -132,6 +132,20 @@ public class UserService {
 
 	}
 
+	// v1.0 - Implemented by Alicia
+	public void follow(final User user) {
+		Assert.notNull(user);
+
+		final User principal = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(principal);
+
+		Assert.isTrue(!principal.getFollowees().contains(user));
+
+		principal.getFollowees().add(user);
+		//user.getFollowers().add(principal);
+		this.userRepository.save(user);
+	}
+
 	//v1.0 - Implemented by JA
 	public User reconstruct(final UserRegistrationForm userRegistrationForm, final BindingResult binding) {
 
@@ -158,4 +172,17 @@ public class UserService {
 
 	}
 
+	// v1.0 - Implemented by Alicia
+	public void unfollow(final User user) {
+		Assert.notNull(user);
+
+		final User principal = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(principal);
+
+		Assert.isTrue(principal.getFollowees().contains(user));
+
+		principal.getFollowees().remove(user);
+		//user.getFollowers().remove(principal);
+		this.userRepository.save(user);
+	}
 }
