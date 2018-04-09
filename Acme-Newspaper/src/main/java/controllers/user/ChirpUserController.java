@@ -1,6 +1,8 @@
 
 package controllers.user;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,6 @@ import domain.Chirp;
 @RequestMapping("/chirp/user")
 public class ChirpUserController extends AbstractController {
 
-	private final String	ACTOR_WS	= "user/";
-
 	/* Services */
 	@Autowired
 	private ChirpService	chirpService;
@@ -32,6 +32,18 @@ public class ChirpUserController extends AbstractController {
 		final Chirp chirp = this.chirpService.create();
 
 		result = this.createEditModelAndView(chirp);
+
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/stream", method = RequestMethod.GET)
+	public ModelAndView stream() {
+		final ModelAndView result;
+		final Collection<Chirp> chirps = this.chirpService.getStream();
+
+		result = new ModelAndView("chirp/stream");
+		result.addObject("chirps", chirps);
 
 		return result;
 	}

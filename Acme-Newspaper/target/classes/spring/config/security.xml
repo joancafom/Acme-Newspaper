@@ -64,6 +64,7 @@
 		<security:intercept-url pattern="/chirp/administrator/delete.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/chirp/user/create.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/chirp/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/chirp/user/stream.do" access="hasRole('USER')" />
 
 		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listPublished.do" access="isAnonymous()" />

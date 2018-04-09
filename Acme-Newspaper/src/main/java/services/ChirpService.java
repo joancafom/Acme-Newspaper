@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -87,6 +88,12 @@ public class ChirpService {
 		Assert.notNull(admin);
 
 		this.chirpRepository.delete(chirpToDelete);
+	}
+
+	public Collection<Chirp> getStream() {
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+		return this.chirpRepository.getStream(user.getId());
 	}
 
 	//Other Business Methods ---------
