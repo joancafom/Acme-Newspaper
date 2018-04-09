@@ -84,20 +84,25 @@
 		<security:intercept-url pattern="/newspaper/user/listSearchResults.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/listUnpublished.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/publish.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/newspaper/user/search.do" access="hasRole('USER')" />    
+		<security:intercept-url pattern="/newspaper/user/search.do" access="hasRole('USER')" />  
+		
+		<security:intercept-url pattern="/systemConfiguration/administrator/listTabooWords.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/systemConfiguration/administrator/addTabooWord.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/systemConfiguration/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />   
+		<security:intercept-url pattern="/systemConfiguration/administrator/deleteTabooWord.do" access="hasRole('ADMINISTRATOR')" />       
 		
 		<security:intercept-url pattern="/user/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/administrator/register.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/display.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/user/list.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/user/list.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/user/register.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/user/user/display.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/user/user/display.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/user/user/follow.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/followers.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/following.do" access="hasRole('USER')" /> 
-		<security:intercept-url pattern="/user/user/list.do" access="hasRole('USER')" /> 
-		<security:intercept-url pattern="/user/user/register.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/user/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/user/user/register.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/user/user/unfollow.do" access="hasRole('USER')" /> 
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

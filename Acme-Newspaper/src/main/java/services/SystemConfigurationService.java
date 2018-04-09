@@ -1,7 +1,10 @@
 
 package services;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,4 +113,62 @@ public class SystemConfigurationService {
 		return res;
 	}
 
+	/* v1.0 - josembell */
+	public Collection<String> getTabooWords() {
+		final SystemConfiguration sysConfig = this.getCurrentSystemConfiguration();
+		final String tabooWords = sysConfig.getTabooWords();
+		final String[] tabooWordsSplitted = tabooWords.split("\\|");
+		final Collection<String> collectionTabooWords;
+		if (tabooWords.equals("") || tabooWords == null)
+			collectionTabooWords = new HashSet<String>();
+		else {
+			final List<String> listTabooWords = Arrays.asList(tabooWordsSplitted);
+			collectionTabooWords = new HashSet<String>(listTabooWords);
+		}
+
+		return collectionTabooWords;
+
+	}
+	/* v1.0 - josembell */
+	public String addTabooWord(final String tabooWord) {
+		Assert.isTrue(!this.getTabooWords().contains(tabooWord));
+		Assert.isTrue(!tabooWord.contains("|"));
+
+		final SystemConfiguration sysConfig = this.getCurrentSystemConfiguration();
+		String tabooWords = sysConfig.getTabooWords();
+
+		if (tabooWords.equals("") || tabooWords == null)
+			tabooWords = tabooWords + tabooWord;
+		else
+			tabooWords = tabooWords + "|" + tabooWord;
+
+		sysConfig.setTabooWords(tabooWords);
+		this.save(sysConfig);
+
+		return tabooWords;
+	}
+
+	/* v1.0 - josembell */
+	public String deleteTabooWord(final String tabooWord) {
+		Assert.isTrue(this.getTabooWords().contains(tabooWord));
+		Assert.notNull(tabooWord);
+
+		final SystemConfiguration sysConfig = this.getCurrentSystemConfiguration();
+		Assert.notNull(sysConfig);
+		String tabooWords = sysConfig.getTabooWords();
+
+		tabooWords = "|" + tabooWords + "|";
+
+		tabooWords = tabooWords.replaceAll("\\|" + tabooWord + "\\|", "|");
+
+		if (tabooWords.equals("|"))
+			tabooWords = "";
+		else
+			tabooWords = tabooWords.substring(1, tabooWords.length() - 1);
+
+		sysConfig.setTabooWords(tabooWords);
+		this.save(sysConfig);
+
+		return tabooWords;
+	}
 }
