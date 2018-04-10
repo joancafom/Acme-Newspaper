@@ -6,7 +6,6 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -234,96 +233,6 @@ public class UserServiceTest extends AbstractTest {
 
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
-
-	}
-
-	/*
-	 * v1.0 - josembell
-	 * [UC-001] - Register List and Display Users
-	 * 1. Register to the system as an User
-	 * 2. Log In to the System
-	 * 3. List the Users in the system
-	 * 4. Select one User to display
-	 * 
-	 * REQ: 1, 4.1, 4.3
-	 */
-	@Test
-	public void driverRegisterListAndDisplayUsers() {
-		final Object testingData[][] = {
-			{
-				/* + 1) Un usuario no identificado se registra en el sistema y displayea un user existente */
-				null, "user1", "josembell", "test1234", "Jose", "Bellido", "C/ Carrion 127", "+34633017787", "josembell97@gmail.com", null
-			}, {
-				/* - 2) Un usuario se registra sin nombre */
-				null, "user1", "josembell", "test1234", "", "Bellido", "C/ Carrion 127", "+34633017787", "josembell97@gmail.com", ConstraintViolationException.class
-			}, {
-				/* - 3) Un usuario se registra sin apellidos */
-				null, "user1", "josembell", "test1234", "Jose", "", "C/ Carrion 127", "+34633017787", "josembell97@gmail.com", ConstraintViolationException.class
-			}, {
-				/* - 4) Un usuario se registra sin email */
-				null, "user1", "josembell", "test1234", "Jose", "Bellido", "C/ Carrion 127", "+34633017787", "", ConstraintViolationException.class
-			}, {
-				/* - 5) Un usuario no identificado se registra en el sistema y displayea un usuario no existente */
-				null, "fail", "josembell", "test1234", "Jose", "Bellido", "C/ Carrion 127", "+34633017787", "josembell97@gmail.com", IllegalArgumentException.class
-			}, {
-				/* - 6) Un usuario no identificado se registra en el sistema y displayea un user null */
-				null, null, "josembell", "test1234", "Jose", "Bellido", "C/ Carrion 127", "+34633017787", "josembell97@gmail.com", IllegalArgumentException.class
-			}
-		};
-
-		for (int i = 0; i < testingData.length; i++) {
-			User user = null;
-			if (testingData[i][1] != null)
-				try {
-					user = this.userService.findOne(this.getEntityId((String) testingData[i][1]));
-				} catch (final Throwable oops) {
-					user = null;
-				}
-
-			this.startTransaction();
-			//System.out.println("test " + i);
-			this.templateRegisterListAndDisplayUsers((String) testingData[i][0], user, (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
-				(String) testingData[i][8], (Class<?>) testingData[i][9]);
-			//System.out.println("test " + i + " ok");
-			this.rollbackTransaction();
-			this.entityManager.clear();
-		}
-	}
-
-	/* v1.0-josembell */
-	protected void templateRegisterListAndDisplayUsers(final String username, final User userDisplay, final String nickname, final String password, final String name, final String surnames, final String address, final String phone, final String email,
-		final Class<?> expected) {
-
-		Class<?> caught = null;
-
-		try {
-			/* 1. Registrarse en el sistema */
-			final User user = this.userService.create();
-			user.getUserAccount().setUsername(nickname);
-			user.getUserAccount().setPassword(password);
-			user.setName(name);
-			user.setSurnames(surnames);
-			user.setPostalAddress(address);
-			user.setEmail(email);
-			user.setPhoneNumber(phone);
-
-			this.userService.save(user);
-
-			/* 2. Loggearse en el sistema */
-			this.authenticate(nickname);
-
-			/* 3. Listar los usuarios del sistema */
-			final Collection<User> users = this.userService.findAll();
-
-			/* 4. Displayear uno -> el que entra por parámetros */
-			Assert.isTrue(users.contains(userDisplay));
-
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-
-		this.checkExceptions(expected, caught);
-		this.unauthenticate();
 
 	}
 }

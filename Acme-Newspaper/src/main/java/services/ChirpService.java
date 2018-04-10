@@ -65,7 +65,8 @@ public class ChirpService {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(chirp.getUser().equals(user));
 
-		chirp.setMoment(new Date());
+		final Date moment = new Date(System.currentTimeMillis() - 1000L);
+		chirp.setMoment(moment);
 
 		//Taboo check
 		//Check for taboo words
