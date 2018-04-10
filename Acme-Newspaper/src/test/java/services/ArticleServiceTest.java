@@ -272,4 +272,147 @@ public class ArticleServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-017: Write a Follow Up
+	 * 1. Log in to the system as a User
+	 * 2. List Published Newspapers (*)
+	 * 3. Select one newspaper with an Article written by the User
+	 * 4. Write a Follow Up about it
+	 * 5. Display the Newspaper of the followUp
+	 * 
+	 * 
+	 * Involved REQs: 14
+	 * 
+	 * Test Cases (5; 1+ 4-):
+	 * 
+	 * + 1) A User logs in to the system and successfully writes a follow up of an Article he/she has written previously and
+	 * that is saved in another newspaper.
+	 * 
+	 * - 2) A User tries to write a follow up of an Article of his/her own that is final, but not published yet.
+	 * 
+	 * - 3) A User tries to write a follow up of an Article of his/her own that is in draft mode.
+	 * 
+	 * - 4) A User tries to write a follow up of an Article of another Actor that is published in another Newspaper.
+	 * 
+	 * - 5) A User tries to write a null follow up of an Article of his/her own that is final and published.
+	 * 
+	 * - 2) An Admin tries to write a follow up of an Article that is published.
+	 */
+
+	@Test
+	public void driverWriteFollowUp() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> whether to use the provided FollowUp or to use the generic (true=generic)
+		// testingData[i][2] -> the beanName of the followUp to save
+		// testingData[i][3] -> the article we want to associate to the follow up
+		// testingData[i][4] -> the newspaper where to publish the follow up article
+		// testingData[i][5] -> the expected Exception
+
+		final Object testingData[][] = {
+			{
+				"user1", false, null, "article1", "newspaper4", null
+			}, {
+				"user3", false, null, "article6", "newspaper4", IllegalArgumentException.class
+			}, {
+				"user3", false, null, "article7", "newspaper4", IllegalArgumentException.class
+			}, {
+				"user2", false, null, "article1", "newspaper4", IllegalArgumentException.class
+			}, {
+				"user1", true, null, "article1", "newspaper4", IllegalArgumentException.class
+			}, {
+				"admin", false, null, "article1", "newspaper4", IllegalArgumentException.class
+			}
+		};
+
+		Article mainArticle = null;
+		Article followUp = null;
+		Newspaper newspaper = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if ((String) testingData[i][3] != null)
+				mainArticle = this.articleService.findOne(this.getEntityId((String) testingData[i][3]));
+			else
+				mainArticle = null;
+
+			if ((String) testingData[i][2] != null)
+				followUp = this.articleService.findOne(this.getEntityId((String) testingData[i][2]));
+			else
+				followUp = null;
+
+			if ((String) testingData[i][4] != null)
+				newspaper = this.newspaperService.findOne(this.getEntityId((String) testingData[i][4]));
+			else
+				newspaper = null;
+
+			this.startTransaction();
+
+			this.templateWriteFollowUp((String) testingData[i][0], mainArticle, (Boolean) testingData[i][1], followUp, newspaper, (Class<?>) testingData[i][5]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+	}
+
+	protected void templateWriteFollowUp(final String actor, final Article mainArticle, final Boolean useProvided, final Article providedFollowUp, final Newspaper newspaper, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		// 1. Log in to the system as a User
+		this.authenticate(actor);
+
+		try {
+
+			// 2. List Published Newspapers (*)
+
+			// 3. Select one newspaper with an Article written by the User
+
+			Newspaper mainNewspaper = null;
+
+			if (mainArticle != null)
+				mainNewspaper = mainArticle.getNewspaper();
+
+			// 4. Write a Follow Up about it
+
+			final Article followUpToSave;
+
+			if (useProvided)
+				followUpToSave = providedFollowUp;
+			else {
+				followUpToSave = this.articleService.create(mainArticle);
+				followUpToSave.setTitle("Test Title");
+				followUpToSave.setBody("Test Body");
+				followUpToSave.setSummary("Test Summary");
+				followUpToSave.setContainsTaboo(false);
+				followUpToSave.setIsFinal(false);
+			}
+
+			if (followUpToSave != null)
+				followUpToSave.setNewspaper(newspaper);
+
+			final Article savedFollowUp = this.articleService.save(followUpToSave);
+
+			this.articleService.flush();
+
+			//5. Display the Newspaper of the followUp
+
+			final Newspaper newspaperAfter = this.newspaperService.findOne(newspaper.getId());
+
+			Assert.isTrue(newspaperAfter.getArticles().contains(savedFollowUp));
+			Assert.isTrue(!mainNewspaper.getArticles().contains(savedFollowUp));
+			Assert.isTrue(this.articleService.findOne(mainArticle.getId()).getFollowUps().contains(savedFollowUp));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
+	}
 }

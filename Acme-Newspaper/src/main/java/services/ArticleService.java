@@ -65,6 +65,9 @@ public class ArticleService {
 		final Collection<Article> followUps = new HashSet<Article>();
 		article.setFollowUps(followUps);
 
+		final Collection<String> pictures = new HashSet<String>();
+		article.setPictures(pictures);
+
 		return article;
 	}
 
@@ -90,6 +93,9 @@ public class ArticleService {
 
 		final Collection<Article> followUps = new HashSet<Article>();
 		article.setFollowUps(followUps);
+
+		final Collection<String> pictures = new HashSet<String>();
+		article.setPictures(pictures);
 
 		return article;
 	}
