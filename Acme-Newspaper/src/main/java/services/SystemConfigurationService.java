@@ -98,6 +98,11 @@ public class SystemConfigurationService {
 		return veredict.find();
 	}
 
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.systemConfigurationRepository.flush();
+	}
+
 	public SystemConfiguration getCurrentSystemConfiguration() {
 
 		//v1.0 - Implemented by JA
@@ -149,9 +154,13 @@ public class SystemConfigurationService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	public String deleteTabooWord(final String tabooWord) {
-		Assert.isTrue(this.getTabooWords().contains(tabooWord));
 		Assert.notNull(tabooWord);
+		Assert.isTrue(this.getTabooWords().contains(tabooWord));
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
 
 		final SystemConfiguration sysConfig = this.getCurrentSystemConfiguration();
 		Assert.notNull(sysConfig);
