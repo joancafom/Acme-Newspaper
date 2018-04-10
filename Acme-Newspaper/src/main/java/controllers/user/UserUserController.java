@@ -10,6 +10,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import services.ArticleService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Article;
+import domain.Chirp;
 import domain.User;
 
 @Controller
@@ -63,14 +65,19 @@ public class UserUserController extends AbstractController {
 			following = true;
 
 		Boolean mine = false;
-		if (principal.getId() == userId)
+		Collection<Chirp> myChirps = new ArrayList<Chirp>();
+
+		if (principal.getId() == userId) {
 			mine = true;
+			myChirps = userToDisplay.getChirps();
+		}
 
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publishedArticles", publishedArticles);
 		res.addObject("following", following);
 		res.addObject("mine", mine);
+		res.addObject("chirps", myChirps);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 

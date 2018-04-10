@@ -95,14 +95,14 @@
 		<security:intercept-url pattern="/user/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/administrator/register.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/display.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/user/list.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/user/list.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/user/register.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/user/user/display.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/user/user/display.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/follow.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/followers.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/following.do" access="hasRole('USER')" /> 
-		<security:intercept-url pattern="/user/user/list.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/user/user/register.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/user/user/list.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/user/user/register.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/unfollow.do" access="hasRole('USER')" /> 
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
