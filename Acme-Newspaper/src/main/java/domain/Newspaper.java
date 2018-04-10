@@ -89,7 +89,7 @@ public class Newspaper extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "newspaper")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "newspaper", orphanRemoval = true)
 	public Collection<Article> getArticles() {
 		return this.articles;
 	}
