@@ -1,0 +1,1 @@
+Este proyecto se ha copiado tras el commit de Jose Antonio "[UC-006] - Remove an Article".
