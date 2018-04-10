@@ -167,4 +167,109 @@ public class ArticleServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-006: Remove Article
+	 * 1. Log in to the system as an Administrator
+	 * 2. List the Newspapers (*)
+	 * 3. Select a Newspaper
+	 * 4. Select one of its articles and remove it
+	 * 
+	 * 
+	 * Involved REQs: 5.1, 7.1
+	 * 
+	 * Test Cases (6; 3+ 3-):
+	 * 
+	 * + 1) An Admin logs in a select a final article from a Newspaper to remove and successfully performs the operation
+	 * 
+	 * + 2) An Admin logs in a select a draft article from a Newspaper to remove and successfully performs the operation
+	 * 
+	 * + 3) An Admin logs in a select a followUp article from a Newspaper to remove and successfully performs the operation
+	 * 
+	 * - 4) A User logs in a select an article from a Newspaper to remove (only administrators can do so)
+	 * 
+	 * - 5) An Admin logs in a tries to remove a null article (not null)
+	 * 
+	 * - 6) An unauthenticated Actor tries to remove an article from a Newspaper (only administrators can do so)
+	 */
+
+	@Test
+	public void driverRemoveArticle() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> article to be removed.
+		// testingData[i][2] -> thrown exception.
+
+		final Object testingData[][] = {
+			{
+				"admin", "article1", null
+			}, {
+				"admin", "article6", null
+			}, {
+				"admin", "article4", null
+			}, {
+				"user1", "article1", IllegalArgumentException.class
+			}, {
+				"admin", null, IllegalArgumentException.class
+			}, {
+				null, "article1", IllegalArgumentException.class
+			}
+		};
+
+		Article article = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if ((String) testingData[i][1] != null)
+				article = this.articleService.findOne(this.getEntityId((String) testingData[i][1]));
+			else
+				article = null;
+
+			this.startTransaction();
+
+			this.templateRemoveArticle((String) testingData[i][0], article, (Class<?>) testingData[i][2]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+	}
+
+	protected void templateRemoveArticle(final String actor, final Article article, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		// 1. Log in to the system as an Administrator
+		this.authenticate(actor);
+
+		try {
+
+			// 2. List the Newspapers (*)
+
+			// 3. Select a Newspaper
+
+			Newspaper articleNewspaper = null;
+			if (article != null)
+				articleNewspaper = article.getNewspaper();
+
+			// 4. Select one of its articles and remove it (given in the parameters)
+
+			this.articleService.delete(article);
+
+			Assert.isTrue(!articleNewspaper.getArticles().contains(article));
+			Assert.isNull(this.articleService.findOne(article.getId()));
+
+			for (final Article followUp : article.getFollowUps())
+				Assert.isNull(followUp.getMainArticle());
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
+	}
 }

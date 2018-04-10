@@ -55,7 +55,7 @@ public class NewspaperServiceTest extends AbstractTest {
 	 * 
 	 * Involved REQs: 6.2, 4.5
 	 * 
-	 * Test Cases (9; 2+ 7-):
+	 * Test Cases (5; 2+ 3-):
 	 * 
 	 * + 1) A User selects one of his/her Newspapers with all the articles in final mode and successfully
 	 * publish it. Then he performs a search and the Newspaper is shown.
@@ -127,7 +127,7 @@ public class NewspaperServiceTest extends AbstractTest {
 	}
 
 	//v1.0 - Implemented by JA
-	public void templatePublishSearchNewspaper(final String publisher, final Newspaper newspaper, final String searcher, final Class<?> expected) {
+	protected void templatePublishSearchNewspaper(final String publisher, final Newspaper newspaper, final String searcher, final Class<?> expected) {
 
 		Class<?> caught = null;
 

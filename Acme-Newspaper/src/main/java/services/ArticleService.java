@@ -146,6 +146,11 @@ public class ArticleService {
 		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(admin);
 
+		for (final Article followUp : article.getFollowUps())
+			followUp.setMainArticle(null);
+
+		article.getNewspaper().getArticles().remove(article);
+
 		this.articleRepository.delete(article);
 	}
 

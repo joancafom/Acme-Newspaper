@@ -25,8 +25,13 @@
 <jstl:if test="${article.pictures[0]!=null}">
 	<img src="${article.pictures[0]}" style="display:block; margin-left: auto; margin-right:auto; width: 50%">
 </jstl:if>
+<div style="padding: 70px;">
+	<jstl:if test="${article.mainArticle ne null}">
+		<p><spring:message code="article.isFollowUp.message" /><a href="article/${actorWS}display.do?articleId=${article.mainArticle.id}"> <jstl:out value="${article.mainArticle.title}" /></a></p>
+	</jstl:if>
+	<p><jstl:out value="${article.body}"/></p>
 
-<p style="padding: 70px;"><jstl:out value="${article.body}"/></p>
+</div>
 <br><br>
 <jstl:forEach begin="1" end="${fn:length(article.pictures)}" items="${article.pictures}" var="picture">
 	<img src="${picture}" style="display:block; margin-left: auto; margin-right:auto; width: 50%"><br>

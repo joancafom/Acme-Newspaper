@@ -90,7 +90,9 @@
 	</security:authorize>
 </display:table>
 
-<jstl:if test="${newspaper.publicationDate eq null}">
-	<h4><a href="article/user/create.do?entityId=${newspaper.id}"><spring:message code="article.create"/></a></h4>
-</jstl:if>
+<security:authorize access="hasRole('USER')">
+	<jstl:if test="${newspaper.publicationDate eq null}">
+		<h4><a href="article/user/create.do?entityId=${newspaper.id}"><spring:message code="article.create"/></a></h4>
+	</jstl:if>
+</security:authorize>
 
