@@ -55,12 +55,14 @@
 
 
 <security:authorize access="hasRole('USER')">
-	<jstl:if test="${following}">
-		<h2><a href="user/user/unfollow.do?userId=<jstl:out value="${user.id}" />"><spring:message code="user.unfollow" /></a></h2>
-	</jstl:if>
+	<jstl:if test="${!mine}">
+		<jstl:if test="${following}">
+			<h2><a href="user/user/unfollow.do?userId=<jstl:out value="${user.id}" />"><spring:message code="user.unfollow" /></a></h2>
+		</jstl:if>
 	
-	<jstl:if test="${!following}">
-		<h2><a href="user/user/follow.do?userId=<jstl:out value="${user.id}" />"><spring:message code="user.follow" /></a></h2>
+		<jstl:if test="${!following}">
+			<h2><a href="user/user/follow.do?userId=<jstl:out value="${user.id}" />"><spring:message code="user.follow" /></a></h2>
+		</jstl:if>
 	</jstl:if>
 </security:authorize>
 

@@ -62,10 +62,15 @@ public class UserUserController extends AbstractController {
 		if (principal.getFollowees().contains(userToDisplay))
 			following = true;
 
+		Boolean mine = false;
+		if (principal.getId() == userId)
+			mine = true;
+
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publishedArticles", publishedArticles);
 		res.addObject("following", following);
+		res.addObject("mine", mine);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 
