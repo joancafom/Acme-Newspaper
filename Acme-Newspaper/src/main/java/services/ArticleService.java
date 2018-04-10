@@ -151,6 +151,31 @@ public class ArticleService {
 
 	//Other Business Methods -------------------
 
+	/* v1.0 - josembell */
+	public Collection<Article> findPublishedByKeyword(final String keyword) {
+		return this.articleRepository.findPublishedByKeyword(keyword);
+	}
+
+	// v1.0 - Implemented by JA
+	public Collection<Article> findTabooedArticles() {
+		return this.articleRepository.findTabooedArticles();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.articleRepository.flush();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getAllFinalByNewspaper(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+
+		final Collection<Article> res = this.articleRepository.getAllFinalByNewspaperId(newspaper.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
 	//v1.0 - Implemented by JA
 	public Collection<Article> getPublisedArticles(final User writer) {
 
@@ -169,26 +194,6 @@ public class ArticleService {
 		Assert.notNull(newspaper);
 
 		final Collection<Article> res = this.articleRepository.unpublishedArticlesByWriterNewspaperId(writer.getId(), newspaper.getId());
-		Assert.notNull(res);
-
-		return res;
-	}
-
-	/* v1.0 - josembell */
-	public Collection<Article> findPublishedByKeyword(final String keyword) {
-		return this.articleRepository.findPublishedByKeyword(keyword);
-	}
-
-	// v1.0 - Implemented by JA
-	public Collection<Article> findTabooedArticles() {
-		return this.articleRepository.findTabooedArticles();
-	}
-
-	// v1.0 - Implemented by Alicia
-	public Collection<Article> getAllFinalByNewspaper(final Newspaper newspaper) {
-		Assert.notNull(newspaper);
-
-		final Collection<Article> res = this.articleRepository.getAllFinalByNewspaperId(newspaper.getId());
 		Assert.notNull(res);
 
 		return res;

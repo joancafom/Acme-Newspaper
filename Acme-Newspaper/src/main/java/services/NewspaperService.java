@@ -151,6 +151,11 @@ public class NewspaperService {
 		return this.newspaperRepository.findPublishedByKeyword(keyword);
 	}
 
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.newspaperRepository.flush();
+	}
+
 	//v2.0 - Implemented by JA
 	public Newspaper publish(final Newspaper newspaperToPublish) {
 
