@@ -10,6 +10,8 @@
 
 package controllers.administrator;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -67,4 +69,18 @@ public class ChirpAdministratorController extends AbstractController {
 
 		return res;
 	}
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		final ModelAndView result;
+		final Collection<Chirp> chirps = this.chirpService.findTabooedChirps();
+
+		result = new ModelAndView("chirp/stream");
+		result.addObject("chirps", chirps);
+		result.addObject("actorWS", "administrator/");
+
+		return result;
+	}
+
 }

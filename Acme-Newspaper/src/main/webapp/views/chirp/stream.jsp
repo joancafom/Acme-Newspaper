@@ -17,11 +17,16 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
-
-<a href="chirp/user/create.do"><spring:message code="chirp.create"/></a>
+<security:authorize access="hasRole('USER')">
+	<a href="chirp/user/create.do"><spring:message code="chirp.create"/></a>
+</security:authorize>
 <hr>
 <jstl:forEach var="chirp" items="${chirps}">
-	<p>[<acme:dateFormat code="date.format2" value="${chirp.moment}"/>] <a href="user/user/display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a> <spring:message code="chirp.says"/>: ${chirp.title}</p><br>
+	<p>[<acme:dateFormat code="date.format2" value="${chirp.moment}"/>] <a href="user/${actorWS}display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a> <spring:message code="chirp.says"/>: ${chirp.title}</p><br>
 	<p>${chirp.description}</p>
+	<br>
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<a href="chirp/administrator/delete.do?chirpId=${chirp.id}"><spring:message code="chirp.delete"/></a>
+	</security:authorize>
 	<hr>
 </jstl:forEach>

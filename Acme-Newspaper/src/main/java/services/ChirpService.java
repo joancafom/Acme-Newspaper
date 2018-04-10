@@ -97,10 +97,16 @@ public class ChirpService {
 		this.chirpRepository.flush();
 	}
 
+	/* v1.0 - josembell */
 	public Collection<Chirp> getStream() {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
 		return this.chirpRepository.getStream(user.getId());
+	}
+
+	/* v1.0 - josembell */
+	public Collection<Chirp> findTabooedChirps() {
+		return this.chirpRepository.findTabooedChirps();
 	}
 
 }

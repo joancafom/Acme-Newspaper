@@ -14,4 +14,7 @@ public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 
 	@Query("select c from User u1 join u1.followees u2 join u2.chirps c where u1.id=?1 order by c.moment desc")
 	Collection<Chirp> getStream(int userId);
+
+	@Query("select c from Chirp c where c.containsTaboo = true")
+	Collection<Chirp> findTabooedChirps();
 }

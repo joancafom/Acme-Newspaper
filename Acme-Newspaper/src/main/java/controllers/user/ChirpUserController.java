@@ -44,6 +44,7 @@ public class ChirpUserController extends AbstractController {
 
 		result = new ModelAndView("chirp/stream");
 		result.addObject("chirps", chirps);
+		result.addObject("actorWS", "user/");
 
 		return result;
 	}
