@@ -90,12 +90,17 @@ public class ChirpService {
 		this.chirpRepository.delete(chirpToDelete);
 	}
 
+	//Other Business Methods ---------
+
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.chirpRepository.flush();
+	}
+
 	public Collection<Chirp> getStream() {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
 		return this.chirpRepository.getStream(user.getId());
 	}
-
-	//Other Business Methods ---------
 
 }
