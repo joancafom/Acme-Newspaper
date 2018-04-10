@@ -65,12 +65,10 @@ public class UserUserController extends AbstractController {
 			following = true;
 
 		Boolean mine = false;
-		Collection<Chirp> myChirps = new ArrayList<Chirp>();
+		final Collection<Chirp> myChirps = new ArrayList<Chirp>(userToDisplay.getChirps());
 
-		if (principal.getId() == userId) {
+		if (principal.getId() == userId)
 			mine = true;
-			myChirps = userToDisplay.getChirps();
-		}
 
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);

@@ -86,17 +86,13 @@
 	</display:column>
 </display:table>
 
+<h3><spring:message code="user.chirps"/></h3>
+<display:table name="chirps" id="chirp" requestURI="user/${actorWS}display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+	
+	<display:column titleKey="chirp.moment">
+		<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
+	</display:column>
+	<display:column titleKey="chirp.title" property="title" style="width:30%" />
+	<display:column titleKey="chirp.moment" property="moment" style="width:30%" />
 
-
-<jstl:if test="${mine}">
-	<h3><spring:message code="user.chirps"/></h3>
-	<display:table name="chirps" id="chirp" requestURI="user/user/display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
-		
-		<display:column titleKey="chirp.moment">
-			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
-		</display:column>
-		<display:column titleKey="chirp.title" property="title" style="width:30%" />
-		<display:column titleKey="chirp.moment" property="moment" style="width:30%" />
-
-	</display:table>
-</jstl:if>
+</display:table>
