@@ -124,14 +124,14 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 
 		try {
 
-			// 3. Remove the taboo word
+			// 2. Remove the taboo word
 
 			this.systemConfigurationService.deleteTabooWord(tabooWord);
 
 			// Flush
 			this.systemConfigurationService.flush();
 
-			// 2. List taboo Articles/Newspapers/Chirps
+			// 3. List taboo Articles/Newspapers/Chirps
 
 			final Collection<Article> tabooArticles = this.articleService.findTabooedArticles();
 			final Collection<Newspaper> tabooNewspapers = this.newspaperService.getTabooed();

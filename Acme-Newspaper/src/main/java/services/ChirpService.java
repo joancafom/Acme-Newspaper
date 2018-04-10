@@ -80,9 +80,11 @@ public class ChirpService {
 	}
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
 	public void delete(final Chirp chirpToDelete) {
 
 		Assert.notNull(chirpToDelete);
+		Assert.isTrue(this.chirpRepository.exists(chirpToDelete.getId()));
 
 		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(admin);
