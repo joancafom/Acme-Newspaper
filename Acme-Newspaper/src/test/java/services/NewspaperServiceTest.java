@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import security.LoginService;
 import utilities.AbstractTest;
 import domain.Article;
 import domain.Newspaper;
@@ -186,5 +188,89 @@ public class NewspaperServiceTest extends AbstractTest {
 
 		this.checkExceptions(expected, caught);
 
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-002] - List and Create a Newspaper
+	 * 1. Log In to the system
+	 * 2. List Published Newspapers
+	 * 3. Log In to the system as an user
+	 * 4. Create a new Newspaper
+	 * 5. List Unpublished Newspapers
+	 * 
+	 * REQ: 2, 4.2, 6.1
+	 */
+	@Test
+	public void driverListAndCreateNewspaper() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un usuario identificado crea un periodico */
+				"user1", "Titulo", "Descripción", "http://clasedetecnologia.es/wp-content/uploads/2017/02/Test-Computer-Key-by-Stuart-Miles.jpg", null
+			}, {
+				/* - 2) Un usuario no identificado crea un periodico */
+				null, "Titulo", "Descripción", "http://clasedetecnologia.es/wp-content/uploads/2017/02/Test-Computer-Key-by-Stuart-Miles.jpg", IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario identificado crea un periódico sin título */
+				"user1", "", "Descripción", "http://clasedetecnologia.es/wp-content/uploads/2017/02/Test-Computer-Key-by-Stuart-Miles.jpg", ConstraintViolationException.class
+			}, {
+				/* - 4) Un usuario identificado crea un periódico sin descripción */
+				"user1", "Titulo", "", "http://clasedetecnologia.es/wp-content/uploads/2017/02/Test-Computer-Key-by-Stuart-Miles.jpg", ConstraintViolationException.class
+			}, {
+				/* - 5) Un administrador intenta crear un periódico */
+				"admin", "Título", "Descripción", "http://clasedetecnologia.es/wp-content/uploads/2017/02/Test-Computer-Key-by-Stuart-Miles.jpg", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			this.startTransaction();
+			//System.out.println("Test" + i);
+			this.templateListAndCreateNewspaper((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+			//System.out.println("Test" + i + " ok");
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	protected void templateListAndCreateNewspaper(final String username, final String title, final String description, final String picture, final Class<?> expected) {
+		Class<?> caught = null;
+
+		/* 1. Listar los periódicos publicados */
+		final Collection<Newspaper> publishedNewspapers = this.newspaperService.findAllPublished();
+		final int numPublishedNewspapers = publishedNewspapers.size();
+
+		/* 2. Loggerse como usuario */
+		this.authenticate(username);
+
+		try {
+			final Collection<Newspaper> unpublishedNewspapers = this.newspaperService.findAllUnpublished();
+			final int numUnpublishedNewspapers = unpublishedNewspapers.size();
+
+			/* 3. Crear un nuevo periódico */
+			final Newspaper newspaper = this.newspaperService.create();
+			newspaper.setTitle(title);
+			newspaper.setDescription(description);
+			newspaper.setPicture(picture);
+
+			final Newspaper savedNewspaper = this.newspaperService.save(newspaper);
+			final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+			Assert.isTrue(user.getNewspapers().contains(savedNewspaper));
+
+			final Collection<Newspaper> unpublishedNewspapers2 = this.newspaperService.findAllUnpublished();
+			final int numUnpublishedNewspapers2 = unpublishedNewspapers2.size();
+			final Collection<Newspaper> publishedNewspapers2 = this.newspaperService.findAllPublished();
+			final int numPublishedNewspapers2 = publishedNewspapers2.size();
+
+			Assert.isTrue(numUnpublishedNewspapers + 1 == numUnpublishedNewspapers2);
+			Assert.isTrue(numPublishedNewspapers == numPublishedNewspapers2);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
 	}
 }
