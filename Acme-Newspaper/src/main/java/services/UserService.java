@@ -133,6 +133,11 @@ public class UserService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.userRepository.flush();
+	}
+
+	// v1.0 - Implemented by Alicia
 	public void follow(final User user) {
 		Assert.notNull(user);
 
@@ -142,7 +147,7 @@ public class UserService {
 		Assert.isTrue(!principal.getFollowees().contains(user));
 
 		principal.getFollowees().add(user);
-		//user.getFollowers().add(principal);
+
 		this.userRepository.save(user);
 	}
 
@@ -182,7 +187,7 @@ public class UserService {
 		Assert.isTrue(principal.getFollowees().contains(user));
 
 		principal.getFollowees().remove(user);
-		//user.getFollowers().remove(principal);
+
 		this.userRepository.save(user);
 	}
 }
