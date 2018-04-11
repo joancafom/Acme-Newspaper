@@ -43,6 +43,9 @@ public class AdministratorServiceTest extends AbstractTest {
 	@Autowired
 	private NewspaperService		newspaperService;
 
+	@Autowired
+	private articleService 			articleService;
+
 
 	/*
 	 * v1.0 - josembell
