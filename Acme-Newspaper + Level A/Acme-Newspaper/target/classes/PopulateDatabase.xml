@@ -189,11 +189,11 @@
 		<property name="surnames" value="Meyer" />
 		<property name="email" value="lena@gmail.com" />
 		<property name="userAccount" ref="userAccount7"/>
-		<property name="newspapers">
+		<property name="subscriptions">
 			<list>
-				<ref bean="newspaper2"/>
-				<ref bean="newspaper4"/>
-				<ref bean="newspaper6"/>
+				<ref bean="subscription1"/>
+				<ref bean="subscription2"/>
+				<ref bean="subscription3"/>
 			</list>
 		</property>
 	</bean>
@@ -203,7 +203,7 @@
 		<property name="surnames" value="Tesoro" />
 		<property name="email" value="laura@gmail.com" />
 		<property name="userAccount" ref="userAccount8"/>
-		<property name="newspapers">
+		<property name="subscriptions">
 			<list>
 			</list>
 		</property>
@@ -214,10 +214,10 @@
 		<property name="surnames" value="Guerra" />
 		<property name="email" value="anawar@gmail.com" />
 		<property name="userAccount" ref="userAccount9"/>
-		<property name="newspapers">
+		<property name="subscriptions">
 			<list>
-				<ref bean="newspaper2"/>
-				<ref bean="newspaper6"/>
+				<ref bean="subscription4"/>
+				<ref bean="subscription5"/>
 			</list>
 		</property>
 	</bean>
@@ -227,9 +227,9 @@
 		<property name="surnames" value="Talhaoui" />
 		<property name="email" value="loreen@gmail.com" />
 		<property name="userAccount" ref="userAccount10"/>
-		<property name="newspapers">
+		<property name="subscriptions">
 			<list>
-				<ref bean="newspaper6"/>
+				<ref bean="subscription6"/>
 			</list>
 		</property>
 	</bean>
@@ -239,9 +239,9 @@
 		<property name="surnames" value="De Forest" />
 		<property name="email" value="emmelie@gmail.com" />
 		<property name="userAccount" ref="userAccount11"/>
-		<property name="newspapers">
+		<property name="subscriptions">
 			<list>
-				<ref bean="newspaper4"/>
+				<ref bean="subscription7"/>
 			</list>
 		</property>
 	</bean>
@@ -251,12 +251,68 @@
 		<property name="surnames" value="Mercy" />
 		<property name="email" value="madame@gmail.com" />
 		<property name="userAccount" ref="userAccount12"/>
-		<property name="newspapers">
+		<property name="subscriptions">
 			<list>
-				<ref bean="newspaper4"/>
-				<ref bean="newspaper6"/>
+				<ref bean="subscription8"/>
+				<ref bean="subscription9"/>
 			</list>
 		</property>
+	</bean>
+	
+	<!-- Subscription -->
+	
+	<bean id="subscription1" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard1"/>
+		<property name="subscriber" ref="customer1"/>
+		<property name="newspaper" ref="newspaper2"/>
+	</bean>
+	
+	<bean id="subscription2" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard1"/>
+		<property name="subscriber" ref="customer1"/>
+		<property name="newspaper" ref="newspaper4"/>
+	</bean>
+	
+	<bean id="subscription3" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard2"/>
+		<property name="subscriber" ref="customer1"/>
+		<property name="newspaper" ref="newspaper6"/>
+	</bean>
+	
+	<bean id="subscription4" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard2"/>
+		<property name="subscriber" ref="customer3"/>
+		<property name="newspaper" ref="newspaper2"/>
+	</bean>
+	
+	<bean id="subscription5" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard2"/>
+		<property name="subscriber" ref="customer3"/>
+		<property name="newspaper" ref="newspaper6"/>
+	</bean>
+	
+	<bean id="subscription6" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard1"/>
+		<property name="subscriber" ref="customer4"/>
+		<property name="newspaper" ref="newspaper6"/>
+	</bean>
+	
+	<bean id="subscription7" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard1"/>
+		<property name="subscriber" ref="customer5"/>
+		<property name="newspaper" ref="newspaper4"/>
+	</bean>
+	
+	<bean id="subscription8" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard2"/>
+		<property name="subscriber" ref="customer6"/>
+		<property name="newspaper" ref="newspaper4"/>
+	</bean>
+	
+	<bean id="subscription9" class="domain.Subscription">
+		<property name="creditCard" ref="creditCard1"/>
+		<property name="subscriber" ref="customer6"/>
+		<property name="newspaper" ref="newspaper6"/>
 	</bean>
 	
 	<!-- CreditCard -->
@@ -876,10 +932,6 @@
 				<ref bean="article10"/>
 			</list>
 		</property>
-		<property name="subscribers">
-			<list>
-			</list>
-		</property>
 	</bean>
 	
 	<bean id="newspaper2" class="domain.Newspaper">
@@ -900,12 +952,6 @@
 				<ref bean="article11"/>
 			</list>
 		</property>
-		<property name="subscribers">
-			<list>
-				<ref bean="customer1"/>
-				<ref bean="customer3"/>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="newspaper3" class="domain.Newspaper">
@@ -920,10 +966,6 @@
 				<ref bean="article7"/>
 			</list>
 		</property>
-		<property name="subscribers">
-			<list>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="newspaper4" class="domain.Newspaper">
@@ -934,13 +976,6 @@
 		<property name="isPublic" value="false"/>
 		<property name="articles">
 			<list>
-			</list>
-		</property>
-		<property name="subscribers">
-			<list>
-				<ref bean="customer1"/>
-				<ref bean="customer5"/>
-				<ref bean="customer6"/>
 			</list>
 		</property>
 	</bean>
@@ -963,10 +998,6 @@
 				<ref bean="article9"/>
 			</list>
 		</property>
-		<property name="subscribers">
-			<list>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="newspaper6" class="domain.Newspaper">
@@ -983,14 +1014,6 @@
 		<property name="articles">
 			<list>
 				<ref bean="article5"/>
-			</list>
-		</property>
-		<property name="subscribers">
-			<list>
-				<ref bean="customer1"/>
-				<ref bean="customer3"/>
-				<ref bean="customer4"/>
-				<ref bean="customer6"/>
 			</list>
 		</property>
 	</bean>

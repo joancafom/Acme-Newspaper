@@ -8,7 +8,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -95,8 +94,7 @@ public class Newspaper extends DomainEntity {
 
 	// Relationships ---------------------------------------------
 
-	private Collection<Article>		articles;
-	private Collection<Customer>	subscribers;
+	private Collection<Article>	articles;
 
 
 	@NotNull
@@ -106,19 +104,7 @@ public class Newspaper extends DomainEntity {
 		return this.articles;
 	}
 
-	@NotNull
-	@Valid
-	@ManyToMany(mappedBy = "newspapers")
-	public Collection<Customer> getSubscribers() {
-		return this.subscribers;
-	}
-
 	public void setArticles(final Collection<Article> articles) {
 		this.articles = articles;
 	}
-
-	public void setSubscribers(final Collection<Customer> subscribers) {
-		this.subscribers = subscribers;
-	}
-
 }
