@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Article;
 import domain.Newspaper;
 import domain.User;
 
@@ -44,7 +46,7 @@ public class AdministratorServiceTest extends AbstractTest {
 	private NewspaperService		newspaperService;
 
 	@Autowired
-	private articleService 			articleService;
+	private ArticleService			articleService;
 
 
 	/*
@@ -662,7 +664,7 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	}
 
-		/*
+	/*
 	 * v1.0 - josembell
 	 * [UC-016] - Display Dashboard
 	 * 

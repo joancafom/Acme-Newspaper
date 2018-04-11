@@ -149,4 +149,94 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+	/*
+	 * v1.0 - josembell
+	 * [UC-014] - List and Add a Taboo Word
+	 * 
+	 * REQ: 17.1, 17.2, 17.3
+	 */
+	@Test
+	public void driverListAndAddTabooWord() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador añade una nueva taboo word correctamente */
+				"admin", "chocolate", "newspaper1", "chirp1", "article1", null
+			}, {
+				/* - 2) Un usuario no identificado añade una taboo word */
+				null, "chocolate", "newspaper1", "chirp1", "article1", IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario añade una taboo word */
+				"user1", "chocolate", "newspaper1", "chirp1", "article1", IllegalArgumentException.class
+			}, {
+				/* - 4) Un adiminstrador añade una taboo word que contiene | */
+				"admin", "|chocolate", "newspaper1", "chirp1", "article1", IllegalArgumentException.class
+			}, {
+				/* - 5) Un administrador añade una taboo word null */
+				"admin", null, "newspaper1", "chirp1", "article1", IllegalArgumentException.class
+			}, {
+				/* - 6) Un administrador añade una taboo word que ya estaba incluida */
+				"admin", "sex", "newspaper1", "chirp1", "article1", IllegalArgumentException.class
+			}, {
+				/* - 7) Un administrador añade una taboo word vacia */
+				"admin", "", "newspaper1", "chirp1", "article1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			final String tabooWord = (String) testingData[i][1];
+
+			final Article article = this.articleService.findOne(super.getEntityId((String) testingData[i][4]));
+			final Newspaper newspaper = this.newspaperService.findOne(super.getEntityId((String) testingData[i][2]));
+			final Chirp chirp = this.chirpService.findOne(super.getEntityId((String) testingData[i][3]));
+
+			if (tabooWord != null) {
+				article.setTitle(tabooWord);
+				newspaper.setTitle(tabooWord);
+				chirp.setTitle(tabooWord);
+			}
+
+			this.startTransaction();
+			//System.out.println("test" + i);
+			this.templateListAndAddTabooWord((String) testingData[i][0], (String) testingData[i][1], newspaper, article, chirp, (Class<?>) testingData[i][5]);
+			//System.out.println("test" + i + " ok");
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	private void templateListAndAddTabooWord(final String username, final String tabooWord, final Newspaper newspaper, final Article article, final Chirp chirp, final Class<?> expected) {
+		Class<?> caught = null;
+
+		// 1. Log in to the system
+		super.authenticate(username);
+
+		try {
+
+			// 2. Add the taboo word
+
+			this.systemConfigurationService.addTabooWord(tabooWord);
+
+			// Flush
+			this.systemConfigurationService.flush();
+
+			// 3. List taboo Articles/Newspapers/Chirps
+
+			final Collection<Article> tabooArticles = this.articleService.findTabooedArticles();
+			final Collection<Chirp> tabooChirps = this.chirpService.findTabooedChirps();
+			final Collection<Newspaper> tabooNewspapers = this.newspaperService.getTabooed();
+
+			Assert.isTrue(tabooArticles.contains(article));
+			Assert.isTrue(tabooNewspapers.contains(newspaper));
+			Assert.isTrue(tabooChirps.contains(chirp));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
+	}
 }
