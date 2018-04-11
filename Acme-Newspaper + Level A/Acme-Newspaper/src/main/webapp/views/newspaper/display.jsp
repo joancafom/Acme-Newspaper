@@ -33,6 +33,10 @@
 }
 </style>
 
+<jstl:if test="${!newspaper.isPublic}">
+	<h1 style="text-align:center;color:blue"><strong><spring:message code="newspaper.privateMessage"/></strong></h1>
+</jstl:if>
+
 <h1 style="text-align:center"><strong><jstl:out value="${newspaper.title}"/></strong></h1>
 <h3 style="text-align:center"><jstl:out value="${newspaper.description}"/></h3><br>
 <img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
@@ -58,7 +62,12 @@
 
 <display:table name="articles" id="article" requestURI="article/${actorWS}list.do" pagesize="20" class="displaytag" style="width:100%">
 	<display:column titleKey="newspaper.article.title" style="width:30%">
-		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		<jstl:if test="${newspaper.isPublic or suscriber}">
+			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		</jstl:if>
+		<jstl:if test="${!newspaper.isPublic and !suscriber}">
+			<jstl:out value="${article.title}"/>
+		</jstl:if>
 	</display:column>
 	<display:column titleKey="newspaper.article.writer" style="width:10%">
 		<a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>

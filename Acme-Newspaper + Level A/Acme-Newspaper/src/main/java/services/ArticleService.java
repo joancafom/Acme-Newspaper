@@ -18,6 +18,7 @@ import repositories.ArticleRepository;
 import security.LoginService;
 import domain.Administrator;
 import domain.Article;
+import domain.Customer;
 import domain.Newspaper;
 import domain.User;
 
@@ -246,6 +247,38 @@ public class ArticleService {
 		res.setWriter(writer);
 
 		this.validator.validate(res, binding);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getPublishedAndPublicByWriter(final User user) {
+		Assert.notNull(user);
+
+		final Collection<Article> res = this.articleRepository.publishedAndPublicByWriterId(user.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getSuscribedByWriterAndCustomer(final User user, final Customer customer) {
+		Assert.notNull(user);
+		Assert.notNull(customer);
+
+		final Collection<Article> res = this.articleRepository.suscribedByWriterAndCustomerId(user.getId(), customer.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getCustomerSearchResults(final String keyword, final Customer customer) {
+		Assert.notNull(keyword);
+		Assert.notNull(customer);
+
+		final Collection<Article> res = this.articleRepository.customerSearchResults(keyword, customer.getId());
+		Assert.notNull(res);
 
 		return res;
 	}

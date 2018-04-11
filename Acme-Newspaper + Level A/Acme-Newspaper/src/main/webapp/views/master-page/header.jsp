@@ -53,6 +53,17 @@ window.onload = function(){
 		</ul>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('CUSTOMER')">
+    	<ul class="nav navbar-nav">
+    		<li><a href="user/customer/list.do"><spring:message code="master.page.user.list"/></a></li>
+			<li><a href="newspaper/customer/list.do"><spring:message code="master.page.newspapers"/></a></li>
+			<li ><a href="article/customer/search.do"><spring:message code="master.page.searchArticles"/></a></li>
+			<li><a href="newspaper/customer/search.do"><spring:message code="master.page.searchNewspapers"/></a></
+
+			<li><a><security:authentication property="principal.username" /></a></li>
+		</ul>
+	</security:authorize>
+	
 	<security:authorize access="hasRole('USER')">
     	<ul class="nav navbar-nav">
     		
