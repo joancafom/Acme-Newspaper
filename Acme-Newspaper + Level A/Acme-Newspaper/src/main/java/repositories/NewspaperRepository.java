@@ -26,4 +26,8 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	// v1.0 - Implemented by Alicia
 	@Query("select n from Newspaper n where n.containsTaboo = true")
 	Collection<Newspaper> findTabooed();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select n from Newspaper n where n.containsTaboo = false")
+	Collection<Newspaper> findNotTabooed();
 }

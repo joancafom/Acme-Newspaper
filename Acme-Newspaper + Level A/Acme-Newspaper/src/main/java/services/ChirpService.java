@@ -79,6 +79,20 @@ public class ChirpService {
 		return savedChirp;
 	}
 
+	// v1.0 - Implemented by Alicia
+	public Chirp saveTaboo(final Chirp chirp) {
+		Assert.notNull(chirp);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		//Taboo check
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(chirp.getTitle() + " " + chirp.getDescription());
+		chirp.setContainsTaboo(containsTabooVeredict);
+
+		return this.chirpRepository.save(chirp);
+	}
 	//v1.0 - Implemented by JA
 	// v2.0 - Updated by Alicia
 	public void delete(final Chirp chirpToDelete) {
@@ -109,6 +123,11 @@ public class ChirpService {
 	/* v1.0 - josembell */
 	public Collection<Chirp> findTabooedChirps() {
 		return this.chirpRepository.findTabooedChirps();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Chirp> findNotTabooedChirps() {
+		return this.chirpRepository.findNotTabooedChirps();
 	}
 
 }

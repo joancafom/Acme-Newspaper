@@ -32,4 +32,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.containsTaboo = true")
 	Collection<Article> findTabooedArticles();
 
+	// v1.0 - Implemented by Alicia
+	@Query("select a from Article a where a.containsTaboo = false")
+	Collection<Article> findNotTabooedArticles();
+
 }

@@ -26,14 +26,26 @@
 		<bean class="converters.ActorToStringConverter"/>
 		<bean class="converters.StringToActorConverter"/>
 		
+		<bean class="converters.AdministratorToStringConverter"/>
+		<bean class="converters.StringToAdministratorConverter"/>
+		
 		<bean class="converters.ArticleToStringConverter" /> 
   		<bean class="converters.StringToArticleConverter" />
   		
   		<bean class="converters.ChirpToStringConverter" /> 
   		<bean class="converters.StringToChirpConverter" />
   		
+  		<bean class="converters.CreditCardToStringConverter" /> 
+  		<bean class="converters.StringToCreditCardConverter" />
+  		
+  		<bean class="converters.CustomerToStringConverter" /> 
+  		<bean class="converters.StringToCustomerConverter" />
+  		
   		<bean class="converters.NewspaperToStringConverter" /> 
   		<bean class="converters.StringToNewspaperConverter" /> 
+  		
+  		<bean class="converters.SystemConfigurationToStringConverter" /> 
+  		<bean class="converters.StringToSystemConfigurationConverter" /> 
 		
 		<bean class="converters.UserAccountToStringConverter"/>
 		<bean class="converters.StringToUserAccountConverter"/>

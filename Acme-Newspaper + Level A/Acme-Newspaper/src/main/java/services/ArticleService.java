@@ -138,6 +138,20 @@ public class ArticleService {
 		return this.articleRepository.save(article);
 	}
 
+	// v1.0 - Implemented by Alicia
+	public Article saveTaboo(final Article article) {
+		Assert.notNull(article);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(article.getTitle() + " " + article.getSummary() + " " + article.getBody());
+		article.setContainsTaboo(containsTabooVeredict);
+
+		return this.articleRepository.save(article);
+	}
+
 	// v1.0 - Implemented by JA
 	public void delete(final Article article) {
 
@@ -159,6 +173,11 @@ public class ArticleService {
 	/* v1.0 - josembell */
 	public Collection<Article> findPublishedByKeyword(final String keyword) {
 		return this.articleRepository.findPublishedByKeyword(keyword);
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> findNotTabooedArticles() {
+		return this.articleRepository.findNotTabooedArticles();
 	}
 
 	// v1.0 - Implemented by JA

@@ -17,6 +17,7 @@ import repositories.NewspaperRepository;
 import security.LoginService;
 import domain.Administrator;
 import domain.Article;
+import domain.Customer;
 import domain.Newspaper;
 import domain.User;
 
@@ -46,11 +47,13 @@ public class NewspaperService {
 
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	public Newspaper create() {
 		//final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		final Newspaper newspaper = new Newspaper();
 
 		newspaper.setArticles(new HashSet<Article>());
+		newspaper.setSubscribers(new HashSet<Customer>());
 
 		return newspaper;
 	}
@@ -94,6 +97,20 @@ public class NewspaperService {
 
 		return savedNewspaper;
 
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Newspaper saveTaboo(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(newspaper.getTitle() + " " + newspaper.getDescription());
+		newspaper.setContainsTaboo(containsTabooVeredict);
+
+		return this.newspaperRepository.save(newspaper);
 	}
 
 	// v1.0 - Implemented by JA
@@ -188,13 +205,16 @@ public class NewspaperService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	public Newspaper reconstruct(final Newspaper newspaper, final BindingResult binding) {
 		if (newspaper.getId() == 0) {
 			newspaper.setArticles(new HashSet<Article>());
+			newspaper.setSubscribers(new HashSet<Customer>());
 			this.validator.validate(newspaper, binding);
 		} else {
 			final Newspaper oldNewspaper = this.findOne(newspaper.getId());
 			newspaper.setArticles(oldNewspaper.getArticles());
+			newspaper.setSubscribers(oldNewspaper.getSubscribers());
 			this.validator.validate(newspaper, binding);
 		}
 		return newspaper;
@@ -205,5 +225,10 @@ public class NewspaperService {
 	// v1.0 - Implemented by Alicia
 	public Collection<Newspaper> getTabooed() {
 		return this.newspaperRepository.findTabooed();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Newspaper> getNotTabooed() {
+		return this.newspaperRepository.findNotTabooed();
 	}
 }

@@ -16,6 +16,9 @@ import org.springframework.util.Assert;
 import repositories.SystemConfigurationRepository;
 import security.LoginService;
 import domain.Administrator;
+import domain.Article;
+import domain.Chirp;
+import domain.Newspaper;
 import domain.SystemConfiguration;
 
 @Service
@@ -27,8 +30,19 @@ public class SystemConfigurationService {
 	@Autowired
 	private SystemConfigurationRepository	systemConfigurationRepository;
 
+	// Supporting Services -----------------------------------
+
 	@Autowired
 	private AdministratorService			adminService;
+
+	@Autowired
+	private ArticleService					articleService;
+
+	@Autowired
+	private ChirpService					chirpService;
+
+	@Autowired
+	private NewspaperService				newspaperService;
 
 
 	/* CRUD Methods */
@@ -87,15 +101,21 @@ public class SystemConfigurationService {
 
 	//v1.0 - Implemented by JA
 	public Boolean containsTaboo(final String testString) {
+		Boolean res;
 
 		Assert.notNull(testString);
 		final SystemConfiguration sysConfig = this.getCurrentSystemConfiguration();
 		Assert.notNull(sysConfig);
 
 		final Pattern p = Pattern.compile(sysConfig.getTabooWords().toLowerCase());
-		final Matcher veredict = p.matcher(testString.toLowerCase());
 
-		return veredict.find();
+		if (p.toString() != "") {
+			final Matcher veredict = p.matcher(testString.toLowerCase());
+			res = veredict.find();
+		} else
+			res = false;
+
+		return res;
 	}
 
 	// v1.0 - Implemented by Alicia
@@ -177,6 +197,19 @@ public class SystemConfigurationService {
 
 		sysConfig.setTabooWords(tabooWords);
 		this.save(sysConfig);
+
+		final Collection<Chirp> tabooChirps = this.chirpService.findTabooedChirps();
+		final Collection<Article> tabooArticles = this.articleService.findTabooedArticles();
+		final Collection<Newspaper> tabooNewspapers = this.newspaperService.getTabooed();
+
+		for (final Chirp chirp : tabooChirps)
+			this.chirpService.saveTaboo(chirp);
+
+		for (final Article article : tabooArticles)
+			this.articleService.saveTaboo(article);
+
+		for (final Newspaper newspaper : tabooNewspapers)
+			this.newspaperService.saveTaboo(newspaper);
 
 		return tabooWords;
 	}

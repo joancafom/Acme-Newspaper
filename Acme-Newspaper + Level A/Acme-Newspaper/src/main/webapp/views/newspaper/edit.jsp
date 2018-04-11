@@ -29,6 +29,13 @@
 	<acme:textarea code="newspaper.description" path="description"/><br>
 	<acme:textbox code="newspaper.picture" path="picture"/>
 	<br>
+	
+	<form:label path="isPublic"><spring:message code="newspaper.isPublic"/></form:label>
+	<form:radiobutton path="isPublic" value="false"/><spring:message code="newspaper.private"/>
+	<form:radiobutton path="isPublic" value="true"/><spring:message code="newspaper.public"/>
+	<form:errors cssClass="error" path="isPublic"/>
+	<br/>
+	
 	<acme:submit name="save" code="newspaper.save"/>
 	<acme:cancel url="newspaper/user/list.do" code="newspaper.cancel"/>
 </form:form>
