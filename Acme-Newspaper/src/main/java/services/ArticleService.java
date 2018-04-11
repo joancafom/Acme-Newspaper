@@ -125,9 +125,11 @@ public class ArticleService {
 		if (article.getId() != 0) {
 			oldArticle = this.articleRepository.findOne(article.getId());
 			Assert.isTrue(!oldArticle.getIsFinal());
+			Assert.isTrue(oldArticle.getWriter().equals(article.getWriter()));
 			Assert.isNull(oldArticle.getPublicationDate());
 		}
 
+		Assert.notNull(article.getPictures());
 		if (!article.getPictures().isEmpty())
 			for (final String s : article.getPictures())
 				try {
@@ -143,7 +145,6 @@ public class ArticleService {
 
 		return this.articleRepository.save(article);
 	}
-
 	// v1.0 - Implemented by JA
 	public void delete(final Article article) {
 

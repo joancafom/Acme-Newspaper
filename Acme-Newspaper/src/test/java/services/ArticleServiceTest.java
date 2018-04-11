@@ -1,8 +1,11 @@
 
 package services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -406,6 +409,198 @@ public class ArticleServiceTest extends AbstractTest {
 			Assert.isTrue(newspaperAfter.getArticles().contains(savedFollowUp));
 			Assert.isTrue(!mainNewspaper.getArticles().contains(savedFollowUp));
 			Assert.isTrue(this.articleService.findOne(mainArticle.getId()).getFollowUps().contains(savedFollowUp));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-005 *EXTENDED*: List an Edit Articles
+	 * 1. Log in to the system as a User
+	 * 2. List the Unpublished Newspapers
+	 * 3. Select an Unpublished newspaper where he/she's written a draft article
+	 * 4. Retrieve the article and modify it
+	 * 
+	 * Involved REQs: 3, 6.3, 4.4
+	 * 
+	 * Test Cases (1; 1+ 12-):
+	 * 
+	 * + 1) A User logs in to the system, and successfully modifies an article in draft mode he/she has written (pictures empty).
+	 * 
+	 * - 2) A User logs in to the system and tries to modify an article in final mode he/she has written. (only draft mode is possible)
+	 * 
+	 * - 3) A User logs in to the system and tries to modify an article in draft mode another User has written. (only his/her own article)
+	 * 
+	 * - 4) An unauthenticated Actor tries to modify an article in draft mode another User has written. (only users can do so).
+	 * 
+	 * - 5) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (null collection pictures)
+	 * 
+	 * - 6) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (pictures not being URLs)
+	 * 
+	 * - 7) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (blank title)
+	 * 
+	 * - 8) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (XSSd title)
+	 * 
+	 * - 9) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (blank body)
+	 * 
+	 * - 10) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (XSSd body)
+	 * 
+	 * - 11) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (blank summary)
+	 * 
+	 * - 12) A User logs in to the system and tries to modify an article in draft mode he/she has written with invalid data. (XSSd summary)
+	 * 
+	 * - 13) A User logs in to the system and tries to modify an article in draft invalid data. (change isFinal property true->false)
+	 */
+
+	@Test
+	public void driverListEditArticle() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> the article we want to change
+		// testingData[i][2] -> String with the properties we want to change
+		// testingData[i][3] -> the new title
+		// testingData[i][4] -> the new summary
+		// testingData[i][5] -> the new body
+		// testingData[i][6] -> the new pictures
+		// testingData[i][7] -> the new isFinal
+		// testingData[i][8] -> the expected Exception
+
+		final Object testingData[][] = {
+			{
+				"user3", "article6", "pictures", null, null, null, "", null, null
+			}, {
+				"user1", "article1", "title", "test", null, null, "", null, IllegalArgumentException.class
+			}, {
+				"user1", "article6", "pictures", null, null, null, "", null, IllegalArgumentException.class
+			}, {
+				null, "article6", "pictures", null, null, null, "", null, IllegalArgumentException.class
+			}, {
+				"user3", "article6", "pictures", null, null, null, null, null, IllegalArgumentException.class
+			}, {
+				"user3", "article6", "pictures", null, null, null, null, "raca, notURl", IllegalArgumentException.class
+			}, {
+				"user3", "article6", "title", "", null, null, null, null, ConstraintViolationException.class
+			}, {
+				"user3", "article6", "title", "<script>alert('Hacked');</script>", null, null, null, null, ConstraintViolationException.class
+			}, {
+				"user3", "article6", "body", null, null, "", null, null, ConstraintViolationException.class
+			}, {
+				"user3", "article6", "body", null, null, "<script>alert('Hacked');</script>", null, null, ConstraintViolationException.class
+			}, {
+				"user3", "article6", "summary", null, "", null, null, null, ConstraintViolationException.class
+			}, {
+				"user3", "article6", "summary", null, "<script>alert('Hacked');</script>", null, null, null, ConstraintViolationException.class
+			}, {
+				"user2", "article5", "isFinal", null, null, null, null, false, IllegalArgumentException.class
+			}
+		};
+
+		Article articleToModify = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if (testingData[i][1] != null)
+				articleToModify = this.articleService.findOne(this.getEntityId((String) testingData[i][1]));
+			else
+				articleToModify = null;
+
+			final String changes = (String) testingData[i][2];
+
+			if (articleToModify != null) {
+
+				if (changes.contains("title"))
+					articleToModify.setTitle((String) testingData[i][3]);
+
+				if (changes.contains("summary"))
+					articleToModify.setSummary((String) testingData[i][4]);
+
+				if (changes.contains("body"))
+					articleToModify.setBody((String) testingData[i][5]);
+
+				if (changes.contains("pictures")) {
+					final String urlString = (String) testingData[i][6];
+					Collection<String> urls = new ArrayList<String>();
+					if (urlString != null) {
+						if (!urlString.equals(""))
+							urls.addAll(Arrays.asList(urlString.split(",")));
+					} else
+						urls = null;
+					articleToModify.setPictures(urls);
+				}
+
+				if (changes.contains("isFinal"))
+					articleToModify.setIsFinal((Boolean) testingData[i][7]);
+
+			}
+
+			this.startTransaction();
+
+			this.templateListEditArticle((String) testingData[i][0], articleToModify, (String) testingData[i][2], (Class<?>) testingData[i][8]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+	}
+	protected void templateListEditArticle(final String username, final Article modifiedArticle, final String changes, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		/*
+		 * 1. Log in to the system as a User
+		 * 2. List the Unpublished Newspapers
+		 * 3. Select an Unpublished newspaper where he/she's written a draft article
+		 * 4. Retrieve the article and modify it
+		 */
+
+		// 1. Log in to the system as a User
+		this.authenticate(username);
+
+		try {
+
+			// 2. List Unpublished Newspapers
+			final List<Newspaper> unpublishedBefore = new ArrayList<Newspaper>(this.newspaperService.findAllUnpublished());
+
+			// 3. Select an Unpublished newspaper where he/she's written a draft article (provided)
+
+			// 4. Retrieve the article and modify it
+			final Article savedArticle = this.articleService.save(modifiedArticle);
+			this.articleService.flush();
+
+			final List<Newspaper> unpublishedAfter = new ArrayList<Newspaper>(this.newspaperService.findAllUnpublished());
+
+			Assert.isTrue(unpublishedBefore.containsAll(unpublishedAfter));
+			Assert.isTrue(unpublishedBefore.size() == unpublishedAfter.size());
+
+			for (int i = 0; i < unpublishedAfter.size(); i++)
+				Assert.isTrue(unpublishedBefore.get(i).equals(unpublishedAfter.get(i)));
+
+			if (changes.contains("title"))
+				Assert.isTrue(savedArticle.getTitle().contains("test"));
+
+			if (changes.contains("summary"))
+				Assert.isTrue(savedArticle.getSummary().contains("test"));
+
+			if (changes.contains("body"))
+				Assert.isTrue(savedArticle.getBody().contains("test"));
+
+			if (changes.contains("pictures")) {
+				Boolean hasChanged = false;
+				for (final String url : savedArticle.getPictures())
+					if (url.contains("test")) {
+						hasChanged = true;
+						break;
+					}
+
+				Assert.isTrue(hasChanged || savedArticle.getPictures().isEmpty());
+			}
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
