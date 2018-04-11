@@ -21,7 +21,8 @@
 		<put-attribute name="body" value="/views/newspaper/delete.jsp" />
 	</definition>
 	
-	<definition name="newspaper/display" extends="master.page">	
+	<definition name="newspaper/display" extends="master.page">
+		<put-attribute name="title" value="Periódico" /> 
 		<put-attribute name="body" value="/views/newspaper/display.jsp" />
 	</definition>
 	
@@ -41,6 +42,7 @@
 	</definition>
 	
 	<definition name="newspaper/search" extends="master.page">	
+		<put-attribute name="title" value="Buscar Periódicos" /> 
 		<put-attribute name="body" value="/views/newspaper/search.jsp" />
 	</definition>
 	
