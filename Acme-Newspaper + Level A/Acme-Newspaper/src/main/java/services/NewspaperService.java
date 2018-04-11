@@ -244,4 +244,15 @@ public class NewspaperService {
 		return this.save(newspaperToPrivatize);
 
 	}
+
+	// v1.0 - Implemented by JA
+	public Newspaper unprivatize(final Newspaper newspaperToUnprivatize) {
+
+		Assert.notNull(newspaperToUnprivatize);
+		Assert.isNull(newspaperToUnprivatize.getPublicationDate());
+
+		newspaperToUnprivatize.setIsPublic(true);
+		return this.save(newspaperToUnprivatize);
+
+	}
 }

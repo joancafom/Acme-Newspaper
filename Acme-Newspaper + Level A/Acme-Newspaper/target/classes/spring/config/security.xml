@@ -89,6 +89,7 @@
 		<security:intercept-url pattern="/newspaper/user/privatize.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/publish.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/search.do" access="hasRole('USER')" />  
+		<security:intercept-url pattern="/newspaper/user/unprivatize.do" access="hasRole('USER')" />
 		
 		<security:intercept-url pattern="/systemConfiguration/administrator/listTabooWords.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/systemConfiguration/administrator/addTabooWord.do" access="hasRole('ADMINISTRATOR')" />

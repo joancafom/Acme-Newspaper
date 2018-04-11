@@ -40,6 +40,9 @@
 				<jstl:if test="${newspaper.isPublic}">
 					<a href="newspaper/user/privatize.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.privatize"/></a>
 				</jstl:if>	
+				<jstl:if test="${!newspaper.isPublic and (newspaper.publicationDate eq null)}">
+					<a href="newspaper/user/unprivatize.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.unprivatize"/></a>
+				</jstl:if>	
 			</display:column>
 		</jstl:if>
 	</security:authorize>

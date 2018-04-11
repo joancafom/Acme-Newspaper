@@ -272,6 +272,25 @@ public class NewspaperUserController extends AbstractController {
 		return res;
 	}
 
+	//v1.0 - Implemented by JA
+	@RequestMapping(value = "/unprivatize", method = RequestMethod.GET)
+	public ModelAndView unprivatize(@RequestParam final int newspaperId) {
+
+		ModelAndView res;
+
+		final Newspaper newspaperToPrivatize = this.newspaperService.findOne(newspaperId);
+
+		res = new ModelAndView("redirect:listMine.do");
+
+		try {
+			this.newspaperService.unprivatize(newspaperToPrivatize);
+		} catch (final Throwable oops) {
+			res.addObject("message", "newspaper.commit.error");
+		}
+
+		return res;
+	}
+
 	/* v1.0 - josembell */
 	protected ModelAndView createEditModelAndView(final Newspaper newspaper) {
 		ModelAndView result;
