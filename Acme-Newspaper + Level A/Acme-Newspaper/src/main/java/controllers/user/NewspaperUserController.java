@@ -105,7 +105,7 @@ public class NewspaperUserController extends AbstractController {
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/listMine", method = RequestMethod.GET)
-	public ModelAndView listMine() {
+	public ModelAndView listMine(@RequestParam(required = false) final String message) {
 		final ModelAndView result;
 		Collection<Newspaper> newspapers = null;
 		result = new ModelAndView("newspaper/list");
@@ -115,6 +115,10 @@ public class NewspaperUserController extends AbstractController {
 
 		result.addObject("mine", true);
 		result.addObject("newspapers", newspapers);
+
+		if (message != null && message.equals("newspaper.commit.error"))
+			result.addObject("message", "newspaper.commit.error");
+
 		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
@@ -245,6 +249,27 @@ public class NewspaperUserController extends AbstractController {
 
 		return res;
 
+	}
+
+	//A-Level Requirements ------------
+
+	//v1.0 - Implemented by JA
+	@RequestMapping(value = "/privatize", method = RequestMethod.GET)
+	public ModelAndView privatize(@RequestParam final int newspaperId) {
+
+		ModelAndView res;
+
+		final Newspaper newspaperToPrivatize = this.newspaperService.findOne(newspaperId);
+
+		res = new ModelAndView("redirect:listMine.do");
+
+		try {
+			this.newspaperService.privatize(newspaperToPrivatize);
+		} catch (final Throwable oops) {
+			res.addObject("message", "newspaper.commit.error");
+		}
+
+		return res;
 	}
 
 	/* v1.0 - josembell */

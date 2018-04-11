@@ -231,4 +231,17 @@ public class NewspaperService {
 	public Collection<Newspaper> getNotTabooed() {
 		return this.newspaperRepository.findNotTabooed();
 	}
+
+	// A-Level Requirements ----------------------------
+
+	// v1.0 - Implemented by JA
+	public Newspaper privatize(final Newspaper newspaperToPrivatize) {
+
+		Assert.notNull(newspaperToPrivatize);
+
+		newspaperToPrivatize.setIsPublic(false);
+
+		return this.save(newspaperToPrivatize);
+
+	}
 }

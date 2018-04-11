@@ -34,6 +34,15 @@
 		<a href="newspaper/administrator/delete.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.delete"/></a>
 	</display:column>
 	</security:authorize>
+	<security:authorize access="hasRole('USER')">
+		<jstl:if test="${mine==true}">
+			<display:column>
+				<jstl:if test="${newspaper.isPublic}">
+					<a href="newspaper/user/privatize.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.privatize"/></a>
+				</jstl:if>	
+			</display:column>
+		</jstl:if>
+	</security:authorize>
 </display:table>
 
 <jstl:if test="${mine==true}">

@@ -62,6 +62,7 @@ public class AdministratorController extends AbstractController {
 		res.addObject("avgArticlesPerPrivateNewspaper", this.administratorService.getAvgArticlesPerPrivateNewspaper());
 		res.addObject("avgArticlesPerPublicNewspaper", this.administratorService.getAvgArticlesPerPublicNewspaper());
 		res.addObject("ratioSubscribersVSTotalNumberCustomers", this.administratorService.getRatioSubscribersVSTotalNumberCustomers());
+		res.addObject("avgRatioPrivateVSPublicNewspapersPerPublisher", this.administratorService.getAvgRatioPrivateVSPublicNewspapersPerPublisher());
 
 		res.addObject("actorWS", "administrator/");
 

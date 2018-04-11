@@ -198,4 +198,26 @@ public class AdministratorService {
 
 		return this.administratorRepository.ratioSubscribersVSTotalNumberCustomers();
 	}
+
+	// v1.0 - Implemented by JA
+	public Double getAvgRatioPrivateVSPublicNewspapersPerPublisher() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		final Collection<Long> ratiosPrivateVSPublicNewspapers = this.administratorRepository.ratiosPrivateVSPublicNewspapersPerPublisher();
+
+		Double res = 0.0;
+
+		if (!ratiosPrivateVSPublicNewspapers.isEmpty()) {
+
+			Double accSum = 0.0;
+
+			for (final Number n : ratiosPrivateVSPublicNewspapers)
+				accSum += n.doubleValue();
+
+			res = accSum / ratiosPrivateVSPublicNewspapers.size();
+		}
+
+		return res;
+	}
 }
