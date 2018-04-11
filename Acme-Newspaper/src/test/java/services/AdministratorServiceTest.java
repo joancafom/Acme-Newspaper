@@ -659,4 +659,390 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	}
 
+		/*
+	 * v1.0 - josembell
+	 * [UC-016] - Display Dashboard
+	 * 
+	 * REQ: 17.6
+	 */
+	@Test
+	public void driverAverageFollowUpsPerArticle() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateAverageFollowUpsPerArticle((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	private void templateAverageFollowUpsPerArticle(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		/* 1. Loggearse como admin */
+		this.authenticate(username);
+
+		try {
+			final Double queryResult = this.administratorService.getAvgFollowUpsPerArticle();
+
+			/* Computar */
+			Double computeResult = 0.0;
+			Double num = 0.0;
+			final Double denom = new Double(this.articleService.findAll().size());
+			for (final Article a : this.articleService.findAll())
+				num = num + a.getFollowUps().size();
+
+			computeResult = num / denom;
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+
+			Assert.isTrue(fmt.format(queryResult).equals(fmt.format(computeResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-016] - Display Dashboard
+	 * 
+	 * REQ: 17.6
+	 */
+	@Test
+	public void driverAverageFollowUpsOneWeekAfterPerArticle() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateAverageFollowUpsOneWeekAfterPerArticle((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	private void templateAverageFollowUpsOneWeekAfterPerArticle(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		/* 1. Loggearse como admin */
+		this.authenticate(username);
+
+		try {
+			final Double queryResult = this.administratorService.getAvgFollowUpsPerArticleOneWeek();
+
+			/* Computar */
+			Double computeResult = 0.0;
+			Double num = 0.0;
+			final Double denom = new Double(this.articleService.findAll().size());
+			for (final Article a : this.articleService.findAll())
+				for (final Article followUp : a.getFollowUps()) {
+					final LocalDateTime date1 = new LocalDateTime(followUp.getPublicationDate());
+					final LocalDateTime date2 = new LocalDateTime(a.getPublicationDate());
+
+					if (date2.plusDays(7).isBefore(date1))
+						num++;
+				}
+
+			computeResult = num / denom;
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+
+			Assert.isTrue(fmt.format(queryResult).equals(fmt.format(computeResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-016] - Display Dashboard
+	 * 
+	 * REQ: 17.6
+	 */
+	@Test
+	public void driverAverageFollowUpTwoWeeksAfterPerArticle() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateAverageFollowUpTwoWeeksAfterPerArticle((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	private void templateAverageFollowUpTwoWeeksAfterPerArticle(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		/* 1. Loggearse como admin */
+		this.authenticate(username);
+
+		try {
+			final Double queryResult = this.administratorService.getAvgFollowUpsPerArticleTwoWeeks();
+
+			/* Computar */
+			Double computeResult = 0.0;
+			Double num = 0.0;
+			final Double denom = new Double(this.articleService.findAll().size());
+			for (final Article a : this.articleService.findAll())
+				for (final Article followUp : a.getFollowUps()) {
+					final LocalDateTime date1 = new LocalDateTime(followUp.getPublicationDate());
+					final LocalDateTime date2 = new LocalDateTime(a.getPublicationDate());
+
+					if (date2.plusDays(14).isBefore(date1))
+						num++;
+				}
+
+			computeResult = num / denom;
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+
+			Assert.isTrue(fmt.format(queryResult).equals(fmt.format(computeResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-016] - Display Dashboard
+	 * 
+	 * REQ: 17.6
+	 */
+	@Test
+	public void driverAverageChirpsPerUser() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateAverageChirpsPerUser((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	private void templateAverageChirpsPerUser(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		/* 1. Loggearse como admin */
+		this.authenticate(username);
+
+		try {
+			final Double queryResult = this.administratorService.getAvgChirpsPerUser();
+
+			/* Computar */
+			Double computeResult = 0.0;
+			Double num = 0.0;
+			final Double denom = new Double(this.userService.findAll().size());
+			for (final User u : this.userService.findAll())
+				num = num + u.getChirps().size();
+
+			computeResult = num / denom;
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+
+			Assert.isTrue(fmt.format(computeResult).equals(fmt.format(queryResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-016] - Display Dashboard
+	 * 
+	 * REQ: 17.6
+	 */
+	@Test
+	public void driverStandardDeviationChirpsPerUser() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateStandardDeviationChirpsPerUser((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	private void templateStandardDeviationChirpsPerUser(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		/* 1. Loggearse como admin */
+		this.authenticate(username);
+
+		try {
+			final Double queryResult = this.administratorService.getStdChirpsPerUser();
+
+			/* Computar */
+			Double media = 0.0;
+			Double num = 0.0;
+			final Double denom = new Double(this.userService.findAll().size());
+			for (final User u : this.userService.findAll())
+				num = num + u.getChirps().size();
+
+			media = num / denom;
+
+			Double computeResult = 0.0;
+			Double num1 = 0.0;
+			for (final User u : this.userService.findAll())
+				num1 = num1 + Math.pow(u.getChirps().size() - media, 2);
+
+			computeResult = Math.sqrt(num1 / denom);
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+
+			Assert.isTrue(fmt.format(queryResult).equals(fmt.format(computeResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-016] - Display Dashboard
+	 * 
+	 * REQ: 17.6
+	 */
+	@Test
+	public void driverRatioUsersWith75PercentChirps() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateRatioUsersWith75PercentChirps((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	protected void templateRatioUsersWith75PercentChirps(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		this.authenticate(username);
+
+		try {
+			final Double queryResult = this.administratorService.getRatioUsersAbove75AvgChirps();
+
+			/* Computar */
+			Double media = 0.0;
+			Double num = 0.0;
+			final Double denom = new Double(this.userService.findAll().size());
+			for (final User u : this.userService.findAll())
+				num = num + u.getChirps().size();
+
+			media = num / denom;
+			final Double mediaPlus75Percent = media + media * 0.75;
+
+			/* Computar */
+			Double computeResult = 0.0;
+
+			for (final User u : this.userService.findAll())
+				if (u.getChirps().size() > mediaPlus75Percent)
+					computeResult++;
+
+			computeResult = computeResult / this.userService.findAll().size();
+			final DecimalFormat fmt = new DecimalFormat(".##");
+			Assert.isTrue(fmt.format(queryResult).equals(fmt.format(computeResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+		this.checkExceptions(expected, caught);
+
+	}
+
 }
