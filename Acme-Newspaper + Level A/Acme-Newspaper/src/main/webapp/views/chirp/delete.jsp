@@ -25,7 +25,6 @@
 	<!-- Hidden Inputs -->
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	let's ride
 	<acme:cancel url="chirp/administrator/list.do" code="chirp.cancel"/>
 	<acme:submit name="delete" code="chirp.delete"/>
 </form:form>
