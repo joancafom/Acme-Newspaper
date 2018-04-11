@@ -159,7 +159,11 @@ public class SystemConfigurationService {
 		Assert.isTrue(!this.getTabooWords().contains(tabooWord));
 		Assert.isTrue(!tabooWord.contains("|"));
 
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
 		final SystemConfiguration sysConfig = this.getCurrentSystemConfiguration();
+		Assert.notNull(sysConfig);
 		String tabooWords = sysConfig.getTabooWords();
 
 		if (tabooWords.equals("") || tabooWords == null)
@@ -169,6 +173,19 @@ public class SystemConfigurationService {
 
 		sysConfig.setTabooWords(tabooWords);
 		this.save(sysConfig);
+
+		final Collection<Chirp> tabooChirps = this.chirpService.findNotTabooedChirps();
+		final Collection<Article> tabooArticles = this.articleService.findNotTabooedArticles();
+		final Collection<Newspaper> tabooNewspapers = this.newspaperService.getNotTabooed();
+
+		for (final Chirp chirp : tabooChirps)
+			this.chirpService.saveTaboo(chirp);
+
+		for (final Article article : tabooArticles)
+			this.articleService.saveTaboo(article);
+
+		for (final Newspaper newspaper : tabooNewspapers)
+			this.newspaperService.saveTaboo(newspaper);
 
 		return tabooWords;
 	}
