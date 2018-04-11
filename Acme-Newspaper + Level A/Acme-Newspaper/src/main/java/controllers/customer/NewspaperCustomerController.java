@@ -24,6 +24,7 @@ import security.LoginService;
 import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
+import services.SubscriptionService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Customer;
@@ -46,6 +47,9 @@ public class NewspaperCustomerController extends AbstractController {
 	@Autowired
 	private NewspaperService	newspaperService;
 
+	@Autowired
+	private SubscriptionService	subscriptionService;
+
 
 	// A-Level Requirements -------------------------------------
 
@@ -60,7 +64,7 @@ public class NewspaperCustomerController extends AbstractController {
 		final Customer customer = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(customer);
 
-		final Boolean subscriber = customer.getNewspapers().contains(newspaper);
+		final Boolean subscriber = this.subscriptionService.hasSubscription(customer, newspaper);
 
 		final Collection<Article> articles = this.articleService.getAllFinalByNewspaper(newspaper);
 

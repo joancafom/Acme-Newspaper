@@ -39,13 +39,17 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	// v1.0 - Implemented by Alicia
 	@Query("select a from Article a where a.newspaper.publicationDate != null and a.newspaper.isPublic = true and a.writer.id = ?1")
 	Collection<Article> publishedAndPublicByWriterId(int userId);
-
-	// v1.0 - Implemented by Alicia
-	@Query("select a from Article a, Customer c where a.newspaper.isPublic = false and a.writer.id = ?1 and c.id = ?2 and a.newspaper member of c.newspapers")
-	Collection<Article> suscribedByWriterAndCustomerId(int userId, int customerId);
-
-	// v1.0 - Implemented by Alicia
-	@Query("select distinct a from Article a, Customer c where (a.title like %?1% or a.summary like %?1% or a.body like %?1%) and ((a.newspaper.publicationDate != null and a.newspaper.isPublic = true) or (c.id = ?2 and a.newspaper member of c.newspapers))")
-	Collection<Article> customerSearchResults(String keyword, int customerId);
+	/*
+	 * // v1.0 - Implemented by Alicia
+	 * 
+	 * @Query("select a from Article a, Customer c where a.newspaper.isPublic = false and a.writer.id = ?1 and c.id = ?2 and a.newspaper member of c.newspapers")
+	 * Collection<Article> suscribedByWriterAndCustomerId(int userId, int customerId);
+	 * 
+	 * // v1.0 - Implemented by Alicia
+	 * 
+	 * @Query("select distinct a from Article a, Customer c where (a.title like %?1% or a.summary like %?1% or a.body like %?1%) and ((a.newspaper.publicationDate != null and a.newspaper.isPublic = true) or (c.id = ?2 and a.newspaper member of c.newspapers))"
+	 * )
+	 * Collection<Article> customerSearchResults(String keyword, int customerId);
+	 */
 
 }

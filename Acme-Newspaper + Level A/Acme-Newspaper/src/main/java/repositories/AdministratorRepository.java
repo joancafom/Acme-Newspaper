@@ -99,8 +99,8 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	Double avgArticlesPerPublicNewspaper();
 
 	// v1.0 - Implemented by Alicia
-	@Query("select count(c1)*1.0 / (select count(c2)*1.0 from Customer c2) from Customer c1 where c1.newspapers.size > 0")
-	Double ratioSubscribersVSTotalNumberCustomers();
+	//	@Query("select count(c1)*1.0 / (select count(c2)*1.0 from Customer c2) from Customer c1 where c1.newspapers.size > 0")
+	//	Double ratioSubscribersVSTotalNumberCustomers();
 
 	// v1.0 - Implemented by JA
 	@Query("select (u.newspapers.size-count(n)*1.0)/count(n) from Newspaper n, User u where n member u.newspapers and n.isPublic = true group by u")

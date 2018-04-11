@@ -21,7 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Customer;
-import domain.Newspaper;
+import domain.Subscription;
 import forms.CustomerRegistrationForm;
 
 @Service
@@ -44,6 +44,7 @@ public class CustomerService {
 	// CRUD Methods -------------------------------
 
 	//v1.0 - Implemented by JA
+	//v1.0 - Updated by JA (Subscription)
 	public Customer create() {
 
 		final Customer res = new Customer();
@@ -55,7 +56,7 @@ public class CustomerService {
 		userAccount.getAuthorities().add(userAuthority);
 		res.setUserAccount(userAccount);
 
-		res.setNewspapers(new ArrayList<Newspaper>());
+		res.setSubscriptions(new ArrayList<Subscription>());
 
 		return res;
 

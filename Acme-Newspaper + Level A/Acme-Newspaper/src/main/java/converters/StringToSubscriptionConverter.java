@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import repositories.SubscriptionRepository;
+import domain.Subscription;
+
 @Component
 @Transactional
 public class StringToSubscriptionConverter implements Converter<String, Subscription> {

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.ArticleService;
 import services.CustomerService;
+import services.SubscriptionService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Customer;
@@ -31,15 +32,18 @@ import domain.Customer;
 @RequestMapping("/article/customer")
 public class ArticleCustomerController extends AbstractController {
 
-	private final String	ACTOR_WS	= "customer/";
+	private final String		ACTOR_WS	= "customer/";
 
 	// Services -------------------------------------------------
 
 	@Autowired
-	private ArticleService	articleService;
+	private ArticleService		articleService;
 
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService		customerService;
+
+	@Autowired
+	private SubscriptionService	subscriptionService;
 
 
 	// A-Level Requirements -------------------------------------
@@ -54,7 +58,7 @@ public class ArticleCustomerController extends AbstractController {
 		final Customer customer = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(customer);
 
-		Assert.isTrue(customer.getNewspapers().contains(article.getNewspaper()) || article.getNewspaper().getIsPublic());
+		Assert.isTrue(this.subscriptionService.hasSubscription(customer, article.getNewspaper()) || article.getNewspaper().getIsPublic());
 		Assert.isTrue(article.getPublicationDate() != null);
 
 		res = new ModelAndView("article/display");
