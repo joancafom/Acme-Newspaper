@@ -187,4 +187,80 @@ public class NewspaperServiceTest extends AbstractTest {
 		this.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-007] - List and Remove a Newspaper
+	 * 1. Log in to the system as Admin
+	 * 2. List the newspapers
+	 * 3. Select one and remove it
+	 * 4. List the newspapers
+	 * 
+	 * REQ: 5.1, 7.2
+	 */
+	@Test
+	public void driverListAndRemoveNewspaper() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador selecciona un periodico existente y lo elimina */
+				"admin", "newspaper1", null
+			}, {
+				/* - 2) Un usuario no identificado elimina un periodico */
+				null, "newspaper1", IllegalArgumentException.class
+			}, {
+				/* - 3) Un administrador selecciona un periodico null */
+				"admin", null, IllegalArgumentException.class
+			}, {
+				/* - 4) Un usuario intenta eliminar un periódico */
+				"user1", "newspaper1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			Newspaper newspaper = null;
+			if (testingData[i][1] != null)
+				newspaper = this.newspaperService.findOne(this.getEntityId((String) testingData[i][1]));
+
+			this.startTransaction();
+
+			System.out.println("test " + i);
+			this.templateListAndRemoveNewspaper((String) testingData[i][0], newspaper, (Class<?>) testingData[i][2]);
+			System.out.println("test " + i + " ok");
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+	/* v1.0 - josembell */
+	protected void templateListAndRemoveNewspaper(final String user, final Newspaper newspaper, final Class<?> expected) {
+		Class<?> caught = null;
+
+		/* 1. Loggearse como admin */
+		this.authenticate(user);
+
+		try {
+			/* 2. Listar todos los periodicos */
+			final Collection<Newspaper> newspapers1 = this.newspaperService.findAll();
+			final int numNewspapers1 = newspapers1.size();
+
+			/* 3. Seleccionar uno -> entra por parámetros */
+			/* 4. Eliminarlo */
+			this.newspaperService.delete(newspaper);
+
+			this.newspaperService.flush();
+
+			final Collection<Newspaper> newspapers2 = this.newspaperService.findAll();
+			final int numNewspapers2 = newspapers2.size();
+
+			/* 5. Listar todos los periodicos */
+
+			Assert.isTrue(numNewspapers2 + 1 == numNewspapers1);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
 }

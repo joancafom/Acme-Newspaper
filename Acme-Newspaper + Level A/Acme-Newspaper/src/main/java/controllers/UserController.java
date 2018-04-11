@@ -10,6 +10,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ArticleService;
 import services.UserService;
 import domain.Article;
+import domain.Chirp;
 import domain.User;
 import forms.UserRegistrationForm;
 
@@ -56,10 +58,12 @@ public class UserController extends AbstractController {
 		final Collection<Article> publicArticles = this.articleService.getPublishedAndPublicByWriter(userToDisplay);
 		//Null is checked inside the method already
 
+		final Collection<Chirp> myChirps = new ArrayList<Chirp>(userToDisplay.getChirps());
+
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publicArticles", publicArticles);
-
+		res.addObject("chirps", myChirps);
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;

@@ -111,7 +111,7 @@ public class NewspaperService {
 
 		return this.newspaperRepository.save(newspaper);
 	}
-
+	
 	// v1.0 - Implemented by JA
 	public void delete(final Newspaper newspaper) {
 
@@ -223,7 +223,7 @@ public class NewspaperService {
 	public Collection<Newspaper> getTabooed() {
 		return this.newspaperRepository.findTabooed();
 	}
-
+	
 	// v1.0 - Implemented by Alicia
 	public Collection<Newspaper> getNotTabooed() {
 		return this.newspaperRepository.findNotTabooed();

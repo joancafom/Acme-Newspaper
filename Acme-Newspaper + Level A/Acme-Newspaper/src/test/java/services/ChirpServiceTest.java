@@ -3,6 +3,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +21,7 @@ import org.springframework.util.Assert;
 import security.LoginService;
 import utilities.AbstractTest;
 import domain.Chirp;
+import domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -229,6 +231,110 @@ public class ChirpServiceTest extends AbstractTest {
 
 			Assert.isTrue(oldTaboo.contains(chirp));
 			Assert.isTrue(!newTaboo.contains(chirp));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-012: Display Stream with Chirps
+	 * 1. Log in to the system as a User
+	 * 2. Display my Stream with Chirps
+	 * 3. The user follows/unfollows another User (*)
+	 * 4. Display my Stream with Chirps
+	 * 
+	 * 
+	 * Involved REQs: 16.5
+	 * 
+	 * Test Cases (2; 2+ 2-):
+	 * 
+	 * + 1) A User logs in to the system and displays his/her list of streams. Follows a new User and retrieves it again.
+	 * 
+	 * + 2) A User logs in to the system and displays his/her list of streams. Unfollows a followee and retrieves it again.
+	 * 
+	 * - 3) An Administrator tries to retrieve the stream of chirps
+	 * 
+	 * - 4) An unauthenticated Actor tries to retrieve the stream of chirps
+	 */
+
+	@Test
+	public void driverStreamChirp() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> username of the User to follow/unfollow
+		// testingData[i][2] -> if we want to follow/unfollow (follow = true)
+		// testingData[i][3] -> the expected Exception
+
+		final Object testingData[][] = {
+			{
+				"user1", "user5", true, null
+			}, {
+				"user1", "user2", false, null
+			}, {
+				"admin", null, null, IllegalArgumentException.class
+			}, {
+				null, null, null, IllegalArgumentException.class
+			}
+		};
+
+		User userToInteract = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if ((String) testingData[i][1] != null)
+				userToInteract = this.userService.findOne(this.getEntityId((String) testingData[i][1]));
+			else
+				userToInteract = null;
+
+			this.startTransaction();
+
+			this.templateStreamChirp((String) testingData[i][0], userToInteract, (Boolean) testingData[i][2], (Class<?>) testingData[i][3]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+	}
+
+	protected void templateStreamChirp(final String actor, final User userToInteract, final Boolean follow, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		// 1. Log in to the system as a User
+		this.authenticate(actor);
+
+		try {
+
+			// 2. Display my Stream with Chirps
+			final Collection<Chirp> preChirps = new HashSet<Chirp>();
+			preChirps.addAll(this.chirpService.getStream());
+
+			// 3. The user follows/unfollows another User (*)
+
+			if (follow)
+				this.userService.follow(userToInteract);
+			else
+				this.userService.unfollow(userToInteract);
+
+			this.userService.flush();
+
+			// 4. Display my Stream with Chirps
+
+			final Collection<Chirp> afterChirps = new HashSet<Chirp>(this.chirpService.getStream());
+
+			Assert.isTrue(preChirps != afterChirps);
+
+			if (follow)
+				Assert.isTrue(afterChirps.containsAll(userToInteract.getChirps()));
+			else
+				Assert.isTrue(!afterChirps.contains(userToInteract.getChirps()));
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

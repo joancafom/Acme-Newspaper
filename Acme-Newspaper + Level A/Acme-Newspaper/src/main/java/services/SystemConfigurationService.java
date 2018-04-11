@@ -156,6 +156,8 @@ public class SystemConfigurationService {
 	}
 	/* v1.0 - josembell */
 	public String addTabooWord(final String tabooWord) {
+		Assert.notNull(tabooWord);
+		Assert.isTrue(!tabooWord.equals(""));
 		Assert.isTrue(!this.getTabooWords().contains(tabooWord));
 		Assert.isTrue(!tabooWord.contains("|"));
 

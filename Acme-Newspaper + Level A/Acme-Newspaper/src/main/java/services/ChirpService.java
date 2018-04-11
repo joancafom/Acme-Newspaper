@@ -65,7 +65,8 @@ public class ChirpService {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(chirp.getUser().equals(user));
 
-		chirp.setMoment(new Date());
+		final Date moment = new Date(System.currentTimeMillis() - 1000L);
+		chirp.setMoment(moment);
 
 		//Taboo check
 		//Check for taboo words
@@ -78,7 +79,7 @@ public class ChirpService {
 
 		return savedChirp;
 	}
-
+	
 	// v1.0 - Implemented by Alicia
 	public Chirp saveTaboo(final Chirp chirp) {
 		Assert.notNull(chirp);
@@ -93,6 +94,7 @@ public class ChirpService {
 
 		return this.chirpRepository.save(chirp);
 	}
+
 	//v1.0 - Implemented by JA
 	// v2.0 - Updated by Alicia
 	public void delete(final Chirp chirpToDelete) {
@@ -124,7 +126,7 @@ public class ChirpService {
 	public Collection<Chirp> findTabooedChirps() {
 		return this.chirpRepository.findTabooedChirps();
 	}
-
+	
 	// v1.0 - Implemented by Alicia
 	public Collection<Chirp> findNotTabooedChirps() {
 		return this.chirpRepository.findNotTabooedChirps();

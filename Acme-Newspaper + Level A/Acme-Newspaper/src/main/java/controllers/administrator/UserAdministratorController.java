@@ -10,6 +10,7 @@
 
 package controllers.administrator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import services.ArticleService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Article;
+import domain.Chirp;
 import domain.User;
 
 @Controller
@@ -54,9 +56,12 @@ public class UserAdministratorController extends AbstractController {
 		final Collection<Article> publishedArticles = this.articleService.getPublisedArticles(userToDisplay);
 		//Null is checked inside the method already
 
+		final Collection<Chirp> myChirps = new ArrayList<Chirp>(userToDisplay.getChirps());
+
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publishedArticles", publishedArticles);
+		res.addObject("chirps", myChirps);
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
