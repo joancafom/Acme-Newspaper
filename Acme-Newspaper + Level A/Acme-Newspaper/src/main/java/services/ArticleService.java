@@ -282,4 +282,14 @@ public class ArticleService {
 
 		return res;
 	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getPublicAndPublishedByKeyword(final String keyword) {
+		Assert.notNull(keyword);
+
+		final Collection<Article> res = this.articleRepository.findPublicAndPublishedByKeyword(keyword);
+		Assert.notNull(res);
+
+		return res;
+	}
 }

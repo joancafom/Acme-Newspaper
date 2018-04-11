@@ -58,7 +58,7 @@ window.onload = function(){
     		<li><a href="user/customer/list.do"><spring:message code="master.page.user.list"/></a></li>
 			<li><a href="newspaper/customer/list.do"><spring:message code="master.page.newspapers"/></a></li>
 			<li ><a href="article/customer/search.do"><spring:message code="master.page.searchArticles"/></a></li>
-			<li><a href="newspaper/customer/search.do"><spring:message code="master.page.searchNewspapers"/></a></
+			<li><a href="newspaper/customer/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>

@@ -62,12 +62,29 @@
 
 <display:table name="articles" id="article" requestURI="article/${actorWS}list.do" pagesize="20" class="displaytag" style="width:100%">
 	<display:column titleKey="newspaper.article.title" style="width:30%">
-		<jstl:if test="${newspaper.isPublic or suscriber}">
+		<security:authorize access="hasRole('CUSTOMER')">
+		<jstl:if test="${newspaper.isPublic or subscriber}">
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</jstl:if>
-		<jstl:if test="${!newspaper.isPublic and !suscriber}">
+		<jstl:if test="${!newspaper.isPublic and !subscriber}">
 			<jstl:out value="${article.title}"/>
 		</jstl:if>
+		</security:authorize>
+		<security:authorize access="isAnonymous()">
+		<jstl:if test="${newspaper.isPublic or subscriber}">
+			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		</jstl:if>
+		<jstl:if test="${!newspaper.isPublic and !subscriber}">
+			<jstl:out value="${article.title}"/>
+		</jstl:if>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		</security:authorize>
+		<security:authorize access="hasRole('USER')">
+			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		</security:authorize>
 	</display:column>
 	<display:column titleKey="newspaper.article.writer" style="width:10%">
 		<a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>

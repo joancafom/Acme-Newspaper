@@ -53,12 +53,13 @@ public class UserController extends AbstractController {
 		final User userToDisplay = this.userService.findOne(userId);
 		Assert.notNull(userToDisplay);
 
-		final Collection<Article> publishedArticles = this.articleService.getPublisedArticles(userToDisplay);
+		final Collection<Article> publicArticles = this.articleService.getPublishedAndPublicByWriter(userToDisplay);
 		//Null is checked inside the method already
 
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
-		res.addObject("publishedArticles", publishedArticles);
+		res.addObject("publicArticles", publicArticles);
+
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;

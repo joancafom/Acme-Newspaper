@@ -35,12 +35,14 @@ public class ArticleController extends AbstractController {
 	/* Level C Requirements */
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		ModelAndView result;
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
 		Assert.isTrue(article.getPublicationDate() != null);
+		Assert.isTrue(article.getNewspaper().getIsPublic());
 
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
@@ -58,10 +60,11 @@ public class ArticleController extends AbstractController {
 		return result;
 	}
 
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final String keyword) {
-		ModelAndView result;
-		final Collection<Article> articles = this.articleService.findPublishedByKeyword(keyword);
+		final ModelAndView result;
+		final Collection<Article> articles = this.articleService.getPublicAndPublishedByKeyword(keyword);
 
 		result = new ModelAndView("article/list");
 		result.addObject("articles", articles);
@@ -69,5 +72,4 @@ public class ArticleController extends AbstractController {
 
 		return result;
 	}
-
 }
