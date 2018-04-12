@@ -2,6 +2,7 @@
 package services;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -100,7 +101,10 @@ public class AdministratorServiceTest extends AbstractTest {
 				num = num + u.getNewspapers().size();
 
 			computeResult = num / denom;
-			Assert.isTrue(queryResult.equals(computeResult));
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+
+			Assert.isTrue(fmt.format(queryResult).equals(fmt.format(computeResult)));
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -1327,10 +1331,16 @@ public class AdministratorServiceTest extends AbstractTest {
 			final Double queryResult = this.administratorService.getAvgRatioPrivateVSPublicNewspapersPerPublisher();
 
 			final Collection<Long> ratios = new LinkedList<Long>();
+			final Collection<User> publishers = new ArrayList<User>();
 			for (final Newspaper n : this.newspaperService.findAll())
 				if (n.getIsPublic() == true) {
 					double num = 0.0;
 					int denom = 0;
+					final User publisher = this.userService.getPublisher(n);
+					if (publishers.contains(publisher))
+						break;
+					else
+						publishers.add(publisher);
 					for (final Newspaper n2 : this.userService.getPublisher(n).getNewspapers())
 						if (n2.getIsPublic() == true)
 							denom++;
@@ -1363,5 +1373,4 @@ public class AdministratorServiceTest extends AbstractTest {
 		this.checkExceptions(expected, caught);
 
 	}
-
 }

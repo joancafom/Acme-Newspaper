@@ -547,7 +547,7 @@
 				<value>https://www.the-scientist.com/images/Nutshell/April2018/agriculture.jpg</value>
 			</list>
 		</property>
-		<property name="isFinal" value="true"/>
+		<property name="isFinal" value="false"/>
 		<property name="containsTaboo" value="true"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user3"/>
@@ -578,7 +578,7 @@
 				<value>https://www.the-scientist.com/images/Nutshell/March2018/louise%20slaughter%20640.jpg</value>
 			</list>
 		</property>
-		<property name="isFinal" value="true"/>
+		<property name="isFinal" value="false"/>
 		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user4"/>
@@ -751,6 +751,32 @@
 			</list>
 		</property>
 		<property name="mainArticle" ref="article9"/>
+	</bean>
+	
+	<bean id="article14" class="domain.Article">
+		<property name="title" value="Cats"/>
+		<property name="summary" value="The facts you need to know"/>
+
+		<property name="body" value="Since cats first got their adorable claws into us about 9,500 years ago, humans have had a love affair with felines.
+
+		Today more than 80 million cats reside in U.S. homes, with an estimated three cats for every dog on the planet. (Watch a video about the secret lives of cats.) Yet there's still a lot we don't know about our feline friends—including what they think of their owners.
+
+		John Bradshaw is a cat-behavior expert at the University of Bristol and the author of the new book Cat Sense. After observing pet cats for several years, he's come to an intriguing conclusion: They don't really understand us the way dogs do.
+
+		Bradshaw recently shared some of his insights with National Geographic."/>
+
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
+		<property name="newspaper" ref="newspaper7"/>
+		<property name="writer" ref="user5"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 
@@ -1018,6 +1044,18 @@
 		</property>
 	</bean>
 	
+	<bean id="newspaper7" class="domain.Newspaper">
+		<property name="title" value="The Publi-Cat-OR"/>
+		<property name="description" value="The truth about cats!"/>
+		<property name="containsTaboo" value="false"/>
+		<property name="isPublic" value="true"/>
+		<property name="articles">
+			<list>
+				<ref bean="article14"/>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Users -->
 
 	<bean id="user1" class="domain.User">
@@ -1193,6 +1231,7 @@
 		<property name="newspapers">
 			<list>
 				<ref bean="newspaper5"/>
+				<ref bean="newspaper7"/>
 			</list>
 		</property>
 		<property name="articles">
@@ -1201,6 +1240,7 @@
 				<ref bean="article11"/>
 				<ref bean="article12"/>
 				<ref bean="article13"/>
+				<ref bean="article14"/>
 			</list>
 		</property>
 		<property name="chirps">
