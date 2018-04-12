@@ -547,7 +547,7 @@
 				<value>https://www.the-scientist.com/images/Nutshell/April2018/agriculture.jpg</value>
 			</list>
 		</property>
-		<property name="isFinal" value="false"/>
+		<property name="isFinal" value="true"/>
 		<property name="containsTaboo" value="true"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user3"/>
@@ -578,7 +578,7 @@
 				<value>https://www.the-scientist.com/images/Nutshell/March2018/louise%20slaughter%20640.jpg</value>
 			</list>
 		</property>
-		<property name="isFinal" value="false"/>
+		<property name="isFinal" value="true"/>
 		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper3"/>
 		<property name="writer" ref="user4"/>
