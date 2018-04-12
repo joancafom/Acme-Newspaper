@@ -94,7 +94,12 @@
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</security:authorize>
 		<security:authorize access="hasRole('USER')">
-			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+			<jstl:if test="${userId eq article.writer.id}">
+				<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+			</jstl:if>
+			<jstl:if test="${userId ne article.writer.id}">
+				<jstl:out value="${article.title}"/>
+			</jstl:if>
 		</security:authorize>
 	</display:column>
 	<display:column titleKey="newspaper.article.writer" style="width:10%">

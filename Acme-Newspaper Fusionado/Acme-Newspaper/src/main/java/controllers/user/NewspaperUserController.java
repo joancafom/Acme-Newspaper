@@ -83,6 +83,7 @@ public class NewspaperUserController extends AbstractController {
 		res = new ModelAndView("newspaper/display");
 		res.addObject("newspaper", newspaper);
 		res.addObject("articles", articles);
+		res.addObject("userId", viewer.getId());
 		res.addObject("actorWS", this.ACTOR_WS);
 		res.addObject("own", own);
 		res.addObject("canBePublished", canBePublished);
