@@ -33,11 +33,22 @@
 }
 </style>
 
-<jstl:if test="${!newspaper.isPublic}">
-	<h1 style="text-align:center;color:blue"><strong><spring:message code="newspaper.privateMessage"/></strong></h1>
-</jstl:if>
-
 <h1 style="text-align:center"><strong><jstl:out value="${newspaper.title}"/></strong></h1>
+<jstl:if test="${!newspaper.isPublic}">
+	<h4 style="text-align:center;color:blue">
+		<strong>
+			<spring:message code="newspaper.privateMessage"/>
+			<security:authorize access="hasRole('CUSTOMER')">
+				<jstl:if test="${subscriber}">
+					<spring:message code="newspaper.subscribe.already"/>.
+				</jstl:if>
+				<jstl:if test="${!subscriber}">
+					<a href="subscription/customer/create.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.subscribe.now"/></a>
+				</jstl:if>
+			</security:authorize>
+		</strong>
+	</h4>
+</jstl:if>
 <h3 style="text-align:center"><jstl:out value="${newspaper.description}"/></h3><br>
 <img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
 

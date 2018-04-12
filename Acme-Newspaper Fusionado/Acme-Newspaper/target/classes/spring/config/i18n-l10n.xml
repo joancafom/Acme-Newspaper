@@ -26,6 +26,7 @@
 		<value>/views/misc/messages</value>
 		<value>/views/newspaper/messages</value>
 		<value>/views/security/messages</value>
+		<value>/views/subscription/messages</value>
 		<value>/views/systemConfiguration/messages</value>			
 		<value>/views/user/messages</value>
 		<value>/views/welcome/messages</value>
