@@ -18,6 +18,7 @@ import repositories.ArticleRepository;
 import security.LoginService;
 import domain.Administrator;
 import domain.Article;
+import domain.Customer;
 import domain.Newspaper;
 import domain.User;
 
@@ -145,7 +146,7 @@ public class ArticleService {
 
 		return this.articleRepository.save(article);
 	}
-	
+
 	// v1.0 - Implemented by Alicia
 	public Article saveTaboo(final Article article) {
 		Assert.notNull(article);
@@ -159,7 +160,7 @@ public class ArticleService {
 
 		return this.articleRepository.save(article);
 	}
-	
+
 	// v1.0 - Implemented by JA
 	public void delete(final Article article) {
 
@@ -177,7 +178,7 @@ public class ArticleService {
 	}
 
 	//Other Business Methods -------------------
-	
+
 	// v1.0 - Implemented by Alicia
 	public Collection<Article> findNotTabooedArticles() {
 		return this.articleRepository.findNotTabooedArticles();
@@ -257,7 +258,7 @@ public class ArticleService {
 
 		return res;
 	}
-	
+
 	// v1.0 - Implemented by Alicia
 	public Collection<Article> getPublishedAndPublicByWriter(final User user) {
 		Assert.notNull(user);

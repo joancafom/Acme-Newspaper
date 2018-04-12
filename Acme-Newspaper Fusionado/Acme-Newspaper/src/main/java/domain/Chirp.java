@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(indexes = {
-	@Index(columnList = "moment")
+	@Index(columnList = "moment, containsTaboo")
 })
 public class Chirp extends DomainEntity {
 
