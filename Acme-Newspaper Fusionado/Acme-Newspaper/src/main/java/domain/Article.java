@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(indexes = {
-	@Index(columnList = "title, summary, body, isFinal, containsTaboo")
+	@Index(columnList = "title, isFinal, containsTaboo")
 })
 public class Article extends DomainEntity {
 
@@ -38,7 +38,6 @@ public class Article extends DomainEntity {
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Column(columnDefinition = "TEXT")
 	public String getTitle() {
 		return this.title;
 	}
