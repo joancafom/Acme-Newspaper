@@ -169,7 +169,7 @@ public class ArticleService {
 		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(admin);
 
-		for (final Article followUp : article.getFollowUps())
+		for (final Article followUp : new HashSet<Article>(article.getFollowUps()))
 			followUp.setMainArticle(null);
 
 		article.getNewspaper().getArticles().remove(article);

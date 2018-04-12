@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import security.LoginService;
 import utilities.AbstractTest;
 import domain.Article;
 import domain.Newspaper;
@@ -40,6 +41,9 @@ public class NewspaperServiceTest extends AbstractTest {
 
 	@PersistenceContext
 	private EntityManager		entityManager;
+
+	@Autowired
+	private ArticleService		articleService;
 
 
 	/*
@@ -223,9 +227,9 @@ public class NewspaperServiceTest extends AbstractTest {
 
 			this.startTransaction();
 
-			System.out.println("test " + i);
+			//System.out.println("test " + i);
 			this.templateListAndRemoveNewspaper((String) testingData[i][0], newspaper, (Class<?>) testingData[i][2]);
-			System.out.println("test " + i + " ok");
+			//System.out.println("test " + i + " ok");
 
 			this.rollbackTransaction();
 			this.entityManager.clear();
@@ -247,6 +251,7 @@ public class NewspaperServiceTest extends AbstractTest {
 			/* 4. Eliminarlo */
 			this.newspaperService.delete(newspaper);
 
+			this.articleService.flush();
 			this.newspaperService.flush();
 
 			final Collection<Newspaper> newspapers2 = this.newspaperService.findAll();
@@ -261,6 +266,76 @@ public class NewspaperServiceTest extends AbstractTest {
 
 		this.checkExceptions(expected, caught);
 		this.unauthenticate();
+
+	}
+	/*
+	 * v1.0 - josembell
+	 * [UC-020] - List and Switch a Newspaper's Privacy
+	 * REQ: 23.1
+	 */
+	@Test
+	public void driverListAndSwitchNewspapersPrivacy() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un usuario cambia la privacidad de su periodico */
+				"user1", "newspaper1", null
+			}, {
+				/* - 2) Un usuario no identificado cambia la privacidad */
+				null, "newspaper1", IllegalArgumentException.class
+			}, {
+				/* - 3) Un admin cambia la privacidad */
+				"admin", "newspaper1", IllegalArgumentException.class
+			}, {
+				/* - 4) Un customer cambia la privacidad */
+				"customer1", "newspaper1", IllegalArgumentException.class
+			}, {
+				/* - 5) Un usuario cambia la privacidad de un periodico null */
+				"user1", null, IllegalArgumentException.class
+			}, {
+				/* - 6) Un usuario cambia la privacidad de un periodico que no es suyo */
+				"user1", "newspaper2", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			Newspaper newspaper = null;
+			if (testingData[i][1] != null)
+				newspaper = this.newspaperService.findOne(this.getEntityId((String) testingData[i][1]));
+
+			this.startTransaction();
+			//System.out.println("test" + i);
+			this.templateListAndSwitchNewspapersPrivacy((String) testingData[i][0], newspaper, (Class<?>) testingData[i][2]);
+			//System.out.println("test" + i + " ok");
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	@SuppressWarnings("unused")
+	protected void templateListAndSwitchNewspapersPrivacy(final String username, final Newspaper newspaper, final Class<?> expected) {
+		Class<?> caught = null;
+		/* 1. Loggearse como user */
+
+		this.authenticate(username);
+		try {
+			/* 2. Listar todos sus newspapers */
+			User user = null;
+			if (username != null)
+				user = this.userService.findByUserAccount(LoginService.getPrincipal());
+			Collection<Newspaper> newspapers;
+			if (user != null && newspaper != null)
+				newspapers = user.getNewspapers();
+
+			/* 3. Seleccionar uno -> entra por parametros */
+			this.newspaperService.privatize(newspaper);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+		this.checkExceptions(expected, caught);
 
 	}
 }
