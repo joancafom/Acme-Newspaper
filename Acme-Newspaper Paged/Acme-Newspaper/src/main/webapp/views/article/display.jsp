@@ -27,7 +27,7 @@
 </jstl:if>
 <div style="padding: 70px;">
 	<jstl:if test="${article.mainArticle ne null}">
-		<p><spring:message code="article.isFollowUp.message" /><a href="article/${actorWS}display.do?articleId=${article.mainArticle.id}"> <jstl:out value="${article.mainArticle.title}" /></a></p>
+		<p><spring:message code="article.isFollowUp.message" /> <em style="text-decoration:underline;"><jstl:out value="${article.mainArticle.title}" /></em> <spring:message code="article.followUp.newspaper.message" /> <a href="newspaper/${actorWS}display.do?newspaperId=${article.mainArticle.newspaper.id}"> <jstl:out value="${article.mainArticle.newspaper.title}"></jstl:out> </a></p>
 	</jstl:if>
 	<p><jstl:out value="${article.body}"/></p>
 

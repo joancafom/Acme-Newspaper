@@ -94,10 +94,10 @@
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</security:authorize>
 		<security:authorize access="hasRole('USER')">
-			<jstl:if test="${userId eq article.writer.id or own}">
+			<jstl:if test="${newspaper.isPublic or userId eq article.writer.id or own}">
 				<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 			</jstl:if>
-			<jstl:if test="${userId ne article.writer.id and !own}">
+			<jstl:if test="${!newspaper.isPublic and userId ne article.writer.id and !own}">
 				<jstl:out value="${article.title}"/>
 			</jstl:if>
 		</security:authorize>
