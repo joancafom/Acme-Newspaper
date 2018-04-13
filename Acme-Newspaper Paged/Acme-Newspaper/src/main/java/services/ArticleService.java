@@ -263,6 +263,16 @@ public class ArticleService {
 		return res;
 	}
 
+	//v1.0 - Implemented by Alicia
+	public Page<Article> getPublisedArticles(final User writer, final int page, final int size) {
+		Assert.notNull(writer);
+
+		final Page<Article> res = this.articleRepository.publishedArticlesByWriterId(writer.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
 	//v1.0 - Implemented by JA
 	public Collection<Article> getUnpublisedArticles(final User writer, final Newspaper newspaper) {
 
@@ -325,11 +335,32 @@ public class ArticleService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	public Page<Article> getPublishedAndPublicByWriter(final User user, final int page, final int size) {
+		Assert.notNull(user);
+
+		final Page<Article> res = this.articleRepository.publishedAndPublicByWriterId(user.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
 	public Collection<Article> getSuscribedByWriterAndCustomer(final User user, final Customer customer) {
 		Assert.notNull(user);
 		Assert.notNull(customer);
 
 		final Collection<Article> res = this.articleRepository.suscribedByWriterAndCustomerId(user.getId(), customer.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Page<Article> getSuscribedByWriterAndCustomer(final User user, final Customer customer, final int page, final int size) {
+		Assert.notNull(user);
+		Assert.notNull(customer);
+
+		final Page<Article> res = this.articleRepository.suscribedByWriterAndCustomerId(user.getId(), customer.getId(), new PageRequest(page - 1, size));
 		Assert.notNull(res);
 
 		return res;

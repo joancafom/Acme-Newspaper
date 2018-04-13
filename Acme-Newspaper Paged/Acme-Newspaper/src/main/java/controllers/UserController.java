@@ -10,11 +10,9 @@
 
 package controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ArticleService;
+import services.ChirpService;
 import services.UserService;
 import domain.Article;
 import domain.Chirp;
@@ -43,44 +42,53 @@ public class UserController extends AbstractController {
 	@Autowired
 	private ArticleService	articleService;
 
+	@Autowired
+	private ChirpService	chirpService;
+
 
 	//C-level requirements -------------------------------
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int userId) {
+	public ModelAndView display(@RequestParam final int userId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer articlesPage, @RequestParam(value = "d-147820-p", defaultValue = "1") final Integer chirpsPage) {
 
 		final ModelAndView res;
 
 		final User userToDisplay = this.userService.findOne(userId);
 		Assert.notNull(userToDisplay);
 
-		final Collection<Article> publicArticles = this.articleService.getPublishedAndPublicByWriter(userToDisplay);
-		//Null is checked inside the method already
+		final Page<Article> publicArticles = this.articleService.getPublishedAndPublicByWriter(userToDisplay, articlesPage, 5);
+		final int resultSize = new Long(publicArticles.getTotalElements()).intValue();
 
-		final Collection<Chirp> myChirps = new ArrayList<Chirp>(userToDisplay.getChirps());
+		final Page<Chirp> myChirps = this.chirpService.getChirpsByUser(userToDisplay, chirpsPage, 5);
+		final Integer chirpsSize = new Long(myChirps.getTotalElements()).intValue();
 
 		res = new ModelAndView("user/display");
 		res.addObject("user", userToDisplay);
 		res.addObject("publicArticles", publicArticles);
+		res.addObject("resultSize", resultSize);
 		res.addObject("chirps", myChirps);
+		res.addObject("chirpsSize", chirpsSize);
+
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
-
 	}
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
-
+	public ModelAndView list(@RequestParam(value = "d-49809-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
 
-		final Collection<User> usersToList = this.userService.findAll();
+		final Page<User> usersToList = this.userService.findAll(page, 5);
+		final Integer resultSize = new Long(usersToList.getTotalElements()).intValue();
 		Assert.notNull(usersToList);
 
 		res = new ModelAndView("user/list");
 		res.addObject("users", usersToList);
+		res.addObject("resultSize", resultSize);
+		res.addObject("landing", "list");
+
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;

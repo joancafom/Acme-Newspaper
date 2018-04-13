@@ -147,4 +147,14 @@ public class ChirpService {
 		return this.chirpRepository.findNotTabooedChirps();
 	}
 
+	//v1.0 - Implemented by Alicia
+	public Page<Chirp> getChirpsByUser(final User user, final int page, final int size) {
+		Assert.notNull(user);
+
+		final Page<Chirp> res = this.chirpRepository.chirpsByUserId(user.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
 }

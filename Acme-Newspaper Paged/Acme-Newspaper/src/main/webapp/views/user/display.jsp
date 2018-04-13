@@ -69,7 +69,7 @@
 <security:authorize access="hasRole('USER')">
 <h3><spring:message code="user.publishedArticles"/></h3>
 
-<display:table name="publishedArticles" id="article" requestURI="user/${actorWS}display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+<display:table name="publishedArticles" id="article" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${articlesSize}">
 	
 	<display:column titleKey="article.title" style="width:30%">
 		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
@@ -91,7 +91,7 @@
 <security:authorize access="hasRole('ADMINISTRATOR')">
 <h3><spring:message code="user.publishedArticles"/></h3>
 
-<display:table name="publishedArticles" id="article" requestURI="user/${actorWS}display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+<display:table name="publishedArticles" id="article" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${articlesSize}">
 	
 	<display:column titleKey="article.title" style="width:30%">
 		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
@@ -113,38 +113,38 @@
 <security:authorize access="hasRole('CUSTOMER')">
 <h3><spring:message code="user.publicPublishedArticles"/></h3>
 
-<display:table name="publicArticles" id="article" requestURI="user/${actorWS}display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+<display:table name="publicArticles" id="publicArticle" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${publicsSize}">
 	<display:column titleKey="article.title" style="width:30%">
-		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		<a href="article/${actorWS}display.do?articleId=${publicArticle.id}"><jstl:out value="${publicArticle.title}"/></a>
 	</display:column>
 	<display:column titleKey="article.newspaper" style="width:30%">
-		<a href="newspaper/${actorWS}display.do?newspaperId=${article.newspaper.id}"><jstl:out value="${article.newspaper.title}"/></a>
+		<a href="newspaper/${actorWS}display.do?newspaperId=${publicArticle.newspaper.id}"><jstl:out value="${publicArticle.newspaper.title}"/></a>
 	</display:column>
 	<display:column titleKey="article.summary" style="width:60%">
-		<jstl:if test="${fn:length(article.summary)<=100}">
-			<jstl:out value="${article.summary}"/>
+		<jstl:if test="${fn:length(publicArticle.summary)<=100}">
+			<jstl:out value="${publicArticle.summary}"/>
 		</jstl:if>
-		<jstl:if test="${fn:length(article.summary)>100}">
-			<jstl:out value="${fn:substring(article.summary, 0, 100)}"/>...
+		<jstl:if test="${fn:length(publicArticle.summary)>100}">
+			<jstl:out value="${fn:substring(publicArticle.summary, 0, 100)}"/>...
 		</jstl:if>
 	</display:column>
 </display:table>
 
 <h3><spring:message code="user.suscribedArticles"/></h3>
 
-<display:table name="privateArticles" id="article" requestURI="user/${actorWS}display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+<display:table name="privateArticles" id="privateArticle" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${privatesSize}">
 	<display:column titleKey="article.title" style="width:30%">
-		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		<a href="article/${actorWS}display.do?articleId=${privateArticle.id}"><jstl:out value="${privateArticle.title}"/></a>
 	</display:column>
 	<display:column titleKey="article.newspaper" style="width:30%">
-		<a href="newspaper/${actorWS}display.do?newspaperId=${article.newspaper.id}"><jstl:out value="${article.newspaper.title}"/></a>
+		<a href="newspaper/${actorWS}display.do?newspaperId=${privateArticle.newspaper.id}"><jstl:out value="${privateArticle.newspaper.title}"/></a>
 	</display:column>
 	<display:column titleKey="article.summary" style="width:60%">
-		<jstl:if test="${fn:length(article.summary)<=100}">
-			<jstl:out value="${article.summary}"/>
+		<jstl:if test="${fn:length(privateArticle.summary)<=100}">
+			<jstl:out value="${privateArticle.summary}"/>
 		</jstl:if>
-		<jstl:if test="${fn:length(article.summary)>100}">
-			<jstl:out value="${fn:substring(article.summary, 0, 100)}"/>...
+		<jstl:if test="${fn:length(privateArticle.summary)>100}">
+			<jstl:out value="${fn:substring(privateArticle.summary, 0, 100)}"/>...
 		</jstl:if>
 	</display:column>
 </display:table>
@@ -153,7 +153,7 @@
 <security:authorize access="isAnonymous()">
 <h3><spring:message code="user.publicPublishedArticles"/></h3>
 
-<display:table name="publicArticles" id="article" requestURI="user/${actorWS}display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+<display:table name="publicArticles" id="article" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${resultSize}">
 	<display:column titleKey="article.title" style="width:30%">
 		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 	</display:column>
@@ -171,14 +171,15 @@
 </display:table>
 </security:authorize>
 
-<jstl:if test="${mine}">
+
 	<h3><spring:message code="user.chirps"/></h3>
-	<display:table name="chirps" id="chirp" requestURI="user/user/display.do?userId=${user.id}" pagesize="5" class="displaytag" style="width:100%">
+	<display:table name="chirps" id="chirp" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${chirpsSize}">
 		
 		<display:column titleKey="chirp.moment">
 			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
 		</display:column>
 		<display:column titleKey="chirp.title" property="title" style="width:30%" />
 		<display:column titleKey="chirp.moment" property="moment" style="width:30%" />
+
 	</display:table>
-</jstl:if>
+

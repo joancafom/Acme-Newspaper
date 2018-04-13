@@ -31,4 +31,8 @@ public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 	// v1.0 Implemented by Alicia
 	@Query("select c from Chirp c where c.containsTaboo = false")
 	Collection<Chirp> findNotTabooedChirps();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select c from Chirp c where c.user.id = ?1")
+	Page<Chirp> chirpsByUserId(int userId, Pageable pageable);
 }

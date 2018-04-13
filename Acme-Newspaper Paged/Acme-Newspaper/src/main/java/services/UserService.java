@@ -7,6 +7,8 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -71,6 +73,11 @@ public class UserService {
 	public Collection<User> findAll() {
 
 		return this.userRepository.findAll();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Page<User> findAll(final int page, final int size) {
+		return this.userRepository.findAllPag(new PageRequest(page - 1, size));
 	}
 
 	//v1.0 - Implemented by JA
@@ -189,5 +196,25 @@ public class UserService {
 		principal.getFollowees().remove(user);
 
 		this.userRepository.save(user);
+	}
+
+	//v1.0 - Implemented by Alicia
+	public Page<User> getFollowersByUser(final User user, final int page, final int size) {
+		Assert.notNull(user);
+
+		final Page<User> res = this.userRepository.followersByUserId(user.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	//v1.0 - Implemented by Alicia
+	public Page<User> getFolloweesByUser(final User user, final int page, final int size) {
+		Assert.notNull(user);
+
+		final Page<User> res = this.userRepository.followeesByUserId(user.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
 	}
 }
