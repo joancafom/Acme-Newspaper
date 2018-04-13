@@ -69,7 +69,7 @@ public class NewspaperCustomerController extends AbstractController {
 
 		final Page<Article> pageResult = this.articleService.getAllFinalByNewspaper(newspaper, page, 5);
 		final Collection<Article> articles = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		res = new ModelAndView("newspaper/display");
 		res.addObject("newspaper", newspaper);
@@ -89,7 +89,7 @@ public class NewspaperCustomerController extends AbstractController {
 
 		final Page<Newspaper> pageResult = this.newspaperService.findAllPublished(page, 5);
 		final Collection<Newspaper> newspapers = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		result = new ModelAndView("newspaper/list");
 
@@ -108,7 +108,7 @@ public class NewspaperCustomerController extends AbstractController {
 
 		final Page<Newspaper> pageResult = this.newspaperService.findPublishedByKeyword(keyword, page, 5);
 		final Collection<Newspaper> newspapers = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		res = new ModelAndView("newspaper/list");
 		res.addObject("newspapers", newspapers);

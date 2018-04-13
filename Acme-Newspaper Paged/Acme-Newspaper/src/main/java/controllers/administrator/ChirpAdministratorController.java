@@ -10,9 +10,8 @@
 
 package controllers.administrator;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -72,13 +71,17 @@ public class ChirpAdministratorController extends AbstractController {
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(value = "d-147820-p", defaultValue = "1") final Integer page) {
 		final ModelAndView result;
-		final Collection<Chirp> chirps = this.chirpService.findTabooedChirps();
+
+		final Page<Chirp> chirps = this.chirpService.findTabooedChirps(page, 5);
+		final Integer resultSize = new Long(chirps.getTotalElements()).intValue();
 
 		result = new ModelAndView("chirp/stream");
 		result.addObject("chirps", chirps);
 		result.addObject("actorWS", "administrator/");
+		result.addObject("resultSize", resultSize);
+		result.addObject("landing", "list");
 
 		return result;
 	}

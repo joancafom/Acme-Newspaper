@@ -180,6 +180,5 @@
 		</display:column>
 		<display:column titleKey="chirp.title" property="title" style="width:30%" />
 		<display:column titleKey="chirp.moment" property="moment" style="width:30%" />
-
 	</display:table>
 </jstl:if>

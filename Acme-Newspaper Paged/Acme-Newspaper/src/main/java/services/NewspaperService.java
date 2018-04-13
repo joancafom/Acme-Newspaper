@@ -174,6 +174,14 @@ public class NewspaperService {
 		return this.newspaperRepository.findAllUnpublished();
 	}
 
+	// v1.0 - Implemented by Alicia
+	public Page<Newspaper> findByPublisher(final User publisher, final int page, final int size) {
+
+		Assert.notNull(publisher);
+
+		return this.newspaperRepository.findByPublisherId(publisher.getId(), new PageRequest(page - 1, size));
+	}
+
 	// v1.0 - Implemented by JA
 	public Page<Newspaper> findAllUnpublished(final int page, final int size) {
 		return this.newspaperRepository.findAllUnpublished(new PageRequest(page - 1, size));

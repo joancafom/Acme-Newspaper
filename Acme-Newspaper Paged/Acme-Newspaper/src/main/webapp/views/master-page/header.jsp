@@ -33,8 +33,8 @@ window.onload = function(){
     <div class="navbar-header">
     
       <!-- TODO: Place here the name and logo of the company -->
-      <img src="images/logo.png" alt="Sample Co., Inc." style="max-height: 50px;"/>
-      <a class="navbar-brand" href="#">Sample Co.</a>
+      <img src="images/logo.png" alt="Acme-News., Inc." style="max-height: 50px;"/>
+      <a class="navbar-brand" href="#">Acme-News</a>
     </div>
     
     <security:authorize access="hasRole('ADMINISTRATOR')">

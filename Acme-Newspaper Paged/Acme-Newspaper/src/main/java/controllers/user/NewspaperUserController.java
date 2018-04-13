@@ -12,7 +12,6 @@ package controllers.user;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,19 +66,24 @@ public class NewspaperUserController extends AbstractController {
 
 		final Boolean own = viewer.getNewspapers().contains(newspaper);
 
-		final Set<Article> articles = new HashSet<Article>();
-		final Collection<Article> finalArticles = this.articleService.getAllFinalByNewspaper(newspaper);
+		final Collection<Article> articles = new HashSet<Article>();
+		Page<Article> pageResult;
 
-		if (own)
+		final Integer finalArticles = this.articleService.getAllFinalByNewspaperSize(newspaper);
+
+		if (own) {
 			//If the user is the publisher, he/she can see all articles
-			articles.addAll(newspaper.getArticles());
-		else {
-			//If not, he/she can only see the published ones and his/her articles in draft mode
-			articles.addAll(finalArticles);
-			articles.addAll(this.articleService.getUnpublisedArticles(viewer, newspaper));
+
+			pageResult = this.articleService.getAllArticlesByNewspaper(newspaper, page, 5);
+			articles.addAll(pageResult.getContent());
+		} else {
+			//If not, he/she can only see the final ones and his/her articles in draft mode
+			pageResult = this.articleService.getFinalAndUnpublishedArticles(viewer, newspaper, page, 5);
+			articles.addAll(pageResult.getContent());
 		}
 
-		final Boolean canBePublished = (newspaper.getArticles().size() != 0) && (finalArticles.size() == newspaper.getArticles().size());
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+		final Boolean canBePublished = (newspaper.getArticles().size() != 0) && (finalArticles == newspaper.getArticles().size());
 
 		res = new ModelAndView("newspaper/display");
 		res.addObject("newspaper", newspaper);
@@ -87,7 +91,7 @@ public class NewspaperUserController extends AbstractController {
 		res.addObject("userId", viewer.getId());
 		res.addObject("actorWS", this.ACTOR_WS);
 		res.addObject("own", own);
-		res.addObject("resultSize", articles.size());
+		res.addObject("resultSize", resultSize);
 		res.addObject("canBePublished", canBePublished);
 
 		return res;
@@ -99,7 +103,7 @@ public class NewspaperUserController extends AbstractController {
 
 		final Page<Newspaper> pageResult = this.newspaperService.findAllPublished(page, 5);
 		final Collection<Newspaper> newspapers = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		result = new ModelAndView("newspaper/list");
 
@@ -115,11 +119,15 @@ public class NewspaperUserController extends AbstractController {
 	@RequestMapping(value = "/listMine", method = RequestMethod.GET)
 	public ModelAndView listMine(@RequestParam(required = false) final String message, @RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
 		final ModelAndView result;
+
 		Collection<Newspaper> newspapers = null;
 		result = new ModelAndView("newspaper/list");
 
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
-		newspapers = user.getNewspapers();
+
+		final Page<Newspaper> pageResult = this.newspaperService.findByPublisher(user, page, 5);
+		newspapers = pageResult.getContent();
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		result.addObject("mine", true);
 		result.addObject("newspapers", newspapers);
@@ -127,7 +135,7 @@ public class NewspaperUserController extends AbstractController {
 		if (message != null && message.equals("newspaper.commit.error"))
 			result.addObject("message", "newspaper.commit.error");
 
-		result.addObject("resultSize", user.getNewspapers().size());
+		result.addObject("resultSize", resultSize);
 		result.addObject("actorWS", this.ACTOR_WS);
 		result.addObject("landing", "listMine");
 
@@ -152,7 +160,7 @@ public class NewspaperUserController extends AbstractController {
 
 		final Page<Newspaper> pageResult = this.newspaperService.findPublishedByKeyword(keyword, page, 5);
 		final Collection<Newspaper> newspapers = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		res = new ModelAndView("newspaper/list");
 		res.addObject("newspapers", newspapers);
@@ -172,7 +180,7 @@ public class NewspaperUserController extends AbstractController {
 
 		final Page<Newspaper> pageResult = this.newspaperService.findAllUnpublished(page, 5);
 		final Collection<Newspaper> newspapers = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		res = new ModelAndView("newspaper/list");
 

@@ -1,15 +1,15 @@
 
 package controllers.user;
 
-import java.util.Collection;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ChirpService;
@@ -38,13 +38,17 @@ public class ChirpUserController extends AbstractController {
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/stream", method = RequestMethod.GET)
-	public ModelAndView stream() {
+	public ModelAndView stream(@RequestParam(value = "d-147820-p", defaultValue = "1") final Integer page) {
 		final ModelAndView result;
-		final Collection<Chirp> chirps = this.chirpService.getStream();
+
+		final Page<Chirp> chirps = this.chirpService.getStream(page, 5);
+		final Integer resultSize = new Long(chirps.getTotalElements()).intValue();
 
 		result = new ModelAndView("chirp/stream");
 		result.addObject("chirps", chirps);
 		result.addObject("actorWS", "user/");
+		result.addObject("resultSize", resultSize);
+		result.addObject("landing", "stream");
 
 		return result;
 	}

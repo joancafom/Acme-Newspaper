@@ -21,12 +21,19 @@
 	<a href="chirp/user/create.do"><spring:message code="chirp.create"/></a>
 </security:authorize>
 <hr>
-<jstl:forEach var="chirp" items="${chirps}">
-	<p>[<acme:dateFormat code="date.format2" value="${chirp.moment}"/>] <a href="user/${actorWS}display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a> <spring:message code="chirp.says"/>: ${chirp.title}</p><br>
-	<p>${chirp.description}</p>
-	<br>
-	<security:authorize access="hasRole('ADMINISTRATOR')">
-		<a href="chirp/administrator/delete.do?chirpId=${chirp.id}"><spring:message code="chirp.delete"/></a>
-	</security:authorize>
-	<hr>
-</jstl:forEach>
+
+<display:table name="chirps" id="chirp" requestURI="chirp/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width:100%" partialList="true"  size="${resultSize}">
+		<display:column titleKey="chirp.moment">
+			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
+		</display:column>
+		<display:column titleKey="chirp.user" style="width:30%">
+			 <a href="user/${actorWS}display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a>
+		</display:column>
+		<display:column titleKey="chirp.title" property="title"/>
+		<display:column  property="description"/>
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<display:column titleKey="chirp.user">
+				 <a href="chirp/administrator/delete.do?chirpId=${chirp.id}"><spring:message code="chirp.delete"/></a>
+			</display:column>
+		</security:authorize>
+</display:table>

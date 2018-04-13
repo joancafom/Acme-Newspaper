@@ -91,11 +91,15 @@ public class ArticleUserController extends AbstractController {
 		Assert.notNull(user);
 
 		Boolean owned = false;
+		Boolean publisher = false;
 
 		if (article.getWriter().equals(user))
 			owned = true;
 
-		Assert.isTrue(article.getPublicationDate() != null || owned);
+		if (user.getNewspapers().contains(article.getNewspaper()))
+			publisher = true;
+
+		Assert.isTrue(article.getPublicationDate() != null || owned || publisher);
 
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
@@ -161,7 +165,7 @@ public class ArticleUserController extends AbstractController {
 
 		final Page<Article> pageResult = this.articleService.findPublishedByKeyword(keyword, page, 5);
 		final Collection<Article> articles = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		result = new ModelAndView("article/list");
 		result.addObject("articles", articles);

@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -79,7 +81,7 @@ public class ChirpService {
 
 		return savedChirp;
 	}
-	
+
 	// v1.0 - Implemented by Alicia
 	public Chirp saveTaboo(final Chirp chirp) {
 		Assert.notNull(chirp);
@@ -122,11 +124,24 @@ public class ChirpService {
 		return this.chirpRepository.getStream(user.getId());
 	}
 
+	// v1.0 - Implemented by JA
+	public Page<Chirp> getStream(final int page, final int size) {
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+
+		return this.chirpRepository.getStream(user.getId(), new PageRequest(page - 1, size));
+	}
+
 	/* v1.0 - josembell */
 	public Collection<Chirp> findTabooedChirps() {
 		return this.chirpRepository.findTabooedChirps();
 	}
-	
+
+	// v1.0 - Implemented by JA
+	public Page<Chirp> findTabooedChirps(final int page, final int size) {
+		return this.chirpRepository.findTabooedChirps(new PageRequest(page - 1, size));
+	}
+
 	// v1.0 - Implemented by Alicia
 	public Collection<Chirp> findNotTabooedChirps() {
 		return this.chirpRepository.findNotTabooedChirps();

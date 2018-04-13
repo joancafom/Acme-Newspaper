@@ -212,11 +212,29 @@ public class ArticleService {
 		this.articleRepository.flush();
 	}
 
+	//v1.0 - Implemented by JA
+	public Page<Article> getAllArticlesByNewspaper(final Newspaper newspaper, final int page, final int size) {
+
+		Assert.notNull(newspaper);
+
+		return this.articleRepository.getAllByNewspaperId(newspaper.getId(), new PageRequest(page - 1, size));
+	}
+
 	// v1.0 - Implemented by Alicia
 	public Collection<Article> getAllFinalByNewspaper(final Newspaper newspaper) {
 		Assert.notNull(newspaper);
 
 		final Collection<Article> res = this.articleRepository.getAllFinalByNewspaperId(newspaper.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Integer getAllFinalByNewspaperSize(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+
+		final Integer res = this.articleRepository.getAllFinalByNewspaperIdSize(newspaper.getId());
 		Assert.notNull(res);
 
 		return res;
@@ -250,6 +268,18 @@ public class ArticleService {
 		Assert.notNull(newspaper);
 
 		final Collection<Article> res = this.articleRepository.unpublishedArticlesByWriterNewspaperId(writer.getId(), newspaper.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	//v1.0 - Implemented by JA
+	public Page<Article> getFinalAndUnpublishedArticles(final User writer, final Newspaper newspaper, final int page, final int size) {
+
+		Assert.notNull(writer);
+		Assert.notNull(newspaper);
+
+		final Page<Article> res = this.articleRepository.unpublishedAndFinalArticlesByWriterNewspaperId(writer.getId(), newspaper.getId(), new PageRequest(page - 1, size));
 		Assert.notNull(res);
 
 		return res;

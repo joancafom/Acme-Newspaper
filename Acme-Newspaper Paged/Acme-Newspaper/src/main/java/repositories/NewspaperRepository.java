@@ -26,6 +26,10 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	Collection<Newspaper> findAllUnpublished();
 
 	// v1.0 - Implemented by JA
+	@Query("select n from Newspaper n, User u where n member of u.newspapers and u.id = ?1")
+	Page<Newspaper> findByPublisherId(final int publisherId, Pageable pageable);
+
+	// v1.0 - Implemented by JA
 	@Query("select n from Newspaper n where n.publicationDate = null")
 	Page<Newspaper> findAllUnpublished(Pageable pageable);
 

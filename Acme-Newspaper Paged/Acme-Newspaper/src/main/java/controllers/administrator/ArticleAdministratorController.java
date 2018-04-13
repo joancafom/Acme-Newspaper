@@ -122,7 +122,7 @@ public class ArticleAdministratorController extends AbstractController {
 			pageResult = this.articleService.findTabooedArticles(page, 5);
 
 		articles = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		res.addObject("articles", articles);
 		res.addObject("resultSize", resultSize);

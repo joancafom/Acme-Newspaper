@@ -22,6 +22,10 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.newspaper.publicationDate = null and a.writer.id = ?1 and a.newspaper.id = ?2")
 	Collection<Article> unpublishedArticlesByWriterNewspaperId(final int userId, final int newspaperId);
 
+	// v2.0 - Implemented by JA
+	@Query("select a from Article a where (a.newspaper.publicationDate = null and a.writer.id = ?1 or a.isFinal = true) and  a.newspaper.id = ?2")
+	Page<Article> unpublishedAndFinalArticlesByWriterNewspaperId(final int userId, final int newspaperId, Pageable pageable);
+
 	/* v1.0 - josembell */
 	@Query("select a from Article a where (a.title like %?1% or a.summary like %?1% or a.body like %?1%) and a.newspaper.publicationDate!=null")
 	Collection<Article> findPublishedByKeyword(String keyword);
@@ -34,9 +38,17 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.isFinal = true and a.newspaper.id = ?1")
 	Collection<Article> getAllFinalByNewspaperId(int newspaperId);
 
-	// v1.0 - Implemented by Alicia
+	// v1.0 - Implemented by JA
+	@Query("select count(a) from Article a where a.isFinal = true and a.newspaper.id = ?1")
+	Integer getAllFinalByNewspaperIdSize(int newspaperId);
+
+	// v1.0 - Implemented by JA
 	@Query("select a from Article a where a.isFinal = true and a.newspaper.id = ?1")
 	Page<Article> getAllFinalByNewspaperId(int newspaperId, Pageable pageable);
+
+	// v1.0 - Implemented by JA
+	@Query("select a from Article a where a.newspaper.id = ?1")
+	Page<Article> getAllByNewspaperId(int newspaperId, Pageable pageable);
 
 	// v1.0 - Implemented by JA
 	@Query("select a from Article a where a.containsTaboo = true")

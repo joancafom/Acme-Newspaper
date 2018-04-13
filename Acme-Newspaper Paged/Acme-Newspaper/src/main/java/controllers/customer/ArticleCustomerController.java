@@ -91,7 +91,7 @@ public class ArticleCustomerController extends AbstractController {
 
 		final Page<Article> pageResult = this.articleService.getCustomerSearchResults(keyword, customer, page, 5);
 		final Collection<Article> articles = pageResult.getContent();
-		final Integer resultSize = pageResult.getTotalPages() * 5;
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
 		res = new ModelAndView("article/list");
 		res.addObject("articles", articles);
