@@ -102,6 +102,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		result.addObject("newspapers", newspapers);
 		result.addObject("resultSize", resultSize);
 		result.addObject("actorWS", this.ACTOR_WS);
+		result.addObject("landing", "list");
 
 		return result;
 	}
@@ -119,6 +120,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		res.addObject("newspapers", newspapers);
 		res.addObject("resultSize", resultSize);
 		res.addObject("actorWS", this.ACTOR_WS);
+		res.addObject("landing", "listSearchResults");
 
 		return res;
 	}
@@ -136,6 +138,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		res.addObject("newspapers", newspapers);
 		res.addObject("resultSize", resultSize);
 		res.addObject("actorWS", this.ACTOR_WS);
+		res.addObject("landing", "listTabooed");
 
 		return res;
 	}

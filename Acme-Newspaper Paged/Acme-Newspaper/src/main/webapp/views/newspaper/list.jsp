@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
+<display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="newspaper.title">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>
 	</display:column>

@@ -13,6 +13,7 @@ package controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,31 +46,41 @@ public class NewspaperController extends AbstractController {
 		result = new ModelAndView("newspaper/display");
 		result.addObject("newspaper", newspaper);
 		result.addObject("articles", newspaper.getArticles());
+		result.addObject("resultSize", newspaper.getArticles().size());
 
 		return result;
 	}
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/listPublished", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
 		final ModelAndView result;
-		final Collection<Newspaper> newspapers = this.newspaperService.findAllPublished();
+
+		final Page<Newspaper> pageResult = this.newspaperService.findAllPublished(page, 5);
+		final Collection<Newspaper> newspapers = pageResult.getContent();
+		final Integer resultSize = pageResult.getTotalPages() * 5;
 
 		result = new ModelAndView("newspaper/list");
-
+		result.addObject("resultSize", resultSize);
 		result.addObject("newspapers", newspapers);
+		result.addObject("landing", "listPublished");
 
 		return result;
 	}
 
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/listSearchResults", method = RequestMethod.GET)
-	public ModelAndView listSearchResults(@RequestParam final String keyword) {
+	public ModelAndView listSearchResults(@RequestParam final String keyword, @RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
-		final Collection<Newspaper> newspapers = this.newspaperService.findPublishedByKeyword(keyword);
+
+		final Page<Newspaper> pageResult = this.newspaperService.findPublishedByKeyword(keyword, page, 5);
+		final Collection<Newspaper> newspapers = pageResult.getContent();
+		final Integer resultSize = pageResult.getTotalPages() * 5;
 
 		res = new ModelAndView("newspaper/list");
 		res.addObject("newspapers", newspapers);
+		res.addObject("resultSize", resultSize);
+		res.addObject("landing", "listSearchResults");
 
 		return res;
 	}
