@@ -22,6 +22,7 @@ public class User extends Actor {
 	private Collection<Chirp>		chirps;
 	private Collection<User>		followers;
 	private Collection<User>		followees;
+	private Collection<Volume>		volumes;
 
 
 	@NotNull
@@ -59,6 +60,13 @@ public class User extends Actor {
 		return this.followees;
 	}
 
+	@NotNull
+	@Valid
+	@OneToMany()
+	public Collection<Volume> getVolumes() {
+		return this.volumes;
+	}
+
 	public void setNewspapers(final Collection<Newspaper> newspapers) {
 		this.newspapers = newspapers;
 	}
@@ -77,6 +85,10 @@ public class User extends Actor {
 
 	public void setFollowees(final Collection<User> followees) {
 		this.followees = followees;
+	}
+
+	public void setVolumes(final Collection<Volume> volumes) {
+		this.volumes = volumes;
 	}
 
 }

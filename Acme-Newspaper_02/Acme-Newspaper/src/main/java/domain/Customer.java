@@ -16,7 +16,8 @@ public class Customer extends Actor {
 
 	// Relationships ---------------------------------------------
 
-	private Collection<Subscription>	subscriptions;
+	private Collection<Subscription>		subscriptions;
+	private Collection<VolumeSubscription>	volumeSubscriptions;
 
 
 	@NotNull
@@ -26,8 +27,19 @@ public class Customer extends Actor {
 		return this.subscriptions;
 	}
 
+	@NotNull
+	@Valid
+	@OneToMany(mappedBy = "subscriber")
+	public Collection<VolumeSubscription> getVolumeSubscriptions() {
+		return this.volumeSubscriptions;
+	}
+
 	public void setSubscriptions(final Collection<Subscription> subscriptions) {
 		this.subscriptions = subscriptions;
+	}
+
+	public void setVolumeSubscriptions(final Collection<VolumeSubscription> volumeSubscriptions) {
+		this.volumeSubscriptions = volumeSubscriptions;
 	}
 
 }

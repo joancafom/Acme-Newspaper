@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -99,7 +100,9 @@ public class Newspaper extends DomainEntity {
 
 	// Relationships ---------------------------------------------
 
-	private Collection<Article>	articles;
+	private Collection<Article>			articles;
+	private Collection<Advertisement>	advertisements;
+	private Collection<Volume>			volumes;
 
 
 	@NotNull
@@ -109,7 +112,30 @@ public class Newspaper extends DomainEntity {
 		return this.articles;
 	}
 
+	@NotNull
+	@Valid
+	@ManyToMany()
+	public Collection<Advertisement> getAdvertisements() {
+		return this.advertisements;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany()
+	public Collection<Volume> getVolumes() {
+		return this.volumes;
+	}
+
 	public void setArticles(final Collection<Article> articles) {
 		this.articles = articles;
 	}
+
+	public void setAdvertisements(final Collection<Advertisement> advertisements) {
+		this.advertisements = advertisements;
+	}
+
+	public void setVolumes(final Collection<Volume> volumes) {
+		this.volumes = volumes;
+	}
+
 }
