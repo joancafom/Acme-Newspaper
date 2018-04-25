@@ -1,5 +1,5 @@
 /*
- * UserController.java
+ * AgentController.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CustomerService;
-import domain.Customer;
+import services.AgentService;
+import domain.Agent;
 import forms.ActorRegistrationForm;
 
 @Controller
-@RequestMapping("/customer")
-public class CustomerController extends AbstractController {
+@RequestMapping("/agent")
+public class AgentController extends AbstractController {
 
-	//private final String	ACTOR_WS	= "";
+	private final String	ACTOR_WS	= "";
 
 	//Services
 	@Autowired
-	private CustomerService	customerService;
+	private AgentService	agentService;
 
 
 	//C-level requirements -------------------------------
@@ -42,8 +42,8 @@ public class CustomerController extends AbstractController {
 
 		final ModelAndView res;
 
-		final ActorRegistrationForm newCustomerForm = new ActorRegistrationForm();
-		res = this.createEditModelAndView(newCustomerForm);
+		final ActorRegistrationForm newUserForm = new ActorRegistrationForm();
+		res = this.createEditModelAndView(newUserForm);
 
 		return res;
 
@@ -51,29 +51,29 @@ public class CustomerController extends AbstractController {
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final ActorRegistrationForm customerRegistrationForm, final BindingResult binding) {
+	public ModelAndView register(final ActorRegistrationForm agentRegistrationForm, final BindingResult binding) {
 
 		ModelAndView res;
-		final Customer customerToSave;
+		final Agent agentToSave;
 
-		customerToSave = this.customerService.reconstruct(customerRegistrationForm, binding);
+		agentToSave = this.agentService.reconstruct(agentRegistrationForm, binding);
 
 		if (binding.hasErrors())
-			res = this.createEditModelAndView(customerRegistrationForm);
+			res = this.createEditModelAndView(agentRegistrationForm);
 		else
 			try {
 
-				Assert.isTrue(customerRegistrationForm.getAcceptedTerms());
-				Assert.isTrue(customerRegistrationForm.getPassword().equals(customerRegistrationForm.getPasswordConfirmation()));
+				Assert.isTrue(agentRegistrationForm.getAcceptedTerms());
+				Assert.isTrue(agentRegistrationForm.getPassword().equals(agentRegistrationForm.getPasswordConfirmation()));
 
-				this.customerService.save(customerToSave);
+				this.agentService.save(agentToSave);
 
 				res = new ModelAndView("welcome/index");
 
 			} catch (final DataIntegrityViolationException oops) {
-				res = this.createEditModelAndView(customerRegistrationForm, "customer.userAccount.username.duplicated");
+				res = this.createEditModelAndView(agentRegistrationForm, "agent.userAccount.username.duplicated");
 			} catch (final Throwable oops) {
-				res = this.createEditModelAndView(customerRegistrationForm, "customer.commit.error");
+				res = this.createEditModelAndView(agentRegistrationForm, "agent.commit.error");
 			}
 
 		return res;
@@ -83,23 +83,23 @@ public class CustomerController extends AbstractController {
 	//Ancillary Methods -------------------------------
 
 	//v1.0 - Implemented by JA
-	protected ModelAndView createEditModelAndView(final ActorRegistrationForm customerRegistrationForm) {
+	protected ModelAndView createEditModelAndView(final ActorRegistrationForm userRegistrationForm) {
 
 		final ModelAndView res;
 
-		res = this.createEditModelAndView(customerRegistrationForm, null);
+		res = this.createEditModelAndView(userRegistrationForm, null);
 
 		return res;
 
 	}
 
 	//v1.0 - Implemented by JA
-	protected ModelAndView createEditModelAndView(final ActorRegistrationForm customerRegistrationForm, final String message) {
+	protected ModelAndView createEditModelAndView(final ActorRegistrationForm userRegistrationForm, final String message) {
 
 		final ModelAndView res;
 
-		res = new ModelAndView("customer/register");
-		res.addObject("customerRegistrationForm", customerRegistrationForm);
+		res = new ModelAndView("user/register");
+		res.addObject("userRegistrationForm", userRegistrationForm);
 		res.addObject("message", message);
 
 		return res;

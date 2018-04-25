@@ -26,7 +26,7 @@ import domain.Article;
 import domain.Chirp;
 import domain.Newspaper;
 import domain.User;
-import forms.UserRegistrationForm;
+import forms.ActorRegistrationForm;
 
 @Service
 @Transactional
@@ -159,7 +159,7 @@ public class UserService {
 	}
 
 	//v1.0 - Implemented by JA
-	public User reconstruct(final UserRegistrationForm userRegistrationForm, final BindingResult binding) {
+	public User reconstruct(final ActorRegistrationForm userRegistrationForm, final BindingResult binding) {
 
 		final User res = this.create();
 

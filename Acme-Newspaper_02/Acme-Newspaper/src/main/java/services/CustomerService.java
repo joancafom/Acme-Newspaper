@@ -22,7 +22,7 @@ import security.UserAccount;
 import security.UserAccountService;
 import domain.Customer;
 import domain.Subscription;
-import forms.CustomerRegistrationForm;
+import forms.ActorRegistrationForm;
 
 @Service
 @Transactional
@@ -121,7 +121,7 @@ public class CustomerService {
 	}
 
 	//v1.0 - Implemented by JA
-	public Customer reconstruct(final CustomerRegistrationForm customerRegistrationForm, final BindingResult binding) {
+	public Customer reconstruct(final ActorRegistrationForm customerRegistrationForm, final BindingResult binding) {
 
 		final Customer res = this.create();
 

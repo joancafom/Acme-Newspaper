@@ -26,4 +26,8 @@ public class Agent extends Actor {
 		return this.advertisements;
 	}
 
+	public void setAdvertisements(final Collection<Advertisement> advertisements) {
+		this.advertisements = advertisements;
+	}
+
 }

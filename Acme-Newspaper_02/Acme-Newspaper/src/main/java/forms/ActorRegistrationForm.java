@@ -1,14 +1,14 @@
 
 package forms;
 
-public class UserRegistrationForm {
+public class ActorRegistrationForm {
 
 	//UserAccount
 	private String	username;
 	private String	password;
 	private String	passwordConfirmation;
 
-	//User
+	//Actor
 	private String	name;
 	private String	surnames;
 	private String	postalAddress;

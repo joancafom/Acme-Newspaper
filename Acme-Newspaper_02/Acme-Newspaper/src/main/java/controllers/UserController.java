@@ -27,7 +27,7 @@ import services.UserService;
 import domain.Article;
 import domain.Chirp;
 import domain.User;
-import forms.UserRegistrationForm;
+import forms.ActorRegistrationForm;
 
 @Controller
 @RequestMapping("/user")
@@ -101,7 +101,7 @@ public class UserController extends AbstractController {
 
 		final ModelAndView res;
 
-		final UserRegistrationForm newUserForm = new UserRegistrationForm();
+		final ActorRegistrationForm newUserForm = new ActorRegistrationForm();
 		res = this.createEditModelAndView(newUserForm);
 
 		return res;
@@ -110,7 +110,7 @@ public class UserController extends AbstractController {
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final UserRegistrationForm userRegistrationForm, final BindingResult binding) {
+	public ModelAndView save(final ActorRegistrationForm userRegistrationForm, final BindingResult binding) {
 
 		ModelAndView res;
 		final User userToSave;
@@ -142,7 +142,7 @@ public class UserController extends AbstractController {
 	//Ancillary Methods -------------------------------
 
 	//v1.0 - Implemented by JA
-	protected ModelAndView createEditModelAndView(final UserRegistrationForm userRegistrationForm) {
+	protected ModelAndView createEditModelAndView(final ActorRegistrationForm userRegistrationForm) {
 
 		final ModelAndView res;
 
@@ -153,7 +153,7 @@ public class UserController extends AbstractController {
 	}
 
 	//v1.0 - Implemented by JA
-	protected ModelAndView createEditModelAndView(final UserRegistrationForm userRegistrationForm, final String message) {
+	protected ModelAndView createEditModelAndView(final ActorRegistrationForm userRegistrationForm, final String message) {
 
 		final ModelAndView res;
 
