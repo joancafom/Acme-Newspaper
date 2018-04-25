@@ -49,6 +49,7 @@ public class ANMessage extends DomainEntity {
 		return this.body;
 	}
 
+	@NotNull
 	@Pattern(regexp = "(^(HIGH|NEUTRAL|LOW)$)")
 	public String getPriority() {
 		return this.priority;
