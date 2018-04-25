@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      
+<tiles-definitions>
+	
+	<definition name="newspaper/delete" extends="master.page">	
+		<put-attribute name="title" value="Eliminar Periódico" />
+		<put-attribute name="body" value="/views/newspaper/delete.jsp" />
+	</definition>
+	
+	<definition name="newspaper/display" extends="master.page">
+		<put-attribute name="title" value="Periódico" /> 
+		<put-attribute name="body" value="/views/newspaper/display.jsp" />
+	</definition>
+	
+	<definition name="newspaper/edit" extends="master.page">
+		<put-attribute name="title" value="Editar un Periódico"/>	
+		<put-attribute name="body" value="/views/newspaper/edit.jsp" />
+	</definition>
+	
+	<definition name="newspaper/list" extends="master.page">	
+		<put-attribute name="title" value="Periódicos" />
+		<put-attribute name="body" value="/views/newspaper/list.jsp" />
+	</definition>
+	
+	<definition name="newspaper/publish" extends="master.page">	
+		<put-attribute name="title" value="Publicar Periódico" />
+		<put-attribute name="body" value="/views/newspaper/publish.jsp" />
+	</definition>
+	
+	<definition name="newspaper/search" extends="master.page">	
+		<put-attribute name="title" value="Buscar Periódicos" /> 
+		<put-attribute name="body" value="/views/newspaper/search.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>
