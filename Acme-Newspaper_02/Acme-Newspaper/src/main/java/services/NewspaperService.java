@@ -18,9 +18,11 @@ import org.springframework.validation.Validator;
 import repositories.NewspaperRepository;
 import security.LoginService;
 import domain.Administrator;
+import domain.Advertisement;
 import domain.Article;
 import domain.Newspaper;
 import domain.User;
+import domain.Volume;
 
 @Service
 @Transactional
@@ -50,11 +52,15 @@ public class NewspaperService {
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
 	// v3.0 - Updated by JA (Suscription)
+	// v4.0 - Updated by Alicia (AN2)
 	public Newspaper create() {
 		//final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		final Newspaper newspaper = new Newspaper();
 
 		newspaper.setArticles(new HashSet<Article>());
+
+		newspaper.setAdvertisements(new HashSet<Advertisement>());
+		newspaper.setVolumes(new HashSet<Volume>());
 
 		return newspaper;
 	}
@@ -235,18 +241,24 @@ public class NewspaperService {
 
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
+	// v3.0 - Updated by Alicia (AN2)
 	public Newspaper reconstruct(final Newspaper newspaper, final BindingResult binding) {
 		if (newspaper.getId() == 0) {
 			newspaper.setArticles(new HashSet<Article>());
+
+			newspaper.setAdvertisements(new HashSet<Advertisement>());
+			newspaper.setVolumes(new HashSet<Volume>());
 			this.validator.validate(newspaper, binding);
 		} else {
 			final Newspaper oldNewspaper = this.findOne(newspaper.getId());
 			newspaper.setArticles(oldNewspaper.getArticles());
+
+			newspaper.setAdvertisements(oldNewspaper.getAdvertisements());
+			newspaper.setVolumes(oldNewspaper.getVolumes());
 			this.validator.validate(newspaper, binding);
 		}
 		return newspaper;
 	}
-
 	// B-Level Requirements  ----------------------------
 
 	// v1.0 - Implemented by Alicia

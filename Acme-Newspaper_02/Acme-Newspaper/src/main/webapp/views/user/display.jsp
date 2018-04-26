@@ -171,15 +171,12 @@
 </display:table>
 </security:authorize>
 
-
-	<h3><spring:message code="user.chirps"/></h3>
-	<display:table name="chirps" id="chirp" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${chirpsSize}">
-		
+<h3><spring:message code="user.chirps"/></h3>
+<display:table name="chirps" id="chirp" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true"  size="${chirpsSize}">
 		<display:column titleKey="chirp.moment">
 			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
 		</display:column>
-		<display:column titleKey="chirp.title" property="title" style="width:30%" />
-		<display:column titleKey="chirp.moment" property="moment" style="width:30%" />
-
-	</display:table>
-
+		
+		<display:column titleKey="chirp.title" property="title" style="width:30%"/>
+		<display:column titleKey="chirp.description" property="description" style="width:30%"/>
+</display:table>

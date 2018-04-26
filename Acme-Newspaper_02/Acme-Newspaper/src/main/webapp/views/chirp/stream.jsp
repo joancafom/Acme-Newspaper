@@ -30,7 +30,7 @@
 			 <a href="user/${actorWS}display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a>
 		</display:column>
 		<display:column titleKey="chirp.title" property="title"/>
-		<display:column  property="description"/>
+		<display:column titleKey="chirp.description" property="description"/>
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<display:column titleKey="chirp.user">
 				 <a href="chirp/administrator/delete.do?chirpId=${chirp.id}"><spring:message code="chirp.delete"/></a>

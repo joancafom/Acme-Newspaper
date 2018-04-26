@@ -22,10 +22,12 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
+import domain.ANMessage;
 import domain.Article;
 import domain.Chirp;
 import domain.Newspaper;
 import domain.User;
+import domain.Volume;
 import forms.ActorRegistrationForm;
 
 @Service
@@ -39,6 +41,9 @@ public class UserService {
 	// Supporting Services
 
 	@Autowired
+	private FolderService		folderService;
+
+	@Autowired
 	private UserAccountService	userAccountService;
 
 	@Autowired
@@ -48,6 +53,7 @@ public class UserService {
 	// CRUD Methods -------------------------------
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia (AN2)
 	public User create() {
 
 		final User res = new User();
@@ -64,6 +70,10 @@ public class UserService {
 		res.setChirps(new ArrayList<Chirp>());
 		res.setFollowers(new ArrayList<User>());
 		res.setFollowees(new ArrayList<User>());
+
+		res.setVolumes(new ArrayList<Volume>());
+		res.setReceivedMessages(new ArrayList<ANMessage>());
+		res.setSentMessages(new ArrayList<ANMessage>());
 
 		return res;
 
@@ -87,6 +97,7 @@ public class UserService {
 	}
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia (AN2)
 	public User save(final User user) {
 
 		Assert.notNull(user);
@@ -108,8 +119,11 @@ public class UserService {
 		final String hashedPassword = encoder.encodePassword(user.getUserAccount().getPassword(), null);
 		user.getUserAccount().setPassword(hashedPassword);
 
-		return this.userRepository.save(user);
+		final User userS = this.userRepository.save(user);
 
+		this.folderService.createSystemFolders(userS);
+
+		return userS;
 	}
 
 	// Other Business Methods -------------------------------

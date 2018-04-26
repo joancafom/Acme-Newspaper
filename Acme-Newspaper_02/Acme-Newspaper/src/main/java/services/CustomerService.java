@@ -20,8 +20,10 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
+import domain.ANMessage;
 import domain.Customer;
 import domain.Subscription;
+import domain.VolumeSubscription;
 import forms.ActorRegistrationForm;
 
 @Service
@@ -35,6 +37,9 @@ public class CustomerService {
 	// Supporting Services
 
 	@Autowired
+	private FolderService		folderService;
+
+	@Autowired
 	private UserAccountService	userAccountService;
 
 	@Autowired
@@ -45,6 +50,7 @@ public class CustomerService {
 
 	//v1.0 - Implemented by JA
 	//v1.0 - Updated by JA (Subscription)
+	// v2.0 - Updated by Alicia (AN2)
 	public Customer create() {
 
 		final Customer res = new Customer();
@@ -58,10 +64,13 @@ public class CustomerService {
 
 		res.setSubscriptions(new ArrayList<Subscription>());
 
+		res.setReceivedMessages(new ArrayList<ANMessage>());
+		res.setSentMessages(new ArrayList<ANMessage>());
+		res.setVolumeSubscriptions(new ArrayList<VolumeSubscription>());
+
 		return res;
 
 	}
-
 	//v1.0 - Implemented by JA
 	public Collection<Customer> findAll() {
 
@@ -75,6 +84,7 @@ public class CustomerService {
 	}
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia (AN2)
 	public Customer save(final Customer customer) {
 
 		Assert.notNull(customer);
@@ -96,7 +106,11 @@ public class CustomerService {
 		final String hashedPassword = encoder.encodePassword(customer.getUserAccount().getPassword(), null);
 		customer.getUserAccount().setPassword(hashedPassword);
 
-		return this.customerRepository.save(customer);
+		final Customer customerS = this.customerRepository.save(customer);
+
+		this.folderService.createSystemFolders(customerS);
+
+		return customerS;
 
 	}
 
