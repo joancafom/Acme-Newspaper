@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -80,6 +81,7 @@ public class Advertisement extends DomainEntity {
 	// Relationships ---------------------------------------------
 
 	private Collection<Newspaper>	newspapers;
+	private Agent					agent;
 
 
 	@NotEmpty
@@ -89,8 +91,19 @@ public class Advertisement extends DomainEntity {
 		return this.newspapers;
 	}
 
+	@NotNull
+	@Valid
+	@OneToMany(mappedBy = "advertisements")
+	public Agent getAgent() {
+		return this.agent;
+	}
+
 	public void setNewspapers(final Collection<Newspaper> newspapers) {
 		this.newspapers = newspapers;
+	}
+
+	public void setAgent(final Agent agent) {
+		this.agent = agent;
 	}
 
 }
