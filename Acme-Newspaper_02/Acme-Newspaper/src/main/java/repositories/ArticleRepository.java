@@ -59,8 +59,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	Collection<Article> findTabooedArticles();
 
 	// v1.0 - Implemented by JA
-	@Query("select a from Article a where a.containsTaboo = true")
-	Page<Article> findTabooedArticles(Pageable pageable);
+	@Query("select a from Article a where a.containsTaboo = true and a.isFinal = true")
+	Page<Article> findTabooedFinalArticles(Pageable pageable);
 
 	// v1.0 - Implemented by Alicia
 	@Query("select a from Article a where a.containsTaboo = false")

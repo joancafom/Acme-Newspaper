@@ -37,7 +37,7 @@
 <jstl:if test="${!newspaper.isPublic}">
 	<h4 style="text-align:center;color:blue">
 		<strong>
-			<spring:message code="newspaper.privateMessage"/>
+			<spring:message code="newspaper.privateMessage"/>.
 			<security:authorize access="hasRole('CUSTOMER')">
 				<jstl:if test="${subscriber}">
 					<spring:message code="newspaper.subscribe.already"/>.

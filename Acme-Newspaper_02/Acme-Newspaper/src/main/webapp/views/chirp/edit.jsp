@@ -35,6 +35,6 @@
 	
 	
 	<acme:submit name="save" code="chirp.save"/>
-	<acme:cancel url="" code="chirp.cancel"/>
+	<acme:cancel url="chirp/user/stream.do" code="chirp.cancel"/>
 
 </form:form>

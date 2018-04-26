@@ -37,5 +37,5 @@
 	<br/>
 	
 	<acme:submit name="save" code="newspaper.save"/>
-	<acme:cancel url="newspaper/user/list.do" code="newspaper.cancel"/>
+	<acme:cancel url="newspaper/user/listMine.do" code="newspaper.cancel"/>
 </form:form>

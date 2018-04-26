@@ -205,8 +205,8 @@ public class ArticleService {
 	}
 
 	// v1.0 - Implemented by JA
-	public Page<Article> findTabooedArticles(final int page, final int size) {
-		return this.articleRepository.findTabooedArticles(new PageRequest(page - 1, size));
+	public Page<Article> findTabooedFinalArticles(final int page, final int size) {
+		return this.articleRepository.findTabooedFinalArticles(new PageRequest(page - 1, size));
 	}
 
 	// v1.0 - Implemented by Alicia

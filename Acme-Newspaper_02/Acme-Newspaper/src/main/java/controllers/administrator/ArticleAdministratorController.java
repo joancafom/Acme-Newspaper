@@ -119,7 +119,7 @@ public class ArticleAdministratorController extends AbstractController {
 			res.addObject("keyword", keyword);
 
 		} else
-			pageResult = this.articleService.findTabooedArticles(page, 5);
+			pageResult = this.articleService.findTabooedFinalArticles(page, 5);
 
 		articles = pageResult.getContent();
 		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
