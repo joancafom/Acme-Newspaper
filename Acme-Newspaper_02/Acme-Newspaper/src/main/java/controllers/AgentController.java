@@ -51,29 +51,29 @@ public class AgentController extends AbstractController {
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView register(final ActorRegistrationForm agentRegistrationForm, final BindingResult binding) {
+	public ModelAndView register(final ActorRegistrationForm actorRegistrationForm, final BindingResult binding) {
 
 		ModelAndView res;
 		final Agent agentToSave;
 
-		agentToSave = this.agentService.reconstruct(agentRegistrationForm, binding);
+		agentToSave = this.agentService.reconstruct(actorRegistrationForm, binding);
 
 		if (binding.hasErrors())
-			res = this.createEditModelAndView(agentRegistrationForm);
+			res = this.createEditModelAndView(actorRegistrationForm);
 		else
 			try {
 
-				Assert.isTrue(agentRegistrationForm.getAcceptedTerms());
-				Assert.isTrue(agentRegistrationForm.getPassword().equals(agentRegistrationForm.getPasswordConfirmation()));
+				Assert.isTrue(actorRegistrationForm.getAcceptedTerms());
+				Assert.isTrue(actorRegistrationForm.getPassword().equals(actorRegistrationForm.getPasswordConfirmation()));
 
 				this.agentService.save(agentToSave);
 
 				res = new ModelAndView("welcome/index");
 
 			} catch (final DataIntegrityViolationException oops) {
-				res = this.createEditModelAndView(agentRegistrationForm, "agent.userAccount.username.duplicated");
+				res = this.createEditModelAndView(actorRegistrationForm, "agent.userAccount.username.duplicated");
 			} catch (final Throwable oops) {
-				res = this.createEditModelAndView(agentRegistrationForm, "agent.commit.error");
+				res = this.createEditModelAndView(actorRegistrationForm, "agent.commit.error");
 			}
 
 		return res;
@@ -83,23 +83,23 @@ public class AgentController extends AbstractController {
 	//Ancillary Methods -------------------------------
 
 	//v1.0 - Implemented by JA
-	protected ModelAndView createEditModelAndView(final ActorRegistrationForm userRegistrationForm) {
+	protected ModelAndView createEditModelAndView(final ActorRegistrationForm actorRegistrationForm) {
 
 		final ModelAndView res;
 
-		res = this.createEditModelAndView(userRegistrationForm, null);
+		res = this.createEditModelAndView(actorRegistrationForm, null);
 
 		return res;
 
 	}
 
 	//v1.0 - Implemented by JA
-	protected ModelAndView createEditModelAndView(final ActorRegistrationForm userRegistrationForm, final String message) {
+	protected ModelAndView createEditModelAndView(final ActorRegistrationForm actorRegistrationForm, final String message) {
 
 		final ModelAndView res;
 
-		res = new ModelAndView("user/register");
-		res.addObject("userRegistrationForm", userRegistrationForm);
+		res = new ModelAndView("agent/register");
+		res.addObject("actorRegistrationForm", actorRegistrationForm);
 		res.addObject("message", message);
 
 		return res;

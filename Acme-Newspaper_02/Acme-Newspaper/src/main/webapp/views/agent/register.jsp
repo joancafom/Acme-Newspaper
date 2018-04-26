@@ -48,7 +48,7 @@
 	}
 </script>
 
-<form:form action="agent/register.do" modelAttribute="agentRegistrationForm">
+<form:form action="agent/register.do" modelAttribute="actorRegistrationForm">
 
 	<!-- Hidden Inputs -->
 	
