@@ -220,4 +220,23 @@ public class AdministratorService {
 
 		return res;
 	}
+
+	// Acme-Newspaper 2.0 ------------------------------------------------------
+	// C-Level Requirements ----------------------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Double getRatioNewspapersWithAdsVsWithoutAds() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.ratioNewspapersWithAdsVsWithoutAds();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Double getRatioTabooAds() {
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.ratioTabooAds();
+	}
 }

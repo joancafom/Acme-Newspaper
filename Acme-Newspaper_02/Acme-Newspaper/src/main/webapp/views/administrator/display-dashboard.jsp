@@ -73,3 +73,9 @@
 <p><strong><spring:message code="avg.articlesPerPublicNewspaper"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgArticlesPerPublicNewspaper}" /></p>
 <p><strong><spring:message code="ratioSubscribersVSTotalNumberCustomers"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioSubscribersVSTotalNumberCustomers}" /></p>
 <p><strong><spring:message code="avg.ratioPrivateVSPublicNewspapersPerPublisher"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgRatioPrivateVSPublicNewspapersPerPublisher}" /></p>
+
+<!-------------------------- Acme-Newspaper 2.0 -------------------------->
+<!-- C-Level Requirements -->
+
+<p><strong><spring:message code="ratioNewspapersWithAdsVsWithoutAds"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioNewspapersWithAdsVsWithoutAds}" /></p>
+<p><strong><spring:message code="ratioTabooAds"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioTabooAds}" /></p>

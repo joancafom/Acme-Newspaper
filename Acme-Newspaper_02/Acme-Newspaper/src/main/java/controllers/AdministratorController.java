@@ -64,6 +64,11 @@ public class AdministratorController extends AbstractController {
 		res.addObject("ratioSubscribersVSTotalNumberCustomers", this.administratorService.getRatioSubscribersVSTotalNumberCustomers());
 		res.addObject("avgRatioPrivateVSPublicNewspapersPerPublisher", this.administratorService.getAvgRatioPrivateVSPublicNewspapersPerPublisher());
 
+		// Acme-RendezVous 2.0 ---------------------
+		// C-Level Requirements
+		res.addObject("ratioNewspapersWithAdsVsWithoutAds", this.administratorService.getRatioNewspapersWithAdsVsWithoutAds());
+		res.addObject("ratioTabooAds", this.administratorService.getRatioTabooAds());
+
 		res.addObject("actorWS", "administrator/");
 
 		return res;

@@ -105,4 +105,15 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	// v1.0 - Implemented by JA
 	@Query("select (u.newspapers.size-count(n)*1.0)/count(n) from Newspaper n, User u where n member u.newspapers and n.isPublic = true group by u")
 	Collection<Long> ratiosPrivateVSPublicNewspapersPerPublisher();
+
+	// Acme-Newspaper 2.0 -----------------------------------------------
+	// C-Level Requirements ---------------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	@Query("select count(n1)*1.0 / (select count(n2)*1.0 from Newspaper n2 where n2.advertisements.size = 0) from Newspaper n1 where n1.advertisements.size > 0")
+	Double ratioNewspapersWithAdsVsWithoutAds();
+
+	// v1.0 - Implemented by Alicia
+	@Query("select count(a1)*1.0 / (select count(a2)*1.0 from Advertisement a2) from Advertisement a1 where a1.containsTaboo = true")
+	Double ratioTabooAds();
 }
