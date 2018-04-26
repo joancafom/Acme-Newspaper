@@ -179,4 +179,9 @@
 		
 		<display:column titleKey="chirp.title" property="title" style="width:30%"/>
 		<display:column titleKey="chirp.description" property="description" style="width:30%"/>
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<display:column>
+				 <a href="chirp/administrator/delete.do?chirpId=${chirp.id}"><spring:message code="user.chirp.delete"/></a>
+			</display:column>
+		</security:authorize>
 </display:table>

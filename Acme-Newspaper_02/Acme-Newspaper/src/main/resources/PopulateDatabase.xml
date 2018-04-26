@@ -1129,6 +1129,64 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="article15" class="domain.Article">
+		<property name="title" value="Van Gogh resuscitates in Seville"/>
+		<property name="summary" value="The most visited multisensory exhibition in the world lands for the first time in Spain to present the life and work of the author as we have never seen it before."/>
+
+		<property name="body" value="Imagine 'The Starry Night' by Van Gogh. Now, imagine that you enter inside the box. Even more difficult: imagine that the constellations move over your head. That's just the tip of the iceberg of what you'll find in Van Gogh Alive, a show that breaks with the traditional concept of a museum and proposes a new way of living art.
+Starting in February, the Seville Navigation Pavilion hosts an unconventional exhibition about the painter's work: Van Gogh Alive - The Experience. Forget the visits to museums and galleries that you have done so far, because this show will activate all your senses inviting you to live a unique adventure full of surprises.
+
+''It's about living art in an amazing and unexpected way, you're not seeing the painting, the painting is absorbing you, it's around you, it's everywhere,'' says Elena Goroskova, director of Van Gogh Alive in Spain, who highlights the great response that the sample has achieved between adults and children, who are invited to explore all corners, galleries and details of the show, to sit on the floor or simply to be enveloped by the sensations."/>
+
+		<property name="pictures">
+			<list>
+				<value>http://cdn.traveler.es/uploads/images/thumbs/es/trav/3/s/2018/03/van_gogh_alive_2_5589_745x497.jpg</value>
+				<value>http://cdn.traveler.es/uploads/images/thumbs/es/trav/3/s/2018/03/van_gogh_alive_6_7554_745x497.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
+		<property name="newspaper" ref="newspaper8"/>
+		<property name="writer" ref="user2"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="article16" class="domain.Article">
+		<property name="title" value="Fajr foreign cineastes visit Louvre Museum show in Tehran"/>
+		<property name="summary" value="A number of foreign cineastes attending the 36th Fajr International Film Festival visited the Louvre Museum exhibit underway at the National Museum of Iran in downtown Tehran."/>
+
+		<property name="body" value="The visitors were mostly fascinated by the collection of photos by auteur Abbas Kiarostami from his “Look at Me” series taken during his many visits to the Louvre Museum, displayed on the margins of the Louvre exhibit, the organizers announced on Tuesday.
+
+Cecilia Mangini, an influential figure in Italian cinema and a pioneer of photography and documentary filmmaking, said that she was once fascinated when she visited the Louvre Museum in Paris and second time when she visited Kiarostami’s photos of the Louvre.
+
+She said that she believes Kiarostami was not only a great filmmaker but also a great photographer.
+
+She said that the Louvre was different for her through Kiarostami’s photos.
+
+Tehran City Council member Ahmad Masjed-Jamei, who was also accompanying the guests, said that he, too, was surprised to see the great interest of the foreign guests in visiting the Louvre exhibit in Tehran.
+
+“But I found out they were mostly interested to see Kiarostami’s exhibition of the Louvre photos,” he added.
+
+The Fajr International Film Festival will run at Tehran’s Charsu Cineplex until April 27."/>
+
+		<property name="pictures">
+			<list>
+				<value>https://www.parispass.es/images/attractions/louvre.jpg</value>
+			</list>
+		</property>
+		<property name="isFinal" value="true"/>
+		<property name="containsTaboo" value="false"/>
+		<property name="newspaper" ref="newspaper8"/>
+		<property name="writer" ref="user2"/>
+		<property name="followUps">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- Chirps -->
@@ -1455,11 +1513,6 @@
 	<bean id="newspaper7" class="domain.Newspaper">
 		<property name="title" value="The Publi-Cat-OR"/>
 		<property name="description" value="The truth about cats!"/>
-		<property name="publicationDate">
-			<bean factory-method="parse" factory-bean="dateFormat2">
-				<constructor-arg value="21/02/2018"/>
-			</bean>
-		</property>
 		<property name="containsTaboo" value="false"/>
 		<property name="isPublic" value="true"/>
 		<property name="articles">
@@ -1469,12 +1522,38 @@
 		</property>
 		<property name="volumes">
 			<list>
-				<ref bean="volume2"/>
 			</list>
 		</property>
 		<property name="advertisements">
 			<list>
 				<ref bean="advertisement6"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="newspaper8" class="domain.Newspaper">
+		<property name="title" value="ART-NEWS"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="05/02/2017"/>
+			</bean>
+		</property>
+		<property name="description" value="Life imitates art"/>
+		<property name="containsTaboo" value="false"/>
+		<property name="isPublic" value="false"/>
+		<property name="articles">
+			<list>
+				<ref bean="article15"/>
+				<ref bean="article16"/>
+			</list>
+		</property>
+		<property name="volumes">
+			<list>
+				<ref bean="volume2"/>
+			</list>
+		</property>
+		<property name="advertisements">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -1572,6 +1651,8 @@
 				<ref bean="article3"/>
 				<ref bean="article4"/>
 				<ref bean="article5"/>
+				<ref bean="article15"/>
+				<ref bean="article16"/>
 			</list>
 		</property>
 		<property name="chirps">
@@ -1815,7 +1896,7 @@
 		<property name="newspapers">
 			<list>
 				<ref bean="newspaper5"/>
-				<ref bean="newspaper7"/>
+				<ref bean="newspaper8"/>
 			</list>
 		</property>
 	</bean>
