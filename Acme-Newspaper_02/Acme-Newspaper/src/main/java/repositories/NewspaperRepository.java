@@ -56,4 +56,11 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	// v1.0 - Implemented by JA
 	@Query("select n from Newspaper n")
 	Page<Newspaper> findAllPag(Pageable pageable);
+
+	// Acme-Newspaper 2.0 ------------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	//@Query("select a.newspapers from Advertisement a where a.agent.id = ?1")
+	//Collection<Newspaper> findAdvertisedNewspapers(int agentId);
+
 }
