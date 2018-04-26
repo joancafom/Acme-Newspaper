@@ -81,7 +81,6 @@ public class Advertisement extends DomainEntity {
 	// Relationships ---------------------------------------------
 
 	private Collection<Newspaper>	newspapers;
-	private Agent					agent;
 
 
 	@NotEmpty
@@ -90,20 +89,20 @@ public class Advertisement extends DomainEntity {
 	public Collection<Newspaper> getNewspapers() {
 		return this.newspapers;
 	}
-
+    
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Agent getAgent() {
 		return this.agent;
 	}
-
+    
 	public void setNewspapers(final Collection<Newspaper> newspapers) {
 		this.newspapers = newspapers;
 	}
-
-	public void setAgent(final Agent agent) {
-		this.agent = agent;
-	}
+    
+    public void setAgent(final Agent agent){
+        this.agent = agent;
+    }
 
 }
