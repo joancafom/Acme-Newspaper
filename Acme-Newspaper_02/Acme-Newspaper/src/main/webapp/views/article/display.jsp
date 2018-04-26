@@ -18,6 +18,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+
+<jstl:if test="${ad ne null}">
+<div style="text-align:center;">
+	<a href="<jstl:out value="${ad.targetURL}" />"><img src="<jstl:out value="${ad.bannerURL}" />" alt="<jstl:out value="${ad.title}" />" style="max-height:150px;"/></a>
+</div>
+</jstl:if>
+<br>
+
 <h1 style="text-align:center"><strong><jstl:out value="${article.title}"/></strong></h1>
 <h3 style="text-align:center"><jstl:out value="${article.summary}"/></h3>
 <p style="text-align:center"><spring:message code="article.by"/> <a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a></p>

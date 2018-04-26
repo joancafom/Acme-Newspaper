@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AdvertisementService;
 import services.ArticleService;
 import services.NewspaperService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Advertisement;
 import domain.Article;
 import domain.Newspaper;
 import domain.User;
@@ -40,13 +42,16 @@ public class ArticleUserController extends AbstractController {
 	// Services -------------------------------------------------
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService			articleService;
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService		newspaperService;
 
 	@Autowired
-	private UserService			userService;
+	private UserService				userService;
+
+	@Autowired
+	private AdvertisementService	advertisementService;
 
 
 	/* Level C Requirements */
@@ -81,6 +86,7 @@ public class ArticleUserController extends AbstractController {
 
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
+	// v3.0 - Updated by JA (ads)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		final ModelAndView result;
@@ -101,9 +107,12 @@ public class ArticleUserController extends AbstractController {
 
 		Assert.isTrue(article.getPublicationDate() != null || owned || publisher);
 
+		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
+
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
 		result.addObject("owned", owned);
+		result.addObject("ad", ad);
 		result.addObject("actorWS", "user/");
 
 		return result;

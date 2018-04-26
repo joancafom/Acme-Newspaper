@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AdvertisementService;
 import services.ArticleService;
 import services.CustomerService;
 import services.SubscriptionService;
 import controllers.AbstractController;
+import domain.Advertisement;
 import domain.Article;
 import domain.Customer;
 
@@ -33,23 +35,27 @@ import domain.Customer;
 @RequestMapping("/article/customer")
 public class ArticleCustomerController extends AbstractController {
 
-	private final String		ACTOR_WS	= "customer/";
+	private final String			ACTOR_WS	= "customer/";
 
 	// Services -------------------------------------------------
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService			articleService;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService			customerService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private SubscriptionService		subscriptionService;
+
+	@Autowired
+	private AdvertisementService	advertisementService;
 
 
 	// A-Level Requirements -------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA (ads)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		final ModelAndView res;
@@ -62,8 +68,11 @@ public class ArticleCustomerController extends AbstractController {
 		Assert.isTrue(this.subscriptionService.hasSubscription(customer, article.getNewspaper()) || article.getNewspaper().getIsPublic());
 		Assert.isTrue(article.getPublicationDate() != null);
 
+		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
+
 		res = new ModelAndView("article/display");
 		res.addObject("article", article);
+		res.addObject("ad", ad);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 

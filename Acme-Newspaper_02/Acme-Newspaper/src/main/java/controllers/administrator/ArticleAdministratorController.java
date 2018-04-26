@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AdvertisementService;
 import services.ArticleService;
 import controllers.AbstractController;
+import domain.Advertisement;
 import domain.Article;
 
 @Controller
@@ -33,7 +35,10 @@ public class ArticleAdministratorController extends AbstractController {
 	// Services -------------------------------------------------
 
 	@Autowired
-	private ArticleService	articleService;
+	private ArticleService			articleService;
+
+	@Autowired
+	private AdvertisementService	advertisementService;
 
 
 	// C-Level Requirements -------------------------------------
@@ -75,6 +80,7 @@ public class ArticleAdministratorController extends AbstractController {
 	}
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA (ads)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		final ModelAndView res;
@@ -83,8 +89,11 @@ public class ArticleAdministratorController extends AbstractController {
 		Assert.notNull(article);
 		Assert.isTrue(article.getIsFinal());
 
+		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
+
 		res = new ModelAndView("article/display");
 		res.addObject("article", article);
+		res.addObject("ad", ad);
 
 		res.addObject("actorWS", "administrator/");
 

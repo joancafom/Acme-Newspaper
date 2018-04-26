@@ -1,6 +1,10 @@
 
 package services;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.AdvertisementRepository;
+import domain.Advertisement;
 import domain.Agent;
 import domain.Newspaper;
 
@@ -35,6 +40,24 @@ public class AdvertisementService {
 		Assert.notNull(res);
 
 		return res;
+	}
+
+	//v1.0 - Implemented by JA
+	public Advertisement getRandomAdvertisement(final Newspaper newspaper) {
+
+		Advertisement res = null;
+
+		Assert.notNull(newspaper);
+
+		final List<Advertisement> ads = new ArrayList<Advertisement>(newspaper.getAdvertisements());
+
+		if (!ads.isEmpty()) {
+			Collections.shuffle(ads);
+			res = ads.iterator().next();
+		}
+
+		return res;
+
 	}
 
 }

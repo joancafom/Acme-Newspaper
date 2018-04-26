@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AdvertisementService;
 import services.ArticleService;
+import domain.Advertisement;
 import domain.Article;
 
 @Controller
@@ -30,13 +32,17 @@ public class ArticleController extends AbstractController {
 
 	/* Services */
 	@Autowired
-	private ArticleService	articleService;
+	private ArticleService			articleService;
+
+	@Autowired
+	private AdvertisementService	advertisementService;
 
 
 	/* Level C Requirements */
 
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
+	// v3.0 - Updated by JA (ads)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		ModelAndView result;
@@ -45,8 +51,11 @@ public class ArticleController extends AbstractController {
 		Assert.isTrue(article.getPublicationDate() != null);
 		Assert.isTrue(article.getNewspaper().getIsPublic());
 
+		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
+
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
+		result.addObject("ad", ad);
 
 		return result;
 	}

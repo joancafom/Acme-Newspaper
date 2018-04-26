@@ -23,6 +23,7 @@ import services.AdvertisementService;
 import services.AgentService;
 import services.ArticleService;
 import controllers.AbstractController;
+import domain.Advertisement;
 import domain.Agent;
 import domain.Article;
 
@@ -47,6 +48,7 @@ public class ArticleAgentController extends AbstractController {
 	// C-Level Requirements
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA (ads)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		final ModelAndView res;
@@ -59,8 +61,11 @@ public class ArticleAgentController extends AbstractController {
 		Assert.isTrue(article.getPublicationDate() != null || (this.advertisementService.getAdvertisementsPerNewspaperAndAgent(article.getNewspaper(), agent) > 0 && article.getIsFinal()));
 		Assert.isTrue(article.getNewspaper().getIsPublic());
 
+		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
+
 		res = new ModelAndView("article/display");
 		res.addObject("article", article);
+		res.addObject("ad", ad);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 
