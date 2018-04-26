@@ -38,6 +38,9 @@ public class AgentService {
 	private UserAccountService	userAccountService;
 
 	@Autowired
+	private FolderService		folderService;
+
+	@Autowired
 	private Validator			validator;
 
 
@@ -66,6 +69,7 @@ public class AgentService {
 	}
 
 	//v1.0 - Implemented by JA
+	//v2.0 - Updated by JA (folders)
 	public Agent save(final Agent agent) {
 
 		Assert.notNull(agent);
@@ -87,7 +91,11 @@ public class AgentService {
 		final String hashedPassword = encoder.encodePassword(agent.getUserAccount().getPassword(), null);
 		agent.getUserAccount().setPassword(hashedPassword);
 
-		return this.agentRepository.save(agent);
+		final Agent savedAgent = this.agentRepository.save(agent);
+
+		this.folderService.createSystemFolders(savedAgent);
+
+		return savedAgent;
 
 	}
 

@@ -323,4 +323,24 @@ public class NewspaperService {
 		return res;
 	}
 
+	// v1.0 - Implemented by JA
+	public Collection<Newspaper> getNotAdvertised(final Agent agent) {
+		Assert.notNull(agent);
+
+		final Collection<Newspaper> res = this.newspaperRepository.findNotAdvertised(agent.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by JA
+	public Page<Newspaper> getNotAdvertised(final Agent agent, final int page, final int size) {
+		Assert.notNull(agent);
+
+		final Page<Newspaper> res = this.newspaperRepository.findNotAdvertised(agent.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
 }

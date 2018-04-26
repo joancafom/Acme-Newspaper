@@ -56,6 +56,7 @@ window.onload = function(){
 	<security:authorize access="hasRole('AGENT')">
     	<ul class="nav navbar-nav">
     		<li><a href="newspaper/agent/listAdvertised.do"><spring:message code="master.page.advertisedNewspapers"/></a></li>
+    		<li><a href="newspaper/agent/listNotAdvertised.do"><spring:message code="master.page.notAdvertisedNewspapers"/></a></li>
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -101,6 +102,7 @@ window.onload = function(){
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="user/register.do"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.user.signup" /></a></li>
+			<li><a href="agent/register.do"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.agent.signup" /></a></li>
 			<li><a href="customer/register.do"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.customer.signup" /></a></li>
       		<li ><a href="security/login.do"><span class="glyphicon glyphicon-log-in"></span> <spring:message code="master.page.login" /></a></li>
     	</ul>

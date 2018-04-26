@@ -68,7 +68,11 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	Page<Newspaper> findAdvertised(int agentId, Pageable pageable);
 
 	// v1.0 - Implemented by JA
-	//@Query("select n from Advertisement a, Newspaper n where a.agent.id = ?1 and n not in a.newspapers")
-	//Collection<Newspaper> findNotAdvertisedNewspapers(int agentId);
+	@Query("select distinct n from Newspaper n, Advertisement a where a.agent.id = ?1 and n not member of a.newspapers")
+	Collection<Newspaper> findNotAdvertised(int agentId);
+
+	// v1.0 - Implemented by JA
+	@Query("select distinct n from Newspaper n, Advertisement a where a.agent.id = ?1 and n not member of a.newspapers")
+	Page<Newspaper> findNotAdvertised(int agentId, Pageable pageable);
 
 }

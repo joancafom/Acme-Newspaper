@@ -92,10 +92,10 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('AGENT')">
-		<jstl:if test="${newspaper.isPublic}">
+		<jstl:if test="${canDisplay}">
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</jstl:if>
-		<jstl:if test="${!newspaper.isPublic}">
+		<jstl:if test="${!canDisplay}">
 			<jstl:out value="${article.title}"/>
 		</jstl:if>
 		</security:authorize>

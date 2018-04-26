@@ -57,6 +57,7 @@ public class ArticleAgentController extends AbstractController {
 		Assert.notNull(agent);
 
 		Assert.isTrue(article.getPublicationDate() != null || (this.advertisementService.getAdvertisementsPerNewspaperAndAgent(article.getNewspaper(), agent) > 0 && article.getIsFinal()));
+		Assert.isTrue(article.getNewspaper().getIsPublic());
 
 		res = new ModelAndView("article/display");
 		res.addObject("article", article);
