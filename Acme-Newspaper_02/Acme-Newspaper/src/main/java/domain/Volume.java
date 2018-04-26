@@ -8,7 +8,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -38,8 +37,7 @@ public class Volume extends DomainEntity {
 	}
 
 	@NotNull
-	@Min(0)
-	@Max(2018)
+	@Min(1900)
 	public int getYear() {
 		return this.year;
 	}

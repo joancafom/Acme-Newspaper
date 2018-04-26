@@ -54,7 +54,6 @@ public class CreditCard {
 		return this.month;
 	}
 
-	@Min(2018)
 	public int getYear() {
 		return this.year;
 	}

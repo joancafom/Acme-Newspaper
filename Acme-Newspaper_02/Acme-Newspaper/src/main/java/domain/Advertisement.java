@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.hibernate.validator.constraints.URL;
@@ -84,7 +83,7 @@ public class Advertisement extends DomainEntity {
 	private Agent					agent;
 
 
-	@NotEmpty
+	@NotNull
 	@Valid
 	@ManyToMany(mappedBy = "advertisements")
 	public Collection<Newspaper> getNewspapers() {

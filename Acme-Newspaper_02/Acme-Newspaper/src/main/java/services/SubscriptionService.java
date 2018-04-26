@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -55,6 +56,8 @@ public class SubscriptionService {
 		return this.subscriptionRepository.findAll();
 	}
 
+	// v1.0 - Unknown
+	// v2.0 - Updated by Alicia
 	public Subscription save(final Subscription subscription) {
 
 		Assert.notNull(subscription);
@@ -68,6 +71,13 @@ public class SubscriptionService {
 		Assert.notNull(subscription.getNewspaper().getPublicationDate());
 
 		Assert.isTrue(subscription.getId() == 0);
+
+		final LocalDate now = new LocalDate();
+		Assert.notNull(subscription.getCreditCard());
+
+		// Assert (year == current && month == current) || year == future || (year == current && month == future)
+		Assert.isTrue((now.getYear() == subscription.getCreditCard().getYear() && now.getMonthOfYear() == subscription.getCreditCard().getMonth()) || (now.getYear() < subscription.getCreditCard().getYear())
+			|| (now.getYear() == subscription.getCreditCard().getYear() && now.getMonthOfYear() < subscription.getCreditCard().getMonth()));
 
 		return this.subscriptionRepository.save(subscription);
 	}
