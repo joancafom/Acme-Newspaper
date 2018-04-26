@@ -171,6 +171,27 @@
 </display:table>
 </security:authorize>
 
+<security:authorize access="hasRole('AGENT')">
+<h3><spring:message code="user.publicPublishedArticles"/></h3>
+
+<display:table name="publicArticles" id="article" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${resultSize}">
+	<display:column titleKey="article.title" style="width:30%">
+		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+	</display:column>
+	<display:column titleKey="article.newspaper" style="width:30%">
+		<a href="newspaper/${actorWS}display.do?newspaperId=${article.newspaper.id}"><jstl:out value="${article.newspaper.title}"/></a>
+	</display:column>
+	<display:column titleKey="article.summary" style="width:60%">
+		<jstl:if test="${fn:length(article.summary)<=100}">
+			<jstl:out value="${article.summary}"/>
+		</jstl:if>
+		<jstl:if test="${fn:length(article.summary)>100}">
+			<jstl:out value="${fn:substring(article.summary, 0, 100)}"/>...
+		</jstl:if>
+	</display:column>
+</display:table>
+</security:authorize>
+
 <h3><spring:message code="user.chirps"/></h3>
 <display:table name="chirps" id="chirp" requestURI="user/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true"  size="${chirpsSize}">
 		<display:column titleKey="chirp.moment">

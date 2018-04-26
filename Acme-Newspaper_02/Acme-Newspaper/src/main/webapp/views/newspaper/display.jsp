@@ -81,11 +81,21 @@
 			<jstl:out value="${article.title}"/>
 		</jstl:if>
 		</security:authorize>
+		
 		<security:authorize access="isAnonymous()">
 		<jstl:if test="${newspaper.isPublic or subscriber}">
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</jstl:if>
 		<jstl:if test="${!newspaper.isPublic and !subscriber}">
+			<jstl:out value="${article.title}"/>
+		</jstl:if>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('AGENT')">
+		<jstl:if test="${newspaper.isPublic}">
+			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
+		</jstl:if>
+		<jstl:if test="${!newspaper.isPublic}">
 			<jstl:out value="${article.title}"/>
 		</jstl:if>
 		</security:authorize>
@@ -102,6 +112,7 @@
 			</jstl:if>
 		</security:authorize>
 	</display:column>
+	
 	<display:column titleKey="newspaper.article.writer" style="width:10%">
 		<a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>
 	</display:column>

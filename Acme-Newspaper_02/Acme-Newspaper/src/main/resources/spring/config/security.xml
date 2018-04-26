@@ -53,6 +53,7 @@
 		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/article/list.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/article/display.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/article/agent/display.do" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/article/administrator/delete.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/article/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
@@ -84,6 +85,7 @@
 		<security:intercept-url pattern="/newspaper/administrator/listSearchResults.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/listTabooed.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/newspaper/administrator/search.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/newspaper/agent/display.do" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/newspaper/agent/listAdvertised.do" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/newspaper/agent/listNotAdvertised.do" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/newspaper/customer/display.do" access="hasRole('CUSTOMER')" />
@@ -113,6 +115,7 @@
 		<security:intercept-url pattern="/user/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/user/administrator/register.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/user/agent/display.do" access="hasRole('AGENT')" /> 
 		<security:intercept-url pattern="/user/customer/display.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/user/customer/list.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/user/display.do" access="isAnonymous()" /> 
