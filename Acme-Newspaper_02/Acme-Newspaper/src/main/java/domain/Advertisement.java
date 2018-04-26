@@ -7,7 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -93,7 +93,7 @@ public class Advertisement extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@OneToMany(mappedBy = "advertisements")
+	@ManyToOne(optional = false)
 	public Agent getAgent() {
 		return this.agent;
 	}

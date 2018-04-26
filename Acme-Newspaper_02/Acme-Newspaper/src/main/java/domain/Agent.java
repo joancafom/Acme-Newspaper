@@ -21,7 +21,7 @@ public class Agent extends Actor {
 
 	@NotNull
 	@Valid
-	@OneToMany()
+	@OneToMany(mappedBy = "agent")
 	public Collection<Advertisement> getAdvertisements() {
 		return this.advertisements;
 	}
