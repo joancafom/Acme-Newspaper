@@ -93,6 +93,16 @@ public class AgentService {
 
 	// Other Business Methods -------------------------------
 
+	// v1.0 - Implemented by Alicia
+	public Agent findByUserAccount(final UserAccount userAccount) {
+		final Agent res;
+
+		Assert.notNull(userAccount);
+		res = this.agentRepository.findByUserAccountId(userAccount.getId());
+
+		return res;
+	}
+
 	//v1.0 - Implemented by JA
 
 	//v1.0 - Implemented by JA

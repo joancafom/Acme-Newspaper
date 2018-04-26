@@ -53,6 +53,14 @@ window.onload = function(){
 		</ul>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('AGENT')">
+    	<ul class="nav navbar-nav">
+    		<li><a href="newspaper/agent/listAdvertised.do"><spring:message code="master.page.advertisedNewspapers"/></a></li>
+
+			<li><a><security:authentication property="principal.username" /></a></li>
+		</ul>
+	</security:authorize>
+	
 	<security:authorize access="hasRole('CUSTOMER')">
     	<ul class="nav navbar-nav">
     		<li><a href="user/customer/list.do"><spring:message code="master.page.user.list"/></a></li>

@@ -19,6 +19,7 @@ import repositories.NewspaperRepository;
 import security.LoginService;
 import domain.Administrator;
 import domain.Advertisement;
+import domain.Agent;
 import domain.Article;
 import domain.Newspaper;
 import domain.User;
@@ -299,4 +300,27 @@ public class NewspaperService {
 		return this.save(newspaperToUnprivatize);
 
 	}
+
+	// Acme-Newspaper 2.0 ---------------------------------------------------
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Newspaper> getAdvertised(final Agent agent) {
+		Assert.notNull(agent);
+
+		final Collection<Newspaper> res = this.newspaperRepository.findAdvertised(agent.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Page<Newspaper> getAdvertised(final Agent agent, final int page, final int size) {
+		Assert.notNull(agent);
+
+		final Page<Newspaper> res = this.newspaperRepository.findAdvertised(agent.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
 }
