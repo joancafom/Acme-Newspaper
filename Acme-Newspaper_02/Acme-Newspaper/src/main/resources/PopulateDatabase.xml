@@ -1527,6 +1527,11 @@
 		<property name="sentMessages">
 			<list>
 				<ref bean="anMessage1"/>
+				<ref bean="anMessage6"/>
+				<ref bean="anMessage7"/>
+				<ref bean="anMessage8"/>
+				<ref bean="anMessage9"/>
+				<ref bean="anMessage10"/>
 			</list>
 		</property>
 		<property name="receivedMessages">
@@ -1588,6 +1593,11 @@
 		<property name="receivedMessages">
 			<list>
 				<ref bean="anMessage1copy"/>
+				<ref bean="anMessage6copy"/>
+				<ref bean="anMessage7copy"/>
+				<ref bean="anMessage8copy"/>
+				<ref bean="anMessage9copy"/>
+				<ref bean="anMessage10copy"/>
 			</list>
 		</property>
 	</bean>
@@ -1880,6 +1890,11 @@
 		<property name="anMessages">
 			<list>
 				<ref bean="anMessage1"/>
+				<ref bean="anMessage6"/>
+				<ref bean="anMessage7"/>
+				<ref bean="anMessage8"/>
+				<ref bean="anMessage9"/>
+				<ref bean="anMessage10"/>
 			</list>
 		</property>
 		<property name="actor" ref="user1"/>
@@ -1937,6 +1952,11 @@
 		<property name="anMessages">
 			<list>
 				<ref bean="anMessage1copy"/>
+				<ref bean="anMessage6copy"/>
+				<ref bean="anMessage7copy"/>
+				<ref bean="anMessage8copy"/>
+				<ref bean="anMessage9copy"/>
+				<ref bean="anMessage10copy"/>
 			</list>
 		</property>
 		<property name="actor" ref="user2"/>
@@ -3389,6 +3409,148 @@
 		<property name="sender" ref="agent3"/>
 		<property name="recipient" ref="agent4"/>
 	</bean>
+	
+	<bean id="anMessage6" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="27/09/2017 10:30"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm having a bad day"/>
+		<property name="body" value="I'll tell you about it tomorrow"/>
+		<property name="priority" value="LOW"/>
+		<property name="folder" ref="folder2"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage6copy" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="27/09/2017 10:30"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm having a bad day"/>
+		<property name="body" value="I'll tell you about it tomorrow"/>
+		<property name="priority" value="LOW"/>
+		<property name="folder" ref="folder6"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage7" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="10/12/2017 21:34"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm listening to Lana Del Rey"/>
+		<property name="body" value="I feel like I wanna die"/>
+		<property name="priority" value="LOW"/>
+		<property name="folder" ref="folder2"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage7copy" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="10/12/2017 21:34"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm listening to Lana Del Rey"/>
+		<property name="body" value="I feel like I wanna die"/>
+		<property name="priority" value="LOW"/>
+		<property name="folder" ref="folder6"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage8" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="11/04/2018 00:29"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm at the Feria of Seville"/>
+		<property name="body" value="I can only think about rebujito and sevillanas right now"/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder2"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage8copy" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="11/04/2018 00:29"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm at the Feria of Seville"/>
+		<property name="body" value="I can only think about rebujito and sevillanas right now"/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder6"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage9" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="29/03/2018 15:11"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm tired of winter"/>
+		<property name="body" value="I just wanna go to the beach and have fun at Mazagón :("/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder2"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage9copy" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="29/03/2018 15:11"/>
+			</bean>
+		</property>
+		<property name="subject" value="I'm tired of winter"/>
+		<property name="body" value="I just wanna go to the beach and have fun at Mazagón :("/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder6"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage10" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="28/07/2017 17:30"/>
+			</bean>
+		</property>
+		<property name="subject" value="I can't stand summer"/>
+		<property name="body" value="It's TOO hot"/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder2"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	<bean id="anMessage10copy" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="28/07/2017 17:30"/>
+			</bean>
+		</property>
+		<property name="subject" value="I can't stand summer"/>
+		<property name="body" value="It's TOO hot"/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder6"/>
+		<property name="sender" ref="user1"/>
+		<property name="recipient" ref="user2"/>
+	</bean>
+	
+	
 	
 	
 
