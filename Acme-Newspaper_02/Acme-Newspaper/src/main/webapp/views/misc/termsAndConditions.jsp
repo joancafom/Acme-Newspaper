@@ -80,7 +80,13 @@ services.</p>
 or delete (as well as to see) any of the information we store about you in our servers. You will be 
 sent in the next 24h further instructions on how to continue with this process.</p>
 
-<h3>8. Applicable laws, competent jurisdiction and notifications</h3>
+<h3>8. Inappropriate elements</h3>
+<p>The Company reserves the right to remove, and won't allow to manage in the website, any newspaper, article, chirp or advertisement 
+that may be considered inappropiate by any of the following reasons: It encourages vandalism, racism, 
+eating disorders, bullying, gambling, self-harm, hate to either people or animals, or any illegal 
+action.</p>
+
+<h3>9. Applicable laws, competent jurisdiction and notifications</h3>
 <p>The current conditions are subject and interpreted according to the spanish Laws. For any demand the 
 competent authorities will be the courts and tribunals of <strong>Madrid</strong>. All the 
 notifications, requirements, petitions and other communications that the User desires to make to the 
@@ -159,7 +165,13 @@ la modificación o eliminación (además de ver) toda la información sobre ti que g
 servidores. Se te enviará en las siguientes 24h instrucciones más a fondo sobre cómo continuar con el 
 proceso.</p>
 
-<h3>8. Legislación aplicable, jurisdicción competente y notificaciones</h3>
+<h3>8. Elementos inapropiados</h3>
+<p>La Compañía se reserva el derecho de eliminar, y no permitirá gestionar en la página web, cualquier 
+periódico, artículo, chirp o anuncio que pueda ser considerado inapropiado por cualquiera de las siguientes razones: Incentiva el
+vandalismo, el racismo, los desórdenes alimenticios, el acoso, las apuestas, la autolesión, el 
+odio a personas o animales, o cualquier acción ilegal.</p>
+
+<h3>9. Legislación aplicable, jurisdicción competente y notificaciones</h3>
 <p>Las presentes condiciones se rigen y se interpretan de acuerdo con las Leyes de España. Para 
 cualquier reclamación serán competentes los juzgados y tribunales de <strong>Madrid</strong>. Todas 
 las notificaciones, requerimientos, peticiones y otras comunicaciones que el Usuario desee efectuar a 

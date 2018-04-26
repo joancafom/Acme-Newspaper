@@ -244,6 +244,7 @@
 				<ref bean="newspaper6"/>
 			</list>
 		</property>
+		<property name="agent" ref="agent1"/>
 	</bean>
 	
 	<bean id="advertisement2" class="domain.Advertisement">
@@ -258,6 +259,7 @@
 				<ref bean="newspaper1"/>
 			</list>
 		</property>
+		<property name="agent" ref="agent1"/>
 	</bean>
 	
 	<bean id="advertisement3" class="domain.Advertisement">
@@ -271,6 +273,7 @@
 				<ref bean="newspaper4"/>
 			</list>
 		</property>
+		<property name="agent" ref="agent2"/>
 	</bean>
 	
 	<bean id="advertisement4" class="domain.Advertisement">
@@ -284,6 +287,7 @@
 				<ref bean="newspaper3"/>
 			</list>
 		</property>
+		<property name="agent" ref="agent3"/>
 	</bean>
 	
 	<bean id="advertisement5" class="domain.Advertisement">
@@ -297,6 +301,7 @@
 				<ref bean="newspaper6"/>
 			</list>
 		</property>
+		<property name="agent" ref="agent3"/>
 	</bean>
 	
 	<bean id="advertisement6" class="domain.Advertisement">
@@ -311,7 +316,9 @@
 				<ref bean="newspaper7"/>
 			</list>
 		</property>
+		<property name="agent" ref="agent3"/>
 	</bean>
+	
 	<!-- Agent -->
 	
 	<bean id="agent1" class="domain.Agent">
@@ -323,6 +330,8 @@
 		<property name="phoneNumber" value="+34651980700"/>
 		<property name="advertisements">
 			<list>
+				<ref bean="advertisement1"/>
+				<ref bean="advertisement2"/>
 			</list>
 		</property>
 		<property name="sentMessages">
@@ -344,6 +353,7 @@
 		<property name="userAccount" ref="userAccount14"/>
 		<property name="advertisements">
 			<list>
+				<ref bean="advertisement3"/>
 			</list>
 		</property>
 		<property name="sentMessages">
@@ -364,10 +374,14 @@
 		<property name="userAccount" ref="userAccount15"/>
 		<property name="advertisements">
 			<list>
+				<ref bean="advertisement4"/>
+				<ref bean="advertisement5"/>
+				<ref bean="advertisement6"/>
 			</list>
 		</property>
 		<property name="sentMessages">
 			<list>
+				<ref bean="anMessage5"/>
 			</list>
 		</property>
 		<property name="receivedMessages">
@@ -391,6 +405,7 @@
 		</property>
 		<property name="receivedMessages">
 			<list>
+				<ref bean="anMessage5copy"/>
 			</list>
 		</property>
 	</bean>
@@ -3345,6 +3360,34 @@
 		<property name="folder" ref="folder61"/>
 		<property name="sender" ref="customer1"/>
 		<property name="recipient" ref="agent1"/>
+	</bean>
+	
+	<bean id="anMessage5" class="domain.ANMessage">
+		<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="13/11/2017 11:13"/>
+			</bean>
+		</property>
+		<property name="subject" value="Happy Birthday!"/>
+		<property name="body" value="Wanna do something today? I have a surprise for you"/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder72"/>
+		<property name="sender" ref="agent3"/>
+		<property name="recipient" ref="agent4"/>
+	</bean>
+	
+	<bean id="anMessage5copy" class="domain.ANMessage">
+	<property name="sentMoment">
+			<bean factory-method="parse" factory-bean="dateFormat">
+				<constructor-arg value="13/11/2017 11:13"/>
+			</bean>
+		</property>
+		<property name="subject" value="Happy Birthday!"/>
+		<property name="body" value="Wanna do something today? I have a surprise for you"/>
+		<property name="priority" value="HIGH"/>
+		<property name="folder" ref="folder76"/>
+		<property name="sender" ref="agent3"/>
+		<property name="recipient" ref="agent4"/>
 	</bean>
 	
 	
