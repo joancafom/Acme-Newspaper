@@ -3,17 +3,21 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.AdvertisementRepository;
+import security.LoginService;
 import domain.Advertisement;
 import domain.Agent;
+import domain.CreditCard;
 import domain.Newspaper;
 
 @Service
@@ -24,10 +28,48 @@ public class AdvertisementService {
 	@Autowired
 	private AdvertisementRepository	advertisementRepository;
 
-
 	// Supporting Services
 
+	@Autowired
+	private AgentService			agentService;
+
+
 	// CRUD Methods -------------------------------
+
+	/* v1.0 - josembell */
+	public Advertisement create() {
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+
+		final Advertisement advertisement = new Advertisement();
+		advertisement.setAgent(agent);
+		advertisement.setContainsTaboo(false);
+		advertisement.setNewspapers(new HashSet<Newspaper>());
+		advertisement.setCreditCard(new CreditCard());
+
+		return advertisement;
+	}
+
+	/* v1.0 - josembell */
+	public Advertisement save(final Advertisement advertisement) {
+		Assert.notNull(advertisement);
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+		Assert.isTrue(advertisement.getAgent().equals(agent));
+
+		final LocalDate now = new LocalDate();
+		Assert.notNull(advertisement.getCreditCard());
+
+		// Assert (year == current && month == current) || year == future || (year == current && month == future)
+		Assert.isTrue((now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() == advertisement.getCreditCard().getMonth()) || (now.getYear() < advertisement.getCreditCard().getYear())
+			|| (now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() < advertisement.getCreditCard().getMonth()));
+
+		final Advertisement saved = this.advertisementRepository.save(advertisement);
+		if (advertisement.getId() == 0)
+			agent.getAdvertisements().add(saved);
+
+		return saved;
+	}
 
 	// Other Business Methods -------------------------------
 
