@@ -50,6 +50,8 @@
 		
 		<security:intercept-url pattern="/advertisement/agent/create.do" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/advertisement/agent/edit.do" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/advertisement/agent/advertise.do" access="hasRole('AGENT')" />
+		
 		
 		<security:intercept-url pattern="/agent/register.do" access="isAnonymous()" /> 
 		

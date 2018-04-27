@@ -113,6 +113,7 @@ public class SubscriptionServiceTest extends AbstractTest {
 			subscription.getCreditCard().setYear(year);
 
 			this.subscriptionService.save(subscription);
+			this.subscriptionService.flush();
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

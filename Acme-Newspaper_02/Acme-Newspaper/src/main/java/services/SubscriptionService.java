@@ -81,6 +81,13 @@ public class SubscriptionService {
 
 		return this.subscriptionRepository.save(subscription);
 	}
+
+	/* v1.0 - josembell */
+	public void flush() {
+		this.subscriptionRepository.flush();
+
+	}
+
 	//Level A Requirements -----------
 
 	public Boolean hasSubscription(final Customer customer, final Newspaper newspaper) {
@@ -89,4 +96,5 @@ public class SubscriptionService {
 
 		return this.subscriptionRepository.getSubscriptionCustomerNewspaperId(customer.getId(), newspaper.getId()) == null ? false : true;
 	}
+
 }
