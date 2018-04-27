@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AdvertisementRepository;
 import security.LoginService;
@@ -43,6 +45,11 @@ public class AdvertisementService {
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 
+	// Validator -------------------------------------------------------------
+
+	@Autowired
+	private Validator					validator;
+
 
 	// CRUD Methods -------------------------------
 
@@ -58,6 +65,19 @@ public class AdvertisementService {
 		advertisement.setCreditCard(new CreditCard());
 
 		return advertisement;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public void delete(final Advertisement advertisement) {
+		Assert.notNull(advertisement);
+
+		final Administrator admin = this.administratorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		for (final Newspaper n : advertisement.getNewspapers())
+			n.getAdvertisements().remove(advertisement);
+
+		this.advertisementRepository.delete(advertisement);
 	}
 
 	/* v1.0 - josembell */
@@ -79,6 +99,16 @@ public class AdvertisementService {
 			agent.getAdvertisements().add(saved);
 
 		return saved;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Advertisement> findAll() {
+		return this.advertisementRepository.findAll();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Page<Advertisement> findAll(final int page, final int size) {
+		return this.advertisementRepository.findAllPag(new PageRequest(page - 1, size));
 	}
 
 	/* v1.0 - josembell */
@@ -155,6 +185,19 @@ public class AdvertisementService {
 	/* v1.0 - josembell */
 	public Collection<Advertisement> getNotTabooed() {
 		return this.advertisementRepository.findNotTabooed();
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Advertisement reconstruct(final Advertisement prunedAdvertisement, final BindingResult binding) {
+		final Advertisement res;
+
+		Assert.notNull(prunedAdvertisement);
+		res = this.findOne(prunedAdvertisement.getId());
+
+		Assert.notNull(res);
+		this.validator.validate(res, binding);
+
+		return res;
 	}
 
 	/* v1.0 - josembell */

@@ -17,7 +17,11 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="advertisements" id="advertisement" requestURI="advertisement/administrator/list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
+<jstl:if test="${landing == 'list'}">
+	<h3><spring:message code="advertisements.taboo"/></h3>
+</jstl:if>
+
+<display:table name="advertisements" id="advertisement" requestURI="advertisement/administrator/${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="advertisement.title">
 		<jstl:out value="${advertisement.title}"/>
 	</display:column>
@@ -30,4 +34,9 @@
 	<display:column titleKey="advertisement.agent">
 		<jstl:out value="${advertisement.agent.name} ${advertisement.agent.surnames}"/>
 	</display:column>
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+			<a href="advertisement/administrator/delete.do?advertisementId=${advertisement.id}"><spring:message code="advertisement.delete"/></a>
+		</display:column>
+	</security:authorize>
 </display:table>

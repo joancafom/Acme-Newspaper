@@ -46,6 +46,7 @@ window.onload = function(){
 			<li><a href="newspaper/administrator/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			<li><a href="newspaper/administrator/listTabooed.do"><spring:message code="master.page.tabooedNewspapers"/></a></li>
 			<li><a href="chirp/administrator/list.do"><spring:message code="master.page.tabooedChirps"/></a></li>
+			<li><a href="advertisement/administrator/listAll.do"><spring:message code="master.page.advertisements"/></a></li>
 			<li><a href="advertisement/administrator/list.do"><spring:message code="master.page.tabooedAdvertisements"/></a></li>
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			<li><a href="systemConfiguration/administrator/listTabooWords.do"><spring:message code="master.page.systemConfiguration"/></a></li>

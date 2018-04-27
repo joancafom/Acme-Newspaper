@@ -16,14 +16,19 @@
        
 <tiles-definitions>
 
-	<definition name="advertisement/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit an Advertisement" />
-		<put-attribute name="body" value="/views/advertisement/edit.jsp" />
-	</definition>
-	
 	<definition name="advertisement/advertise" extends="master.page">	
 		<put-attribute name="title" value="Advertise a Newspaper" />
 		<put-attribute name="body" value="/views/advertisement/advertise.jsp" />
+	</definition>
+	
+	<definition name="advertisement/delete" extends="master.page">	
+		<put-attribute name="title" value="Delete Advertisement" />
+		<put-attribute name="body" value="/views/advertisement/delete.jsp" />
+	</definition>
+	
+	<definition name="advertisement/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit an Advertisement" />
+		<put-attribute name="body" value="/views/advertisement/edit.jsp" />
 	</definition>
 	
 	<definition name="advertisement/list" extends="master.page">	
