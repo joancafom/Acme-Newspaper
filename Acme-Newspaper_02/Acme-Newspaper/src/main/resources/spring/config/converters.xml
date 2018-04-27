@@ -62,9 +62,11 @@
 		<bean class="converters.UserToStringConverter"/>
 		<bean class="converters.StringToUserConverter"/>
 		
-		 
-  
+		<bean class="converters.VolumeToStringConverter"/>
+		<bean class="converters.StringToVolumeConverter"/>
 		
+		<bean class="converters.VolumeSubscriptionToStringConverter"/>
+		<bean class="converters.StringToVolumeSubscriptionConverter"/>
 		
 	</util:list>
 	

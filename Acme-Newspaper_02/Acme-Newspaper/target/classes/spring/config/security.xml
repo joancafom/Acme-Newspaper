@@ -145,6 +145,9 @@
 		<security:intercept-url pattern="/volume/customer/list.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/volume/user/display.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/volume/user/list.do" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/volumeSubscription/customer/create.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/volumeSubscription/customer/edit.do" access="hasRole('CUSTOMER')" />
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

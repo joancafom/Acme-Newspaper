@@ -26,6 +26,7 @@ import services.AdvertisementService;
 import services.ArticleService;
 import services.CustomerService;
 import services.SubscriptionService;
+import services.VolumeSubscriptionService;
 import controllers.AbstractController;
 import domain.Advertisement;
 import domain.Article;
@@ -35,27 +36,31 @@ import domain.Customer;
 @RequestMapping("/article/customer")
 public class ArticleCustomerController extends AbstractController {
 
-	private final String			ACTOR_WS	= "customer/";
+	private final String				ACTOR_WS	= "customer/";
 
 	// Services -------------------------------------------------
 
 	@Autowired
-	private ArticleService			articleService;
+	private AdvertisementService		advertisementService;
 
 	@Autowired
-	private CustomerService			customerService;
+	private ArticleService				articleService;
 
 	@Autowired
-	private SubscriptionService		subscriptionService;
+	private CustomerService				customerService;
 
 	@Autowired
-	private AdvertisementService	advertisementService;
+	private SubscriptionService			subscriptionService;
+
+	@Autowired
+	private VolumeSubscriptionService	volumeSubscriptionService;
 
 
 	// A-Level Requirements -------------------------------------
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by JA (ads)
+	// v3.0 - Updated by Alicia (AN2)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int articleId) {
 		final ModelAndView res;
@@ -65,7 +70,7 @@ public class ArticleCustomerController extends AbstractController {
 		final Customer customer = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(customer);
 
-		Assert.isTrue(this.subscriptionService.hasSubscription(customer, article.getNewspaper()) || article.getNewspaper().getIsPublic());
+		Assert.isTrue(this.subscriptionService.hasSubscription(customer, article.getNewspaper()) || article.getNewspaper().getIsPublic() || this.volumeSubscriptionService.hasVolumeSubscriptionNewspaper(customer, article.getNewspaper()));
 		Assert.isTrue(article.getPublicationDate() != null);
 
 		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
@@ -78,7 +83,6 @@ public class ArticleCustomerController extends AbstractController {
 
 		return res;
 	}
-
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView search() {

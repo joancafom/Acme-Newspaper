@@ -32,6 +32,7 @@
 		<value>/views/systemConfiguration/tiles.xml</value>
 		<value>/views/user/tiles.xml</value>
 		<value>/views/volume/tiles.xml</value>
+		<value>/views/volumeSubscription/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 	</util:list>
 

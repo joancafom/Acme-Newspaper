@@ -21,9 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import services.CustomerService;
 import services.NewspaperService;
 import services.VolumeService;
+import services.VolumeSubscriptionService;
 import controllers.AbstractController;
+import domain.Customer;
 import domain.Newspaper;
 import domain.Volume;
 
@@ -31,19 +35,27 @@ import domain.Volume;
 @RequestMapping("/volume/customer")
 public class VolumeCustomerController extends AbstractController {
 
-	private final String		ACTOR_WS	= "customer/";
+	private final String				ACTOR_WS	= "customer/";
 
 	//Services
-	@Autowired
-	private VolumeService		volumeService;
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private CustomerService				customerService;
+
+	@Autowired
+	private NewspaperService			newspaperService;
+
+	@Autowired
+	private VolumeService				volumeService;
+
+	@Autowired
+	private VolumeSubscriptionService	volumeSubscriptionService;
 
 
-	//Level B Requirements
+	//Level C Requirements
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int volumeId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer page) {
 
@@ -52,14 +64,19 @@ public class VolumeCustomerController extends AbstractController {
 		final Volume volume = this.volumeService.findOne(volumeId);
 		Assert.notNull(volume);
 
+		final Customer customer = this.customerService.findByUserAccount(LoginService.getPrincipal());
+
 		final Page<Newspaper> pageResult = this.newspaperService.findPublishedByVolume(volume, page, 5);
 		final Collection<Newspaper> newspapers = pageResult.getContent();
 		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
+		final Boolean subscriber = this.volumeSubscriptionService.hasVolumeSubscriptionVolume(customer, volume);
 
 		res = new ModelAndView("volume/display");
 		res.addObject("volume", volume);
 		res.addObject("newspapers", newspapers);
 		res.addObject("resultSize", resultSize);
+		res.addObject("subscriber", subscriber);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 

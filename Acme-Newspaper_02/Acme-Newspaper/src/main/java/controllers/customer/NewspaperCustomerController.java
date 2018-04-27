@@ -26,6 +26,7 @@ import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
 import services.SubscriptionService;
+import services.VolumeSubscriptionService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Customer;
@@ -35,26 +36,30 @@ import domain.Newspaper;
 @RequestMapping("/newspaper/customer")
 public class NewspaperCustomerController extends AbstractController {
 
-	private final String		ACTOR_WS	= "customer/";
+	private final String				ACTOR_WS	= "customer/";
 
 	// Services -------------------------------------------------
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService				articleService;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService				customerService;
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService			newspaperService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private SubscriptionService			subscriptionService;
+
+	@Autowired
+	private VolumeSubscriptionService	volumeSubscriptionService;
 
 
 	// A-Level Requirements -------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by Alicia (AN2)
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int newspaperId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
@@ -65,7 +70,7 @@ public class NewspaperCustomerController extends AbstractController {
 		final Customer customer = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(customer);
 
-		final Boolean subscriber = this.subscriptionService.hasSubscription(customer, newspaper);
+		final Boolean subscriber = this.subscriptionService.hasSubscription(customer, newspaper) || this.volumeSubscriptionService.hasVolumeSubscriptionNewspaper(customer, newspaper);
 
 		final Page<Article> pageResult = this.articleService.getAllFinalByNewspaper(newspaper, page, 5);
 		final Collection<Article> articles = pageResult.getContent();

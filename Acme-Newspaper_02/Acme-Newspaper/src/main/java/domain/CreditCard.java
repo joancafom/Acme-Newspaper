@@ -6,6 +6,8 @@ import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -36,7 +38,8 @@ public class CreditCard {
 		return this.brandName;
 	}
 
-	@NotBlank
+	@NotNull
+	@Pattern(regexp = "(^[0-9]+$)")
 	@CreditCardNumber
 	public String getNumber() {
 		return this.number;
