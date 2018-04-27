@@ -303,6 +303,38 @@ public class NewspaperService {
 
 	// Acme-Newspaper 2.0 ---------------------------------------------------
 
+	//There is no equivalent for Collection as you can access directly from .getNewspapers()
+	// v1.0 - Implemented by JA
+	public Page<Newspaper> findByVolume(final Volume volume, final int page, final int size) {
+		Assert.notNull(volume);
+
+		final Page<Newspaper> res = this.newspaperRepository.findByVolume(volume.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by JA
+	public Collection<Newspaper> findPublishedByVolume(final Volume volume) {
+
+		Assert.notNull(volume);
+
+		final Collection<Newspaper> res = this.newspaperRepository.findPublishedByVolume(volume.getId());
+		Assert.notNull(res);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by JA
+	public Page<Newspaper> findPublishedByVolume(final Volume volume, final int page, final int size) {
+		Assert.notNull(volume);
+
+		final Page<Newspaper> res = this.newspaperRepository.findPublishedByVolume(volume.getId(), new PageRequest(page - 1, size));
+		Assert.notNull(res);
+
+		return res;
+	}
+
 	// v1.0 - Implemented by Alicia
 	public Collection<Newspaper> getAdvertised(final Agent agent) {
 		Assert.notNull(agent);

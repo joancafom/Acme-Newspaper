@@ -17,17 +17,12 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="advertisements" id="advertisement" requestURI="advertisement/administrator/list.do" pagesize="5" class="displaytag" style="width: 100%">
-	<display:column titleKey="advertisement.title">
-		<jstl:out value="${advertisement.title}"/>
+<display:table name="volumes" id="volume" requestURI="volume/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true" size="${resultSize}">
+
+	<display:column titleKey="volume.title">
+		<a href="volume/${actorWS}display.do?volumeId=${volume.id}"><jstl:out value="${volume.title}"/></a>
 	</display:column>
-	<display:column titleKey="advertisement.bannerURL">
-		<a href="${advertisement.bannerURL}"><jstl:out value="${advertisement.bannerURL}"/></a>
-	</display:column>
-	<display:column titleKey="advertisement.targetURL">
-		<a href="${advertisement.targetURL}"><jstl:out value="${advertisement.targetURL}"/></a>
-	</display:column>
-	<display:column titleKey="advertisement.agent">
-		<jstl:out value="${advertisement.agent.name} ${advertisement.agent.surnames}"/>
-	</display:column>
+	<display:column property="description" titleKey="volume.description" />
+	<display:column property="year" titleKey="volume.year" />
+	
 </display:table>

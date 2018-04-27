@@ -46,9 +46,9 @@ window.onload = function(){
 			<li><a href="newspaper/administrator/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			<li><a href="newspaper/administrator/listTabooed.do"><spring:message code="master.page.tabooedNewspapers"/></a></li>
 			<li><a href="chirp/administrator/list.do"><spring:message code="master.page.tabooedChirps"/></a></li>
-			<li><a href="advertisement/administrator/list.do"><spring:message code="master.page.tabooedAdvertisements"/></a></li>
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			<li><a href="systemConfiguration/administrator/listTabooWords.do"><spring:message code="master.page.systemConfiguration"/></a></li>
+			<li><a href="volume/administrator/list.do"><spring:message code="master.page.volumes"/></a></li>
 			
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -58,6 +58,7 @@ window.onload = function(){
     	<ul class="nav navbar-nav">
     		<li><a href="newspaper/agent/listAdvertised.do"><spring:message code="master.page.advertisedNewspapers"/></a></li>
     		<li><a href="newspaper/agent/listNotAdvertised.do"><spring:message code="master.page.notAdvertisedNewspapers"/></a></li>
+    		<li><a href="volume/agent/list.do"><spring:message code="master.page.volumes"/></a></li>
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -69,6 +70,7 @@ window.onload = function(){
 			<li><a href="newspaper/customer/list.do"><spring:message code="master.page.newspapers"/></a></li>
 			<li ><a href="article/customer/search.do"><spring:message code="master.page.searchArticles"/></a></li>
 			<li><a href="newspaper/customer/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
+			<li><a href="volume/customer/list.do"><spring:message code="master.page.volumes"/></a></li>
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -86,6 +88,7 @@ window.onload = function(){
 			<li ><a href="article/user/search.do"><spring:message code="master.page.searchArticles"/></a></li>
     		<li><a href="newspaper/user/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
     		<li><a href="chirp/user/stream.do"><spring:message code="master.page.chirps"/></a></li>
+    		<li><a href="volume/user/list.do"><spring:message code="master.page.volumes"/></a></li>
 
 
 			<li><a><security:authentication property="principal.username" /></a></li>
@@ -99,6 +102,7 @@ window.onload = function(){
 			<li><a href="newspaper/listPublished.do"><spring:message code="master.page.publishedNewspapers"/></a></li>
 			<li ><a href="article/search.do"><spring:message code="master.page.searchArticles"/></a></li>
 			<li><a href="newspaper/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
+			<li><a href="volume/list.do"><spring:message code="master.page.volumes"/></a></li>
 			
 		</ul>
 		<ul class="nav navbar-nav navbar-right">

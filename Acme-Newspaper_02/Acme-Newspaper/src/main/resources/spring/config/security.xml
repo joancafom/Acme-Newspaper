@@ -134,6 +134,17 @@
 		<security:intercept-url pattern="/user/user/list.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/register.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/user/user/unfollow.do" access="hasRole('USER')" /> 
+		
+		<security:intercept-url pattern="/volume/display.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/volume/list.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/volume/administrator/display.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/volume/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/volume/agent/display.do" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/volume/agent/list.do" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/volume/customer/display.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/volume/customer/list.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/volume/user/display.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/list.do" access="hasRole('USER')" />
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
