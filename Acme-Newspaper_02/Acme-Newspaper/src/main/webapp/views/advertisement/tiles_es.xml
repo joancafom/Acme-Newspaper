@@ -21,9 +21,4 @@
 		<put-attribute name="body" value="/views/advertisement/edit.jsp" />
 	</definition>
 	
-	<definition name="advertisement/advertise" extends="master.page">	
-		<put-attribute name="title" value="Anuncia un Periódico" />
-		<put-attribute name="body" value="/views/advertisement/advertise.jsp" />
-	</definition>
-	
 </tiles-definitions>
