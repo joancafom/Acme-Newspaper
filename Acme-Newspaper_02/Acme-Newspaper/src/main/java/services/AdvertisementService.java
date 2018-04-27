@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +72,11 @@ public class AdvertisementService {
 		return saved;
 	}
 
+	/* v1.0 - josembell */
+	public Advertisement findOne(final int advertisementId) {
+		return this.advertisementRepository.findOne(advertisementId);
+	}
+
 	// Other Business Methods -------------------------------
 
 	// v1.0 - Implemented by Alicia
@@ -99,6 +105,31 @@ public class AdvertisementService {
 		}
 
 		return res;
+
+	}
+
+	/* v1.0 - josembell */
+	public void advertise(final Newspaper newspaper, final Advertisement advertisement) {
+		Assert.notNull(newspaper);
+		Assert.notNull(advertisement);
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+		Assert.isTrue(agent.getAdvertisements().contains(advertisement));
+		Assert.isTrue(advertisement.getAgent().equals(agent));
+		Assert.isTrue(!advertisement.getNewspapers().contains(newspaper));
+		Assert.isTrue(!newspaper.getAdvertisements().contains(advertisement));
+
+		newspaper.getAdvertisements().add(advertisement);
+		advertisement.getNewspapers().add(newspaper);
+	}
+
+	/* v1.0 - josembell */
+	public Collection<Advertisement> findAdvertisementsYetToAdvertInNewspaper(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+
+		return this.advertisementRepository.findAdvertisementsYetToAdvertInNewspaper(newspaper.getId(), agent.getId());
 
 	}
 

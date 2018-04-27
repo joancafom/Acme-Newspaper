@@ -46,8 +46,17 @@
 			</display:column>
 		</jstl:if>
 	</security:authorize>
+	<security:authorize access="hasRole('AGENT')">
+		<display:column>
+			<a href="advertisement/agent/advertise.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.advertise"/></a>
+		</display:column>
+	</security:authorize>
 </display:table>
 
 <jstl:if test="${mine==true}">
 	<a href="newspaper/user/create.do"><spring:message code="newspaper.create"/></a>
 </jstl:if>
+
+<security:authorize access="hasRole('AGENT')">
+	<a href="advertisement/agent/create.do"><spring:message code="newspaper.advertisement.create"/></a>
+</security:authorize>
