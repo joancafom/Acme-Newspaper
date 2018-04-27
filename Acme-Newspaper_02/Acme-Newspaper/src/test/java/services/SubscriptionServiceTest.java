@@ -51,25 +51,25 @@ public class SubscriptionServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 				/* + 1) Un customer se suscribe introduciendo información valida a un periodico privado */
-				"customer2", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, null
+				"customer2", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, null
 			}, {
 				/* - 2) Un usuario no identificado se suscribe a un periodico */
-				null, "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, IllegalArgumentException.class
+				null, "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, IllegalArgumentException.class
 			}, {
 				/* - 3) Un user se suscribe a un periodico */
-				"user2", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, IllegalArgumentException.class
+				"user2", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, IllegalArgumentException.class
 			}, {
 				/* - 4) Un admin se suscribe a un periodico */
-				"admin", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, IllegalArgumentException.class
+				"admin", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, IllegalArgumentException.class
 			}, {
 				/* - 5) Un customer se suscribe a un periodico null */
-				"customer2", null, "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, IllegalArgumentException.class
+				"customer2", null, "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, IllegalArgumentException.class
 			}, {
 				/* - 6) Un customer se suscribe a un periodico publico */
-				"customer2", "newspaper1", "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, IllegalArgumentException.class
+				"customer2", "newspaper1", "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, IllegalArgumentException.class
 			}, {
 				/* - 7) Un customer se suscribe a un periodico ya suscrito */
-				"customer1", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 18, 12, IllegalArgumentException.class
+				"customer1", "newspaper2", "Jose Bellido", "BBVA", "373185782581613", 859, 12, 2019, IllegalArgumentException.class
 			}
 		};
 
