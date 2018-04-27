@@ -55,6 +55,7 @@
 		<security:intercept-url pattern="/advertisement/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/advertisement/administrator/listAll.do" access="hasRole('ADMINISTRATOR')" />
 		
+		
 		<security:intercept-url pattern="/agent/register.do" access="isAnonymous()" /> 
 		
 		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 
@@ -146,7 +147,11 @@
 		<security:intercept-url pattern="/volume/customer/list.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/volume/user/display.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/volume/user/list.do" access="hasRole('USER')" />
-		
+		<security:intercept-url pattern="/volume/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/addNewspaper.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/removeNewspaper.do" access="hasRole('USER')" />
+
 		<security:intercept-url pattern="/volumeSubscription/customer/create.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/volumeSubscription/customer/edit.do" access="hasRole('CUSTOMER')" />
 

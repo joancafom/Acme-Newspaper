@@ -28,6 +28,7 @@
 	</jstl:if>
 </security:authorize>
 
+
 <display:table name="newspapers" id="newspaper" requestURI="volume/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="newspaper.title">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>
@@ -45,4 +46,13 @@
 		<a href="newspaper/administrator/delete.do?newspaperId=${newspaper.id}"><spring:message code="newspaper.delete"/></a>
 	</display:column>
 	</security:authorize>
+	<jstl:if test="${mine==true}">
+		<display:column>
+			<a href="volume/user/removeNewspaper.do?volumeId=${volume.id}&newspaperId=${newspaper.id}"><spring:message code="volume.removeNewspaper"/></a>
+		</display:column>
+	</jstl:if>
 </display:table>
+
+<jstl:if test="${mine==true}">
+	<a href="volume/user/addNewspaper.do?volumeId=${volume.id}"><spring:message code="volume.addNewspaper"/></a>
+</jstl:if>

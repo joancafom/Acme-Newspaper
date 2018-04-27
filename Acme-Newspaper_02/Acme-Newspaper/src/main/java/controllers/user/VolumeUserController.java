@@ -12,20 +12,27 @@ package controllers.user;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.NewspaperService;
+import services.UserService;
 import services.VolumeService;
 import controllers.AbstractController;
 import domain.Newspaper;
+import domain.User;
 import domain.Volume;
+import forms.ManageVolumeForm;
 
 @Controller
 @RequestMapping("/volume/user")
@@ -40,14 +47,19 @@ public class VolumeUserController extends AbstractController {
 	@Autowired
 	private NewspaperService	newspaperService;
 
+	@Autowired
+	private UserService			userService;
 
-	//Level B Requirements
+
+	//Level C Requirements
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int volumeId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer page) {
 
 		final ModelAndView res;
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
 
 		final Volume volume = this.volumeService.findOne(volumeId);
 		Assert.notNull(volume);
@@ -60,6 +72,8 @@ public class VolumeUserController extends AbstractController {
 		res.addObject("volume", volume);
 		res.addObject("newspapers", newspapers);
 		res.addObject("resultSize", resultSize);
+		if (user.getVolumes().contains(volume))
+			res.addObject("mine", true);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 
@@ -82,6 +96,118 @@ public class VolumeUserController extends AbstractController {
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
+	}
+
+	// Level B Requirements
+
+	/* v1.0 -josembell */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		final ModelAndView result;
+		final Volume volume = this.volumeService.create();
+
+		result = this.createEditModelAndView(volume);
+
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final Volume volume, final BindingResult binding) {
+		ModelAndView res;
+
+		if (binding.hasErrors())
+			res = this.createEditModelAndView(volume);
+		else
+			try {
+
+				this.volumeService.save(volume);
+				res = new ModelAndView("redirect:/volume/user/list.do");
+
+			} catch (final Throwable oops) {
+				res = this.createEditModelAndView(volume, "volume.commit.error");
+			}
+
+		return res;
+	}
+
+	/* v1.0 -josembell */
+	@RequestMapping(value = "/addNewspaper", method = RequestMethod.GET)
+	public ModelAndView addNewspaper(@RequestParam final int volumeId) {
+		final ModelAndView result;
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+		final Volume volume = this.volumeService.findOne(volumeId);
+		Assert.notNull(volume);
+		Assert.isTrue(user.getVolumes().contains(volume));
+
+		final ManageVolumeForm form = new ManageVolumeForm();
+		form.setVolume(volume);
+
+		result = new ModelAndView("volume/manage");
+		result.addObject("addNewspaper", true);
+		result.addObject("manageVolumeForm", form);
+		final Collection<Newspaper> newspapers = this.newspaperService.findNewspapersYetToBeIncludedInVolume(volume);
+		result.addObject("newspapers", newspapers);
+
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/addNewspaper", method = RequestMethod.POST, params = "add")
+	public ModelAndView addNewspaper(final ManageVolumeForm form, final BindingResult binding) {
+		ModelAndView res;
+
+		try {
+			this.volumeService.addNewspaper(form.getVolume(), this.newspaperService.findOne(form.getNewspaperId()));
+			res = new ModelAndView("redirect:/volume/user/display.do?volumeId=" + form.getVolume().getId());
+
+		} catch (final Throwable oops) {
+			res = new ModelAndView("volume/manage");
+			res.addObject("addNewspaper", true);
+			res.addObject("manageVolumeForm", form);
+			res.addObject("newspapers", this.newspaperService.findNewspapersYetToBeIncludedInVolume(form.getVolume()));
+			res.addObject("message", "volume.commit.error");
+		}
+
+		return res;
+	}
+
+	/* v1.0 -josembell */
+	@RequestMapping(value = "/removeNewspaper", method = RequestMethod.GET)
+	public ModelAndView removeNewspaper(@RequestParam final int volumeId, @RequestParam final int newspaperId) {
+		ModelAndView result;
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+		final Volume volume = this.volumeService.findOne(volumeId);
+		Assert.notNull(volume);
+		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
+		Assert.notNull(newspaper);
+
+		try {
+			this.volumeService.removeNewspaper(volume, newspaper);
+			result = new ModelAndView("redirect:/volume/user/display.do?volumeId=" + volume.getId());
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/volume/user/display.do?volumeId=" + volume.getId());
+			result.addObject("message", "volume.commit.error");
+		}
+
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	protected ModelAndView createEditModelAndView(final Volume volume) {
+		return this.createEditModelAndView(volume, null);
+	}
+
+	/* v1.0 - josembell */
+	protected ModelAndView createEditModelAndView(final Volume volume, final String message) {
+		ModelAndView result;
+		result = new ModelAndView("volume/edit");
+		result.addObject("volume", volume);
+		result.addObject("message", message);
+
+		return result;
 	}
 
 }

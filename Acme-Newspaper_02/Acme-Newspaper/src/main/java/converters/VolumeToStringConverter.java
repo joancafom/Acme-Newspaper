@@ -14,13 +14,13 @@ public class VolumeToStringConverter implements Converter<Volume, String> {
 
 	@Override
 	public String convert(final Volume volume) {
-		final String result;
+		String result;
 
 		if (volume == null)
 			result = null;
 		else
 			result = String.valueOf(volume.getId());
-
 		return result;
 	}
+
 }

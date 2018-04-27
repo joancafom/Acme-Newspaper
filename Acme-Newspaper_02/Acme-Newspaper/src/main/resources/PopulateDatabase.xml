@@ -1370,6 +1370,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="volumes">
 			<list>
 				<ref bean="volume1"/>
+				<ref bean="volume3"/>
 			</list>
 		</property>
 		<property name="advertisements">
@@ -1400,6 +1401,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		</property>
 		<property name="volumes">
 			<list>
+				<ref bean="volume6"/>
 			</list>
 		</property>
 		<property name="advertisements">
@@ -1423,6 +1425,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		</property>
 		<property name="volumes">
 			<list>
+				<ref bean="volume3"/>
 			</list>
 		</property>
 		<property name="advertisements">
@@ -1445,6 +1448,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		</property>
 		<property name="volumes">
 			<list>
+				<ref bean="volume4"/>
 			</list>
 		</property>
 		<property name="advertisements">
@@ -1550,6 +1554,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="volumes">
 			<list>
 				<ref bean="volume2"/>
+				<ref bean="volume4"/>
 			</list>
 		</property>
 		<property name="advertisements">
@@ -1800,6 +1805,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 			<list>
 				<ref bean="newspaper5"/>
 				<ref bean="newspaper7"/>
+				<ref bean="newspaper8"/>
 			</list>
 		</property>
 		<property name="articles">
@@ -1891,7 +1897,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 	
 	<bean id="volume2" class="domain.Volume">
 		<property name="title" value="Sci-Tech"/>
-		<property name="description" value="Animals or Environment? But why not both?"/>
+		<property name="description" value="Discover everything about Science and Technology"/>
 		<property name="year" value="2018"/>
 		<property name="newspapers">
 			<list>
@@ -1902,42 +1908,46 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 	</bean>
 	
 	<bean id="volume3" class="domain.Volume">
-		<property name="title" value="Sci-Tech"/>
-		<property name="description" value="Animals or Environment? But why not both?"/>
-		<property name="year" value="2018"/>
+		<property name="title" value="Lifestyle"/>
+		<property name="description" value="Learn everything about life"/>
+		<property name="year" value="2017"/>
 		<property name="newspapers">
-		<list>
-		</list>
+			<list>
+				<ref bean="newspaper3"/>
+				<ref bean="newspaper4"/>
+			</list>
 		</property>
 	</bean>
 	
 	<bean id="volume4" class="domain.Volume">
-		<property name="title" value="Sci-Tech"/>
-		<property name="description" value="Animals or Environment? But why not both?"/>
-		<property name="year" value="2018"/>
+		<property name="title" value="Arts n' Crafts"/>
+		<property name="description" value="Discover everything about Art and learn how to create yours at home"/>
+		<property name="year" value="2017"/>
 		<property name="newspapers">
-		<list>
-		</list>
+			<list>
+				<ref bean="newspaper8"/>
+			</list>
 		</property>
 	</bean>
 	
 	<bean id="volume5" class="domain.Volume">
-		<property name="title" value="Sci-Tech"/>
-		<property name="description" value="Animals or Environment? But why not both?"/>
-		<property name="year" value="2018"/>
+		<property name="title" value="Politics"/>
+		<property name="description" value="Only the truth is here"/>
+		<property name="year" value="2017"/>
 		<property name="newspapers">
-		<list>
-		</list>
+			<list>
+			</list>
 		</property>
 	</bean>
 	
 	<bean id="volume6" class="domain.Volume">
-		<property name="title" value="Sci-Tech"/>
-		<property name="description" value="Animals or Environment? But why not both?"/>
+		<property name="title" value="Gaming"/>
+		<property name="description" value="The best newspapers and magazines about videogames"/>
 		<property name="year" value="2018"/>
 		<property name="newspapers">
-		<list>
-		</list>
+			<list>
+				<ref bean="newspaper2"/>
+			</list>
 		</property>
 	</bean>
 	

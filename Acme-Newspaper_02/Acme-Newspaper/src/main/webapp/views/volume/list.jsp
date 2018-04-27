@@ -26,3 +26,7 @@
 	<display:column property="year" titleKey="volume.year" />
 	
 </display:table>
+
+<security:authorize access="hasRole('USER')">
+	<a href="volume/user/create.do"><spring:message code="volume.create"/></a>
+</security:authorize>

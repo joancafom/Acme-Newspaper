@@ -26,4 +26,15 @@
 		<put-attribute name="body" value="/views/volume/list.jsp" />
 	</definition>
 
+	<definition name="volume/edit" extends="master.page">
+		<put-attribute name="title" value="Editar un Volumen" />
+		<put-attribute name="body" value="/views/volume/edit.jsp" />
+	</definition>
+	
+	<definition name="volume/manage" extends="master.page">
+		<put-attribute name="title" value="Administrar un Volumen" />
+		<put-attribute name="body" value="/views/volume/manage.jsp" />
+	</definition>
+	
+
 </tiles-definitions>

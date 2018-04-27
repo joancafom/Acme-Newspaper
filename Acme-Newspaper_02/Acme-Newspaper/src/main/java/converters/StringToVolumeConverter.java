@@ -16,7 +16,7 @@ import domain.Volume;
 public class StringToVolumeConverter implements Converter<String, Volume> {
 
 	@Autowired
-	private VolumeRepository	volumeRepository;
+	VolumeRepository	volumeRepository;
 
 
 	@Override
@@ -34,7 +34,7 @@ public class StringToVolumeConverter implements Converter<String, Volume> {
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
-
 		return result;
 	}
+
 }

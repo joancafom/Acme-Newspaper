@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -9,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import repositories.VolumeRepository;
+import security.LoginService;
+import domain.Newspaper;
+import domain.User;
 import domain.Volume;
 
 @Service
@@ -21,13 +26,22 @@ public class VolumeService {
 	@Autowired
 	private VolumeRepository	volumeRepository;
 
+	@Autowired
+	private UserService			userService;
 
-	//v1.0 - Implemented by JA
-	public Volume findOne(final int volumeId) {
-		return this.volumeRepository.findOne(volumeId);
-	}
 
 	//CRUD Methods
+
+	/* v1.0 - josembell */
+	public Volume create() {
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+
+		final Volume volume = new Volume();
+		volume.setNewspapers(new HashSet<Newspaper>());
+
+		return volume;
+	}
 
 	// v1.0 - Implemented by JA
 	public Collection<Volume> findAll() {
@@ -37,6 +51,52 @@ public class VolumeService {
 	// v1.0 - Implemented by JA
 	public Page<Volume> findAll(final int page, final int size) {
 		return this.volumeRepository.findAllPaged(new PageRequest(page - 1, size));
+	}
+
+	//v1.0 - Implemented by JA
+	public Volume findOne(final int volumeId) {
+		return this.volumeRepository.findOne(volumeId);
+	}
+
+	/* v1.0 - josembell */
+	public Volume save(final Volume volume) {
+		Assert.notNull(volume);
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+
+		final Volume saved = this.volumeRepository.save(volume);
+		user.getVolumes().add(saved);
+
+		return saved;
+	}
+
+	/* v1.0 - josembell */
+	public void addNewspaper(final Volume volume, final Newspaper newspaper) {
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+		Assert.notNull(volume);
+		Assert.notNull(newspaper);
+		Assert.isTrue(user.getNewspapers().contains(newspaper));
+		Assert.isTrue(user.getVolumes().contains(volume));
+		Assert.isTrue(!volume.getNewspapers().contains(newspaper));
+		Assert.isTrue(!newspaper.getVolumes().contains(volume));
+
+		newspaper.getVolumes().add(volume);
+		volume.getNewspapers().add(newspaper);
+	}
+
+	/* v1.0 - josembell */
+	public void removeNewspaper(final Volume volume, final Newspaper newspaper) {
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+		Assert.notNull(volume);
+		Assert.notNull(newspaper);
+		Assert.isTrue(user.getNewspapers().contains(newspaper));
+		Assert.isTrue(user.getVolumes().contains(volume));
+
+		newspaper.getVolumes().remove(volume);
+		volume.getNewspapers().remove(newspaper);
+
 	}
 
 	//Other Business Methods
