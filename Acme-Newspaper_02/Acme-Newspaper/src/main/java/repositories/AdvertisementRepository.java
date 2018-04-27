@@ -19,4 +19,8 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
 	/* v1.0 - josembell */
 	@Query("select distinct a from Advertisement a, Newspaper n where n.id=?1 and n not member of a.newspapers and a.agent.id=?2")
 	Collection<Advertisement> findAdvertisementsYetToAdvertInNewspaper(int newspaperId, int agentId);
+
+	/* v1.0 - josembell */
+	@Query("select a from Advertisement a where a.containsTaboo = true")
+	Collection<Advertisement> findTabooedAdvertisements();
 }

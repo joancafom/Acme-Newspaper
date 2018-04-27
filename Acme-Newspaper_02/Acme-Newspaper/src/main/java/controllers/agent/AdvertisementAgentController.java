@@ -25,7 +25,7 @@ import forms.AdvertiseForm;
 @RequestMapping("/advertisement/agent")
 public class AdvertisementAgentController extends AbstractController {
 
-	private final String			ACTOR_WS	= "agent/";
+	//private final String			ACTOR_WS	= "agent/";
 
 	/* Services */
 	@Autowired

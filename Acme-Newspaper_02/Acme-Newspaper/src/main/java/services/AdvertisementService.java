@@ -133,4 +133,9 @@ public class AdvertisementService {
 
 	}
 
+	/* v1.0 - josembell */
+	public Collection<Advertisement> findTabooedAdvertisements() {
+		return this.advertisementRepository.findTabooedAdvertisements();
+	}
+
 }
