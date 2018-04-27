@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import repositories.SystemConfigurationRepository;
 import security.LoginService;
 import domain.Administrator;
+import domain.Advertisement;
 import domain.Article;
 import domain.Chirp;
 import domain.Newspaper;
@@ -43,6 +44,9 @@ public class SystemConfigurationService {
 
 	@Autowired
 	private NewspaperService				newspaperService;
+
+	@Autowired
+	private AdvertisementService			advertisementService;
 
 
 	/* CRUD Methods */
@@ -179,6 +183,7 @@ public class SystemConfigurationService {
 		final Collection<Chirp> tabooChirps = this.chirpService.findNotTabooedChirps();
 		final Collection<Article> tabooArticles = this.articleService.findNotTabooedArticles();
 		final Collection<Newspaper> tabooNewspapers = this.newspaperService.getNotTabooed();
+		final Collection<Advertisement> tabooAdvertisements = this.advertisementService.getNotTabooed();
 
 		for (final Chirp chirp : tabooChirps)
 			this.chirpService.saveTaboo(chirp);
@@ -188,6 +193,9 @@ public class SystemConfigurationService {
 
 		for (final Newspaper newspaper : tabooNewspapers)
 			this.newspaperService.saveTaboo(newspaper);
+
+		for (final Advertisement advertisement : tabooAdvertisements)
+			this.advertisementService.saveTaboo(advertisement);
 
 		return tabooWords;
 	}
@@ -220,6 +228,7 @@ public class SystemConfigurationService {
 		final Collection<Chirp> tabooChirps = this.chirpService.findTabooedChirps();
 		final Collection<Article> tabooArticles = this.articleService.findTabooedArticles();
 		final Collection<Newspaper> tabooNewspapers = this.newspaperService.getTabooed();
+		final Collection<Advertisement> tabooAdvertisements = this.advertisementService.findTabooedAdvertisements();
 
 		for (final Chirp chirp : tabooChirps)
 			this.chirpService.saveTaboo(chirp);
@@ -229,6 +238,9 @@ public class SystemConfigurationService {
 
 		for (final Newspaper newspaper : tabooNewspapers)
 			this.newspaperService.saveTaboo(newspaper);
+
+		for (final Advertisement advertisement : tabooAdvertisements)
+			this.advertisementService.saveTaboo(advertisement);
 
 		return tabooWords;
 	}

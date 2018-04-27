@@ -11,11 +11,14 @@ import javax.transaction.Transactional;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.AdvertisementRepository;
 import security.LoginService;
+import domain.Administrator;
 import domain.Advertisement;
 import domain.Agent;
 import domain.CreditCard;
@@ -27,12 +30,18 @@ public class AdvertisementService {
 
 	// Managed Repository
 	@Autowired
-	private AdvertisementRepository	advertisementRepository;
+	private AdvertisementRepository		advertisementRepository;
 
 	// Supporting Services
 
 	@Autowired
-	private AgentService			agentService;
+	private AgentService				agentService;
+
+	@Autowired
+	private AdministratorService		administratorService;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	// CRUD Methods -------------------------------
@@ -136,6 +145,30 @@ public class AdvertisementService {
 	/* v1.0 - josembell */
 	public Collection<Advertisement> findTabooedAdvertisements() {
 		return this.advertisementRepository.findTabooedAdvertisements();
+	}
+
+	/* v1.0 - josembell */
+	public Page<Advertisement> findTabooedAdvertisements(final int page, final int size) {
+		return this.advertisementRepository.findTabooedAdvertisements(new PageRequest(page - 1, size));
+	}
+
+	/* v1.0 - josembell */
+	public Collection<Advertisement> getNotTabooed() {
+		return this.advertisementRepository.findNotTabooed();
+	}
+
+	/* v1.0 - josembell */
+	public Advertisement saveTaboo(final Advertisement advertisement) {
+		Assert.notNull(advertisement);
+
+		final Administrator admin = this.administratorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		//Check for taboo words
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(advertisement.getTitle());
+		advertisement.setContainsTaboo(containsTabooVeredict);
+
+		return this.advertisementRepository.save(advertisement);
 	}
 
 }

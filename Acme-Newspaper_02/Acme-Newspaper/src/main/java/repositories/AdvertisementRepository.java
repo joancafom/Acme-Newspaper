@@ -3,6 +3,8 @@ package repositories;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,4 +25,13 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
 	/* v1.0 - josembell */
 	@Query("select a from Advertisement a where a.containsTaboo = true")
 	Collection<Advertisement> findTabooedAdvertisements();
+
+	/* v1.0 - josembell */
+	@Query("select a from Advertisement a where a.containsTaboo = true")
+	Page<Advertisement> findTabooedAdvertisements(Pageable pageable);
+
+	/* v1.0 - josembell */
+	@Query("select a from Advertisement a where a.containsTaboo = false")
+	Collection<Advertisement> findNotTabooed();
+
 }

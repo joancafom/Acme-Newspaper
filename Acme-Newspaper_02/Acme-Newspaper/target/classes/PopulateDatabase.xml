@@ -1901,6 +1901,46 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		</property>
 	</bean>
 	
+	<bean id="volume3" class="domain.Volume">
+		<property name="title" value="Sci-Tech"/>
+		<property name="description" value="Animals or Environment? But why not both?"/>
+		<property name="year" value="2018"/>
+		<property name="newspapers">
+		<list>
+		</list>
+		</property>
+	</bean>
+	
+	<bean id="volume4" class="domain.Volume">
+		<property name="title" value="Sci-Tech"/>
+		<property name="description" value="Animals or Environment? But why not both?"/>
+		<property name="year" value="2018"/>
+		<property name="newspapers">
+		<list>
+		</list>
+		</property>
+	</bean>
+	
+	<bean id="volume5" class="domain.Volume">
+		<property name="title" value="Sci-Tech"/>
+		<property name="description" value="Animals or Environment? But why not both?"/>
+		<property name="year" value="2018"/>
+		<property name="newspapers">
+		<list>
+		</list>
+		</property>
+	</bean>
+	
+	<bean id="volume6" class="domain.Volume">
+		<property name="title" value="Sci-Tech"/>
+		<property name="description" value="Animals or Environment? But why not both?"/>
+		<property name="year" value="2018"/>
+		<property name="newspapers">
+		<list>
+		</list>
+		</property>
+	</bean>
+	
 	<!-- VolumeSubscription -->
 	
 	<bean id="volumeSubscription1" class="domain.VolumeSubscription">

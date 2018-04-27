@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="advertisements" id="advertisement" requestURI="advertisement/administrator/list.do" pagesize="5" class="displaytag" style="width: 100%">
+<display:table name="advertisements" id="advertisement" requestURI="advertisement/administrator/list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="advertisement.title">
 		<jstl:out value="${advertisement.title}"/>
 	</display:column>
