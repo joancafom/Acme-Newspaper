@@ -41,7 +41,7 @@ public class VolumeAdministratorController extends AbstractController {
 	private NewspaperService	newspaperService;
 
 
-	//Level C Requirement
+	//Level B Requirement
 
 	//v1.0 - Implemented by JA
 	@RequestMapping(value = "/display", method = RequestMethod.GET)

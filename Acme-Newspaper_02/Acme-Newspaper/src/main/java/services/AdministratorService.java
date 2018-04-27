@@ -239,4 +239,24 @@ public class AdministratorService {
 
 		return this.administratorRepository.ratioTabooAds();
 	}
+
+	//B-Level Requirements ----------------------------------------------------
+
+	// v1.0 - Implemented by JA
+	public Double getAvgNewspapersPerVolume() {
+
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.avgNewspapersPerVolume();
+	}
+
+	// v1.0 - Implemented by JA
+	public Double getRatioVolumeSubscriptionsVSNewspaperSubscriptions() {
+
+		final Administrator admin = this.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.administratorRepository.ratioVolumeSubscriptionsVSNewspaperSubscriptions();
+	}
 }

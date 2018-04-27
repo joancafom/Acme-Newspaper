@@ -79,3 +79,8 @@
 
 <p><strong><spring:message code="ratioNewspapersWithAdsVsWithoutAds"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioNewspapersWithAdsVsWithoutAds}" /></p>
 <p><strong><spring:message code="ratioTabooAds"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioTabooAds}" /></p>
+
+<!-- B-Level Requirements -->
+
+<p><strong><spring:message code="avg.newspapersPerVolume"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${avgNewspapersPerVolume}" /></p>
+<p><strong><spring:message code="ratioVolumeSubscriptionsVSNewspaperSubscriptions"/>:</strong> <fmt:formatNumber pattern="${numberFormat}" value="${ratioVolumeSubscriptionsVSNewspaperSubscriptions}" /></p>

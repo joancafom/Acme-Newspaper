@@ -116,4 +116,15 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	// v1.0 - Implemented by Alicia
 	@Query("select count(a1)*1.0 / (select count(a2)*1.0 from Advertisement a2) from Advertisement a1 where a1.containsTaboo = true")
 	Double ratioTabooAds();
+
+	// B-Level Requirements
+
+	// v1.0 - Implemented by JA
+	@Query("select avg(v.newspapers.size) from Volume v")
+	Double avgNewspapersPerVolume();
+
+	// v1.0 - Implemented by JA
+	@Query("select sum(c.volumeSubscriptions.size * 1.0)/sum(c.subscriptions.size * 1.0) from Customer c")
+	Double ratioVolumeSubscriptionsVSNewspaperSubscriptions();
+
 }
