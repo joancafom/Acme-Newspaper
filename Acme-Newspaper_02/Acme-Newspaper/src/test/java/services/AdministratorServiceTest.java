@@ -2,7 +2,6 @@
 package services;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Advertisement;
 import domain.Article;
 import domain.Customer;
 import domain.Newspaper;
@@ -53,6 +53,9 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	@Autowired
 	private CustomerService			customerService;
+
+	@Autowired
+	private AdvertisementService	advertisementService;
 
 
 	/*
@@ -1330,37 +1333,141 @@ public class AdministratorServiceTest extends AbstractTest {
 
 			final Double queryResult = this.administratorService.getAvgRatioPrivateVSPublicNewspapersPerPublisher();
 
-			final Collection<Long> ratios = new LinkedList<Long>();
-			final Collection<User> publishers = new ArrayList<User>();
-			for (final Newspaper n : this.newspaperService.findAll())
-				if (n.getIsPublic() == true) {
-					double num = 0.0;
-					int denom = 0;
-					final User publisher = this.userService.getPublisher(n);
-					if (publishers.contains(publisher))
-						break;
+			final Collection<Double> ratios = new LinkedList<Double>();
+
+			for (final User u : this.userService.findAll()) {
+				Double privateNewspapers = 0.0;
+				Double publicNewspapers = 0.0;
+				for (final Newspaper n : u.getNewspapers())
+					if (n.getIsPublic() == true)
+						publicNewspapers++;
 					else
-						publishers.add(publisher);
-					for (final Newspaper n2 : this.userService.getPublisher(n).getNewspapers())
-						if (n2.getIsPublic() == true)
-							denom++;
-						else
-							num++;
-
-					ratios.add((long) num / denom);
-				}
-
-			Double computeResult = 0.0;
-
-			if (!ratios.isEmpty()) {
-
-				Double accSum = 0.0;
-
-				for (final Number n : ratios)
-					accSum += n.doubleValue();
-
-				computeResult = accSum / ratios.size();
+						privateNewspapers++;
+				final Double res = privateNewspapers / publicNewspapers;
+				if (res.isInfinite() == false && res.isNaN() == false)
+					ratios.add(res);
 			}
+
+			Double total = 0.0;
+
+			for (final Double d : ratios)
+				total = total + d;
+
+			final Double computeResult = total / ratios.size();
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+			Assert.isTrue(fmt.format(computeResult).equals(fmt.format(queryResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+		this.checkExceptions(expected, caught);
+
+	}
+	/*
+	 * v1.0 - josembell
+	 * [UC-028] - Display Dashboard
+	 * 
+	 * REQ: 5.3
+	 */
+	@Test
+	public void driverRatioNewspapersWithAdsVsWithoutAds() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateRatioNewspapersWithAdsVsWithoutAds((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	protected void templateRatioNewspapersWithAdsVsWithoutAds(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		this.authenticate(username);
+
+		try {
+
+			final Double queryResult = this.administratorService.getRatioNewspapersWithAdsVsWithoutAds();
+			Double numNewspapersWithAds = 0.0;
+			Double numNewspapersWithoutAds = 0.0;
+			for (final Newspaper n : this.newspaperService.findAll())
+				if (n.getAdvertisements().size() != 0)
+					numNewspapersWithAds++;
+				else
+					numNewspapersWithoutAds++;
+
+			final Double computeResult = numNewspapersWithAds / numNewspapersWithoutAds;
+
+			final DecimalFormat fmt = new DecimalFormat(".##");
+			Assert.isTrue(fmt.format(computeResult).equals(fmt.format(queryResult)));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+		this.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-028] - Display Dashboard
+	 * 
+	 * REQ: 5.3
+	 */
+	@Test
+	public void driverRatioAdsWithTabooWords() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un administrador ejecuta la query */
+				"admin", null
+			}, {
+				/* - 2) Un usuario no identificado ejecuta la query */
+				null, IllegalArgumentException.class
+			}, {
+				/* - 3) Un usuario ejecuta la query */
+				"user1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.startTransaction();
+			this.templateRatioAdsWithTabooWords((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	protected void templateRatioAdsWithTabooWords(final String username, final Class<?> expected) {
+		Class<?> caught = null;
+		this.authenticate(username);
+
+		try {
+
+			final Double queryResult = this.administratorService.getRatioTabooAds();
+			Double numAdsWithTaboo = 0.0;
+			for (final Advertisement a : this.advertisementService.findAll())
+				if (a.getContainsTaboo() == true)
+					numAdsWithTaboo++;
+
+			final Double computeResult = numAdsWithTaboo / this.advertisementService.findAll().size();
 
 			final DecimalFormat fmt = new DecimalFormat(".##");
 			Assert.isTrue(fmt.format(computeResult).equals(fmt.format(queryResult)));

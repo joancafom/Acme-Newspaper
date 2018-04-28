@@ -170,7 +170,9 @@ public class FolderAdministratorController extends AbstractController {
 		result = new ModelAndView("folder/edit");
 		result.addObject("folder", folder);
 		result.addObject("message", message);
-		result.addObject("folders", this.folderService.findAllNotSystemByPrincipal());
+		final Collection<Folder> folders = this.folderService.findAllNotSystemByPrincipal();
+		folders.remove(folder);
+		result.addObject("folders", folders);
 		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
