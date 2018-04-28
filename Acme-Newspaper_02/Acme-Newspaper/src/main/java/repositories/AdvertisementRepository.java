@@ -31,6 +31,10 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
 	Page<Advertisement> findTabooedAdvertisements(Pageable pageable);
 
 	/* v1.0 - josembell */
+	@Query("select ad from Agent a join a.advertisements ad where a.id=?1")
+	Page<Advertisement> findAdvertisementsByAgent(Pageable pageable, int agentId);
+
+	/* v1.0 - josembell */
 	@Query("select a from Advertisement a where a.containsTaboo = false")
 	Collection<Advertisement> findNotTabooed();
 

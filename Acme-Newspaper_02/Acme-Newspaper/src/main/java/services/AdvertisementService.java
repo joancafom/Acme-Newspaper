@@ -187,6 +187,14 @@ public class AdvertisementService {
 		return this.advertisementRepository.findNotTabooed();
 	}
 
+	/* v1.0 - josembell */
+	public Page<Advertisement> findAdvertisementsByAgent(final int page, final int size) {
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+		final Page<Advertisement> adverts = this.advertisementRepository.findAdvertisementsByAgent(new PageRequest(page - 1, size), agent.getId());
+		return adverts;
+	}
+
 	// v1.0 - Implemented by Alicia
 	public Advertisement reconstruct(final Advertisement prunedAdvertisement, final BindingResult binding) {
 		final Advertisement res;

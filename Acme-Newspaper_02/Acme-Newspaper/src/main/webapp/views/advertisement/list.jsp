@@ -21,7 +21,7 @@
 	<h3><spring:message code="advertisements.taboo"/></h3>
 </jstl:if>
 
-<display:table name="advertisements" id="advertisement" requestURI="advertisement/administrator/${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
+<display:table name="advertisements" id="advertisement" requestURI="advertisement/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="advertisement.title">
 		<jstl:out value="${advertisement.title}"/>
 	</display:column>
@@ -40,3 +40,7 @@
 		</display:column>
 	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('AGENT')">
+	<a href="advertisement/agent/create.do"><spring:message code="advertisement.create"/></a>
+</security:authorize>

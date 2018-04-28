@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.AdvertisementService;
+import services.AgentService;
 import services.NewspaperService;
 import controllers.AbstractController;
 import domain.Advertisement;
+import domain.Agent;
 import domain.Newspaper;
 import forms.AdvertiseForm;
 
@@ -33,6 +37,9 @@ public class AdvertisementAgentController extends AbstractController {
 
 	@Autowired
 	private NewspaperService		newspaperService;
+
+	@Autowired
+	private AgentService			agentService;
 
 
 	// C-Level Requirements -------------------------------------
@@ -59,7 +66,7 @@ public class AdvertisementAgentController extends AbstractController {
 
 		try {
 			this.advertisementService.advertise(form.getNewspaper(), this.advertisementService.findOne(form.getAdvertisementId()));
-			res = new ModelAndView("redirect:/");
+			res = new ModelAndView("redirect:/newspaper/agent/display.do?newspaperId=" + form.getNewspaper().getId());
 
 		} catch (final Throwable oops) {
 			res = this.advertiseModelAndView(form, "advertisement.commit.error");
@@ -90,7 +97,7 @@ public class AdvertisementAgentController extends AbstractController {
 			try {
 
 				this.advertisementService.save(advertisement);
-				res = new ModelAndView("redirect:/");
+				res = new ModelAndView("redirect:/advertisement/agent/list.do");
 
 			} catch (final Throwable oops) {
 				res = this.createEditModelAndView(advertisement, "advertisement.commit.error");
@@ -99,6 +106,24 @@ public class AdvertisementAgentController extends AbstractController {
 		return res;
 	}
 
+	/* v1.0 - josembell */
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
+		final ModelAndView result;
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+
+		final Page<Advertisement> pageResult = this.advertisementService.findAdvertisementsByAgent(page, 5);
+		final Collection<Advertisement> advertisements = pageResult.getContent();
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
+		result = new ModelAndView("advertisement/list");
+		result.addObject("advertisements", advertisements);
+		result.addObject("resultSize", resultSize);
+		result.addObject("landing", "list");
+
+		return result;
+	}
 	/* v1.0 - josembell */
 	protected ModelAndView createEditModelAndView(final Advertisement advertisement) {
 		ModelAndView result;

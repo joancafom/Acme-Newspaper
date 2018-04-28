@@ -40,6 +40,6 @@
 	<acme:textbox code="creditCard.year" path="creditCard.year"/>
 	<br>
 	<acme:submit name="save" code="advertisement.submit"/>
-	<acme:cancel url="/" code="advertisement.cancel"/>
+	<acme:cancel url="advertisement/agent/list.do" code="advertisement.cancel"/>
 
 </form:form>
