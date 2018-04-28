@@ -48,7 +48,7 @@ public abstract class Actor extends DomainEntity {
 		return this.postalAddress;
 	}
 
-	@Pattern(regexp = "(^(\\+?[0-9]{9,})|$)")
+	@Pattern(regexp = "(^(\\+?[0-9]+)|)$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}

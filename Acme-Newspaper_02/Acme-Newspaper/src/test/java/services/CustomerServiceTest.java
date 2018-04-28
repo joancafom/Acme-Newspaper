@@ -83,6 +83,7 @@ public class CustomerServiceTest extends AbstractTest {
 			customer.setPhoneNumber(phone);
 
 			this.customerService.save(customer);
+			this.customerService.flush();
 
 			/* 2. Loggearse en el sistema */
 			this.authenticate(nickname);

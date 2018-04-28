@@ -308,6 +308,7 @@ public class UserServiceTest extends AbstractTest {
 			user.setPhoneNumber(phone);
 
 			this.userService.save(user);
+			this.userService.flush();
 
 			/* 2. Loggearse en el sistema */
 			this.authenticate(nickname);
