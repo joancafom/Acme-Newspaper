@@ -83,6 +83,9 @@
 		
 		<security:intercept-url pattern="/customer/register.do" access="isAnonymous()" />
 
+		<security:intercept-url pattern="/folder/administrator/list.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/folder/agent/list.do" access="hasRole('AGENT')" /> 
+		<security:intercept-url pattern="/folder/customer/list.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/folder/user/list.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/folder/user/create.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/folder/user/edit.do" access="hasRole('USER')" />  

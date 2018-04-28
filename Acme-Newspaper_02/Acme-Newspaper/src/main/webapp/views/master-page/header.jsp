@@ -51,6 +51,7 @@ window.onload = function(){
 			<li><a href="administrator/display-dashboard.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
 			<li><a href="systemConfiguration/administrator/listTabooWords.do"><spring:message code="master.page.systemConfiguration"/></a></li>
 			<li><a href="volume/administrator/list.do"><spring:message code="master.page.volumes"/></a></li>
+			<li><a href="folder/administrator/list.do"><spring:message code="master.page.folders"/></a></li>
 			
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -61,6 +62,7 @@ window.onload = function(){
     		<li><a href="newspaper/agent/listAdvertised.do"><spring:message code="master.page.advertisedNewspapers"/></a></li>
     		<li><a href="newspaper/agent/listNotAdvertised.do"><spring:message code="master.page.notAdvertisedNewspapers"/></a></li>
     		<li><a href="volume/agent/list.do"><spring:message code="master.page.volumes"/></a></li>
+    		<li><a href="folder/agent/list.do"><spring:message code="master.page.folders"/></a></li>
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -73,6 +75,7 @@ window.onload = function(){
 			<li ><a href="article/customer/search.do"><spring:message code="master.page.searchArticles"/></a></li>
 			<li><a href="newspaper/customer/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
 			<li><a href="volume/customer/list.do"><spring:message code="master.page.volumes"/></a></li>
+			<li><a href="folder/customer/list.do"><spring:message code="master.page.folders"/></a></li>
 
 			<li><a><security:authentication property="principal.username" /></a></li>
 		</ul>
@@ -91,6 +94,7 @@ window.onload = function(){
     		<li><a href="newspaper/user/search.do"><spring:message code="master.page.searchNewspapers"/></a></li>
     		<li><a href="chirp/user/stream.do"><spring:message code="master.page.chirps"/></a></li>
     		<li><a href="volume/user/list.do"><spring:message code="master.page.volumes"/></a></li>
+    		<li><a href="folder/user/list.do"><spring:message code="master.page.folders"/></a></li>
 
 
 			<li><a><security:authentication property="principal.username" /></a></li>

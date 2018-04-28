@@ -25,6 +25,8 @@ import domain.Folder;
 @RequestMapping("/folder/user")
 public class FolderUserController extends AbstractController {
 
+	private final String	ACTOR_WS	= "user/";
+
 	/* Services */
 	@Autowired
 	private FolderService	folderService;
@@ -37,6 +39,8 @@ public class FolderUserController extends AbstractController {
 		super();
 	}
 
+	// v1.0 - Unknown
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false) final Integer folderId) {
 		final ModelAndView result;
@@ -66,6 +70,8 @@ public class FolderUserController extends AbstractController {
 		result.addObject("folderId", folderId);
 		result.addObject("folders", folders);
 		result.addObject("requestURI", requestURI);
+
+		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
 
