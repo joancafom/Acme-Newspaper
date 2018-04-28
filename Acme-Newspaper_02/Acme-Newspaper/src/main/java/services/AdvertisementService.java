@@ -222,4 +222,9 @@ public class AdvertisementService {
 		return this.advertisementRepository.save(advertisement);
 	}
 
+	/* v1.0 - josembell */
+	public void flush() {
+		this.advertisementRepository.flush();
+	}
+
 }
