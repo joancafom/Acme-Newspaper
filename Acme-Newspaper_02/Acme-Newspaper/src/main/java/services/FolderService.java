@@ -239,4 +239,16 @@ public class FolderService {
 		return this.folderRepository.findAllNotSystemByActorId(actor.getId());
 	}
 
+	// v1.0 - Implemented by Alicia
+	public Collection<Folder> getAllExceptOneForPrincipal(final Folder folder) {
+		Assert.notNull(folder);
+
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+
+		final Collection<Folder> res = this.folderRepository.findAllExceptOneForActor(folder.getId(), actor.getId());
+
+		return res;
+	}
+
 }

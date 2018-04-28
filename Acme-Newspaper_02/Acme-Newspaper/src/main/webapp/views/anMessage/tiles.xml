@@ -16,6 +16,11 @@
        
 <tiles-definitions>
 
+	<definition name="anMessage/display" extends="master.page">
+		<put-attribute name="title" value="Message Details" />
+		<put-attribute name="body" value="/views/anMessage/display.jsp" />
+	</definition>
+
 	<definition name="anMessage/edit" extends="master.page">
 		<put-attribute name="title" value="Edit a Message" />
 		<put-attribute name="body" value="/views/anMessage/edit.jsp" />

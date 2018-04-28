@@ -61,6 +61,24 @@ public class ANMessageService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	public void delete(final ANMessage anMessage) {
+		Assert.notNull(anMessage);
+
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+
+		Assert.isTrue(actor.getReceivedMessages().contains(anMessage) || actor.getSentMessages().contains(anMessage));
+
+		if (anMessage.getFolder().getName().equals("Trash Box"))
+			this.anMessageRepository.delete(anMessage);
+		else {
+			final Folder folder = this.folderService.findByActorAndName(actor, "Trash Box");
+			anMessage.setFolder(folder);
+			this.save(anMessage);
+		}
+	}
+
+	// v1.0 - Implemented by Alicia
 	public ANMessage findOne(final int anMessageId) {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(actor);
@@ -97,6 +115,15 @@ public class ANMessageService {
 			anMessage.setSentMoment(new Date());
 			anMessage.setSender(sender);
 			anMessage.setFolder(folder);
+		} else {
+			final ANMessage oldANMessage = this.findOne(anMessage.getId());
+
+			anMessage.setBody(oldANMessage.getBody());
+			anMessage.setPriority(oldANMessage.getPriority());
+			anMessage.setRecipient(oldANMessage.getRecipient());
+			anMessage.setSender(oldANMessage.getSender());
+			anMessage.setSentMoment(oldANMessage.getSentMoment());
+			anMessage.setSubject(oldANMessage.getSubject());
 		}
 
 		this.validator.validate(anMessage, binding);

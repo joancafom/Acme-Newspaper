@@ -1,5 +1,5 @@
 /*
- * ANMessageUserController.java
+ * ANMessageAgentController.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -8,7 +8,7 @@
  * http://www.tdg-seville.info/License.html
  */
 
-package controllers.user;
+package controllers.agent;
 
 import java.util.Collection;
 
@@ -30,10 +30,10 @@ import domain.Actor;
 import domain.Folder;
 
 @Controller
-@RequestMapping("/anMessage/user")
-public class ANMessageUserController extends AbstractController {
+@RequestMapping("/anMessage/agent")
+public class ANMessageAgentController extends AbstractController {
 
-	private final String		ACTOR_WS	= "user/";
+	private final String		ACTOR_WS	= "agent/";
 
 	// Services -------------------------------------------------
 

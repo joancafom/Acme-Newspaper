@@ -52,9 +52,24 @@
 	<display:column titleKey="folder.message.priority" sortable="true">
 		<jstl:out value="${anMessage.priority}"/>
 	</display:column>
-	<display:column >
-		<a href="anMessage/${actorWS}display.do?messageId=${anMessage.id}"><spring:message code="folder.message.details"/></a>
-		<a href="anMessage/${actorWS}edit.do?messageId=${anMessage.id}"><spring:message code="folder.message.edit"/></a>
+	<display:column>
+		<a href="anMessage/${actorWS}display.do?anMessageId=${anMessage.id}"><spring:message code="folder.message.details"/></a>
 	</display:column>
+	<display:column>
+		<a href="anMessage/${actorWS}edit.do?anMessageId=${anMessage.id}"><spring:message code="folder.message.move"/></a>
+	</display:column>
+	
+	<jstl:if test="${folder.name == 'Trash Box'}">
+		<display:column>
+			<a href="anMessage/${actorWS}delete.do?anMessageId=<jstl:out value="${anMessage.id}" />"><spring:message code="folder.message.delete" /></a>
+		</display:column>
+	</jstl:if>
+	
+	<jstl:if test="${folder.name != 'Trash Box'}">
+		<display:column>
+			<a href="anMessage/${actorWS}delete.do?anMessageId=<jstl:out value="${anMessage.id}" />"><spring:message code="folder.message.trash" /></a>
+		</display:column>
+	</jstl:if>
+	
 </display:table>
 </jstl:if>

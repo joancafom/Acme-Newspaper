@@ -57,7 +57,21 @@
 		
 		<security:intercept-url pattern="/agent/register.do" access="isAnonymous()" /> 
 		
+		<security:intercept-url pattern="/anMessage/administrator/create.do" access="hasRole('ADMINISTRATOR')"/>
+		<security:intercept-url pattern="/anMessage/administrator/delete.do" access="hasRole('ADMINISTRATOR')"/>
+		<security:intercept-url pattern="/anMessage/administrator/display.do" access="hasRole('ADMINISTRATOR')"/>
+		<security:intercept-url pattern="/anMessage/administrator/edit.do" access="hasRole('ADMINISTRATOR')"/>
+		<security:intercept-url pattern="/anMessage/agent/create.do" access="hasRole('AGENT')"/>
+		<security:intercept-url pattern="/anMessage/agent/delete.do" access="hasRole('AGENT')"/>
+		<security:intercept-url pattern="/anMessage/agent/display.do" access="hasRole('AGENT')"/>
+		<security:intercept-url pattern="/anMessage/agent/edit.do" access="hasRole('AGENT')"/>
+		<security:intercept-url pattern="/anMessage/customer/create.do" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/anMessage/customer/delete.do" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/anMessage/customer/display.do" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/anMessage/customer/edit.do" access="hasRole('CUSTOMER')"/>
 		<security:intercept-url pattern="/anMessage/user/create.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/anMessage/user/delete.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/anMessage/user/display.do" access="hasRole('USER')"/>
 		<security:intercept-url pattern="/anMessage/user/edit.do" access="hasRole('USER')"/>
 		
 		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 

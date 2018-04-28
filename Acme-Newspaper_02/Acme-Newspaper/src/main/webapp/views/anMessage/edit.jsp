@@ -20,33 +20,65 @@
 
 <form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessage">
 
-	<!-- Hidden Inputs -->
+	<jstl:if test="${ANMessage.id == 0}">
+
+		<!-- Hidden Inputs -->
 	
-	<form:hidden path="id"/>
-	<form:hidden path="version"/>
+		<form:hidden path="id"/>
+		<form:hidden path="version"/>
 	
-	<!-- Inputs -->
+		<!-- Inputs -->
 	
-	<form:label path="recipient"><spring:message code="anMessage.recipient"/></form:label>
-	<form:select path="recipient">
-		<form:option value="0" label="----"/>
-		<jstl:forEach items="${recipients}" var="r">
-			<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
-		</jstl:forEach>
-	</form:select>
-	<form:errors cssClass="error" path="recipient"/>
+		<form:label path="recipient"><spring:message code="anMessage.recipient"/>: </form:label>
+		<form:select path="recipient">
+			<form:option value="0" label="----"/>
+			<jstl:forEach items="${recipients}" var="r">
+				<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
+			</jstl:forEach>
+		</form:select>
+		<form:errors cssClass="error" path="recipient"/>
 	
-	<acme:textbox code="anMessage.subject" path="subject"/><br>
-	<acme:textarea code="anMessage.body" path="body"/><br>
+		<acme:textbox code="anMessage.subject" path="subject"/><br>
+		<acme:textarea code="anMessage.body" path="body"/><br>
 	
-	<form:label path="priority"><spring:message code="anMessage.priority"/></form:label>
-	<form:radiobutton path="priority" value="NEUTRAL"/><spring:message code="anMessage.priority.neutral"/>
-	<form:radiobutton path="priority" value="HIGH"/><spring:message code="anMessage.priority.high"/>
-	<form:radiobutton path="priority" value="LOW"/><spring:message code="anMessage.priority.low"/>
-	<form:errors cssClass="error" path="priority"/>
-	<br/>
+		<form:label path="priority"><spring:message code="anMessage.priority"/>: </form:label>
+		<form:radiobutton path="priority" value="NEUTRAL"/><spring:message code="anMessage.priority.neutral"/>
+		<form:radiobutton path="priority" value="HIGH"/><spring:message code="anMessage.priority.high"/>
+		<form:radiobutton path="priority" value="LOW"/><spring:message code="anMessage.priority.low"/>
+		<form:errors cssClass="error" path="priority"/>
+		<br/>
 	
-	<acme:submit name="save" code="anMessage.send"/>
-	<acme:cancel url="folder/${actorWS}list.do" code="anMessage.cancel"/>
+		<acme:submit name="save" code="anMessage.send"/>
+		<acme:cancel url="folder/${actorWS}list.do" code="anMessage.cancel"/>
+		
+	</jstl:if>
+	
+	<jstl:if test="${ANMessage.id != 0}">
+	
+		<!-- Hidden Inputs -->
+		
+		<form:hidden path="id"/>
+		<form:hidden path="version"/>
+		
+		<!-- Inputs -->
+		
+		<form:label path="folder"><spring:message code="anMessage.folder"/>: </form:label>
+		<form:select path="folder">
+			<jstl:forEach items="${folders}" var="f">
+				<jstl:choose>
+					<jstl:when test="${f.parentFolder == null}">
+						<form:option value="${f.id}" label="${f.name}"/>
+					</jstl:when>
+					<jstl:otherwise>
+						<form:option value="${f.id}" label="${f.parentFolder.name} -> ${f.name}"/>
+					</jstl:otherwise>
+				</jstl:choose>
+			</jstl:forEach>
+		</form:select>
+		
+		<acme:submit name="save" code="anMessage.save"/>
+		<acme:cancel url="folder/${actorWS}list.do" code="anMessage.cancel"/>
+	
+	</jstl:if>
 
 </form:form>
