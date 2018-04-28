@@ -47,6 +47,9 @@
   		<bean class="converters.CustomerToStringConverter" /> 
   		<bean class="converters.StringToCustomerConverter" />
   		
+  		<bean class="converters.FolderToStringConverter" /> 
+  		<bean class="converters.StringToFolderConverter" />
+  		
   		<bean class="converters.NewspaperToStringConverter" /> 
   		<bean class="converters.StringToNewspaperConverter" /> 
   		

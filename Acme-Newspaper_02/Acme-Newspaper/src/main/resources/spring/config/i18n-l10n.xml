@@ -24,6 +24,7 @@
 		<value>/views/article/messages</value>
 		<value>/views/chirp/messages</value>
 		<value>/views/customer/messages</value>
+		<value>/views/folder/messages</value>
 		<value>/views/master-page/messages</value>
 		<value>/views/misc/messages</value>
 		<value>/views/newspaper/messages</value>

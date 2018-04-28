@@ -2,6 +2,8 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,8 +11,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.FolderRepository;
+import security.LoginService;
+import security.UserAccount;
 import domain.ANMessage;
 import domain.Actor;
 import domain.Folder;
@@ -23,6 +29,12 @@ public class FolderService {
 
 	@Autowired
 	private FolderRepository	folderRepository;
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	// Supporting Services ---------------------------------------------------
@@ -52,6 +64,53 @@ public class FolderService {
 		return folder;
 	}
 
+	/* v1.0 - josembell */
+	public Collection<Folder> findAll() {
+		final Collection<Folder> folders;
+
+		Assert.notNull(this.folderRepository);
+		folders = this.folderRepository.findAll();
+		Assert.notNull(folders);
+
+		return folders;
+	}
+	/* v1.0 - josembell */
+	public Folder findOne(final int folderId) {
+		return this.folderRepository.findOne(folderId);
+	}
+
+	/* v1.0 - josembell */
+	public Folder save(final Folder folder) {
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+
+		Assert.notNull(folder);
+		Assert.isTrue(folder.getActor().equals(actor));
+
+		Assert.isTrue(!folder.getIsSystem());
+		Assert.isTrue(folder.getActor().getUserAccount().equals(LoginService.getPrincipal()));
+		Assert.isTrue(!folder.getName().equals("In Box"));
+		Assert.isTrue(!folder.getName().equals("Out Box"));
+		Assert.isTrue(!folder.getName().equals("Notification Box"));
+		Assert.isTrue(!folder.getName().equals("Trash Box"));
+		Assert.isTrue(!folder.getName().equals("Spam Box"));
+		/*
+		 * A folder cannot have the same name as another folder of the same
+		 * actor
+		 */
+		if (folder.getParentFolder() == null)
+			for (final Folder f : this.findAllParentFoldersByPrincipal()) {
+				if (!f.equals(folder))
+					Assert.isTrue(!f.getName().equals(folder.getName()));
+			}
+		else
+			for (final Folder f : folder.getParentFolder().getChildFolders())
+				if (!f.equals(folder))
+					Assert.isTrue(!f.getName().equals(folder.getName()));
+
+		return this.folderRepository.save(folder);
+	}
+
 	//Other Business Methods -------------------------------------------------
 
 	// v1.0 - Implemented by Alicia
@@ -67,6 +126,73 @@ public class FolderService {
 			f.setActor(actor);
 			this.folderRepository.save(f);
 		}
+	}
+
+	public Collection<Folder> findAllByPrincipal() {
+		final Collection<Folder> folders;
+
+		final UserAccount userAccount = LoginService.getPrincipal();
+		final Actor actor = this.actorService.findByUserAccount(userAccount);
+
+		Assert.notNull(this.folderRepository);
+		folders = this.folderRepository.findAllByActorId(actor.getId());
+		Assert.notNull(folders);
+
+		return folders;
+	}
+
+	public Folder findOneByPrincipal(final int folderId) {
+		Folder folder;
+
+		folder = this.folderRepository.findOne(folderId);
+
+		Assert.isTrue(folder.getActor().getUserAccount().equals(LoginService.getPrincipal()));
+
+		return folder;
+	}
+
+	public Folder findByActorAndName(final Actor actor, final String name) {
+		Folder folder;
+
+		Assert.notNull(actor);
+		Assert.notNull(name);
+
+		folder = this.folderRepository.findByActorIdAndName(actor.getId(), name);
+
+		return folder;
+	}
+
+	public Collection<Folder> findAllParentFoldersByPrincipal() {
+		final UserAccount userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+
+		final Collection<Folder> folders = this.findAllByPrincipal();
+		final Collection<Folder> res = new HashSet<Folder>();
+		for (final Folder f : folders)
+			if (f.getParentFolder() == null)
+				res.add(f);
+
+		return res;
+
+	}
+
+	public Folder reconstruct(final Folder prunedFolder, final BindingResult binding) {
+		Folder res = null;
+		if (prunedFolder.getId() == 0) {
+			res = prunedFolder;
+			res.setChildFolders(new HashSet<Folder>());
+			res.setActor(this.actorService.findByUserAccount(LoginService.getPrincipal()));
+			res.setAnMessages(new HashSet<ANMessage>());
+			res.setIsSystem(false);
+
+			this.validator.validate(res, binding);
+		} else {
+			res = this.folderRepository.findOne(prunedFolder.getId());
+			res.setName(prunedFolder.getName());
+
+			this.validator.validate(res, binding);
+		}
+		return res;
 	}
 
 }
