@@ -1,5 +1,5 @@
 
-package controllers.user;
+package controllers.agent;
 
 import java.util.Collection;
 
@@ -22,10 +22,10 @@ import domain.Actor;
 import domain.Folder;
 
 @Controller
-@RequestMapping("/folder/user")
-public class FolderUserController extends AbstractController {
+@RequestMapping("/folder/agent")
+public class FolderAgentController extends AbstractController {
 
-	private final String	ACTOR_WS	= "user/";
+	private final String	ACTOR_WS	= "agent/";
 
 	/* Services */
 	@Autowired
@@ -35,7 +35,7 @@ public class FolderUserController extends AbstractController {
 	private ActorService	actorService;
 
 
-	public FolderUserController() {
+	public FolderAgentController() {
 		super();
 	}
 
@@ -47,7 +47,7 @@ public class FolderUserController extends AbstractController {
 		Collection<Folder> folders;
 		Collection<ANMessage> messages;
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
-		String requestURI = "folder/user/list.do?folderId=";
+		String requestURI = "folder/agent/list.do?folderId=";
 
 		if (folderId == null) {
 			folders = this.folderService.findAllParentFoldersByPrincipal();
@@ -127,7 +127,7 @@ public class FolderUserController extends AbstractController {
 
 		try {
 			this.folderService.deleteByPrincipal(folder);
-			result = new ModelAndView("redirect:/folder/user/list.do");
+			result = new ModelAndView("redirect:/folder/agent/list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(folder, "folder.commit.error");
 		}
@@ -147,7 +147,7 @@ public class FolderUserController extends AbstractController {
 		else
 			try {
 				this.folderService.save(folder);
-				result = new ModelAndView("redirect:/folder/user/list.do");
+				result = new ModelAndView("redirect:/folder/agent/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(folder, "folder.commit.error");
 			}

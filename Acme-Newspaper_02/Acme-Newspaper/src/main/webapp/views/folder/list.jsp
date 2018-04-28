@@ -8,6 +8,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
 <h3><jstl:out value="${folder.name}"/></h3>
@@ -22,17 +23,17 @@
 <hr>
 <display:table name="folders" id="folder" requestURI="folder/${actorWS}/list.do" class="displaytag" pagesize="5">
 	<display:column titleKey="folder.name" sortable="true">
-		<a href="folder/${actorWS}/list.do?folderId=${folder.id}"><jstl:out value="${folder.name}"/></a>
+		<a href="folder/${actorWS}list.do?folderId=${folder.id}"><jstl:out value="${folder.name}"/></a>
 	</display:column>
 	<display:column>
 		<jstl:if test="${folder.isSystem == false}">
-			<a href="folder/${actorWS}/edit.do?folderId=${folder.id}"><spring:message code="folder.edit"/></a>
+			<a href="folder/${actorWS}edit.do?folderId=${folder.id}"><spring:message code="folder.edit"/></a>
 		</jstl:if>
 	</display:column>
 </display:table>
 
 <jstl:if test="${folder.isSystem==false || folderId==null}">
-	<a href="folder/${actorWS}/create.do?folderId=${folderId}"><spring:message code="folder.create"/></a>
+	<a href="folder/${actorWS}create.do?folderId=${folderId}"><spring:message code="folder.create"/></a>
 </jstl:if>
 
 <jstl:if test="${folderId!=null}">
@@ -40,7 +41,7 @@
 	<strong><spring:message code="folder.messages"/>:</strong>
 	<display:table name="anMessages" id="anMessage" requestURI="${requestURI}" class="displaytag" pagesize="5">
 	<display:column titleKey="folder.message.date">
-		<jstl:out value="${anMessage.sentMoment}"/>
+		<acme:dateFormat code="date.format2" value="${anMessage.sentMoment}"/>
 	</display:column>
 	<display:column titleKey="folder.message.sender" sortable="true">
 		<jstl:out value="${anMessage.sender.name}"/>
@@ -52,8 +53,8 @@
 		<jstl:out value="${anMessage.priority}"/>
 	</display:column>
 	<display:column >
-		<a href="message/${actorWS}/display.do?messageId=${anMessage.id}"><spring:message code="folder.message.details"/></a>
-		<a href="message/${actorWS}/edit.do?messageId=${anMessage.id}"><spring:message code="folder.message.edit"/></a>
+		<a href="anMessage/${actorWS}display.do?messageId=${anMessage.id}"><spring:message code="folder.message.details"/></a>
+		<a href="anMessage/${actorWS}edit.do?messageId=${anMessage.id}"><spring:message code="folder.message.edit"/></a>
 	</display:column>
 </display:table>
 </jstl:if>

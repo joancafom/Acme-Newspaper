@@ -94,8 +94,11 @@ public class FolderService {
 		Assert.isTrue(!folder.getName().equals("Notification Box"));
 		Assert.isTrue(!folder.getName().equals("Trash Box"));
 		Assert.isTrue(!folder.getName().equals("Spam Box"));
-		if (folder.getParentFolder() != null)
+
+		if (folder.getParentFolder() != null) {
 			Assert.isTrue(folder.getParentFolder().getIsSystem() == false);
+			Assert.isTrue(!folder.getParentFolder().equals(folder));
+		}
 
 		/*
 		 * A folder cannot have the same name as another folder of the same
@@ -114,6 +117,7 @@ public class FolderService {
 		return this.folderRepository.save(folder);
 	}
 
+	/* v1.0 - josembell */
 	public void deleteByPrincipal(final Folder folder) {
 		Assert.notNull(folder);
 		Assert.isTrue(!folder.getIsSystem());
@@ -125,10 +129,19 @@ public class FolderService {
 		 * for (final ANMessage m : folder.getAnMessages())
 		 * this.anMessageService.delete(m);
 		 */
+		if (folder.getParentFolder() == null)
+			for (final Folder f : folder.getChildFolders()) {
+				f.setParentFolder(null);
+				this.folderRepository.save(f);
+			}
+		else
+			for (final Folder f : folder.getChildFolders()) {
+				f.setParentFolder(folder.getParentFolder());
+				this.folderRepository.save(f);
+			}
 
 		this.folderRepository.delete(folder);
 	}
-
 	//Other Business Methods -------------------------------------------------
 
 	// v1.0 - Implemented by Alicia
@@ -146,6 +159,7 @@ public class FolderService {
 		}
 	}
 
+	/* v1.0 - josembell */
 	public Collection<Folder> findAllByPrincipal() {
 		final Collection<Folder> folders;
 
@@ -159,6 +173,7 @@ public class FolderService {
 		return folders;
 	}
 
+	/* v1.0 - josembell */
 	public Folder findOneByPrincipal(final int folderId) {
 		Folder folder;
 
@@ -169,6 +184,7 @@ public class FolderService {
 		return folder;
 	}
 
+	/* v1.0 - josembell */
 	public Folder findByActorAndName(final Actor actor, final String name) {
 		Folder folder;
 
@@ -180,6 +196,7 @@ public class FolderService {
 		return folder;
 	}
 
+	/* v1.0 - josembell */
 	public Collection<Folder> findAllParentFoldersByPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
@@ -194,6 +211,7 @@ public class FolderService {
 
 	}
 
+	/* v1.0 - josembell */
 	public Folder reconstruct(final Folder prunedFolder, final BindingResult binding) {
 		Folder res = null;
 		if (prunedFolder.getId() == 0) {
@@ -214,6 +232,7 @@ public class FolderService {
 		return res;
 	}
 
+	/* v1.0 - josembell */
 	public Collection<Folder> findAllNotSystemByPrincipal() {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(actor);

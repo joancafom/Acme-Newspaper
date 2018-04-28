@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="folder/user/edit.do" modelAttribute="folder">
+<form:form action="folder/${actorWS}edit.do" modelAttribute="folder">
 	<!-- Hidden inputs -->
 	<form:hidden path="version"/>
 	<form:hidden path="id"/>
@@ -24,7 +24,7 @@
 	<jstl:if test="${folder.id!=0}">
 		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/></form:label>
 		<form:select path="parentFolder">
-			<form:option value="null" label="----"></form:option>
+			<form:option value="0" label="----"></form:option>
 			<form:options items="${folders}" itemLabel="name" itemValue="id"/>
 		</form:select>
 	</jstl:if>
@@ -34,7 +34,7 @@
 	<jstl:if test="${folder.id!=0}">
 		<input type="submit" name="delete" value="<spring:message code="folder.delete"/>"/>
 	</jstl:if>
-	<input type="button" name="cancel" value="<spring:message code="folder.cancel"/>" onclick="javascript: relativeRedir('folder/user/list.do');" />
+	<input type="button" name="cancel" value="<spring:message code="folder.cancel"/>" onclick="javascript: relativeRedir('folder/${actorWS}list.do');" />
 	
 </form:form>
 

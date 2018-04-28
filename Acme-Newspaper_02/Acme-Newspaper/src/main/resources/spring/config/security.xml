@@ -90,7 +90,14 @@
 		<security:intercept-url pattern="/folder/customer/list.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/folder/user/list.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/folder/user/create.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/folder/user/edit.do" access="hasRole('USER')" />  
+		<security:intercept-url pattern="/folder/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/folder/agent/create.do" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/folder/agent/edit.do" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/folder/customer/create.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/folder/customer/edit.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/folder/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/folder/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />
+		  
 
 		<security:intercept-url pattern="/newspaper/display.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/newspaper/listPublished.do" access="isAnonymous()" />
