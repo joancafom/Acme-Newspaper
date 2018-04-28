@@ -277,7 +277,7 @@
 	</bean>
 	
 	<bean id="advertisement4" class="domain.Advertisement">
-		<property name="title" value="Problems at sex? Try our brand new viagra"/>
+		<property name="title" value="Problems at sex? Try this!"/>
 		<property name="bannerURL" value="http://www.ebuyviagraonline.com/images/vigara_banner.jpg"/>
 		<property name="targetURL" value="http://www.ebuyviagraonline.com/about-us.html"/>
 		<property name="creditCard" ref="creditCard5"/>

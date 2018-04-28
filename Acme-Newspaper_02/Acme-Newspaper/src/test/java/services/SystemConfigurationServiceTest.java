@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Advertisement;
 import domain.Article;
 import domain.Chirp;
 import domain.Newspaper;
@@ -32,6 +33,9 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	private SystemConfigurationService	systemConfigurationService;
 
 	//Fixtures ---------------------------------------
+
+	@Autowired
+	private AdvertisementService		advertisementService;
 
 	@Autowired
 	private ArticleService				articleService;
@@ -230,6 +234,178 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 			Assert.isTrue(tabooArticles.contains(article));
 			Assert.isTrue(tabooNewspapers.contains(newspaper));
 			Assert.isTrue(tabooChirps.contains(chirp));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	// -------------------------------------------------------------------------------
+	// [UC-025] List taboo advertisements and add a taboo word.
+	// 
+	// Related Requirements:
+	//   · REQ 5.1: List the advertisements that contain taboo words in its title.
+	// -------------------------------------------------------------------------------
+	// v1.0 - Implemented by Alicia
+	// -------------------------------------------------------------------------------
+
+	@Test
+	public void driverListAndAddTaboo2() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> taboo advertisement.
+		// testingData[i][2] -> taboo word to remove from the list.
+		// testingData[i][3] -> thrown exception.
+
+		final Object testingData[][] = {
+			{
+				// 1 - (+) An Administrator adds a non-existing taboo word to the list.
+				"admin", "advertisement1", "blood", null
+			}, {
+				// 2 - (-) An Administrator adds an existing taboo word to the list.
+				"admin", "advertisement1", "sex", IllegalArgumentException.class
+			}, {
+				// 3 - (-) A User adds a taboo word to the list.
+				"user1", "advertisement1", "blood", IllegalArgumentException.class
+			}, {
+				// 4 - (-) A not authenticated actor adds a taboo word to the list.
+				null, "advertisement1", "blood", IllegalArgumentException.class
+			}, {
+				// 5 - (-) An Administrator adds a null taboo word to the list.
+				"admin", "advertisement1", null, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			final String tabooWord = (String) testingData[i][2];
+
+			final Advertisement advertisement = this.advertisementService.findOne(super.getEntityId((String) testingData[i][1]));
+
+			this.startTransaction();
+
+			this.templateListAndAddTaboo2((String) testingData[i][0], advertisement, tabooWord, (Class<?>) testingData[i][3]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+
+	}
+	protected void templateListAndAddTaboo2(final String username, final Advertisement advertisement, final String tabooWord, final Class<?> expected) {
+		Class<?> caught = null;
+
+		// 1. Log in to the system
+		super.authenticate(username);
+
+		try {
+
+			// 2. List taboo Advertisements
+
+			final Collection<Advertisement> tabooAdvertisementsBefore = this.advertisementService.findTabooedAdvertisements();
+			Assert.isTrue(!tabooAdvertisementsBefore.contains(advertisement));
+
+			// 3. Add the taboo word
+
+			this.systemConfigurationService.addTabooWord(tabooWord);
+
+			// Flush
+			this.systemConfigurationService.flush();
+
+			// 4. List taboo Advertisements
+
+			final Collection<Advertisement> tabooAdvertisementsAfter = this.advertisementService.findTabooedAdvertisements();
+			Assert.isTrue(tabooAdvertisementsAfter.contains(advertisement));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+	}
+
+	// -------------------------------------------------------------------------------
+	// [UC-026] List taboo advertisements and remove a taboo word.
+	// 
+	// Related Requirements:
+	//   · REQ 5.1: List the advertisements that contain taboo words in its title.
+	// -------------------------------------------------------------------------------
+	// v1.0 - Implemented by Alicia
+	// -------------------------------------------------------------------------------
+
+	@Test
+	public void driverListAndRemoveTaboo2() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> taboo advertisement.
+		// testingData[i][2] -> taboo word to remove from the list.
+		// testingData[i][3] -> thrown exception.
+
+		final Object testingData[][] = {
+			{
+				// 1 - (+) An Administrator removes an existing taboo word from the list.
+				"admin", "advertisement4", "sex", null
+			}, {
+				// 2 - (-) An Administrator removes a non-existing taboo word from the list.
+				"admin", "advertisement4", "rainbow", IllegalArgumentException.class
+			}, {
+				// 3 - (-) A User removes a taboo word from the list.
+				"user1", "advertisement4", "sex", IllegalArgumentException.class
+			}, {
+				// 4 - (-) A not authenticated actor removes a taboo word from the list.
+				null, "advertisement4", "sex", IllegalArgumentException.class
+			}, {
+				// 5 - (-) An Administrator removes a null taboo word from the list.
+				"admin", "advertisement4", null, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			final String tabooWord = (String) testingData[i][2];
+
+			final Advertisement advertisement = this.advertisementService.findOne(super.getEntityId((String) testingData[i][1]));
+
+			this.startTransaction();
+
+			this.templateListAndRemoveTaboo2((String) testingData[i][0], advertisement, tabooWord, (Class<?>) testingData[i][3]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+
+	}
+
+	protected void templateListAndRemoveTaboo2(final String username, final Advertisement advertisement, final String tabooWord, final Class<?> expected) {
+		Class<?> caught = null;
+
+		// 1. Log in to the system
+		super.authenticate(username);
+
+		try {
+
+			// 2. List taboo Advertisements
+
+			final Collection<Advertisement> tabooAdvertisementsBefore = this.advertisementService.findTabooedAdvertisements();
+			Assert.isTrue(tabooAdvertisementsBefore.contains(advertisement));
+
+			// 3. Remove the taboo word
+
+			this.systemConfigurationService.deleteTabooWord(tabooWord);
+
+			// Flush
+			this.systemConfigurationService.flush();
+
+			// 4. List taboo Articles/Newspapers/Chirps
+
+			final Collection<Advertisement> tabooAdvertisementsAfter = this.advertisementService.findTabooedAdvertisements();
+			Assert.isTrue(!tabooAdvertisementsAfter.contains(advertisement));
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
