@@ -15,8 +15,8 @@
 
 <a href="anMessage/${actorWS}create.do"><spring:message code="folder.message.send"/></a><br>
 
-<security:authorize access="hasRole('ADMIN')">
-	<a href="message/administrator/create.do?isNotification=true"><spring:message code="folder.notification.send"/></a><br>
+<security:authorize access="hasRole('ADMINISTRATOR')">
+	<a href="anMessage/administrator/create.do?isBroadcast=true"><spring:message code="folder.broadcast.send"/></a><br>
 </security:authorize>
 
 <br>

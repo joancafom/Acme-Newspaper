@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import repositories.ANMessageRepository;
 import security.LoginService;
 import domain.ANMessage;
 import domain.Actor;
+import domain.Administrator;
 import domain.Folder;
 
 @Service
@@ -36,6 +38,9 @@ public class ANMessageService {
 
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
+
+	@Autowired
+	private AdministratorService		adminService;
 
 	// Validator -------------------------------------------------------------
 
@@ -112,7 +117,7 @@ public class ANMessageService {
 		if (anMessage.getId() == 0) {
 			final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
 
-			anMessage.setSentMoment(new Date());
+			anMessage.setSentMoment(new Date(System.currentTimeMillis() - 1000L));
 			anMessage.setSender(sender);
 			anMessage.setFolder(folder);
 		} else {
@@ -131,22 +136,73 @@ public class ANMessageService {
 		return anMessage;
 	}
 
-	// v1.0 - Implemented by Alicia
-	public void send(final Actor receiver, final ANMessage messageToSend) {
-		Assert.notNull(receiver);
-		Assert.notNull(messageToSend);
+	// v1.0 - Implemented by JA
+	public ANMessage reconstructBroadcast(final ANMessage anMessage, final BindingResult binding) {
+		Assert.notNull(anMessage);
+		Assert.notNull(anMessage.getId() == 0);
 
 		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(sender);
+
+		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
+
+		anMessage.setSentMoment(new Date(System.currentTimeMillis() - 1000L));
+		anMessage.setSender(sender);
+		anMessage.setFolder(folder);
+
+		//We put whatever actor we want as a Recipient to bypass the validation
+		//Later on, this will be overwritten by sendBroadcast Method
+		anMessage.setRecipient(sender);
+
+		this.validator.validate(anMessage, binding);
+
+		return anMessage;
+	}
+
+	// A-Level Requirements ------------------------------------------------------
+
+	//v1.0 - Implemented by JA
+	public void broadcastNotification(final ANMessage message) {
+
+		Assert.notNull(message);
+
+		//Ensure an admin is the sender
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		//Ensure the sender of the message is the same one
+		Assert.notNull(message.getSender());
+		Assert.isTrue(admin.equals(message.getSender()));
+
+		final Collection<Actor> allActors = this.actorService.findAll();
+
+		for (final Actor a : allActors) {
+			message.setRecipient(a);
+			this.send(a, message);
+		}
+
+	}
+
+	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA
+	public void send(final Actor receiver, final ANMessage messageToSend) {
+		Assert.notNull(receiver);
+		Assert.notNull(messageToSend);
+		Assert.isTrue(messageToSend.getId() == 0);
+
+		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(sender);
+
+		messageToSend.setSender(sender);
 
 		final ANMessage receivedMessage = this.create();
 		receivedMessage.setBody(messageToSend.getBody());
 		receivedMessage.setPriority(messageToSend.getPriority());
 		receivedMessage.setRecipient(messageToSend.getRecipient());
-		receivedMessage.setSender(messageToSend.getSender());
+		receivedMessage.setSender(sender);
 		receivedMessage.setSubject(messageToSend.getSubject());
 
-		final Date sentMoment = new Date();
+		final Date sentMoment = new Date(System.currentTimeMillis() - 1000L);
 		messageToSend.setSentMoment(sentMoment);
 		receivedMessage.setSentMoment(sentMoment);
 

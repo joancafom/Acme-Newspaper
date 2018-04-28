@@ -18,6 +18,15 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authorize access="hasRole('ADMINISTRATOR')">
+	<jstl:if test="${isBroadcast}">
+		<br />
+		<strong><spring:message code="message.broadcast.info"/></strong> 
+		<br />
+		<br />
+	</jstl:if>
+</security:authorize>
+
 <form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessage">
 
 	<jstl:if test="${ANMessage.id == 0}">
@@ -29,14 +38,29 @@
 	
 		<!-- Inputs -->
 	
-		<form:label path="recipient"><spring:message code="anMessage.recipient"/>: </form:label>
-		<form:select path="recipient">
-			<form:option value="0" label="----"/>
-			<jstl:forEach items="${recipients}" var="r">
-				<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
-			</jstl:forEach>
-		</form:select>
-		<form:errors cssClass="error" path="recipient"/>
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<jstl:if test="${!isBroadcast}">
+				<form:label path="recipient"><spring:message code="anMessage.recipient"/>: </form:label>
+				<form:select path="recipient">
+					<form:option value="0" label="----"/>
+					<jstl:forEach items="${recipients}" var="r">
+						<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
+					</jstl:forEach>
+				</form:select>
+				<form:errors cssClass="error" path="recipient"/>
+			</jstl:if>
+		</security:authorize>
+
+		<security:authorize access="!hasRole('ADMINISTRATOR')">
+			<form:label path="recipient"><spring:message code="anMessage.recipient"/>: </form:label>
+			<form:select path="recipient">
+				<form:option value="0" label="----"/>
+				<jstl:forEach items="${recipients}" var="r">
+					<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
+				</jstl:forEach>
+			</form:select>
+			<form:errors cssClass="error" path="recipient"/>
+		</security:authorize>
 	
 		<acme:textbox code="anMessage.subject" path="subject"/><br>
 		<acme:textarea code="anMessage.body" path="body"/><br>
@@ -48,7 +72,18 @@
 		<form:errors cssClass="error" path="priority"/>
 		<br/>
 	
-		<acme:submit name="save" code="anMessage.send"/>
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<jstl:if test="${isBroadcast}">
+				<acme:submit name="saveBroadcast" code="anMessage.send"/>
+			</jstl:if>
+			<jstl:if test="${!isBroadcast}">
+				<acme:submit name="save" code="anMessage.send"/>
+			</jstl:if>
+		</security:authorize>
+
+		<security:authorize access="!hasRole('ADMINISTRATOR')">
+			<acme:submit name="save" code="anMessage.send"/>
+		</security:authorize>
 		<acme:cancel url="folder/${actorWS}list.do" code="anMessage.cancel"/>
 		
 	</jstl:if>

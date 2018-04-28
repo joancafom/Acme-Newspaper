@@ -50,14 +50,16 @@ public class ANMessageAdministratorController extends AbstractController {
 	// B-Level Requirements -------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by JA (broadcast)
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam(required = false, defaultValue = "false") final Boolean isBroadcast) {
 		final ModelAndView res;
 		final ANMessage anMessage;
 
 		anMessage = this.anMessageService.create();
 
 		res = this.createEditModelAndView(anMessage);
+		res.addObject("isBroadcast", isBroadcast);
 
 		return res;
 	}
@@ -131,6 +133,30 @@ public class ANMessageAdministratorController extends AbstractController {
 		return res;
 	}
 
+	//A-Level Requirements ---------------------------------------------------------
+
+	// v1.0 - Implemented by JA
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveBroadcast")
+	public ModelAndView sendBroadcast(final ANMessage prunedANMessage, final BindingResult binding) {
+		ModelAndView res;
+
+		final ANMessage anMessage = this.anMessageService.reconstructBroadcast(prunedANMessage, binding);
+
+		if (binding.hasErrors()) {
+			res = this.createEditModelAndView(anMessage);
+			res.addObject("isBroadcast", true);
+		} else
+			try {
+				this.anMessageService.broadcastNotification(anMessage);
+				res = new ModelAndView("redirect:/folder/administrator/list.do");
+
+			} catch (final Throwable oops) {
+				res = this.createEditModelAndView(anMessage, "anMessage.commit.error");
+				res.addObject("isBroadcast", true);
+			}
+
+		return res;
+	}
 	// Ancillary Methods ----------------------------------------
 	// v1.0 - Implemented by Alicia
 	protected ModelAndView createEditModelAndView(final ANMessage anMessage) {
