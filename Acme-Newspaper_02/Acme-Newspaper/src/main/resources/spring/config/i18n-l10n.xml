@@ -21,6 +21,7 @@
 		<value>/views/administrator/messages</value>
 		<value>/views/advertisement/messages</value>
 		<value>/views/agent/messages</value>
+		<value>/views/anMessage/messages</value>
 		<value>/views/article/messages</value>
 		<value>/views/chirp/messages</value>
 		<value>/views/customer/messages</value>

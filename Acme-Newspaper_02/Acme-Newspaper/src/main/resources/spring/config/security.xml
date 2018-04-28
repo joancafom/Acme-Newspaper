@@ -55,8 +55,10 @@
 		<security:intercept-url pattern="/advertisement/administrator/list.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/advertisement/administrator/listAll.do" access="hasRole('ADMINISTRATOR')" />
 		
-		
 		<security:intercept-url pattern="/agent/register.do" access="isAnonymous()" /> 
+		
+		<security:intercept-url pattern="/anMessage/user/create.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/anMessage/user/edit.do" access="hasRole('USER')"/>
 		
 		<security:intercept-url pattern="/article/search.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/article/list.do" access="isAnonymous()" />

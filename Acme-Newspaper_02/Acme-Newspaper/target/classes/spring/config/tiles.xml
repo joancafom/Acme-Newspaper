@@ -21,6 +21,7 @@
 		<value>/views/administrator/tiles.xml</value>
 		<value>/views/advertisement/tiles.xml</value>
 		<value>/views/agent/tiles.xml</value>
+		<value>/views/anMessage/tiles.xml</value>
 		<value>/views/article/tiles.xml</value>
 		<value>/views/chirp/tiles.xml</value> 
 		<value>/views/customer/tiles.xml</value> 

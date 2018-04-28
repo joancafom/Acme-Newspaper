@@ -12,7 +12,7 @@
 
 <h3><jstl:out value="${folder.name}"/></h3>
 
-<a href="message/${actorWS}/create.do"><spring:message code="folder.message.send"/></a><br>
+<a href="anMessage/${actorWS}create.do"><spring:message code="folder.message.send"/></a><br>
 
 <security:authorize access="hasRole('ADMIN')">
 	<a href="message/administrator/create.do?isNotification=true"><spring:message code="folder.notification.send"/></a><br>
