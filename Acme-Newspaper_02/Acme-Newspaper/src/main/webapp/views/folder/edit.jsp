@@ -20,8 +20,13 @@
 	<jstl:if test="${folder.id==0}">
 		<form:hidden path="parentFolder"/>
 	</jstl:if>
+	
 	<jstl:if test="${folder.id!=0}">
-		<acme:select items="${folders}" itemLabel="name" code="folder.parentFolder" path="parentFolder"/>
+		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/></form:label>
+		<form:select path="parentFolder">
+			<form:option value="null" label="----"></form:option>
+			<form:options items="${folders}" itemLabel="name" itemValue="id"/>
+		</form:select>
 	</jstl:if>
 	
 	<br><br>

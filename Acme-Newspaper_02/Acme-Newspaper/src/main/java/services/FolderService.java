@@ -94,6 +94,9 @@ public class FolderService {
 		Assert.isTrue(!folder.getName().equals("Notification Box"));
 		Assert.isTrue(!folder.getName().equals("Trash Box"));
 		Assert.isTrue(!folder.getName().equals("Spam Box"));
+		if (folder.getParentFolder() != null)
+			Assert.isTrue(folder.getParentFolder().getIsSystem() == false);
+
 		/*
 		 * A folder cannot have the same name as another folder of the same
 		 * actor
@@ -109,6 +112,21 @@ public class FolderService {
 					Assert.isTrue(!f.getName().equals(folder.getName()));
 
 		return this.folderRepository.save(folder);
+	}
+
+	public void deleteByPrincipal(final Folder folder) {
+		Assert.notNull(folder);
+		Assert.isTrue(!folder.getIsSystem());
+		final UserAccount us = LoginService.getPrincipal();
+		final Actor actor = this.actorService.findByUserAccount(us);
+		Assert.notNull(actor);
+		Assert.isTrue(folder.getActor().equals(actor));
+		/*
+		 * for (final ANMessage m : folder.getAnMessages())
+		 * this.anMessageService.delete(m);
+		 */
+
+		this.folderRepository.delete(folder);
 	}
 
 	//Other Business Methods -------------------------------------------------
@@ -189,10 +207,17 @@ public class FolderService {
 		} else {
 			res = this.folderRepository.findOne(prunedFolder.getId());
 			res.setName(prunedFolder.getName());
+			res.setParentFolder(prunedFolder.getParentFolder());
 
 			this.validator.validate(res, binding);
 		}
 		return res;
+	}
+
+	public Collection<Folder> findAllNotSystemByPrincipal() {
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+		return this.folderRepository.findAllNotSystemByActorId(actor.getId());
 	}
 
 }

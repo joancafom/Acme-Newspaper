@@ -144,7 +144,7 @@ public class FolderUserController extends AbstractController {
 		result = new ModelAndView("folder/edit");
 		result.addObject("folder", folder);
 		result.addObject("message", message);
-		result.addObject("folders", this.folderService.findAllByPrincipal());
+		result.addObject("folders", this.folderService.findAllNotSystemByPrincipal());
 		return result;
 	}
 }
