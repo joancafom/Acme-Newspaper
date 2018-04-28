@@ -70,6 +70,11 @@ public class VolumeService {
 		return saved;
 	}
 
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.volumeRepository.flush();
+	}
+
 	/* v1.0 - josembell */
 	public void addNewspaper(final Volume volume, final Newspaper newspaper) {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
@@ -86,6 +91,7 @@ public class VolumeService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	public void removeNewspaper(final Volume volume, final Newspaper newspaper) {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
@@ -93,6 +99,8 @@ public class VolumeService {
 		Assert.notNull(newspaper);
 		Assert.isTrue(user.getNewspapers().contains(newspaper));
 		Assert.isTrue(user.getVolumes().contains(volume));
+		Assert.isTrue(volume.getNewspapers().contains(newspaper));
+		Assert.isTrue(newspaper.getVolumes().contains(volume));
 
 		newspaper.getVolumes().remove(volume);
 		volume.getNewspapers().remove(newspaper);

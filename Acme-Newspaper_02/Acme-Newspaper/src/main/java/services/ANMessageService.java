@@ -73,10 +73,14 @@ public class ANMessageService {
 		Assert.notNull(actor);
 
 		Assert.isTrue(actor.getReceivedMessages().contains(anMessage) || actor.getSentMessages().contains(anMessage));
+		Assert.isTrue(anMessage.getFolder().getActor().equals(actor));
 
-		if (anMessage.getFolder().getName().equals("Trash Box"))
+		if (anMessage.getFolder().getName().equals("Trash Box")) {
+			actor.getReceivedMessages().remove(anMessage);
+			actor.getSentMessages().remove(anMessage);
+
 			this.anMessageRepository.delete(anMessage);
-		else {
+		} else {
 			final Folder folder = this.folderService.findByActorAndName(actor, "Trash Box");
 			anMessage.setFolder(folder);
 			this.save(anMessage);
@@ -96,6 +100,13 @@ public class ANMessageService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	public ANMessage findOneTest(final int anMessageId) {
+		final ANMessage anMessage = this.anMessageRepository.findOne(anMessageId);
+
+		return anMessage;
+	}
+
+	// v1.0 - Implemented by Alicia
 	public ANMessage save(final ANMessage anMessage) {
 		Assert.notNull(anMessage);
 
@@ -103,6 +114,11 @@ public class ANMessageService {
 		Assert.notNull(actor);
 
 		return this.anMessageRepository.save(anMessage);
+	}
+
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.anMessageRepository.flush();
 	}
 
 	// Other Business Methods ------------------------------------------------
