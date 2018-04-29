@@ -98,6 +98,7 @@ public class NewspaperService {
 	/* v2.0 - updated by josembell */
 	// v3.0 - Updated by JA (taboo)
 	// v4.0 - Updated by JA (agent)
+	// v5.0 - Updated by JA (admin)
 	public Newspaper save(final Newspaper newspaperToSave) {
 
 		Assert.notNull(newspaperToSave);
@@ -105,15 +106,17 @@ public class NewspaperService {
 		final User publisher = this.userService.findByUserAccount(LoginService.getPrincipal());
 
 		//A newspaper can be created/updated by a publisher, but also updated (add Advert) by an Agent
-		//If the publisher is null then we must ensure it's an agent who's performing the save
-
+		//If the publisher is null then we must ensure it's an agent who's performing the save. In addition,
+		// an Admin may remove advertisements to it and hence perform a save too.
 		if (publisher != null) {
 			if (newspaperToSave.getId() != 0)
 				Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
 		} else {
 			Assert.isTrue(newspaperToSave.getId() != 0);
 			final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
-			Assert.notNull(agent);
+			final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+
+			Assert.isTrue(admin != null || agent != null);
 		}
 
 		//Check for taboo words

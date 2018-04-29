@@ -77,8 +77,10 @@ public class AdvertisementService {
 		final Administrator admin = this.administratorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(admin);
 
-		for (final Newspaper n : advertisement.getNewspapers())
+		for (final Newspaper n : advertisement.getNewspapers()) {
 			n.getAdvertisements().remove(advertisement);
+			this.newspaperService.save(n);
+		}
 
 		this.advertisementRepository.delete(advertisement);
 	}

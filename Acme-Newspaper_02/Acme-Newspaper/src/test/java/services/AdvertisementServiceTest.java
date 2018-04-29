@@ -260,7 +260,7 @@ public class AdvertisementServiceTest extends AbstractTest {
 				ad = null;
 
 			this.startTransaction();
-			System.out.println(i);
+
 			this.templateListAdvertiseAndListNot((String) testingData[i][0], newspaper, ad, (Class<?>) testingData[i][3]);
 
 			this.rollbackTransaction();
@@ -301,6 +301,126 @@ public class AdvertisementServiceTest extends AbstractTest {
 			Assert.isTrue(!notAdvertisedNewspapersAfter.contains(newspaperToAdvertise));
 			Assert.isTrue(notAdvertisedNewspapersAfter.size() == notAdvertisedNewspapersPrevious.size() - 1);
 			Assert.isTrue(advertisedNewspapersAfter.size() == advertisedNewspapersPrevious.size() + 1);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-027: Remove Advertisements
+	 * 1. Log in to the System as an Administrator
+	 * 2. List Advertisements
+	 * 3. Select an Advertisement and remove it
+	 * 4. List Advertisements, that now does not contain the removed one
+	 * 
+	 * 
+	 * Involved REQs: 5.2
+	 * 
+	 * Test Cases (5; 3+ 2-):
+	 * 
+	 * + 1) An Admin logs in to the system, lists the Advertisements in the system and successfully provides one from the list to remove. Then, he lists the
+	 * Advertisements again and sees that it was removed correctly. (advert with no Newspapers)
+	 * 
+	 * - 2) An Agent logs in to the system and tries to remove an Advertisement from another rival Agent (only Admins can remove them)
+	 * 
+	 * - 3) An Admin logs in to the system, lists the Advertisements in the system and tries to remove a null Advertisement
+	 * 
+	 * + 4) An Admin logs in to the system, lists the Advertisements in the system and successfully provides one from the list to remove. Then, he lists the
+	 * Advertisements again and sees that it was removed correctly. (advert with one Newspapers)
+	 * 
+	 * + 5) An Admin logs in to the system, lists the Advertisements in the system and successfully provides one from the list to remove. Then, he lists the
+	 * Advertisements again and sees that it was removed correctly. (advert with multiple Newspapers)
+	 */
+	@Test
+	public void driverRemoveNewspaper() {
+
+		// testingData[i][0] -> username of the Actor to log in.
+		// testingData[i][1] -> the beanName of the chosen advertisement to remove.
+		// testingData[i][2] -> whether we want to remove all its newspapers before the test or not.
+		// testingData[i][3] -> the expected exception.
+
+		final Object testingData[][] = {
+			{
+				"admin", "advertisement5", true, null
+			}, {
+
+				"agent1", "advertisement5", false, IllegalArgumentException.class
+			}, {
+
+				"admin", null, false, IllegalArgumentException.class
+			}, {
+
+				"admin", "advertisement4", false, null
+			}, {
+
+				"admin", "advertisement2", false, null
+			}
+		};
+
+		Advertisement ad = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if (testingData[i][1] != null)
+				ad = this.advertisementService.findOne(this.getEntityId((String) testingData[i][1]));
+			else
+				ad = null;
+
+			if ((Boolean) testingData[i][2]) {
+				this.authenticate(ad.getAgent().getUserAccount().getUsername());
+
+				for (final Newspaper n : ad.getNewspapers()) {
+					n.getAdvertisements().remove(n);
+					this.newspaperService.save(n);
+				}
+
+				this.unauthenticate();
+			}
+
+			this.startTransaction();
+
+			this.templateRemoveNewspaper((String) testingData[i][0], ad, (Class<?>) testingData[i][3]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	//v1.0 - Implemented by JA
+	protected void templateRemoveNewspaper(final String performer, final Advertisement ad, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		// 1. Log in to the System as an Administrator
+		this.authenticate(performer);
+
+		try {
+
+			// 2. List Advertisements
+			final Collection<Advertisement> advetisementsBefore = this.advertisementService.findAll();
+
+			// 3. Select an Advertisement and remove it
+
+			this.advertisementService.delete(ad);
+
+			this.newspaperService.flush();
+			this.advertisementService.flush();
+
+			//4. List Advertisements, that now does not contain the removed one
+			final Collection<Advertisement> advetisementsAfter = this.advertisementService.findAll();
+
+			Assert.isTrue(!advetisementsAfter.contains(ad));
+			Assert.isTrue(advetisementsAfter.size() == advetisementsBefore.size() - 1);
+
+			for (final Newspaper n : ad.getNewspapers())
+				Assert.isTrue(!n.getAdvertisements().contains(ad));
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
