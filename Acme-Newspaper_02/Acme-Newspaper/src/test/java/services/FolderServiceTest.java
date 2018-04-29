@@ -139,4 +139,105 @@ public class FolderServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-037: Organize Folders
+	 * 1. Log in to the system
+	 * 2. List all the folders of the current Actor
+	 * 3. Select a non-system Folder of hers/his and nest it in another custom Folder of hers/his.
+	 * 
+	 * 
+	 * Involved REQs: 12, 13.1
+	 * 
+	 * Test Cases (5; 2+ 3-):
+	 * 
+	 * + 1) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside another custom Folder
+	 * 
+	 * - 2) An Actor logs in, list her/his folders and selects a system Folder to nest in inside another custom Folder (only custom Folders may be organized)
+	 * 
+	 * - 3) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside a system Folder (only nested in custom Folders)
+	 * 
+	 * - 4) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside itself (makes no sense to nest inside itself)
+	 * 
+	 * - 5) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside another actor's custom Folder
+	 */
+
+	@Test
+	public void driverOrganizeFolders() {
+
+		// testingData[i][0] -> username of the Actor to log in.
+		// testingData[i][1] -> the folder to move
+		// testingData[i][2] -> the folder in which to nest
+		// testingData[i][3] -> the username of the owner of the folder in which to nest
+		// testingData[i][4] -> the expected exception.
+
+		final Object testingData[][] = {
+			{
+				"customer3", "Meetings", "Year 2017", "customer3", null
+			}, {
+				"customer3", "In Box", "Year 2017", "customer3", IllegalArgumentException.class
+			}, {
+				"customer3", "Meetings", "In Box", "customer3", IllegalArgumentException.class
+			}, {
+				"customer3", "Meetings", "Meetings", "customer3", IllegalArgumentException.class
+			}, {
+				"customer3", "Meetings", "December", "customer1", IllegalArgumentException.class
+			}
+		};
+
+		Folder toMove = null;
+		Folder inToNest = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+			if (testingData[i][1] != null)
+				toMove = this.folderService.findByActorAndName(this.actorService.findOne(this.getEntityId((String) testingData[i][0])), (String) testingData[i][1]);
+
+			if (testingData[i][2] != null)
+				inToNest = this.folderService.findByActorAndName(this.actorService.findOne(this.getEntityId((String) testingData[i][3])), (String) testingData[i][2]);
+
+			this.startTransaction();
+
+			this.templateOrganizeFolders((String) testingData[i][0], toMove, inToNest, (Class<?>) testingData[i][4]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+	//v1.0 - Implemented by JA
+	protected void templateOrganizeFolders(final String performer, final Folder toMove, final Folder inToNest, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		// 1. Log in to the system
+		this.authenticate(performer);
+
+		try {
+
+			//2. List all the final folders of the current Actor
+			final Collection<Folder> folderBefore = this.folderService.findAllByPrincipal();
+
+			//3. Select a non-system Folder final of hers/final his and nest final it in another final custom Folder of hers/his. (by params)
+			toMove.setParentFolder(inToNest);
+			this.folderService.save(toMove);
+
+			this.folderService.flush();
+
+			Assert.isTrue(this.folderService.findByActorAndName(this.actorService.findByUserAccount(LoginService.getPrincipal()), toMove.getName()).getParentFolder().equals(inToNest));
+			Assert.isTrue(this.folderService.findByActorAndName(this.actorService.findByUserAccount(LoginService.getPrincipal()), inToNest.getName()).getChildFolders().contains(toMove));
+
+			final Collection<Folder> folderAfter = this.folderService.findAllByPrincipal();
+
+			Assert.isTrue(folderAfter.containsAll(folderBefore));
+			Assert.isTrue(folderBefore.containsAll(folderAfter));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
+
+	}
 }

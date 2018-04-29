@@ -80,6 +80,7 @@ public class FolderService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by JA (parent folder)
 	public Folder save(final Folder folder) {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(actor);
@@ -98,6 +99,7 @@ public class FolderService {
 		if (folder.getParentFolder() != null) {
 			Assert.isTrue(folder.getParentFolder().getIsSystem() == false);
 			Assert.isTrue(!folder.getParentFolder().equals(folder));
+			Assert.isTrue(folder.getParentFolder().getActor().equals(actor));
 		}
 
 		/*

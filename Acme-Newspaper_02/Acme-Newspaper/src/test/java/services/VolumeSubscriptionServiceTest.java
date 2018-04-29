@@ -74,7 +74,7 @@ public class VolumeSubscriptionServiceTest extends AbstractTest {
 	 */
 
 	@Test
-	public void driverAgentRegister() {
+	public void driverSubscribeVolumes() {
 
 		// testingData[i][0] -> username of the Actor to log in.
 		// testingData[i][1] -> the holderName of the creditCard.
@@ -124,27 +124,19 @@ public class VolumeSubscriptionServiceTest extends AbstractTest {
 
 			this.startTransaction();
 
-			this.templateAgentRegister((String) testingData[i][0], volume, creditCard, subscriber, (Class<?>) testingData[i][9]);
+			this.templateSubscribeVolumes((String) testingData[i][0], volume, creditCard, subscriber, (Class<?>) testingData[i][9]);
 
 			this.rollbackTransaction();
 			this.entityManager.clear();
 		}
 	}
 	//v1.0 - Implemented by JA
-	protected void templateAgentRegister(final String performer, final Volume volumeToSubscribe, final CreditCard creditCard, final Customer subscriber, final Class<?> expected) {
+	protected void templateSubscribeVolumes(final String performer, final Volume volumeToSubscribe, final CreditCard creditCard, final Customer subscriber, final Class<?> expected) {
 
 		Class<?> caught = null;
 
 		// 1. Log in to the System as a Customer
 		this.authenticate(performer);
-
-		/*
-		 * 1. Log in to the System as a Customer
-		 * 2. List the Volumes in the system
-		 * 3. Select a Volume which the Customer is not already subscribed to.
-		 * 4. Subscribe to the Volume by providing a valid CreditCard
-		 * 5. Display one of its newspapers, which she or he has just subscribed to.
-		 */
 
 		try {
 
