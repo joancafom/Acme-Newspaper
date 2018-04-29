@@ -234,6 +234,13 @@ public class FolderService {
 		return res;
 	}
 
+	public Folder saveSendMessage(final Folder folder) {
+
+		Assert.notNull(folder);
+
+		return this.folderRepository.save(folder);
+	}
+
 	/* v1.0 - josembell */
 	public Collection<Folder> findAllNotSystemByPrincipal() {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());

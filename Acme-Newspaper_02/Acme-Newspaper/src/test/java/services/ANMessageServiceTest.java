@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -227,6 +228,165 @@ public class ANMessageServiceTest extends AbstractTest {
 
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-033: List and Send Messages
+	 * 1. Log in to the system
+	 * 2. List all the folders of the current Actor, and select one to display its messages
+	 * 3. Send a new message to whatever Actor she or he wants to.
+	 * 4. Display the messages of the "Out Box" Folder, which must include a copy of the recently sent one
+	 * 
+	 * 
+	 * Involved REQs: 12, 13.1
+	 * 
+	 * Test Cases (6; 1+ 4-):
+	 * 
+	 * + 1) An Actor logs in to the System and list all his folders. Then she or he selects one to display its messages (Out Box) and sends a new message
+	 * to an arbitrary Actor, which then appears in the "Out Box" folder once listed.
+	 * 
+	 * - 2) An Actor logs in to the System and list all his folders. Then she or he tries to send one of her/his messages that's already been sent (only new messages can be sent)
+	 * 
+	 * - 3) An Actor logs in to the System and list all his folders. Then she or he tries to send one invalid message (empty subject)
+	 * 
+	 * - 4) An Actor logs in to the System and list all his folders. Then she or he tries to send one invalid message (XSS body)
+	 * 
+	 * - 5) An Actor logs in to the System and list all his folders. Then she or he tries to send one invalid message (priority not following the pattern)
+	 * 
+	 * - 6) An Actor logs in to the System and list all his folders. Then she or he tries to send one message from another Actor (only his/her messages)
+	 */
+
+	@Test
+	public void driverListSendMessage() {
+
+		// testingData[i][0] -> userName of the Actor to log in.
+		// testingData[i][1] -> the subject of the message.
+		// testingData[i][2] -> the body of the message.
+		// testingData[i][3] -> the priority of the message.
+		// testingData[i][4] -> if != null --> the message we want to send
+		// testingData[i][5] -> the userName sending the message
+		// testingData[i][6] -> the userName receiving the message
+		// testingData[i][7] -> the expected exception.
+
+		final Object testingData[][] = {
+			{
+				"user2", "This is a test", "This is a body test", "LOW", null, "user2", "agent1", null
+			}, {
+				"user1", "This is a test", "This is a body test", "LOW", "anMessage1", "user1", "agent1", IllegalArgumentException.class
+			}, {
+				"user2", "", "This is a body test", "LOW", null, "user2", "agent1", ConstraintViolationException.class
+			}, {
+				"user2", "This is a test", "<script>alert('Bonjour!');</script>", "LOW", null, "user2", "agent1", ConstraintViolationException.class
+			}, {
+				"user2", "This is a test", "This is a body test", "HIGHEST", null, "user2", "agent1", ConstraintViolationException.class
+			}, {
+				"user2", "This is a test", "This is a body test", "LOW", "anMessage1", "user2", "agent1", IllegalArgumentException.class
+			}
+		};
+
+		ANMessage anMessage = null;
+		Actor sender = null;
+		Actor receiver = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if (testingData[i][5] != null)
+				sender = this.actorService.findOne(this.getEntityId((String) testingData[i][5]));
+
+			if (testingData[i][6] != null)
+				receiver = this.actorService.findOne(this.getEntityId((String) testingData[i][6]));
+
+			if (testingData[i][4] != null)
+				anMessage = this.anMessageService.findOneTest(this.getEntityId((String) testingData[i][4]));
+			else {
+				this.authenticate((String) testingData[i][0]);
+				anMessage = this.anMessageService.create();
+				anMessage.setSubject((String) testingData[i][1]);
+				anMessage.setBody((String) testingData[i][2]);
+				anMessage.setPriority((String) testingData[i][3]);
+				this.unauthenticate();
+			}
+
+			this.startTransaction();
+
+			this.templateListSendMessage((String) testingData[i][0], anMessage, sender, receiver, (Class<?>) testingData[i][7]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	//v1.0 - Implemented by JA
+	protected void templateListSendMessage(final String performer, final ANMessage message, final Actor sender, final Actor receiver, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		//1. Log in to the system
+		this.authenticate(performer);
+
+		try {
+			// 2. List all the folders of the current Actor, and select one to display its messages (Out Box)
+
+			final Folder outBoxSenderBefore = this.folderService.findByActorAndName(this.actorService.findByUserAccount(LoginService.getPrincipal()), "Out Box");
+			final Folder inboxReceiverBefore = this.folderService.findByActorAndName(this.actorService.findByUserAccount(receiver.getUserAccount()), "In Box");
+
+			final List<ANMessage> sentMessagesBefore = new ArrayList<ANMessage>(outBoxSenderBefore.getAnMessages());
+			final List<ANMessage> receivedMessagesBefore = new ArrayList<ANMessage>(inboxReceiverBefore.getAnMessages());
+
+			// 3. Send a new message to whatever Actor she or he wants to.
+
+			message.setSender(sender);
+			message.setRecipients(Arrays.asList(receiver));
+
+			this.anMessageService.send(Arrays.asList(receiver), message);
+			this.anMessageService.flush();
+			this.folderService.flush();
+			this.actorService.flush();
+
+			// 4. Display the messages of the "Out Box" Folder, which must include a copy of the recently sent one
+
+			final Folder outBoxSenderAfter = this.folderService.findByActorAndName(this.actorService.findByUserAccount(LoginService.getPrincipal()), "Out Box");
+			final Folder inboxReceiverAfter = this.folderService.findByActorAndName(this.actorService.findByUserAccount(receiver.getUserAccount()), "In Box");
+
+			final List<ANMessage> sentMessagesAfter = new ArrayList<ANMessage>(outBoxSenderAfter.getAnMessages());
+			final List<ANMessage> receivedMessagesAfter = new ArrayList<ANMessage>(inboxReceiverAfter.getAnMessages());
+
+			Assert.isTrue(sentMessagesAfter.size() == sentMessagesBefore.size() + 1);
+			Assert.isTrue(receivedMessagesAfter.size() == receivedMessagesBefore.size() + 1);
+
+			for (final ANMessage m : sentMessagesBefore)
+				Assert.isTrue(!m.getSubject().equals(message.getSubject()));
+
+			Boolean sentM = false;
+			for (final ANMessage m : sentMessagesAfter)
+				if (m.getSubject().equals(message.getSubject())) {
+					sentM = true;
+					break;
+				}
+
+			Assert.isTrue(sentM);
+
+			for (final ANMessage m : receivedMessagesBefore)
+				Assert.isTrue(!m.getSubject().equals(message.getSubject()));
+
+			Boolean receivedM = false;
+			for (final ANMessage m : receivedMessagesAfter)
+				if (m.getSubject().equals(message.getSubject())) {
+					receivedM = true;
+					break;
+				}
+
+			Assert.isTrue(receivedM);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
 
 	}
 

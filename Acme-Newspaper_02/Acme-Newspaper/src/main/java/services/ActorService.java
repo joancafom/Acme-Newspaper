@@ -51,6 +51,18 @@ public class ActorService {
 		return actor;
 	}
 
+	// v1.0 - Implemented by Alicia
+	public Actor save(final Actor actor) {
+		Assert.notNull(actor);
+
+		return this.actorRepository.save(actor);
+	}
+
+	// v1.0 - Implemented by Alicia
+	public void flush() {
+		this.actorRepository.flush();
+	}
+
 	// Other business methods --------------
 
 	public Actor findByUserAccount(final UserAccount userAccount) {

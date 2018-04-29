@@ -119,6 +119,7 @@ public class ANMessageService {
 		Assert.isTrue(anMessage.getFolder().getActor().equals(actor) || anMessage.getSender().equals(actor));
 
 		final ANMessage saved = this.anMessageRepository.save(anMessage);
+		this.folderService.saveSendMessage(anMessage.getFolder());
 		return saved;
 	}
 
@@ -143,12 +144,11 @@ public class ANMessageService {
 		anMessage.setPriority(anMessageForm.getPriority());
 		anMessage.setRecipients(new ArrayList<Actor>());
 
-		if (anMessageForm.getRecipients().size() == 1 && anMessageForm.getRecipients().contains("0")) {
+		if (anMessageForm.getRecipients().size() == 1 && anMessageForm.getRecipients().contains("0"))
 			anMessage.setRecipients(null);
-		} else {
+		else
 			for (final String s : anMessageForm.getRecipients())
 				anMessage.getRecipients().add(this.actorService.findOne(new Integer(s)));
-		}
 
 		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
 
@@ -237,6 +237,7 @@ public class ANMessageService {
 	// v2.0 - Updated by JA
 	// v3.0 - Updated by Alicia
 	// v4.0 - Updated by JA
+	// v5.0 - Updated by Alicia
 	public void send(final Collection<Actor> recipients, final ANMessage messageToSend) {
 
 		Assert.notNull(recipients);
@@ -260,7 +261,13 @@ public class ANMessageService {
 
 		final Folder outBox = this.folderService.findByActorAndName(sender, "Out Box");
 		messageToSend.setFolder(outBox);
-		sender.getSentMessages().add(messageToSend);
+		final ANMessage messageToSendS = this.save(messageToSend);
+
+		outBox.getAnMessages().add(messageToSendS);
+		this.folderService.saveSendMessage(outBox);
+
+		sender.getSentMessages().add(messageToSendS);
+		this.actorService.save(sender);
 
 		for (final Actor a : recipients) {
 
@@ -280,11 +287,14 @@ public class ANMessageService {
 				receptionFolder = this.folderService.findByActorAndName(a, "In Box");
 
 			receivedMessage.setFolder(receptionFolder);
-			a.getReceivedMessages().add(receivedMessage);
+			final ANMessage anReceivedMessageS = this.save(receivedMessage);
 
-			this.save(receivedMessage);
+			receptionFolder.getAnMessages().add(anReceivedMessageS);
+			this.folderService.saveSendMessage(receptionFolder);
+
+			a.getReceivedMessages().add(anReceivedMessageS);
+			this.actorService.save(a);
 		}
 
-		this.save(messageToSend);
 	}
 }
