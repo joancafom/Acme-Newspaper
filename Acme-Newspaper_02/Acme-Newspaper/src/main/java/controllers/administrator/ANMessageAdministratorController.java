@@ -55,11 +55,16 @@ public class ANMessageAdministratorController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam(required = false, defaultValue = "false") final Boolean isBroadcast) {
 		final ModelAndView res;
-		final ANMessageForm anMessage;
 
-		anMessage = new ANMessageForm();
-
-		res = this.createEditModelAndView(anMessage);
+		if (isBroadcast) {
+			final ANMessage anMessage;
+			anMessage = this.anMessageService.create();
+			res = this.createEditModelAndView(anMessage);
+		} else {
+			final ANMessageForm anMessage;
+			anMessage = new ANMessageForm();
+			res = this.createEditModelAndView(anMessage);
+		}
 		res.addObject("isBroadcast", isBroadcast);
 
 		return res;

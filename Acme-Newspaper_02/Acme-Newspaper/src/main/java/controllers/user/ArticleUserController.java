@@ -96,22 +96,10 @@ public class ArticleUserController extends AbstractController {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
 
-		Boolean owned = false;
-		Boolean publisher = false;
-
-		if (article.getWriter().equals(user))
-			owned = true;
-
-		if (user.getNewspapers().contains(article.getNewspaper()))
-			publisher = true;
-
-		Assert.isTrue(article.getPublicationDate() != null || owned || publisher);
-
 		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
 
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
-		result.addObject("owned", owned);
 		result.addObject("ad", ad);
 		result.addObject("actorWS", "user/");
 

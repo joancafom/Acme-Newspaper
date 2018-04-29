@@ -34,6 +34,7 @@
 		<value>/views/systemConfiguration/messages</value>			
 		<value>/views/user/messages</value>
 		<value>/views/volume/messages</value>
+		<value>/views/volumeSubscription/messages</value>
 		<value>/views/welcome/messages</value>
 	</util:list>
 

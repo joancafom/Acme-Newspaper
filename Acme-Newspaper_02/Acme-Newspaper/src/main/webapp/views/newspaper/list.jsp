@@ -58,5 +58,7 @@
 </jstl:if>
 
 <security:authorize access="hasRole('AGENT')">
+	<br>
+	<br>
 	<a href="advertisement/agent/create.do"><spring:message code="newspaper.advertisement.create"/></a>
 </security:authorize>

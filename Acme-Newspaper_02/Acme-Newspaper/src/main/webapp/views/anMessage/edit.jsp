@@ -27,6 +27,7 @@
 	</jstl:if>
 </security:authorize>
 
+<%-- Create Message --%>
 <jstl:if test="${ANMessageForm ne null && ANMessageForm.id == 0}">
 
 	<form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessageForm">
@@ -89,6 +90,7 @@
 
 </jstl:if>
 
+<%-- Move Message --%>
 <jstl:if test="${ANMessage ne null && ANMessage.id != 0}">
 
 	<form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessage">
@@ -119,4 +121,33 @@
 	
 	</form:form>
 	
+</jstl:if>
+
+<%-- Broadcast Message --%>
+<jstl:if test="${ANMessage ne null && ANMessage.id == 0}">
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessage">
+	
+			<!-- Hidden Inputs -->
+		
+			<form:hidden path="id"/>
+			<form:hidden path="version"/>
+		
+			<!-- Inputs -->
+		
+			<acme:textbox code="anMessage.subject" path="subject"/><br>
+			<acme:textarea code="anMessage.body" path="body"/><br>
+		
+			<form:label path="priority"><spring:message code="anMessage.priority"/>: </form:label>
+			<form:radiobutton path="priority" value="NEUTRAL"/><spring:message code="anMessage.priority.neutral"/>
+			<form:radiobutton path="priority" value="HIGH"/><spring:message code="anMessage.priority.high"/>
+			<form:radiobutton path="priority" value="LOW"/><spring:message code="anMessage.priority.low"/>
+			<form:errors cssClass="error" path="priority"/>
+			<br/>
+		
+			<acme:submit name="saveBroadcast" code="anMessage.send"/>
+			<acme:cancel url="folder/administraor/list.do" code="anMessage.cancel"/>
+			
+		</form:form>
+	</security:authorize>	
 </jstl:if>

@@ -40,7 +40,8 @@
 		</display:column>
 	</security:authorize>
 </display:table>
-
 <security:authorize access="hasRole('AGENT')">
+	<br>
+	<br>
 	<a href="advertisement/agent/create.do"><spring:message code="advertisement.create"/></a>
 </security:authorize>
