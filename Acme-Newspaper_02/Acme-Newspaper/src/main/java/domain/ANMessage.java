@@ -1,11 +1,13 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,6 +17,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -74,9 +77,9 @@ public class ANMessage extends DomainEntity {
 
 	// Relationships ---------------------------------------------
 
-	private Folder	folder;
-	private Actor	recipient;
-	private Actor	sender;
+	private Folder				folder;
+	private Collection<Actor>	recipients;
+	private Actor				sender;
 
 
 	@NotNull
@@ -86,11 +89,11 @@ public class ANMessage extends DomainEntity {
 		return this.folder;
 	}
 
-	@NotNull
+	@NotEmpty
 	@Valid
-	@ManyToOne(optional = false)
-	public Actor getRecipient() {
-		return this.recipient;
+	@ManyToMany()
+	public Collection<Actor> getRecipients() {
+		return this.recipients;
 	}
 
 	@NotNull
@@ -104,8 +107,8 @@ public class ANMessage extends DomainEntity {
 		this.folder = folder;
 	}
 
-	public void setRecipient(final Actor recipient) {
-		this.recipient = recipient;
+	public void setRecipients(final Collection<Actor> recipients) {
+		this.recipients = recipients;
 	}
 
 	public void setSender(final Actor sender) {

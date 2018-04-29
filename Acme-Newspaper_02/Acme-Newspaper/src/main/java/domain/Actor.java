@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -96,7 +97,7 @@ public abstract class Actor extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@OneToMany(mappedBy = "recipient")
+	@ManyToMany(mappedBy = "recipients")
 	public Collection<ANMessage> getReceivedMessages() {
 		return this.receivedMessages;
 	}
