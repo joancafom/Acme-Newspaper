@@ -39,8 +39,8 @@
 	
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<jstl:if test="${!isBroadcast}">
-				<form:label path="recipients"><spring:message code="anMessage.recipient"/>: </form:label>
-				<form:select path="recipients">
+				<form:label path="recipients[0]"><spring:message code="anMessage.recipient"/>: </form:label>
+				<form:select path="recipients[0]">
 					<form:option value="0" label="----"/>
 					<jstl:forEach items="${recipients}" var="r">
 						<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
@@ -51,8 +51,8 @@
 		</security:authorize>
 
 		<security:authorize access="!hasRole('ADMINISTRATOR')">
-			<form:label path="recipients"><spring:message code="anMessage.recipient"/>: </form:label>
-			<form:select path="recipients">
+			<form:label path="recipients[0]"><spring:message code="anMessage.recipient"/>: </form:label>
+			<form:select path="recipients[0]">
 				<form:option value="0" label="----"/>
 				<jstl:forEach items="${recipients}" var="r">
 					<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>

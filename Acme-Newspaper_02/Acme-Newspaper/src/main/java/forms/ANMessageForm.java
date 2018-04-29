@@ -1,17 +1,19 @@
 
 package forms;
 
+import java.util.List;
+
 public class ANMessageForm {
 
 	// ANMessage
-	private String	subject;
-	private String	body;
-	private String	priority;
+	private String			subject;
+	private String			body;
+	private String			priority;
 
-	private int		id	= 0;
+	private int				id	= 0;
 
 	// Relationships
-	private String	recipients;
+	private List<String>	recipients;
 
 
 	public String getSubject() {
@@ -26,7 +28,7 @@ public class ANMessageForm {
 		return this.priority;
 	}
 
-	public String getRecipients() {
+	public List<String> getRecipients() {
 		return this.recipients;
 	}
 
@@ -46,7 +48,7 @@ public class ANMessageForm {
 		this.priority = priority;
 	}
 
-	public void setRecipients(final String recipients) {
+	public void setRecipients(final List<String> recipients) {
 		this.recipients = recipients;
 	}
 

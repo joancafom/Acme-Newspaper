@@ -10,6 +10,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,6 +189,9 @@ public class ANMessageUserController extends AbstractController {
 	// v1.0 - Implemented by Alicia
 	protected ModelAndView createEditModelAndView(final ANMessageForm anMessage, final String message) {
 		final ModelAndView res;
+
+		anMessage.setRecipients(new ArrayList<String>());
+		anMessage.getRecipients().add("");
 
 		final Collection<Actor> recipients = this.actorService.findAll();
 

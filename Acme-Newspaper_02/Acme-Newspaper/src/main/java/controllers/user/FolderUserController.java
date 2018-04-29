@@ -47,7 +47,7 @@ public class FolderUserController extends AbstractController {
 		Collection<Folder> folders;
 		Collection<ANMessage> messages;
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
-		String requestURI = "folder/user/list.do?folderId=";
+		final String requestURI = "folder/user/list.do";
 
 		if (folderId == null) {
 			folders = this.folderService.findAllParentFoldersByPrincipal();
@@ -65,7 +65,6 @@ public class FolderUserController extends AbstractController {
 			result = new ModelAndView("folder/list");
 			result.addObject("anMessages", messages);
 			result.addObject("folder", parentFolder);
-			requestURI += folderId;
 		}
 		result.addObject("folderId", folderId);
 		result.addObject("folders", folders);

@@ -40,7 +40,7 @@
 	<hr>
 	<strong><spring:message code="folder.messages"/>:</strong>
 	<display:table name="anMessages" id="anMessage" requestURI="${requestURI}" class="displaytag" pagesize="5">
-	<display:column titleKey="folder.message.date">
+	<display:column titleKey="folder.message.date" sortable="true">
 		<acme:dateFormat code="date.format2" value="${anMessage.sentMoment}"/>
 	</display:column>
 	<display:column titleKey="folder.message.sender" sortable="true">

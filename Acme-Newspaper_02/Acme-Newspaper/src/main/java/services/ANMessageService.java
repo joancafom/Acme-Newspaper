@@ -64,8 +64,6 @@ public class ANMessageService {
 		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
 		anMessage.setFolder(folder);
 
-		anMessage.setRecipients(new ArrayList<Actor>());
-
 		return anMessage;
 	}
 
@@ -143,7 +141,14 @@ public class ANMessageService {
 		anMessage.setSubject(anMessageForm.getSubject());
 		anMessage.setBody(anMessageForm.getBody());
 		anMessage.setPriority(anMessageForm.getPriority());
-		anMessage.getRecipients().add(this.actorService.findOne(new Integer(anMessageForm.getRecipients())));
+		anMessage.setRecipients(new ArrayList<Actor>());
+
+		if (anMessageForm.getRecipients().size() == 1 && anMessageForm.getRecipients().contains("0")) {
+			anMessage.setRecipients(null);
+		} else {
+			for (final String s : anMessageForm.getRecipients())
+				anMessage.getRecipients().add(this.actorService.findOne(new Integer(s)));
+		}
 
 		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
 
