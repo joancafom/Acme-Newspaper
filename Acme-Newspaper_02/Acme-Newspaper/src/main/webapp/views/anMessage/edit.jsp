@@ -27,39 +27,38 @@
 	</jstl:if>
 </security:authorize>
 
-<form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessage">
+<jstl:if test="${ANMessageForm ne null && ANMessageForm.id == 0}">
 
-	<jstl:if test="${ANMessage.id == 0}">
+	<form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessageForm">
 
 		<!-- Hidden Inputs -->
 	
 		<form:hidden path="id"/>
-		<form:hidden path="version"/>
 	
 		<!-- Inputs -->
 	
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<jstl:if test="${!isBroadcast}">
-				<form:label path="recipient"><spring:message code="anMessage.recipient"/>: </form:label>
-				<form:select path="recipient">
+				<form:label path="recipients"><spring:message code="anMessage.recipient"/>: </form:label>
+				<form:select path="recipients">
 					<form:option value="0" label="----"/>
 					<jstl:forEach items="${recipients}" var="r">
 						<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
 					</jstl:forEach>
 				</form:select>
-				<form:errors cssClass="error" path="recipient"/>
+				<form:errors cssClass="error" path="recipients"/>
 			</jstl:if>
 		</security:authorize>
 
 		<security:authorize access="!hasRole('ADMINISTRATOR')">
-			<form:label path="recipient"><spring:message code="anMessage.recipient"/>: </form:label>
-			<form:select path="recipient">
+			<form:label path="recipients"><spring:message code="anMessage.recipient"/>: </form:label>
+			<form:select path="recipients">
 				<form:option value="0" label="----"/>
 				<jstl:forEach items="${recipients}" var="r">
 					<form:option value="${r.id}" label="${r.userAccount.username} - ${r.name} ${r.surnames}"/>
 				</jstl:forEach>
 			</form:select>
-			<form:errors cssClass="error" path="recipient"/>
+			<form:errors cssClass="error" path="recipients"/>
 		</security:authorize>
 	
 		<acme:textbox code="anMessage.subject" path="subject"/><br>
@@ -77,19 +76,23 @@
 				<acme:submit name="saveBroadcast" code="anMessage.send"/>
 			</jstl:if>
 			<jstl:if test="${!isBroadcast}">
-				<acme:submit name="save" code="anMessage.send"/>
+				<acme:submit name="saveForm" code="anMessage.send"/>
 			</jstl:if>
 		</security:authorize>
 
 		<security:authorize access="!hasRole('ADMINISTRATOR')">
-			<acme:submit name="save" code="anMessage.send"/>
+			<acme:submit name="saveForm" code="anMessage.send"/>
 		</security:authorize>
 		<acme:cancel url="folder/${actorWS}list.do" code="anMessage.cancel"/>
 		
-	</jstl:if>
-	
-	<jstl:if test="${ANMessage.id != 0}">
-	
+	</form:form>
+
+</jstl:if>
+
+<jstl:if test="${ANMessage ne null && ANMessage.id != 0}">
+
+	<form:form action="anMessage/${actorWS}edit.do" modelAttribute="ANMessage">
+
 		<!-- Hidden Inputs -->
 		
 		<form:hidden path="id"/>
@@ -114,6 +117,6 @@
 		<acme:submit name="save" code="anMessage.save"/>
 		<acme:cancel url="folder/${actorWS}list.do" code="anMessage.cancel"/>
 	
-	</jstl:if>
-
-</form:form>
+	</form:form>
+	
+</jstl:if>

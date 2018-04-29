@@ -3416,7 +3416,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3434,7 +3434,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3452,7 +3452,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder12"/>
 		<property name="sender" ref="user3"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user4"/>
 			</list>
@@ -3470,7 +3470,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder16"/>
 		<property name="sender" ref="user3"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user4"/>
 			</list>
@@ -3488,7 +3488,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="NEUTRAL"/>
 		<property name="folder" ref="folder22"/>
 		<property name="sender" ref="user5"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user6"/>
 			</list>
@@ -3506,7 +3506,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="NEUTRAL"/>
 		<property name="folder" ref="folder26"/>
 		<property name="sender" ref="user5"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user6"/>
 			</list>
@@ -3524,7 +3524,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder32"/>
 		<property name="sender" ref="customer1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="agent1"/>
 			</list>
@@ -3542,7 +3542,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder61"/>
 		<property name="sender" ref="customer1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="agent1"/>
 			</list>
@@ -3560,7 +3560,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder72"/>
 		<property name="sender" ref="agent3"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="agent4"/>
 			</list>
@@ -3578,7 +3578,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder76"/>
 		<property name="sender" ref="agent3"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="agent4"/>
 			</list>
@@ -3596,7 +3596,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3614,7 +3614,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3632,7 +3632,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3650,7 +3650,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3668,7 +3668,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3686,7 +3686,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3704,7 +3704,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3722,7 +3722,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3740,7 +3740,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>
@@ -3758,7 +3758,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient">
+		<property name="recipients">
 			<list>
 				<ref bean="user2"/>
 			</list>

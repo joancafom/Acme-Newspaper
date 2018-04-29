@@ -28,6 +28,7 @@ import controllers.AbstractController;
 import domain.ANMessage;
 import domain.Actor;
 import domain.Folder;
+import forms.ANMessageForm;
 
 @Controller
 @RequestMapping("/anMessage/customer")
@@ -53,9 +54,9 @@ public class ANMessageCustomerController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		final ModelAndView res;
-		final ANMessage anMessage;
+		final ANMessageForm anMessage;
 
-		anMessage = this.anMessageService.create();
+		anMessage = new ANMessageForm();
 
 		res = this.createEditModelAndView(anMessage);
 
@@ -119,10 +120,7 @@ public class ANMessageCustomerController extends AbstractController {
 			res = this.createEditModelAndView(anMessage);
 		else
 			try {
-				if (anMessage.getId() == 0)
-					this.anMessageService.send(anMessage.getRecipient(), anMessage);
-				else
-					this.anMessageService.save(anMessage);
+				this.anMessageService.save(anMessage);
 				res = new ModelAndView("redirect:/folder/" + this.ACTOR_WS + "list.do");
 			} catch (final Throwable oops) {
 				res = this.createEditModelAndView(anMessage, "anMessage.commit.error");
@@ -131,9 +129,39 @@ public class ANMessageCustomerController extends AbstractController {
 		return res;
 	}
 
+	// v1.0 - Implemented by Alicia
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveForm")
+	public ModelAndView save(final ANMessageForm formANMessage, final BindingResult binding) {
+		ModelAndView res;
+
+		final ANMessage anMessage = this.anMessageService.reconstruct(formANMessage, binding);
+
+		if (binding.hasErrors())
+			res = this.createEditModelAndView(formANMessage);
+		else
+			try {
+				this.anMessageService.send(anMessage.getRecipients(), anMessage);
+				res = new ModelAndView("redirect:/folder/" + this.ACTOR_WS + "list.do");
+			} catch (final Throwable oops) {
+				res = this.createEditModelAndView(formANMessage, "anMessage.commit.error");
+			}
+
+		return res;
+	}
+
 	// Ancillary Methods ----------------------------------------
+
 	// v1.0 - Implemented by Alicia
 	protected ModelAndView createEditModelAndView(final ANMessage anMessage) {
+		ModelAndView res;
+
+		res = this.createEditModelAndView(anMessage, null);
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	protected ModelAndView createEditModelAndView(final ANMessageForm anMessage) {
 		ModelAndView res;
 
 		res = this.createEditModelAndView(anMessage, null);
@@ -145,18 +173,30 @@ public class ANMessageCustomerController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final ANMessage anMessage, final String message) {
 		final ModelAndView res;
 
+		final Collection<Folder> folders = this.folderService.getAllExceptOneForPrincipal(anMessage.getFolder());
+
 		res = new ModelAndView("anMessage/edit");
 		res.addObject("ANMessage", anMessage);
 		res.addObject("message", message);
+		res.addObject("folders", folders);
+
 		res.addObject("actorWS", this.ACTOR_WS);
 
-		if (anMessage.getId() == 0) {
-			final Collection<Actor> recipients = this.actorService.findAll();
-			res.addObject("recipients", recipients);
-		} else {
-			final Collection<Folder> folders = this.folderService.getAllExceptOneForPrincipal(anMessage.getFolder());
-			res.addObject("folders", folders);
-		}
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	protected ModelAndView createEditModelAndView(final ANMessageForm anMessage, final String message) {
+		final ModelAndView res;
+
+		final Collection<Actor> recipients = this.actorService.findAll();
+
+		res = new ModelAndView("anMessage/edit");
+		res.addObject("ANMessageForm", anMessage);
+		res.addObject("message", message);
+		res.addObject("recipients", recipients);
+
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}

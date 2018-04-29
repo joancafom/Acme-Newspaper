@@ -35,6 +35,9 @@
 		<bean class="converters.AgentToStringConverter"/>
 		<bean class="converters.StringToAgentConverter"/>
 		
+		<bean class="converters.ANMessageToStringConverter"/>
+		<bean class="converters.StringToANMessageConverter"/>
+		
 		<bean class="converters.ArticleToStringConverter" /> 
   		<bean class="converters.StringToArticleConverter" />
   		

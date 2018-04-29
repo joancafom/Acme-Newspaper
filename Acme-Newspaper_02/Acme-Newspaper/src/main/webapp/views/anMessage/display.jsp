@@ -19,8 +19,12 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <strong><spring:message code="anMessage.sender"/>:</strong> <jstl:out value="${ANMessage.sender.userAccount.username} - ${ANMessage.sender.name} ${ANMessage.sender.surnames}"/><br/>
-<strong><spring:message code="anMessage.recipient"/>:</strong> <jstl:out value="${ANMessage.recipient.userAccount.username} - ${ANMessage.recipient.name} ${ANMessage.recipient.surnames}"/><br/>
-<strong><spring:message code="anMessage.sentMoment"/>:</strong> <jstl:out value="${ANMessage.sentMoment}"/><br/></br>
+<strong><spring:message code="anMessage.recipient"/>:</strong><br/>
+<jstl:forEach items="${ANMessage.recipients}" var="r">
+	<jstl:out value="· ${r.userAccount.username} - ${r.name} ${r.surnames}"/><br/>	
+</jstl:forEach> 
+
+<strong><spring:message code="anMessage.sentMoment"/>:</strong> <acme:dateFormat code="date.format2" value="${ANMessage.sentMoment}"/><br/> 
 
 <strong><spring:message code="anMessage.subject"/>:</strong> <jstl:out value="${ANMessage.subject}"/><br/><br/>
 <strong><spring:message code="anMessage.body"/>:</strong>

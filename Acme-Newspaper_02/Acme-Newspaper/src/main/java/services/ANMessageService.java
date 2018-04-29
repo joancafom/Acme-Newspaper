@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import domain.ANMessage;
 import domain.Actor;
 import domain.Administrator;
 import domain.Folder;
+import forms.ANMessageForm;
 
 @Service
 @Transactional
@@ -61,6 +63,8 @@ public class ANMessageService {
 
 		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
 		anMessage.setFolder(folder);
+
+		anMessage.setRecipients(new ArrayList<Actor>());
 
 		return anMessage;
 	}
@@ -114,7 +118,7 @@ public class ANMessageService {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(anMessage.getFolder());
 		Assert.notNull(actor);
-		Assert.isTrue(anMessage.getFolder().getActor().equals(actor));
+		Assert.isTrue(anMessage.getFolder().getActor().equals(actor) || anMessage.getSender().equals(actor));
 
 		final ANMessage saved = this.anMessageRepository.save(anMessage);
 		return saved;
@@ -128,28 +132,46 @@ public class ANMessageService {
 	// Other Business Methods ------------------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	public ANMessage reconstruct(final ANMessageForm anMessageForm, final BindingResult binding) {
+		Assert.notNull(anMessageForm);
+
+		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(sender);
+
+		final ANMessage anMessage = this.create();
+
+		anMessage.setSubject(anMessageForm.getSubject());
+		anMessage.setBody(anMessageForm.getBody());
+		anMessage.setPriority(anMessageForm.getPriority());
+		anMessage.getRecipients().add(this.actorService.findOne(new Integer(anMessageForm.getRecipients())));
+
+		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
+
+		anMessage.setSentMoment(new Date(System.currentTimeMillis() - 1000L));
+		anMessage.setSender(sender);
+		anMessage.setFolder(folder);
+
+		this.validator.validate(anMessage, binding);
+
+		return anMessage;
+	}
+
+	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by Alicia
 	public ANMessage reconstruct(final ANMessage anMessage, final BindingResult binding) {
 		Assert.notNull(anMessage);
 
 		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(sender);
 
-		if (anMessage.getId() == 0) {
-			final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
+		final ANMessage oldANMessage = this.findOne(anMessage.getId());
 
-			anMessage.setSentMoment(new Date(System.currentTimeMillis() - 1000L));
-			anMessage.setSender(sender);
-			anMessage.setFolder(folder);
-		} else {
-			final ANMessage oldANMessage = this.findOne(anMessage.getId());
-
-			anMessage.setBody(oldANMessage.getBody());
-			anMessage.setPriority(oldANMessage.getPriority());
-			anMessage.setRecipient(oldANMessage.getRecipient());
-			anMessage.setSender(oldANMessage.getSender());
-			anMessage.setSentMoment(oldANMessage.getSentMoment());
-			anMessage.setSubject(oldANMessage.getSubject());
-		}
+		anMessage.setBody(oldANMessage.getBody());
+		anMessage.setPriority(oldANMessage.getPriority());
+		anMessage.setRecipients(oldANMessage.getRecipients());
+		anMessage.setSender(oldANMessage.getSender());
+		anMessage.setSentMoment(oldANMessage.getSentMoment());
+		anMessage.setSubject(oldANMessage.getSubject());
 
 		this.validator.validate(anMessage, binding);
 
@@ -157,6 +179,7 @@ public class ANMessageService {
 	}
 
 	// v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
 	public ANMessage reconstructBroadcast(final ANMessage anMessage, final BindingResult binding) {
 		Assert.notNull(anMessage);
 		Assert.notNull(anMessage.getId() == 0);
@@ -172,7 +195,9 @@ public class ANMessageService {
 
 		//We put whatever actor we want as a Recipient to bypass the validation
 		//Later on, this will be overwritten by sendBroadcast Method
-		anMessage.setRecipient(sender);
+		final Collection<Actor> recipients = new ArrayList<Actor>();
+		recipients.add(sender);
+		anMessage.setRecipients(recipients);
 
 		this.validator.validate(anMessage, binding);
 
@@ -182,6 +207,7 @@ public class ANMessageService {
 	// A-Level Requirements ------------------------------------------------------
 
 	//v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
 	public void broadcastNotification(final ANMessage message) {
 
 		Assert.notNull(message);
@@ -196,17 +222,17 @@ public class ANMessageService {
 
 		final Collection<Actor> allActors = this.actorService.findAll();
 
-		for (final Actor a : allActors) {
-			message.setRecipient(a);
-			this.send(a, message);
-		}
+		message.setRecipients(allActors);
+		this.send(allActors, message);
 
 	}
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by JA
-	public void send(final Actor receiver, final ANMessage messageToSend) {
-		Assert.notNull(receiver);
+	// v3.0 - Updated by Alicia
+	public void send(final Collection<Actor> recipients, final ANMessage messageToSend) {
+		Assert.notNull(recipients);
+		Assert.notEmpty(recipients);
 		Assert.notNull(messageToSend);
 		Assert.isTrue(messageToSend.getId() == 0);
 
@@ -215,33 +241,37 @@ public class ANMessageService {
 
 		messageToSend.setSender(sender);
 
-		final ANMessage receivedMessage = this.create();
-		receivedMessage.setBody(messageToSend.getBody());
-		receivedMessage.setPriority(messageToSend.getPriority());
-		receivedMessage.setRecipient(messageToSend.getRecipient());
-		receivedMessage.setSender(sender);
-		receivedMessage.setSubject(messageToSend.getSubject());
+		for (final Actor a : recipients) {
 
-		final Date sentMoment = new Date(System.currentTimeMillis() - 1000L);
-		messageToSend.setSentMoment(sentMoment);
-		receivedMessage.setSentMoment(sentMoment);
+			final ANMessage receivedMessage = this.create();
+			receivedMessage.setBody(messageToSend.getBody());
+			receivedMessage.setPriority(messageToSend.getPriority());
+			receivedMessage.setRecipients(messageToSend.getRecipients());
+			receivedMessage.setSender(sender);
+			receivedMessage.setSubject(messageToSend.getSubject());
 
-		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(receivedMessage.getBody() + " " + receivedMessage.getSubject());
+			final Date sentMoment = new Date(System.currentTimeMillis() - 1000L);
+			messageToSend.setSentMoment(sentMoment);
+			receivedMessage.setSentMoment(sentMoment);
 
-		final Folder outBox = this.folderService.findByActorAndName(sender, "Out Box");
-		messageToSend.setFolder(outBox);
-		sender.getSentMessages().add(messageToSend);
+			final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(receivedMessage.getBody() + " " + receivedMessage.getSubject());
 
-		Folder receptionFolder;
-		if (containsTabooVeredict)
-			receptionFolder = this.folderService.findByActorAndName(receiver, "Spam Box");
-		else
-			receptionFolder = this.folderService.findByActorAndName(receiver, "In Box");
-		receivedMessage.setFolder(receptionFolder);
-		receiver.getReceivedMessages().add(receivedMessage);
+			final Folder outBox = this.folderService.findByActorAndName(sender, "Out Box");
+			messageToSend.setFolder(outBox);
+			sender.getSentMessages().add(messageToSend);
+
+			Folder receptionFolder;
+			if (containsTabooVeredict)
+				receptionFolder = this.folderService.findByActorAndName(a, "Spam Box");
+			else
+				receptionFolder = this.folderService.findByActorAndName(a, "In Box");
+			receivedMessage.setFolder(receptionFolder);
+			a.getReceivedMessages().add(receivedMessage);
+
+			this.save(receivedMessage);
+		}
 
 		this.save(messageToSend);
-		this.save(receivedMessage);
 	}
 
 }
