@@ -1,6 +1,9 @@
 
 package services;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -16,6 +19,7 @@ import security.LoginService;
 import utilities.AbstractTest;
 import domain.ANMessage;
 import domain.Actor;
+import domain.Folder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -36,6 +40,9 @@ public class ANMessageServiceTest extends AbstractTest {
 
 	@PersistenceContext
 	private EntityManager		entityManager;
+
+	@Autowired
+	private FolderService		folderService;
 
 
 	// -------------------------------------------------------------------------------
@@ -132,5 +139,91 @@ public class ANMessageServiceTest extends AbstractTest {
 
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * v1.0 - josembell
+	 * [UC-034] - Move Messages
+	 * REQ: 12, 13.1
+	 */
+	@Test
+	public void driverMoveMessages() {
+		final Object testingData[][] = {
+			{
+				/* + 1) Un usuario mueve un mensaje a una carpeta suya */
+				"user1", "anMessage1", "folder1", null
+			}, {
+				/* - 2) Un usuario no identificado mueve un mensaje a una carpeta */
+				null, "anMessage1", "folder1", IllegalArgumentException.class
+			}, {
+				/* - 3) Un user mueve un mensaje null a una carpeta */
+				"user1", null, "folder1", IllegalArgumentException.class
+			}, {
+				/* - 4) Un user mueve un mensaje que no es suyo a una carpeta */
+				"user1", "anMessage2", "folder1", IllegalArgumentException.class
+			}, {
+				/* - 5) Un user mueve un mensaje a un folder que no es suyo */
+				"user1", "anMessage1", "folder20", IllegalArgumentException.class
+			}, {
+				/* + 6) Un user mueve un mensaje a un folder null */
+				"user1", "anMessage1", null, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			Folder folder = null;
+			if (testingData[i][2] != null)
+				folder = this.folderService.findOne(this.getEntityId((String) testingData[i][2]));
+
+			this.startTransaction();
+
+			//System.out.println("test " + i);
+			this.templateMoveMessages((String) testingData[i][0], (String) testingData[i][1], folder, (Class<?>) testingData[i][3]);
+			//System.out.println("test " + i + " ok");
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	/* v1.0 - josembell */
+	protected void templateMoveMessages(final String username, final String message, final Folder folder, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		/* 1. Log in to the system */
+		super.authenticate(username);
+
+		try {
+
+			/* 2. List Messages from folder */
+			@SuppressWarnings("unused")
+			Collection<ANMessage> messages1 = new HashSet<ANMessage>();
+			ANMessage anMessage = null;
+			if (message != null)
+				anMessage = this.anMessageService.findOne(this.getEntityId(message));
+			if (folder != null)
+				messages1 = folder.getAnMessages();
+
+			/* 3. Move message to another folder */
+			try {
+				anMessage.setFolder(folder);
+			} catch (final Throwable oops) {
+
+			}
+
+			/* -> Save */
+			final ANMessage saved = this.anMessageService.save(anMessage);
+
+			/* 4. Check that the new folder is the same */
+			Assert.isTrue(saved.getFolder().equals(folder));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+
 	}
 }

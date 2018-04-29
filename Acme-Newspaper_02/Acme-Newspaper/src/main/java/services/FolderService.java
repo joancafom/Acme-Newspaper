@@ -251,4 +251,10 @@ public class FolderService {
 		return res;
 	}
 
+	/* v1.0 - josembell */
+	public void flush() {
+		this.folderRepository.flush();
+
+	}
+
 }

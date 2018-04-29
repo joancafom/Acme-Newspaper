@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -63,6 +64,8 @@ public class VolumeService {
 		Assert.notNull(volume);
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
+		final LocalDate now = LocalDate.now();
+		Assert.isTrue(volume.getYear() <= now.getYear());
 
 		final Volume saved = this.volumeRepository.save(volume);
 		user.getVolumes().add(saved);

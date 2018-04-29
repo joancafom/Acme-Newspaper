@@ -107,13 +107,17 @@ public class ANMessageService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	/* v2.0 - josembell */
 	public ANMessage save(final ANMessage anMessage) {
 		Assert.notNull(anMessage);
 
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(anMessage.getFolder());
 		Assert.notNull(actor);
+		Assert.isTrue(anMessage.getFolder().getActor().equals(actor));
 
-		return this.anMessageRepository.save(anMessage);
+		final ANMessage saved = this.anMessageRepository.save(anMessage);
+		return saved;
 	}
 
 	// v1.0 - Implemented by Alicia
