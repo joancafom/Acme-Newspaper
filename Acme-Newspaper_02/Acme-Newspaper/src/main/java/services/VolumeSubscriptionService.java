@@ -69,6 +69,9 @@ public class VolumeSubscriptionService {
 
 		Assert.isTrue(!this.hasVolumeSubscriptionVolume(customer, volumeSubscription.getVolume()));
 
+		Assert.notNull(volumeSubscription.getSubscriber());
+		Assert.isTrue(volumeSubscription.getSubscriber().equals(customer));
+
 		final LocalDate now = new LocalDate();
 		Assert.notNull(volumeSubscription.getCreditCard());
 
@@ -77,6 +80,10 @@ public class VolumeSubscriptionService {
 			|| (now.getYear() == volumeSubscription.getCreditCard().getYear() && now.getMonthOfYear() < volumeSubscription.getCreditCard().getMonth()));
 
 		return this.volumeSubscriptionRepository.save(volumeSubscription);
+	}
+
+	public void flush() {
+		this.volumeSubscriptionRepository.flush();
 	}
 
 	// B-Level Requirements ----------------------------------
