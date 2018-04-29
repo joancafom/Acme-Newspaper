@@ -1,12 +1,15 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -225,5 +228,108 @@ public class ANMessageServiceTest extends AbstractTest {
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 
+	}
+
+	// -------------------------------------------------------------------------------
+	// [UC-038] Broadcast a Message
+	// 
+	// Related Requirements:
+	//   · REQ 13.1: An actor who is authenticated as an administrator must be able to
+	//               broadcast a message to the actors of the system.
+	// -------------------------------------------------------------------------------
+	// v1.0 - Implemented by Alicia
+	// -------------------------------------------------------------------------------
+
+	@Test
+	public void driverBroadcastMessage() {
+
+		// testingData[i][0] -> username of the logged actor.
+		// testingData[i][1] -> subject of the broadcast message.
+		// testingData[i][2] -> body of the broadcast message.
+		// testingData[i][3] -> priority of the broadcast message.
+		// testingData[i][4] -> thrown exception.
+		// testingData[i][5] -> existing message to broadcast.
+
+		final Object testingData[][] = {
+			{
+				// 1 - (+) An Administrator successfully broadcasts a Message
+				"admin", "subject", "body", "NEUTRAL", null
+			}, {
+				// 2 - (-) An Administrator broadcasts a null Message
+				"admin", "", "", "", IllegalArgumentException.class
+			}, {
+				// 3 - (-) An Administrator broadcasts an already existing Message
+				"admin", "", "", "", IllegalArgumentException.class, "anMessage1"
+			}, {
+				// 4 - (-) A User broadcasts a Message
+				"user1", "subject", "body", "NEUTRAL", IllegalArgumentException.class
+			}, {
+				// 5 - (-) A Administrator broadcasts a Message with null subject
+				"admin", null, "body", "NEUTRAL", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			super.authenticate((String) testingData[i][0]);
+
+			ANMessage anMessage = null;
+
+			if (i < 1 || i > 2) {
+				anMessage = this.anMessageService.create();
+				anMessage.setSubject((String) testingData[i][1]);
+				anMessage.setBody((String) testingData[i][2]);
+				anMessage.setPriority((String) testingData[i][3]);
+			} else if (i == 2)
+				anMessage = this.anMessageService.findOneTest(super.getEntityId((String) testingData[i][5]));
+
+			super.unauthenticate();
+
+			this.startTransaction();
+
+			this.templateBroadcastMessage((String) testingData[i][0], anMessage, (Class<?>) testingData[i][4]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+
+		}
+
+	}
+	protected void templateBroadcastMessage(final String username, final ANMessage anMessage, final Class<?> expected) {
+		Class<?> caught = null;
+
+		// 1. Log in to the system
+		super.authenticate(username);
+
+		try {
+
+			final List<Integer> sizesBefore = new ArrayList<Integer>();
+			for (final Actor a : this.actorService.findAll())
+				sizesBefore.add(a.getReceivedMessages().size());
+
+			// 2. Broadcast the message
+
+			this.anMessageService.broadcastNotification(anMessage);
+
+			// Flush
+			this.anMessageService.flush();
+
+			// 3. Make sure that all actors have one more message
+
+			final List<Integer> sizesAfter = new ArrayList<Integer>();
+			for (final Actor a : this.actorService.findAll())
+				sizesAfter.add(a.getReceivedMessages().size());
+
+			Assert.isTrue(sizesBefore.size() == sizesAfter.size());
+
+			for (int i = 0; i < sizesBefore.size(); i++)
+				Assert.isTrue(sizesBefore.get(i) == sizesAfter.get(i) - 1);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
 	}
 }
