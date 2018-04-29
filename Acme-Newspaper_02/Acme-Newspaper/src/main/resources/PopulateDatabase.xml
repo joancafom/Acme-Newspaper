@@ -3416,7 +3416,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage1copy" class="domain.ANMessage">
@@ -3430,7 +3434,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage2" class="domain.ANMessage">
@@ -3444,7 +3452,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder12"/>
 		<property name="sender" ref="user3"/>
-		<property name="recipient" ref="user4"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user4"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage2copy" class="domain.ANMessage">
@@ -3458,7 +3470,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder16"/>
 		<property name="sender" ref="user3"/>
-		<property name="recipient" ref="user4"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user4"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage3" class="domain.ANMessage">
@@ -3472,7 +3488,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="NEUTRAL"/>
 		<property name="folder" ref="folder22"/>
 		<property name="sender" ref="user5"/>
-		<property name="recipient" ref="user6"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user6"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage3copy" class="domain.ANMessage">
@@ -3486,7 +3506,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="NEUTRAL"/>
 		<property name="folder" ref="folder26"/>
 		<property name="sender" ref="user5"/>
-		<property name="recipient" ref="user6"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user6"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage4" class="domain.ANMessage">
@@ -3500,7 +3524,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder32"/>
 		<property name="sender" ref="customer1"/>
-		<property name="recipient" ref="agent1"/>
+		<property name="recipient">
+			<list>
+				<ref bean="agent1"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage4copy" class="domain.ANMessage">
@@ -3514,7 +3542,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder61"/>
 		<property name="sender" ref="customer1"/>
-		<property name="recipient" ref="agent1"/>
+		<property name="recipient">
+			<list>
+				<ref bean="agent1"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage5" class="domain.ANMessage">
@@ -3528,7 +3560,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder72"/>
 		<property name="sender" ref="agent3"/>
-		<property name="recipient" ref="agent4"/>
+		<property name="recipient">
+			<list>
+				<ref bean="agent4"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage5copy" class="domain.ANMessage">
@@ -3542,7 +3578,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder76"/>
 		<property name="sender" ref="agent3"/>
-		<property name="recipient" ref="agent4"/>
+		<property name="recipient">
+			<list>
+				<ref bean="agent4"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage6" class="domain.ANMessage">
@@ -3556,7 +3596,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage6copy" class="domain.ANMessage">
@@ -3570,7 +3614,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage7" class="domain.ANMessage">
@@ -3584,7 +3632,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage7copy" class="domain.ANMessage">
@@ -3598,7 +3650,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="LOW"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage8" class="domain.ANMessage">
@@ -3612,7 +3668,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage8copy" class="domain.ANMessage">
@@ -3626,7 +3686,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage9" class="domain.ANMessage">
@@ -3640,7 +3704,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage9copy" class="domain.ANMessage">
@@ -3654,7 +3722,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage10" class="domain.ANMessage">
@@ -3668,7 +3740,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder2"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="anMessage10copy" class="domain.ANMessage">
@@ -3682,7 +3758,11 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="priority" value="HIGH"/>
 		<property name="folder" ref="folder6"/>
 		<property name="sender" ref="user1"/>
-		<property name="recipient" ref="user2"/>
+		<property name="recipient">
+			<list>
+				<ref bean="user2"/>
+			</list>
+		</property>
 	</bean>
 	
 	
