@@ -21,6 +21,7 @@ import utilities.AbstractTest;
 import domain.Advertisement;
 import domain.Agent;
 import domain.CreditCard;
+import domain.Newspaper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -41,6 +42,9 @@ public class AdvertisementServiceTest extends AbstractTest {
 
 	@Autowired
 	private AgentService			agentService;
+
+	@Autowired
+	private NewspaperService		newspaperService;
 
 
 	/*
@@ -182,6 +186,128 @@ public class AdvertisementServiceTest extends AbstractTest {
 
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * v1.0 - Implemented by JA
+	 * 
+	 * UC-024: List Not Advertised Newspapers, Advertise and List Advertised Newspapers
+	 * 1. Log in to the System as an Agent
+	 * 2. List her/his not Advertised Newspapers
+	 * 3. Select a Newspaper from the list and associate to it one valid Advertisement of her/his own
+	 * 4. List her/his Advertised Newspapers, including the new one
+	 * 
+	 * 
+	 * Involved REQs: 4.2, 4.3, 4.4
+	 * 
+	 * Test Cases (5; 1+ 4-):
+	 * 
+	 * + 1) An agent list her/his not Advertised Newspapers, selects one and successfully advertises it by providing an advertisement of hers/his.
+	 * Then, he lists her/his Advertised Newspapers
+	 * 
+	 * - 2) An agent list her/his not Advertised Newspapers, selects one and tries to advertise it by providing an advertisement of hers/his that's already been used.
+	 * (the same advertisement cannot be used twice for the same Newspaper)
+	 * 
+	 * - 3) An agent list her/his not Advertised Newspapers, selects one and tries to advertise it by providing an advertisement of another agent.
+	 * (only advertisements created by the agent can be used to advertise)
+	 * 
+	 * - 4) An agent list her/his not Advertised Newspapers, selects one and tries to advertise it by providing a null advertisement.
+	 * (null advertisement)
+	 * 
+	 * - 5) An agent list her/his not Advertised Newspapers, provides a null newspaper and tries advertises it by providing an advertisement of hers/his.
+	 * (null newspaper)
+	 */
+	@Test
+	public void driverListAdvertiseAndListNot() {
+
+		// testingData[i][0] -> username of the Actor to log in.
+		// testingData[i][1] -> the beanName of the chosen newspaper to advertise.
+		// testingData[i][2] -> the beanName of the chosen advertisement to use.
+		// testingData[i][3] -> the expected exception.
+
+		final Object testingData[][] = {
+			{
+				"agent1", "newspaper4", "advertisement1", null
+			}, {
+
+				"agent1", "newspaper1", "advertisement1", IllegalArgumentException.class
+			}, {
+
+				"agent1", "newspaper4", "advertisement5", IllegalArgumentException.class
+			}, {
+
+				"agent1", "newspaper4", null, IllegalArgumentException.class
+			}, {
+
+				"agent1", null, "advertisement1", IllegalArgumentException.class
+			}
+		};
+
+		Newspaper newspaper = null;
+		Advertisement ad = null;
+
+		for (int i = 0; i < testingData.length; i++) {
+
+			if (testingData[i][1] != null)
+				newspaper = this.newspaperService.findOne(this.getEntityId((String) testingData[i][1]));
+			else
+				newspaper = null;
+
+			if (testingData[i][2] != null)
+				ad = this.advertisementService.findOne(this.getEntityId((String) testingData[i][2]));
+			else
+				ad = null;
+
+			this.startTransaction();
+			System.out.println(i);
+			this.templateListAdvertiseAndListNot((String) testingData[i][0], newspaper, ad, (Class<?>) testingData[i][3]);
+
+			this.rollbackTransaction();
+			this.entityManager.clear();
+		}
+	}
+
+	//v1.0 - Implemented by JA
+	protected void templateListAdvertiseAndListNot(final String performer, final Newspaper newspaperToAdvertise, final Advertisement ad, final Class<?> expected) {
+
+		Class<?> caught = null;
+
+		// 1. Log in to the System as an Agent
+		this.authenticate(performer);
+
+		final Agent agent = this.agentService.findOne(this.getEntityId(performer));
+
+		try {
+
+			// 2. List her/his not Advertised Newspapers
+			final Collection<Newspaper> notAdvertisedNewspapersPrevious = this.newspaperService.getNotAdvertised(agent);
+
+			final Collection<Newspaper> advertisedNewspapersPrevious = this.newspaperService.getAdvertised(agent);
+
+			// 3. Select a Newspaper from the list and associate to it one valid Advertisement of her/his own (provided ad by parameters)
+
+			this.advertisementService.advertise(newspaperToAdvertise, ad);
+
+			this.newspaperService.flush();
+			this.advertisementService.flush();
+
+			//4. List her/his Advertised Newspapers, including the new one
+			final Collection<Newspaper> advertisedNewspapersAfter = this.newspaperService.getAdvertised(agent);
+
+			final Collection<Newspaper> notAdvertisedNewspapersAfter = this.newspaperService.getNotAdvertised(agent);
+
+			Assert.isTrue(advertisedNewspapersAfter.contains(newspaperToAdvertise));
+			Assert.isTrue(!notAdvertisedNewspapersAfter.contains(newspaperToAdvertise));
+			Assert.isTrue(notAdvertisedNewspapersAfter.size() == notAdvertisedNewspapersPrevious.size() - 1);
+			Assert.isTrue(advertisedNewspapersAfter.size() == advertisedNewspapersPrevious.size() + 1);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+		this.unauthenticate();
 
 	}
 }

@@ -38,6 +38,9 @@ public class NewspaperService {
 	private UserService					userService;
 
 	@Autowired
+	private AgentService				agentService;
+
+	@Autowired
 	private AdministratorService		adminService;
 
 	@Autowired
@@ -94,15 +97,24 @@ public class NewspaperService {
 	//v1.0 - Implemented by JA
 	/* v2.0 - updated by josembell */
 	// v3.0 - Updated by JA (taboo)
+	// v4.0 - Updated by JA (agent)
 	public Newspaper save(final Newspaper newspaperToSave) {
 
 		Assert.notNull(newspaperToSave);
 
 		final User publisher = this.userService.findByUserAccount(LoginService.getPrincipal());
-		Assert.notNull(publisher);
 
-		if (newspaperToSave.getId() != 0)
-			Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
+		//A newspaper can be created/updated by a publisher, but also updated (add Advert) by an Agent
+		//If the publisher is null then we must ensure it's an agent who's performing the save
+
+		if (publisher != null) {
+			if (newspaperToSave.getId() != 0)
+				Assert.isTrue(publisher.getNewspapers().contains(newspaperToSave));
+		} else {
+			Assert.isTrue(newspaperToSave.getId() != 0);
+			final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+			Assert.notNull(agent);
+		}
 
 		//Check for taboo words
 		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(newspaperToSave.getTitle() + " " + newspaperToSave.getDescription());
@@ -110,13 +122,12 @@ public class NewspaperService {
 
 		final Newspaper savedNewspaper = this.newspaperRepository.save(newspaperToSave);
 
-		if (newspaperToSave.getId() == 0)
+		if (newspaperToSave.getId() == 0 && publisher != null)
 			publisher.getNewspapers().add(savedNewspaper);
 
 		return savedNewspaper;
 
 	}
-
 	// v1.0 - Implemented by Alicia
 	public Newspaper saveTaboo(final Newspaper newspaper) {
 		Assert.notNull(newspaper);

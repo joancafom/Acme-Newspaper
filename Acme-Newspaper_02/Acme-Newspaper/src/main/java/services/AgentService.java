@@ -69,6 +69,11 @@ public class AgentService {
 	}
 
 	//v1.0 - Implemented by JA
+	public Agent findOne(final int agentId) {
+		return this.agentRepository.findOne(agentId);
+	}
+
+	//v1.0 - Implemented by JA
 	//v2.0 - Updated by JA (folders)
 	public Agent save(final Agent agent) {
 

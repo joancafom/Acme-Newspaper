@@ -45,7 +45,7 @@ public class AgentServiceTest extends AbstractTest {
 	 * 
 	 * Involved REQs: 3.1, 1 (implies actor's constraints)
 	 * 
-	 * Test Cases (6; 3+ 3-):
+	 * Test Cases (6; 2+ 4-):
 	 * 
 	 * + 1) A unauthenticated Actor registers successfully to the system by providing correct information, and then logs in. (all fields)
 	 * 
@@ -95,7 +95,7 @@ public class AgentServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++) {
 
 			this.startTransaction();
-			System.out.println(i);
+
 			this.templateAgentRegister((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
 				(Class<?>) testingData[i][7]);
 

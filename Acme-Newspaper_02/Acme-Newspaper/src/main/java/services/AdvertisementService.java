@@ -40,6 +40,9 @@ public class AdvertisementService {
 	private AgentService				agentService;
 
 	@Autowired
+	private NewspaperService			newspaperService;
+
+	@Autowired
 	private AdministratorService		administratorService;
 
 	@Autowired
@@ -148,11 +151,15 @@ public class AdvertisementService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Modified by JA
 	public void advertise(final Newspaper newspaper, final Advertisement advertisement) {
+
 		Assert.notNull(newspaper);
 		Assert.notNull(advertisement);
+
 		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(agent);
+
 		Assert.isTrue(agent.getAdvertisements().contains(advertisement));
 		Assert.isTrue(advertisement.getAgent().equals(agent));
 		Assert.isTrue(!advertisement.getNewspapers().contains(newspaper));
@@ -160,6 +167,10 @@ public class AdvertisementService {
 
 		newspaper.getAdvertisements().add(advertisement);
 		advertisement.getNewspapers().add(newspaper);
+
+		this.save(advertisement);
+		this.newspaperService.save(newspaper);
+
 	}
 
 	/* v1.0 - josembell */
