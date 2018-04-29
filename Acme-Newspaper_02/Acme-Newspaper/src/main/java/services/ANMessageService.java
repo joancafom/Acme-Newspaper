@@ -182,9 +182,9 @@ public class ANMessageService {
 	// v2.0 - Updated by Alicia
 	public ANMessage reconstructBroadcast(final ANMessage anMessage, final BindingResult binding) {
 		Assert.notNull(anMessage);
-		Assert.notNull(anMessage.getId() == 0);
+		Assert.isTrue(anMessage.getId() == 0);
 
-		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Administrator sender = this.adminService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(sender);
 
 		final Folder folder = this.folderService.findByActorAndName(sender, "Out Box");
@@ -208,6 +208,7 @@ public class ANMessageService {
 
 	//v1.0 - Implemented by JA
 	// v2.0 - Updated by Alicia
+	// v3.0 - Updated by JA
 	public void broadcastNotification(final ANMessage message) {
 
 		Assert.notNull(message);
@@ -230,7 +231,9 @@ public class ANMessageService {
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by JA
 	// v3.0 - Updated by Alicia
+	// v4.0 - Updated by JA
 	public void send(final Collection<Actor> recipients, final ANMessage messageToSend) {
+
 		Assert.notNull(recipients);
 		Assert.notEmpty(recipients);
 		Assert.notNull(messageToSend);
@@ -241,6 +244,19 @@ public class ANMessageService {
 
 		messageToSend.setSender(sender);
 
+		//Broadcast messages may only be sent by Administrators
+		if (!(sender instanceof Administrator))
+			Assert.isTrue(recipients.size() == 1);
+
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(messageToSend.getBody() + " " + messageToSend.getSubject());
+
+		final Date sentMoment = new Date(System.currentTimeMillis() - 1000L);
+		messageToSend.setSentMoment(sentMoment);
+
+		final Folder outBox = this.folderService.findByActorAndName(sender, "Out Box");
+		messageToSend.setFolder(outBox);
+		sender.getSentMessages().add(messageToSend);
+
 		for (final Actor a : recipients) {
 
 			final ANMessage receivedMessage = this.create();
@@ -250,21 +266,14 @@ public class ANMessageService {
 			receivedMessage.setSender(sender);
 			receivedMessage.setSubject(messageToSend.getSubject());
 
-			final Date sentMoment = new Date(System.currentTimeMillis() - 1000L);
-			messageToSend.setSentMoment(sentMoment);
 			receivedMessage.setSentMoment(sentMoment);
-
-			final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(receivedMessage.getBody() + " " + receivedMessage.getSubject());
-
-			final Folder outBox = this.folderService.findByActorAndName(sender, "Out Box");
-			messageToSend.setFolder(outBox);
-			sender.getSentMessages().add(messageToSend);
 
 			Folder receptionFolder;
 			if (containsTabooVeredict)
 				receptionFolder = this.folderService.findByActorAndName(a, "Spam Box");
 			else
 				receptionFolder = this.folderService.findByActorAndName(a, "In Box");
+
 			receivedMessage.setFolder(receptionFolder);
 			a.getReceivedMessages().add(receivedMessage);
 
@@ -273,5 +282,4 @@ public class ANMessageService {
 
 		this.save(messageToSend);
 	}
-
 }
