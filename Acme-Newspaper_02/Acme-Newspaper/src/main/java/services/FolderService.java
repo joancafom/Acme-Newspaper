@@ -285,10 +285,4 @@ public class FolderService {
 		return this.folderRepository.findChildFoldersOfFolderByPrincipalPaged(actor.getId(), folder.getId(), new PageRequest(page - 1, size));
 	}
 
-	public Folder saveSendMessage(final Folder folder) {
-		Assert.notNull(folder);
-
-		return this.folderRepository.save(folder);
-	}
-
 }
