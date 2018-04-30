@@ -21,7 +21,7 @@
 
 <br>
 <hr>
-<display:table name="folders" id="folder" requestURI="folder/${actorWS}/list.do" class="displaytag" pagesize="5">
+<display:table name="folders" id="folder" requestURI="folder/${actorWS}list.do" class="displaytag" pagesize="5" partialList="true"  size="${resultSize}">
 	<display:column titleKey="folder.name" sortable="true">
 		<a href="folder/${actorWS}list.do?folderId=${folder.id}"><jstl:out value="${folder.name}"/></a>
 	</display:column>
@@ -39,7 +39,7 @@
 <jstl:if test="${folderId!=null}">
 	<hr>
 	<strong><spring:message code="folder.messages"/>:</strong>
-	<display:table name="anMessages" id="anMessage" requestURI="${requestURI}" class="displaytag" pagesize="5">
+	<display:table name="anMessages" id="anMessage" requestURI="${requestURI}" class="displaytag" pagesize="5" partialList="true"  size="${resultSizeMessages}">
 	<display:column titleKey="folder.message.date" sortable="true">
 		<acme:dateFormat code="date.format2" value="${anMessage.sentMoment}"/>
 	</display:column>

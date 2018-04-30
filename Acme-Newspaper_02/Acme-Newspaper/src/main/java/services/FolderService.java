@@ -9,6 +9,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,9 @@ public class FolderService {
 
 	@Autowired
 	private Validator			validator;
+
+	@Autowired
+	private ANMessageService	anMessageService;
 
 
 	// Supporting Services ---------------------------------------------------
@@ -127,10 +132,10 @@ public class FolderService {
 		final Actor actor = this.actorService.findByUserAccount(us);
 		Assert.notNull(actor);
 		Assert.isTrue(folder.getActor().equals(actor));
-		/*
-		 * for (final ANMessage m : folder.getAnMessages())
-		 * this.anMessageService.delete(m);
-		 */
+
+		for (final ANMessage m : folder.getAnMessages())
+			this.anMessageService.delete(m);
+
 		if (folder.getParentFolder() == null)
 			for (final Folder f : folder.getChildFolders()) {
 				f.setParentFolder(null);
@@ -234,13 +239,6 @@ public class FolderService {
 		return res;
 	}
 
-	public Folder saveSendMessage(final Folder folder) {
-
-		Assert.notNull(folder);
-
-		return this.folderRepository.save(folder);
-	}
-
 	/* v1.0 - josembell */
 	public Collection<Folder> findAllNotSystemByPrincipal() {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
@@ -264,6 +262,21 @@ public class FolderService {
 	public void flush() {
 		this.folderRepository.flush();
 
+	}
+
+	/* v1.0 - josembell */
+	public Page<Folder> findAllParentFoldersByPrincipal(final Integer page, final int size) {
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+		final Page<Folder> res = this.folderRepository.findAllParentFoldersByPrincipalPaged(actor.getId(), new PageRequest(page - 1, size));
+		return res;
+	}
+
+	/* v1.0 - josembell */
+	public Page<Folder> findChildFoldersOfFolderByPrincipal(final Integer page, final int size, final Folder folder) {
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+		return this.folderRepository.findChildFoldersOfFolderByPrincipalPaged(actor.getId(), folder.getId(), new PageRequest(page - 1, size));
 	}
 
 }

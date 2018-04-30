@@ -18,21 +18,28 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <br>
-<form:form action="advertisement/agent/advertise.do" modelAttribute="advertiseForm">
+<jstl:if test="${noMoreAdverts==true}">
+	<p style="color:red"><strong><spring:message code="advertisement.noMoreAdverts"/>.</strong></p><br>
+	<acme:cancel url="newspaper/agent/listNotAdvertised.do" code="advertisement.back"/>
+</jstl:if>
+<jstl:if test="${noMoreAdverts==false}">
+	<form:form action="advertisement/agent/advertise.do" modelAttribute="advertiseForm">
 	<!-- Hidden inputs -->
 	<form:hidden path="newspaper"/>
 	
 	<!-- Inputs -->
-	<form:label path="advertisementId"><spring:message code="advertisement.select"/>:</form:label>
-	<form:select path="advertisementId">
+	<form:label path="advertisement"><spring:message code="advertisement.select"/>:</form:label>
+	<form:select path="advertisement">
 		<form:option value="0" label="----"/>
 		<form:options items="${advertisements}" itemLabel="title" itemValue="id"/>
 	</form:select>
-	<form:errors cssClass="error" path="advertisementId"/><br><br>
+	<form:errors cssClass="error" path="advertisement"/><br><br>
 	
 	<a href="advertisement/agent/create.do"><spring:message code="advertisement.create"/></a>
 	<br><br>
 	<acme:submit name="advertise" code="advertisement.submit"/>
-	<acme:cancel url="/" code="advertisement.cancel"/>
+	<acme:cancel url="newspaper/agent/listNotAdvertised.do" code="advertisement.cancel"/>
 
 </form:form>
+</jstl:if>
+

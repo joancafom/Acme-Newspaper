@@ -17,27 +17,27 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<jstl:if test="${noMoreNewspapers==true}">
+	<p style="color:red"><strong><spring:message code="volume.noMoreNewspapers"/>.</strong></p><br>
+	<acme:cancel url="volume/user/list.do" code="volume.back"/>
+</jstl:if>
 
-
-<jstl:if test="${addNewspaper==true}">
+<jstl:if test="${noMoreNewspapers==false}">
 	<form:form action="volume/user/addNewspaper.do" modelAttribute="manageVolumeForm">
 		<!-- Hidden inputs -->
 		<form:hidden path="volume"/>
 		
 		<!-- Inputs -->
-		<form:label path="newspaperId"><spring:message code="volume.newspaper.select"/>:</form:label>
-		<form:select path="newspaperId">
+		<form:label path="newspaper"><spring:message code="volume.newspaper.select"/>:</form:label>
+		<form:select path="newspaper">
 			<form:option value="0" label="----"/>
 			<form:options items="${newspapers}" itemLabel="title" itemValue="id"/>
 		</form:select>
-		<form:errors cssClass="error" path="newspaperId"/><br><br>
+		<form:errors cssClass="error" path="newspaper"/><br><br>
 
 		<br>
 		<acme:submit name="add" code="volume.submit"/>
 		<acme:cancel url="volume/user/list.do" code="volume.cancel"/>
 
 	</form:form>
-</jstl:if>
-<jstl:if test="${removeNewspaper==true}">
-
 </jstl:if>

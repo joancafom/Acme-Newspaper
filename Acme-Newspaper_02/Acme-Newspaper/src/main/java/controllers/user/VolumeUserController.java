@@ -144,35 +144,28 @@ public class VolumeUserController extends AbstractController {
 		final ManageVolumeForm form = new ManageVolumeForm();
 		form.setVolume(volume);
 
-		result = new ModelAndView("volume/manage");
-		result.addObject("addNewspaper", true);
-		result.addObject("manageVolumeForm", form);
-		final Collection<Newspaper> newspapers = this.newspaperService.findNewspapersYetToBeIncludedInVolume(volume);
-		result.addObject("newspapers", newspapers);
+		result = this.manageModelAndView(form);
 
 		return result;
 	}
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/addNewspaper", method = RequestMethod.POST, params = "add")
-	public ModelAndView addNewspaper(final ManageVolumeForm form, final BindingResult binding) {
+	public ModelAndView addNewspaper(@Valid final ManageVolumeForm form, final BindingResult binding) {
 		ModelAndView res;
+		if (binding.hasErrors())
+			res = this.manageModelAndView(form);
+		else
+			try {
+				this.volumeService.addNewspaper(form.getVolume(), form.getNewspaper());
+				res = new ModelAndView("redirect:/volume/user/display.do?volumeId=" + form.getVolume().getId());
 
-		try {
-			this.volumeService.addNewspaper(form.getVolume(), this.newspaperService.findOne(form.getNewspaperId()));
-			res = new ModelAndView("redirect:/volume/user/display.do?volumeId=" + form.getVolume().getId());
-
-		} catch (final Throwable oops) {
-			res = new ModelAndView("volume/manage");
-			res.addObject("addNewspaper", true);
-			res.addObject("manageVolumeForm", form);
-			res.addObject("newspapers", this.newspaperService.findNewspapersYetToBeIncludedInVolume(form.getVolume()));
-			res.addObject("message", "volume.commit.error");
-		}
+			} catch (final Throwable oops) {
+				res = this.manageModelAndView(form, "volume.commit.error");
+			}
 
 		return res;
 	}
-
 	/* v1.0 -josembell */
 	@RequestMapping(value = "/removeNewspaper", method = RequestMethod.GET)
 	public ModelAndView removeNewspaper(@RequestParam final int volumeId, @RequestParam final int newspaperId) {
@@ -206,6 +199,30 @@ public class VolumeUserController extends AbstractController {
 		result = new ModelAndView("volume/edit");
 		result.addObject("volume", volume);
 		result.addObject("message", message);
+
+		return result;
+	}
+
+	/* v1.0 - josembell */
+	protected ModelAndView manageModelAndView(final ManageVolumeForm form) {
+		return this.manageModelAndView(form, null);
+	}
+
+	/* v1.0 - josembell */
+	protected ModelAndView manageModelAndView(final ManageVolumeForm form, final String message) {
+		ModelAndView result;
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+
+		result = new ModelAndView("volume/manage");
+		result.addObject("addNewspaper", true);
+		result.addObject("manageVolumeForm", form);
+		result.addObject("newspapers", this.newspaperService.findNewspapersYetToBeIncludedInVolume(form.getVolume()));
+		result.addObject("message", message);
+		if (form.getVolume().getNewspapers().containsAll(user.getNewspapers()))
+			result.addObject("noMoreNewspapers", true);
+		else
+			result.addObject("noMoreNewspapers", false);
 
 		return result;
 	}

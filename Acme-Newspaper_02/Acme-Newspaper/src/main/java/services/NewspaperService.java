@@ -104,7 +104,7 @@ public class NewspaperService {
 		Assert.notNull(newspaperToSave);
 
 		final User publisher = this.userService.findByUserAccount(LoginService.getPrincipal());
-
+		Assert.notNull(publisher);
 		//A newspaper can be created/updated by a publisher, but also updated (add Advert) by an Agent
 		//If the publisher is null then we must ensure it's an agent who's performing the save. In addition,
 		// an Admin may remove advertisements to it and hence perform a save too.

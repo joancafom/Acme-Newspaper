@@ -385,9 +385,9 @@ public class AdvertisementServiceTest extends AbstractTest {
 			}
 
 			this.startTransaction();
-
+			//System.out.println("test " + i);
 			this.templateRemoveNewspaper((String) testingData[i][0], ad, (Class<?>) testingData[i][3]);
-
+			//System.out.println("test " + i + " ok");
 			this.rollbackTransaction();
 			this.entityManager.clear();
 		}

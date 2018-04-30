@@ -22,7 +22,7 @@
 	<acme:textbox code="creditCard.month" path="creditCard.month"/>
 	<acme:textbox code="creditCard.year" path="creditCard.year"/>
 	
-	<acme:cancel url="volume/customer/volume.do?volumeId=${volumeSubscription.volume.id}" code="action.cancel"/>
+	<acme:cancel url="volume/customer/display.do?volumeId=${volumeSubscription.volume.id}" code="action.cancel"/>
 	<acme:submit name="save" code="action.save"/>
 
 </form:form>

@@ -4,6 +4,7 @@ package controllers.customer;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import security.UserAccount;
+import services.ANMessageService;
 import services.ActorService;
 import services.FolderService;
 import controllers.AbstractController;
@@ -25,14 +27,17 @@ import domain.Folder;
 @RequestMapping("/folder/customer")
 public class FolderCustomerController extends AbstractController {
 
-	private final String	ACTOR_WS	= "customer/";
+	private final String		ACTOR_WS	= "customer/";
 
 	/* Services */
 	@Autowired
-	private FolderService	folderService;
+	private FolderService		folderService;
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService		actorService;
+
+	@Autowired
+	private ANMessageService	anMessageService;
 
 
 	public FolderCustomerController() {
@@ -41,8 +46,9 @@ public class FolderCustomerController extends AbstractController {
 
 	// v1.0 - Unknown
 	// v2.0 - Updated by Alicia
+	/* v3.0 - josembell */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final Integer folderId) {
+	public ModelAndView list(@RequestParam(value = "d-444792-p", defaultValue = "1") final Integer page, @RequestParam(value = "d-3565872-p", defaultValue = "1") final Integer pageMessages, @RequestParam(required = false) final Integer folderId) {
 		final ModelAndView result;
 		Collection<Folder> folders;
 		Collection<ANMessage> messages;
@@ -50,8 +56,13 @@ public class FolderCustomerController extends AbstractController {
 		final String requestURI = "folder/customer/list.do";
 
 		if (folderId == null) {
-			folders = this.folderService.findAllParentFoldersByPrincipal();
+			final Page<Folder> pageResult = this.folderService.findAllParentFoldersByPrincipal(page, 5);
+			folders = pageResult.getContent();
+			final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
 			result = new ModelAndView("folder/list");
+			result.addObject("folders", folders);
+			result.addObject("resultSize", resultSize);
 
 		} else {
 
@@ -59,12 +70,19 @@ public class FolderCustomerController extends AbstractController {
 			Assert.notNull(parentFolder);
 			Assert.isTrue(parentFolder.getActor().equals(actor));
 
-			messages = parentFolder.getAnMessages();
-			folders = parentFolder.getChildFolders();
+			final Page<Folder> pageResult = this.folderService.findChildFoldersOfFolderByPrincipal(page, 5, parentFolder);
+			folders = pageResult.getContent();
+			final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
+			final Page<ANMessage> pageResultMessages = this.anMessageService.findMessagesByFolder(pageMessages, 5, parentFolder);
+			messages = pageResultMessages.getContent();
+			final Integer resultSizeMessages = new Long(pageResultMessages.getTotalElements()).intValue();
 
 			result = new ModelAndView("folder/list");
 			result.addObject("anMessages", messages);
 			result.addObject("folder", parentFolder);
+			result.addObject("resultSize", resultSize);
+			result.addObject("resultSizeMessages", resultSizeMessages);
 		}
 		result.addObject("folderId", folderId);
 		result.addObject("folders", folders);
@@ -170,6 +188,7 @@ public class FolderCustomerController extends AbstractController {
 		result.addObject("message", message);
 		final Collection<Folder> folders = this.folderService.findAllNotSystemByPrincipal();
 		folders.remove(folder);
+		folders.removeAll(folder.getChildFolders());
 		result.addObject("folders", folders);
 		result.addObject("actorWS", this.ACTOR_WS);
 

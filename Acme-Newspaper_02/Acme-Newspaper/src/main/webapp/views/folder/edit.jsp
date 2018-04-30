@@ -23,10 +23,21 @@
 	
 	<jstl:if test="${folder.id!=0}">
 		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/></form:label>
+		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/></form:label>
 		<form:select path="parentFolder">
-			<form:option value="0" label="----"></form:option>
-			<form:options items="${folders}" itemLabel="name" itemValue="id"/>
+			<form:option value="0" label="----"/>
+			<jstl:forEach items="${folders}" var="f">
+				<jstl:choose>
+					<jstl:when test="${f.parentFolder == null}">
+						<form:option value="${f.id}" label="${f.name}"/>
+					</jstl:when>
+					<jstl:otherwise>
+						<form:option value="${f.id}" label="${f.parentFolder.name} -> ${f.name}"/>
+					</jstl:otherwise>
+				</jstl:choose>
+			</jstl:forEach>
 		</form:select>
+		<form:errors cssClass="error" path="parentFolder"></form:errors>
 	</jstl:if>
 	
 	<br><br>

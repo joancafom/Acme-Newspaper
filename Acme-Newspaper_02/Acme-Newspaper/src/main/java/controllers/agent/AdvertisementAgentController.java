@@ -61,16 +61,19 @@ public class AdvertisementAgentController extends AbstractController {
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/advertise", method = RequestMethod.POST, params = "advertise")
-	public ModelAndView advertise(final AdvertiseForm form, final BindingResult binding) {
+	public ModelAndView advertise(@Valid final AdvertiseForm form, final BindingResult binding) {
 		ModelAndView res;
 
-		try {
-			this.advertisementService.advertise(form.getNewspaper(), this.advertisementService.findOne(form.getAdvertisementId()));
-			res = new ModelAndView("redirect:/newspaper/agent/display.do?newspaperId=" + form.getNewspaper().getId());
+		if (binding.hasErrors())
+			res = this.advertiseModelAndView(form);
+		else
+			try {
+				this.advertisementService.advertise(form.getNewspaper(), form.getAdvertisement());
+				res = new ModelAndView("redirect:/newspaper/agent/display.do?newspaperId=" + form.getNewspaper().getId());
 
-		} catch (final Throwable oops) {
-			res = this.advertiseModelAndView(form, "advertisement.commit.error");
-		}
+			} catch (final Throwable oops) {
+				res = this.advertiseModelAndView(form, "advertisement.commit.error");
+			}
 
 		return res;
 	}
@@ -150,11 +153,19 @@ public class AdvertisementAgentController extends AbstractController {
 	/* v1.0 - josembell */
 	protected ModelAndView advertiseModelAndView(final AdvertiseForm form, final String message) {
 		ModelAndView result;
+
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+
 		result = new ModelAndView("advertisement/advertise");
 		result.addObject("advertiseForm", form);
 		result.addObject("message", message);
 		final Collection<Advertisement> advertisements = this.advertisementService.findAdvertisementsYetToAdvertInNewspaper(form.getNewspaper());
 		result.addObject("advertisements", advertisements);
+		if (form.getNewspaper().getAdvertisements().containsAll(agent.getAdvertisements()))
+			result.addObject("noMoreAdverts", true);
+		else
+			result.addObject("noMoreAdverts", false);
 
 		return result;
 	}
