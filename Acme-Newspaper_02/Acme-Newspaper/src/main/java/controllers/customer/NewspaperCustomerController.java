@@ -66,6 +66,7 @@ public class NewspaperCustomerController extends AbstractController {
 
 		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
 		Assert.notNull(newspaper);
+		Assert.notNull(newspaper.getPublicationDate());
 
 		final Customer customer = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(customer);
