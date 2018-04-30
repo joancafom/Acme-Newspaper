@@ -75,16 +75,16 @@ public class AdvertisementServiceTest extends AbstractTest {
 				"admin", "Test", "http://www.test.com/test.jpg", "http://www.test.com", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, IllegalArgumentException.class
 			}, {
 				/* - 6) Un agent crea un advertisement sin titulo */
-				"agent1", null, "http://www.test.com/test.jpg", "http://www.test.com", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
+				"agent1", "", "http://www.test.com/test.jpg", "http://www.test.com", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
 			}, {
 				/* - 7) Un agent crea un advertisement sin banner URL */
-				"agent1", "Test", null, "http://www.test.com", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
+				"agent1", "Test", "", "http://www.test.com", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
 			}, {
 				/* - 8) Un agent crea un advertisement con banner URL erróneo */
 				"agent1", "Test", "fail", "http://www.test.com", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
 			}, {
 				/* - 9) Un agent crea un advertisement sin target URL */
-				"agent1", "Test", "http://www.test.com/test.jpg", null, "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
+				"agent1", "Test", "http://www.test.com/test.jpg", "", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class
 			}, {
 				/* - 10) Un agent crea un advertisement con target URL erróneo */
 				"agent1", "Test", "http://www.test.com/test.jpg", "fail", "Angela", "BBVA", "4959375404376849", 654, 10, 2020, ConstraintViolationException.class

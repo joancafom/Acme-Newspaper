@@ -17,6 +17,12 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<jstl:if test="${noNewspaperCreated==true}">
+	<p style="color:red"><strong><spring:message code="volume.noNewspapersCreated"/>.</strong></p><br>
+	<a href="newspaper/user/create.do"><spring:message code="volume.newspaper.create"/></a>
+	<acme:cancel url="volume/user/list.do" code="volume.back"/>
+</jstl:if>
+
 <jstl:if test="${noMoreNewspapers==true}">
 	<p style="color:red"><strong><spring:message code="volume.noMoreNewspapers"/>.</strong></p><br>
 	<acme:cancel url="volume/user/list.do" code="volume.back"/>

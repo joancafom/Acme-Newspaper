@@ -181,6 +181,8 @@ public class VolumeUserController extends AbstractController {
 		Assert.notNull(volume);
 		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
 		Assert.notNull(newspaper);
+		Assert.isTrue(user.getNewspapers().contains(newspaper));
+		Assert.isTrue(user.getVolumes().contains(volume));
 
 		try {
 			this.volumeService.removeNewspaper(volume, newspaper);
@@ -224,12 +226,14 @@ public class VolumeUserController extends AbstractController {
 		result.addObject("manageVolumeForm", form);
 		result.addObject("newspapers", this.newspaperService.findNewspapersYetToBeIncludedInVolume(form.getVolume()));
 		result.addObject("message", message);
-		if (form.getVolume().getNewspapers().containsAll(user.getNewspapers()))
+
+		if (user.getNewspapers().isEmpty())
+			result.addObject("noNewspaperCreated", true);
+		if (form.getVolume().getNewspapers().containsAll(user.getNewspapers()) && !user.getNewspapers().isEmpty())
 			result.addObject("noMoreNewspapers", true);
-		else
+		else if (!form.getVolume().getNewspapers().containsAll(user.getNewspapers()))
 			result.addObject("noMoreNewspapers", false);
 
 		return result;
 	}
-
 }

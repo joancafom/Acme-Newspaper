@@ -162,9 +162,11 @@ public class AdvertisementAgentController extends AbstractController {
 		result.addObject("message", message);
 		final Collection<Advertisement> advertisements = this.advertisementService.findAdvertisementsYetToAdvertInNewspaper(form.getNewspaper());
 		result.addObject("advertisements", advertisements);
-		if (form.getNewspaper().getAdvertisements().containsAll(agent.getAdvertisements()))
+		if (agent.getAdvertisements().isEmpty())
+			result.addObject("noAdvertsCreated", true);
+		if (form.getNewspaper().getAdvertisements().containsAll(agent.getAdvertisements()) && !agent.getAdvertisements().isEmpty())
 			result.addObject("noMoreAdverts", true);
-		else
+		else if (!form.getNewspaper().getAdvertisements().containsAll(agent.getAdvertisements()))
 			result.addObject("noMoreAdverts", false);
 
 		return result;

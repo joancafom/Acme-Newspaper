@@ -95,6 +95,9 @@ public class AdvertisementService {
 		final LocalDate now = new LocalDate();
 		Assert.notNull(advertisement.getCreditCard());
 
+		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(advertisement.getTitle());
+		advertisement.setContainsTaboo(containsTabooVeredict);
+
 		// Assert (year == current && month == current) || year == future || (year == current && month == future)
 		Assert.isTrue((now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() == advertisement.getCreditCard().getMonth()) || (now.getYear() < advertisement.getCreditCard().getYear())
 			|| (now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() < advertisement.getCreditCard().getMonth()));

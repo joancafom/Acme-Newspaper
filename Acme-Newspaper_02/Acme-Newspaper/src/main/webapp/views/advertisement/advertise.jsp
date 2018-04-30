@@ -18,8 +18,17 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <br>
+<jstl:if test="${noAdvertsCreated==true}">
+	<p style="color:red"><strong><spring:message code="advertisement.noAdvertsCreated"/>.</strong></p><br>
+	
+	<a href="advertisement/agent/create.do"><spring:message code="advertisement.create"/></a>
+	<acme:cancel url="newspaper/agent/listNotAdvertised.do" code="advertisement.back"/>
+</jstl:if>
+
 <jstl:if test="${noMoreAdverts==true}">
 	<p style="color:red"><strong><spring:message code="advertisement.noMoreAdverts"/>.</strong></p><br>
+	
+	<a href="advertisement/agent/create.do"><spring:message code="advertisement.create"/></a>
 	<acme:cancel url="newspaper/agent/listNotAdvertised.do" code="advertisement.back"/>
 </jstl:if>
 <jstl:if test="${noMoreAdverts==false}">
