@@ -18,17 +18,25 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<h1 style="text-align:center"><strong><jstl:out value="${volume.title}"/></strong></h1>
+<h4 style="text-align:center"><strong><jstl:out value="${volume.year}"/></strong></h4>
+<br>
 <security:authorize access="hasRole('CUSTOMER')">
 	<jstl:if test="${subscriber}">
-		<spring:message code="volume.subscribe.already"/>.
+		<h4 style="text-align:center;color:blue"><spring:message code="volume.subscribe.already"/>.</h4>
 	</jstl:if>
 
 	<jstl:if test="${!subscriber}">
-		<a href="volumeSubscription/customer/create.do?volumeId=${volume.id}"><spring:message code="volume.subscribe.now"/></a>
+		<h4  style="text-align:center"><a href="volumeSubscription/customer/create.do?volumeId=${volume.id}"><spring:message code="volume.subscribe.now"/></a></h4>
 	</jstl:if>
 </security:authorize>
 
-
+<br>
+<jstl:out value="${volume.description}"/>
+<br>
+<br>
+<h3><strong><spring:message code="volume.newspapers"/></strong></h3>
+<br>
 <display:table name="newspapers" id="newspaper" requestURI="volume/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="newspaper.title">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>

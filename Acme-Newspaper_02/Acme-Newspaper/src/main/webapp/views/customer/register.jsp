@@ -71,7 +71,7 @@
 	<acme:textbox code="customer.name" path="name"/><br>
 	<acme:textbox code="customer.surnames" path="surnames"/><br>
 	<acme:textbox code="customer.postalAddress" path="postalAddress"/><br>
-	<acme:textbox code="customer.phoneNumber" path="phoneNumber" placeholder="+34555555555"/><br>
+	<acme:textbox code="customer.phoneNumber" path="phoneNumber" placeholder="(+)333333333"/><br>
 	<acme:textbox code="customer.email" path="email"/><br>
 	
 	<form:checkbox path="acceptedTerms" onchange="checkData()" id="checkbox" name="checkbox" /><spring:message code="customer.accept"/> <a href="misc/termsAndConditions.do" target="_blank"><spring:message code="customer.termsAndConditions"/></a>

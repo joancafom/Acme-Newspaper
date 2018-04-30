@@ -11,6 +11,7 @@
 package controllers.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -86,12 +87,16 @@ public class VolumeUserController extends AbstractController {
 		final ModelAndView res;
 
 		final Page<Volume> pageResult = this.volumeService.findAll(page, 5);
-		final Collection<Volume> volumes = pageResult.getContent();
+		final List<Volume> volumes = pageResult.getContent();
 		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
+		final Page<User> usersPageResult = this.volumeService.findAllCreators(page, 5);
+		final List<User> creators = usersPageResult.getContent();
 
 		res = new ModelAndView("volume/list");
 		res.addObject("resultSize", resultSize);
 		res.addObject("volumes", volumes);
+		res.addObject("creators", creators);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 
