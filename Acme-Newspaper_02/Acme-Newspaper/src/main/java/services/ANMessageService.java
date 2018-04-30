@@ -8,6 +8,8 @@ import java.util.Date;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -116,13 +118,12 @@ public class ANMessageService {
 		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(anMessage.getFolder());
 		Assert.notNull(actor);
-		Assert.isTrue(anMessage.getFolder().getActor().equals(actor) || anMessage.getSender().equals(actor));
+		Assert.isTrue(anMessage.getFolder().getActor().equals(actor) || (anMessage.getSender().equals(actor) && anMessage.getId() == 0));
 
 		final ANMessage saved = this.anMessageRepository.save(anMessage);
 		this.folderService.saveSendMessage(anMessage.getFolder());
 		return saved;
 	}
-
 	// v1.0 - Implemented by Alicia
 	public void flush() {
 		this.anMessageRepository.flush();
