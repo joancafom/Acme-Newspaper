@@ -297,4 +297,10 @@ public class ANMessageService {
 		}
 
 	}
+
+	/* v1.0 - josembell */
+	public Page<ANMessage> findMessagesByFolder(final Integer page, final int size, final Folder parentFolder) {
+		final Page<ANMessage> res = this.anMessageRepository.findMessagesByFolderPaged(parentFolder.getId(), new PageRequest(page - 1, size));
+		return res;
+	}
 }
