@@ -303,9 +303,7 @@ public class NewspaperServiceTest extends AbstractTest {
 				newspaper = this.newspaperService.findOne(this.getEntityId((String) testingData[i][1]));
 
 			this.startTransaction();
-			//System.out.println("test" + i);
 			this.templateListAndSwitchNewspapersPrivacy((String) testingData[i][0], newspaper, (Class<?>) testingData[i][2]);
-			//System.out.println("test" + i + " ok");
 			this.rollbackTransaction();
 			this.entityManager.clear();
 		}

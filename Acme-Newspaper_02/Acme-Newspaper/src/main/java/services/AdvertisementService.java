@@ -171,7 +171,7 @@ public class AdvertisementService {
 		advertisement.getNewspapers().add(newspaper);
 
 		this.save(advertisement);
-		//this.newspaperService.save(newspaper);
+		this.newspaperService.save(newspaper);
 
 	}
 

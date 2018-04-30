@@ -44,6 +44,9 @@ public class AdvertisementServiceTest extends AbstractTest {
 	private AgentService			agentService;
 
 	@Autowired
+	private UserService				userService;
+
+	@Autowired
 	private NewspaperService		newspaperService;
 
 
@@ -373,16 +376,13 @@ public class AdvertisementServiceTest extends AbstractTest {
 			else
 				ad = null;
 
-			if ((Boolean) testingData[i][2]) {
-				this.authenticate(ad.getAgent().getUserAccount().getUsername());
-
+			if ((Boolean) testingData[i][2])
 				for (final Newspaper n : ad.getNewspapers()) {
+					this.authenticate(this.userService.getPublisher(n).getUserAccount().getUsername());
 					n.getAdvertisements().remove(n);
 					this.newspaperService.save(n);
+					this.unauthenticate();
 				}
-
-				this.unauthenticate();
-			}
 
 			this.startTransaction();
 			//System.out.println("test " + i);
@@ -392,7 +392,6 @@ public class AdvertisementServiceTest extends AbstractTest {
 			this.entityManager.clear();
 		}
 	}
-
 	//v1.0 - Implemented by JA
 	protected void templateRemoveNewspaper(final String performer, final Advertisement ad, final Class<?> expected) {
 
