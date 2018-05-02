@@ -36,6 +36,9 @@
 	<display:column titleKey="article.title" style="width:30%">
 		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 	</display:column>
+	<display:column titleKey="article.newspaper">
+		<a href="newspaper/${actorWS}display.do?newspaperId=${article.newspaper.id}"><jstl:out value="${article.newspaper.title}"/></a>
+	</display:column>
 	<display:column titleKey="article.writer" style="width:10%">
 		<a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>
 	</display:column>

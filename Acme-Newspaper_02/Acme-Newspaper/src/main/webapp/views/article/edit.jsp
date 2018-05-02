@@ -25,8 +25,6 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="containsTaboo"/>
-	<form:hidden path="followUps"/>
 	
 	<jstl:choose>
 		<jstl:when test="${isFollowUp}">
@@ -48,7 +46,7 @@
 		<acme:select items="${unpublishedNewspapers}" itemLabel="title" code="article.newspaper" path="newspaper"/>
 	</jstl:if>
 	
-	<form:label path="isFinal"><spring:message code="article.isFinal"/></form:label>
+	<form:label path="isFinal"><spring:message code="article.isFinal"/>: </form:label>
 	<form:radiobutton path="isFinal" value="false"/><spring:message code="article.draft"/>
 	<form:radiobutton path="isFinal" value="true"/><spring:message code="article.final"/>
 	<form:errors cssClass="error" path="isFinal"/>

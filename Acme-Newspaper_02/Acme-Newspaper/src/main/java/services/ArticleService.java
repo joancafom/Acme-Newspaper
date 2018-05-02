@@ -311,17 +311,26 @@ public class ArticleService {
 	}
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by Alicia
 	public Article reconstructSave(final Article prunedArticle, final BindingResult binding) {
-		final Article res;
+		Assert.notNull(prunedArticle);
 
 		final User writer = this.userService.findByUserAccount(LoginService.getPrincipal());
+		prunedArticle.setWriter(writer);
 
-		res = prunedArticle;
-		res.setWriter(writer);
+		if (prunedArticle.getId() == 0) {
+			prunedArticle.setContainsTaboo(false);
+			prunedArticle.setFollowUps(new HashSet<Article>());
+		} else {
+			final Article oldArticle = this.findOne(prunedArticle.getId());
 
-		this.validator.validate(res, binding);
+			prunedArticle.setContainsTaboo(oldArticle.getContainsTaboo());
+			prunedArticle.setFollowUps(oldArticle.getFollowUps());
+		}
 
-		return res;
+		this.validator.validate(prunedArticle, binding);
+
+		return prunedArticle;
 	}
 
 	// v1.0 - Implemented by Alicia
