@@ -19,10 +19,13 @@
 
 <display:table name="users" id="user" requestURI="user/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true" size="${resultSize}">
 
-	<display:column titleKey="user.name">
+	<display:column titleKey="user.name" sortable="true">
 		<a href="user/${actorWS}display.do?userId=${user.id}"><jstl:out value="${user.name}"/></a>
 	</display:column>
-	<display:column property="surnames" titleKey="user.surnames" />
+	<display:column property="surnames" titleKey="user.surnames" sortable="true"/>
+	<display:column titleKey="user.userAccount.userName" sortable="true">
+		<jstl:out value="${user.userAccount.username}"/>
+	</display:column>
 	<display:column property="email" titleKey="user.email" />
 	
 </display:table>

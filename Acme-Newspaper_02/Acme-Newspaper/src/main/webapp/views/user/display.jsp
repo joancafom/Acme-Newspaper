@@ -19,6 +19,10 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <br>
+<jstl:if test="${mine}">
+	<h3 style="color: green"><spring:message code="yourProfile"/></h3>
+</jstl:if>
+<br>
 
 <h1><strong><jstl:out value="${user.name}"/></strong></h1>
 <h2><jstl:out value="${user.surnames}"/></h2>
@@ -29,10 +33,10 @@
 
 	<jstl:choose>
 		<jstl:when test="${user.postalAddress ne null}">
-			<spring:message code="user.postalAddress" />: <jstl:out value="${user.postalAddress}"/>
+			<strong><spring:message code="user.postalAddress" /></strong>: <jstl:out value="${user.postalAddress}"/>
 		</jstl:when>
 		<jstl:otherwise>
-			<spring:message code="user.postalAddress" />: -
+			<strong><spring:message code="user.postalAddress" /></strong>: -
 		</jstl:otherwise>
 	</jstl:choose>
 	
@@ -40,16 +44,16 @@
 	
 	<jstl:choose>
 		<jstl:when test="${user.phoneNumber ne null}">
-			<spring:message code="user.phoneNumber" />: <jstl:out value="${user.phoneNumber}"/>
+			<strong><spring:message code="user.phoneNumber" /></strong>: <jstl:out value="${user.phoneNumber}"/>
 		</jstl:when>
 		<jstl:otherwise>
-			<spring:message code="user.phoneNumber" />: -
+			<strong><spring:message code="user.phoneNumber" /></strong>: -
 		</jstl:otherwise>
 	</jstl:choose>
 	
 	<br>
 	
-	<spring:message code="user.email" />: <jstl:out value="${user.email}"/>
+	<strong><spring:message code="user.email" /></strong>: <jstl:out value="${user.email}"/>
 	
 </div>
 
@@ -198,7 +202,7 @@
 			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
 		</display:column>
 		
-		<display:column titleKey="chirp.title" property="title" style="width:30%"/>
+		<display:column titleKey="chirp.title" property="title" style="width:30%" sortable="true"/>
 		<display:column titleKey="chirp.description" property="description" style="width:30%"/>
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<display:column>
