@@ -20,6 +20,9 @@
 <security:authorize access="hasRole('USER')">
 	<a href="chirp/user/create.do"><spring:message code="chirp.create"/></a>
 </security:authorize>
+<security:authorize access="hasRole('ADMINISTRATOR')">
+	<h3><spring:message code="chirp.taboo"/></h3>
+</security:authorize>
 <hr>
 
 <display:table name="chirps" id="chirp" requestURI="chirp/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width:100%" partialList="true"  size="${resultSize}">

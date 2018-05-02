@@ -50,6 +50,10 @@
 	</h4>
 </jstl:if>
 <h3 style="text-align:center"><jstl:out value="${newspaper.description}"/></h3><br>
+<p style="text-align:center"><spring:message code="newspaper.by"/> <a href="user/${actorWS}display.do?userId=${writer.id}">${writer.name} ${writer.surnames}</a></p><br/>
+<jstl:if test="${own}">
+	<h3 style="color: green; text-align: center;"><spring:message code="yourNewspaper"/></h3>
+</jstl:if>
 <img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
 
 <jstl:if test="${own and (newspaper.publicationDate eq null)}">
@@ -124,7 +128,7 @@
 			<jstl:out value="${fn:substring(article.summary, 0, 100)}"/>...
 		</jstl:if>
 	</display:column>
-	<security:authorize access="isAuthenticated()">
+	<security:authorize access="hasRole('USER')">
 		<display:column titleKey="newspaper.status">
 		<jstl:choose>
 			<jstl:when test="${article.isFinal}">

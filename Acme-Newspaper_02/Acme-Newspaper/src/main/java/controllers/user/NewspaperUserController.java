@@ -54,6 +54,7 @@ public class NewspaperUserController extends AbstractController {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Modified by JA
+	// v3.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int newspaperId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
@@ -70,6 +71,8 @@ public class NewspaperUserController extends AbstractController {
 		Page<Article> pageResult;
 
 		final Integer finalArticles = this.articleService.getAllFinalByNewspaperSize(newspaper);
+
+		final User writer = this.userService.getWriterByNewspaper(newspaper);
 
 		if (own) {
 			//If the user is the publisher, he/she can see all articles
@@ -93,6 +96,7 @@ public class NewspaperUserController extends AbstractController {
 		res.addObject("own", own);
 		res.addObject("resultSize", resultSize);
 		res.addObject("canBePublished", canBePublished);
+		res.addObject("writer", writer);
 
 		return res;
 	}

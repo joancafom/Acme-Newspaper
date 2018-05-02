@@ -26,10 +26,12 @@ import services.AdvertisementService;
 import services.AgentService;
 import services.ArticleService;
 import services.NewspaperService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Agent;
 import domain.Article;
 import domain.Newspaper;
+import domain.User;
 
 @Controller
 @RequestMapping("/newspaper/agent")
@@ -51,11 +53,15 @@ public class NewspaperAgentController extends AbstractController {
 	@Autowired
 	private NewspaperService		newspaperService;
 
+	@Autowired
+	private UserService				userService;
+
 
 	// C-Level Requirements -------------------------------------
 
 	// v1.0 - Implemented by Alicia
-    // v2.0 - Updated by JA (canDisplay)
+	// v2.0 - Updated by JA (canDisplay)
+	// v3.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int newspaperId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
@@ -65,6 +71,8 @@ public class NewspaperAgentController extends AbstractController {
 
 		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(agent);
+
+		final User writer = this.userService.getWriterByNewspaper(newspaper);
 
 		//She or he can display the articles if it is published or has an associated advertisement campaign of a public newspaper.
 		final boolean canDisplay = newspaper.getIsPublic() && (newspaper.getPublicationDate() != null || this.advertisementService.getAdvertisementsPerNewspaperAndAgent(newspaper, agent) > 0);
@@ -78,6 +86,7 @@ public class NewspaperAgentController extends AbstractController {
 		res.addObject("articles", articles);
 		res.addObject("resultSize", resultSize);
 		res.addObject("canDisplay", canDisplay);
+		res.addObject("writer", writer);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 

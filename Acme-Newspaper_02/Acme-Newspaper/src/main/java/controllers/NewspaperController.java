@@ -23,19 +23,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ArticleService;
 import services.NewspaperService;
+import services.UserService;
 import domain.Article;
 import domain.Newspaper;
+import domain.User;
 
 @Controller
 @RequestMapping("/newspaper")
 public class NewspaperController extends AbstractController {
 
 	/* Services */
+
+	@Autowired
+	private ArticleService		articleService;
+
 	@Autowired
 	private NewspaperService	newspaperService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private UserService			userService;
 
 
 	/* Level C Requirements */
@@ -49,6 +55,8 @@ public class NewspaperController extends AbstractController {
 		Assert.notNull(newspaper);
 		Assert.isTrue(newspaper.getPublicationDate() != null);
 
+		final User writer = this.userService.getWriterByNewspaper(newspaper);
+
 		final Page<Article> pageResult = this.articleService.getAllArticlesByNewspaper(newspaper, page, 5);
 		final Collection<Article> articles = pageResult.getContent();
 		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
@@ -57,6 +65,7 @@ public class NewspaperController extends AbstractController {
 		result.addObject("newspaper", newspaper);
 		result.addObject("articles", articles);
 		result.addObject("resultSize", resultSize);
+		result.addObject("writer", writer);
 
 		return result;
 	}

@@ -24,9 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ArticleService;
 import services.NewspaperService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Newspaper;
+import domain.User;
 
 @Controller
 @RequestMapping("/newspaper/administrator")
@@ -37,10 +39,13 @@ public class NewspaperAdministratorController extends AbstractController {
 	// Services -------------------------------------------------
 
 	@Autowired
+	private ArticleService		articleService;
+
+	@Autowired
 	private NewspaperService	newspaperService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private UserService			userService;
 
 
 	// C-Level Requirements -------------------------------------
@@ -66,12 +71,15 @@ public class NewspaperAdministratorController extends AbstractController {
 		return res;
 	}
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int newspaperId, @RequestParam(value = "d-1332308-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
 
 		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
 		Assert.notNull(newspaper);
+
+		final User writer = this.userService.getWriterByNewspaper(newspaper);
 
 		final Page<Article> pageResult = this.articleService.getAllFinalByNewspaper(newspaper, page, 5);
 		final Collection<Article> articles = pageResult.getContent();
@@ -81,12 +89,12 @@ public class NewspaperAdministratorController extends AbstractController {
 		res.addObject("newspaper", newspaper);
 		res.addObject("articles", articles);
 		res.addObject("resultSize", resultSize);
+		res.addObject("writer", writer);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}
-
 	/* v1.0 - josembell */
 	// v2.0 - Modified by JA
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

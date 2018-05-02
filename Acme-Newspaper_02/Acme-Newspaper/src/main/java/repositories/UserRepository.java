@@ -33,4 +33,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u")
 	Page<User> findAllPag(Pageable pageable);
 
+	// v1.0 - Implemented by Alicia
+	@Query("select u from User u, Newspaper n where n.id = ?1 and n member of u.newspapers")
+	User findUserByNewspaperId(int newspaperId);
+
 }

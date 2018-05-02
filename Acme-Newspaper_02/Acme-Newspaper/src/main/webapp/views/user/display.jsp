@@ -31,6 +31,8 @@
 
 <div id="personalInfo">
 
+	<strong><spring:message code="user.userAccount.userName" /></strong>: <jstl:out value="${user.userAccount.username}"/><br/>
+
 	<jstl:choose>
 		<jstl:when test="${user.postalAddress ne null}">
 			<strong><spring:message code="user.postalAddress" /></strong>: <jstl:out value="${user.postalAddress}"/>

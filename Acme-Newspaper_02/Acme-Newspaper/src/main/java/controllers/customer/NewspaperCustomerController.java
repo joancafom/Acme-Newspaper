@@ -26,11 +26,13 @@ import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
 import services.SubscriptionService;
+import services.UserService;
 import services.VolumeSubscriptionService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Customer;
 import domain.Newspaper;
+import domain.User;
 
 @Controller
 @RequestMapping("/newspaper/customer")
@@ -53,6 +55,9 @@ public class NewspaperCustomerController extends AbstractController {
 	private SubscriptionService			subscriptionService;
 
 	@Autowired
+	private UserService					userService;
+
+	@Autowired
 	private VolumeSubscriptionService	volumeSubscriptionService;
 
 
@@ -73,6 +78,8 @@ public class NewspaperCustomerController extends AbstractController {
 
 		final Boolean subscriber = this.subscriptionService.hasSubscription(customer, newspaper) || this.volumeSubscriptionService.hasVolumeSubscriptionNewspaper(customer, newspaper);
 
+		final User writer = this.userService.getWriterByNewspaper(newspaper);
+
 		final Page<Article> pageResult = this.articleService.getAllFinalByNewspaper(newspaper, page, 5);
 		final Collection<Article> articles = pageResult.getContent();
 		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
@@ -82,6 +89,7 @@ public class NewspaperCustomerController extends AbstractController {
 		res.addObject("articles", articles);
 		res.addObject("subscriber", subscriber);
 		res.addObject("resultSize", resultSize);
+		res.addObject("writer", writer);
 
 		res.addObject("actorWS", this.ACTOR_WS);
 

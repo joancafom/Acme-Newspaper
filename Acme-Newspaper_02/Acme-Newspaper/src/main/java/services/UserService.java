@@ -231,4 +231,13 @@ public class UserService {
 
 		return res;
 	}
+
+	// v1.0 - Implemented by Alicia
+	public User getWriterByNewspaper(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+
+		final User res = this.userRepository.findUserByNewspaperId(newspaper.getId());
+
+		return res;
+	}
 }
