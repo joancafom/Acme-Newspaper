@@ -172,6 +172,7 @@ public class UserUserController extends AbstractController {
 		try {
 			this.userService.follow(user);
 		} catch (final Throwable oops) {
+			res = this.display(userId, 1, 1);
 			res.addObject("message", "user.commit.error");
 		}
 
@@ -191,6 +192,7 @@ public class UserUserController extends AbstractController {
 		try {
 			this.userService.unfollow(user);
 		} catch (final Throwable oops) {
+			res = this.display(userId, 1, 1);
 			res.addObject("message", "user.commit.error");
 		}
 

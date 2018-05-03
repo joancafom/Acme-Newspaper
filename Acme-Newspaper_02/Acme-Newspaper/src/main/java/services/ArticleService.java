@@ -165,8 +165,8 @@ public class ArticleService {
 
 	// v1.0 - Implemented by JA
 	public void delete(final Article article) {
-
 		Assert.notNull(article);
+		Assert.isTrue(article.getIsFinal());
 
 		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(admin);

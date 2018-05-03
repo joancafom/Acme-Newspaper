@@ -46,11 +46,11 @@ public class ArticleAdministratorController extends AbstractController {
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int articleId) {
-
 		final ModelAndView res;
 
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
+		Assert.isTrue(article.getIsFinal());
 
 		res = new ModelAndView("article/delete");
 		res.addObject("article", article);
