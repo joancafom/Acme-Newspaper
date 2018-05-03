@@ -24,9 +24,6 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="user"/>
-	<form:hidden path="moment"/>
-	<form:hidden path="containsTaboo"/>
 	
 	<!-- Inputs -->
 	

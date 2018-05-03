@@ -1,8 +1,6 @@
 
 package controllers.user;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -54,8 +52,10 @@ public class ChirpUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid final Chirp chirp, final BindingResult binding) {
+	public ModelAndView edit(final Chirp prunedChirp, final BindingResult binding) {
 		ModelAndView res;
+
+		final Chirp chirp = this.chirpService.reconstruct(prunedChirp, binding);
 
 		if (binding.hasErrors())
 			res = this.createEditModelAndView(chirp);

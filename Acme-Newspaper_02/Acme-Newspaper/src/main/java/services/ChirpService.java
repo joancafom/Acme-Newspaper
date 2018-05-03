@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.ChirpRepository;
 import security.LoginService;
@@ -36,18 +38,25 @@ public class ChirpService {
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 
+	// Validator -------------------------------------------------------------
+
+	@Autowired
+	private Validator					validator;
+
 
 	/* Level B Requirements */
 
 	//CRUD Methods ----------------
 
 	/* v1.0 - josembell */
+	// v2.0 - Implemented by Alicia
 	public Chirp create() {
 		final Chirp chirp = new Chirp();
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 
 		chirp.setUser(user);
 		chirp.setMoment(new Date());
+		chirp.setContainsTaboo(false);
 
 		return chirp;
 
@@ -157,4 +166,25 @@ public class ChirpService {
 		return res;
 	}
 
+	public Chirp reconstruct(final Chirp prunedChirp, final BindingResult binding) {
+		Assert.notNull(prunedChirp);
+
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+
+		if (prunedChirp.getId() == 0) {
+			prunedChirp.setMoment(new Date());
+			prunedChirp.setContainsTaboo(false);
+			prunedChirp.setUser(user);
+		} else {
+			final Chirp oldChirp = this.findOne(prunedChirp.getId());
+
+			prunedChirp.setMoment(oldChirp.getMoment());
+			prunedChirp.setContainsTaboo(oldChirp.getContainsTaboo());
+			prunedChirp.setUser(oldChirp.getUser());
+		}
+
+		this.validator.validate(prunedChirp, binding);
+
+		return prunedChirp;
+	}
 }
