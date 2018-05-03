@@ -17,12 +17,15 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authorize access="hasRole('ADMINISTRATOR')">
 <jstl:if test="${landing == 'list'}">
 	<h3><spring:message code="advertisements.taboo"/></h3>
 </jstl:if>
+</security:authorize>
+
 
 <display:table name="advertisements" id="advertisement" requestURI="advertisement/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
-	<display:column titleKey="advertisement.title">
+	<display:column titleKey="advertisement.title" sortable="true">
 		<jstl:out value="${advertisement.title}"/>
 	</display:column>
 	<display:column titleKey="advertisement.bannerURL">

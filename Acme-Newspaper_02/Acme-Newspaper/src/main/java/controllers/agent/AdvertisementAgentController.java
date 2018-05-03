@@ -29,7 +29,7 @@ import forms.AdvertiseForm;
 @RequestMapping("/advertisement/agent")
 public class AdvertisementAgentController extends AbstractController {
 
-	//private final String			ACTOR_WS	= "agent/";
+	private final String			ACTOR_WS	= "agent/";
 
 	/* Services */
 	@Autowired
@@ -111,7 +111,7 @@ public class AdvertisementAgentController extends AbstractController {
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
+	public ModelAndView list(@RequestParam(value = "d-4281171-p", defaultValue = "1") final Integer page) {
 		final ModelAndView result;
 		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(agent);
@@ -124,6 +124,7 @@ public class AdvertisementAgentController extends AbstractController {
 		result.addObject("advertisements", advertisements);
 		result.addObject("resultSize", resultSize);
 		result.addObject("landing", "list");
+		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
 	}
