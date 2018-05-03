@@ -18,15 +18,15 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
-	<display:column titleKey="newspaper.title">
+	<display:column titleKey="newspaper.title" sortable="true">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>
 	</display:column>
-	<display:column titleKey="newspaper.description">
+	<display:column titleKey="newspaper.description" sortable="true">
 		<jstl:out value="${newspaper.description}"/>
 	</display:column>
 	<jstl:if test="${!unpublished}">
 		<display:column titleKey="newspaper.publicationDate">
-			<acme:dateFormat code="date.format" value="${newspaper.publicationDate}"/>
+			<acme:dateFormat code="date.format2" value="${newspaper.publicationDate}"/>
 		</display:column>
 	</jstl:if>
 	<security:authorize access="hasRole('ADMINISTRATOR')">

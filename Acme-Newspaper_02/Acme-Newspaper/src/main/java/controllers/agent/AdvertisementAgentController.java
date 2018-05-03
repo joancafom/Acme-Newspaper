@@ -91,8 +91,10 @@ public class AdvertisementAgentController extends AbstractController {
 
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final Advertisement advertisement, final BindingResult binding) {
+	public ModelAndView save(final Advertisement prunedAdvertisement, final BindingResult binding) {
 		ModelAndView res;
+
+		final Advertisement advertisement = this.advertisementService.reconstructCreate(prunedAdvertisement, binding);
 
 		if (binding.hasErrors())
 			res = this.createEditModelAndView(advertisement);

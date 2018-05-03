@@ -224,6 +224,23 @@ public class AdvertisementService {
 		return res;
 	}
 
+	// v1.0 - josembell
+	public Advertisement reconstructCreate(final Advertisement prunedAdvertisement, final BindingResult binding) {
+		Advertisement res = null;
+
+		Assert.notNull(prunedAdvertisement);
+		res = prunedAdvertisement;
+		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(agent);
+		res.setAgent(agent);
+		res.setNewspapers(new HashSet<Newspaper>());
+
+		Assert.notNull(res);
+		this.validator.validate(res, binding);
+
+		return res;
+	}
+
 	/* v1.0 - josembell */
 	public Advertisement saveTaboo(final Advertisement advertisement) {
 		Assert.notNull(advertisement);

@@ -22,8 +22,6 @@
 	<!-- Hidden inputs -->
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="agent"/>
-	<form:hidden path="newspapers"/>
 	
 	<!-- Inputs -->
 	<acme:textbox code="advertisement.title" path="title"/>
