@@ -20,7 +20,7 @@
 
 
 <display:table name="tabooWords" id="tabooWord" requestURI="systemConfiguration/administrator/listTabooWords.do" pagesize="5" class="displaytag">
-	<display:column titleKey="systemConfiguration.tabooWords.tabooWord">
+	<display:column titleKey="systemConfiguration.tabooWords.tabooWord" sortable="true">
 		<jstl:out value="${tabooWord}"/>
 	</display:column>
 	<display:column>

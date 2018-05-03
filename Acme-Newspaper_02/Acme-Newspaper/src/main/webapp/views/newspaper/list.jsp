@@ -17,6 +17,10 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<jstl:if test="${landing == 'listTabooed'}">
+	<h3><spring:message code="newspaper.tabooed"/></h3>
+</jstl:if>
+
 <display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
 	<display:column titleKey="newspaper.title" sortable="true">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>
