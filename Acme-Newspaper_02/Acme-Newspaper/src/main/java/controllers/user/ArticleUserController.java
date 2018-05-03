@@ -133,10 +133,15 @@ public class ArticleUserController extends AbstractController {
 
 	// v1.0 - Implemented by Alicia
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView edit(final Article prunedArticle, final BindingResult binding) {
+	public ModelAndView edit(@RequestParam final int entityId, final Article prunedArticle, final BindingResult binding) {
 		ModelAndView res;
 
-		final Article article = this.articleService.reconstructSave(prunedArticle, binding);
+		final Newspaper newspaper = this.newspaperService.findOne(entityId);
+		final Article mainArticle = this.articleService.findOne(entityId);
+
+		Assert.isTrue((newspaper != null) || (mainArticle != null));
+
+		final Article article = this.articleService.reconstructSave(prunedArticle, newspaper, mainArticle, binding);
 
 		if (binding.hasErrors())
 			res = this.createEditModelAndView(article);

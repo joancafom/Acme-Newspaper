@@ -18,22 +18,22 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="article/user/edit.do" modelAttribute="article">
+<jstl:choose>
+	<jstl:when test="${isFollowUp}">
+		<jstl:set var="entityId" value="${mainArticleId}"/>
+	</jstl:when>
+	<jstl:otherwise>
+		<jstl:set var="entityId" value="${article.newspaper.id}"/>
+	</jstl:otherwise>
+</jstl:choose>
+
+<form:form action="article/user/edit.do?entityId=${entityId}" modelAttribute="article">
 
 	<!-- Writer is pruned -->
 	<!-- Hidden Inputs -->
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	
-	<jstl:choose>
-		<jstl:when test="${isFollowUp}">
-			<form:hidden path="mainArticle"/>
-		</jstl:when>
-		<jstl:otherwise>
-			<form:hidden path="newspaper"/>
-		</jstl:otherwise>
-	</jstl:choose>
 	
 	<!-- Inputs -->
 	
@@ -43,9 +43,16 @@
 	<acme:textarea code="article.pictures" path="pictures"/><br>
 	
 	<jstl:if test="${isFollowUp}">
-		<acme:select items="${unpublishedNewspapers}" itemLabel="title" code="article.newspaper" path="newspaper"/>
+		<form:label path="newspaper"><spring:message code="article.newspaper"/>: </form:label>
+		<form:select path="newspaper">
+			<form:option value="0" label="----"/>
+			<jstl:forEach items="${unpublishedNewspapers}" var="n">
+				<form:option value="${n.id}" label="${n.title}"/>
+			</jstl:forEach>
+		</form:select>
+		<form:errors cssClass="error" path="newspaper"/>
 	</jstl:if>
-	
+	<br/>
 	<form:label path="isFinal"><spring:message code="article.isFinal"/>: </form:label>
 	<form:radiobutton path="isFinal" value="false"/><spring:message code="article.draft"/>
 	<form:radiobutton path="isFinal" value="true"/><spring:message code="article.final"/>

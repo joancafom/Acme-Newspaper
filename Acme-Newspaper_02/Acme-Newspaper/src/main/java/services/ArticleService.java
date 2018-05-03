@@ -312,11 +312,17 @@ public class ArticleService {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by Alicia
-	public Article reconstructSave(final Article prunedArticle, final BindingResult binding) {
+	public Article reconstructSave(final Article prunedArticle, final Newspaper newspaper, final Article mainArticle, final BindingResult binding) {
 		Assert.notNull(prunedArticle);
 
 		final User writer = this.userService.findByUserAccount(LoginService.getPrincipal());
 		prunedArticle.setWriter(writer);
+
+		if (newspaper != null)
+			prunedArticle.setNewspaper(newspaper);
+
+		if (mainArticle != null)
+			prunedArticle.setMainArticle(mainArticle);
 
 		if (prunedArticle.getId() == 0) {
 			prunedArticle.setContainsTaboo(false);
