@@ -21,7 +21,7 @@
 
 <jstl:if test="${ad ne null}">
 <div style="text-align:center;">
-	<a href="<jstl:out value="${ad.targetURL}" />"><img src="<jstl:out value="${ad.bannerURL}" />" alt="<jstl:out value="${ad.title}" />" style="max-height:150px;"/></a>
+	<a href="<jstl:out value="${ad.targetURL}" />" target="_blank"><img src="<jstl:out value="${ad.bannerURL}" />" title="${ad.title}" alt="<jstl:out value="${ad.title}" />" style="max-height:150px;"/></a>
 </div>
 </jstl:if>
 <br>

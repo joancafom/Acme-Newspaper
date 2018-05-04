@@ -46,7 +46,7 @@
 	</display:column>
 	<jstl:if test="${!unpublished}">
 		<display:column titleKey="newspaper.publicationDate">
-			<acme:dateFormat code="date.format2" value="${newspaper.publicationDate}"/>
+			<acme:dateFormat code="date.format" value="${newspaper.publicationDate}"/>
 		</display:column>
 	</jstl:if>
 	<security:authorize access="hasRole('ADMINISTRATOR')">

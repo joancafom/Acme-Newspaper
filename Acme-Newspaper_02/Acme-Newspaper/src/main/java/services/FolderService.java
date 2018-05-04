@@ -95,11 +95,12 @@ public class FolderService {
 
 		Assert.isTrue(!folder.getIsSystem());
 		Assert.isTrue(folder.getActor().getUserAccount().equals(LoginService.getPrincipal()));
-		Assert.isTrue(!folder.getName().equals("In Box"));
-		Assert.isTrue(!folder.getName().equals("Out Box"));
-		Assert.isTrue(!folder.getName().equals("Notification Box"));
-		Assert.isTrue(!folder.getName().equals("Trash Box"));
-		Assert.isTrue(!folder.getName().equals("Spam Box"));
+		final String folderName = folder.getName().toLowerCase();
+		Assert.isTrue(!folderName.equals("in box"));
+		Assert.isTrue(!folderName.equals("out box"));
+		Assert.isTrue(!folderName.equals("notification box"));
+		Assert.isTrue(!folderName.equals("trash box"));
+		Assert.isTrue(!folderName.equals("spam box"));
 
 		if (folder.getParentFolder() != null) {
 			Assert.isTrue(folder.getParentFolder().getIsSystem() == false);
@@ -230,7 +231,15 @@ public class FolderService {
 
 			this.validator.validate(res, binding);
 		} else {
-			res = this.folderRepository.findOne(prunedFolder.getId());
+			final Folder old = this.folderRepository.findOne(prunedFolder.getId());
+			final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+			res = this.create(actor, prunedFolder.getParentFolder());
+
+			res.setId(old.getId());
+			res.setVersion(old.getVersion());
+			res.setChildFolders(old.getChildFolders());
+			res.setAnMessages(old.getAnMessages());
+			res.setIsSystem(old.getIsSystem());
 			res.setName(prunedFolder.getName());
 			res.setParentFolder(prunedFolder.getParentFolder());
 

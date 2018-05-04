@@ -29,10 +29,7 @@
 		<jstl:out value="${advertisement.title}"/>
 	</display:column>
 	<display:column titleKey="advertisement.bannerURL">
-		<a href="${advertisement.bannerURL}"><jstl:out value="${advertisement.bannerURL}"/></a>
-	</display:column>
-	<display:column titleKey="advertisement.targetURL">
-		<a href="${advertisement.targetURL}"><jstl:out value="${advertisement.targetURL}"/></a>
+		<a href="<jstl:out value="${advertisement.targetURL}" />" target="_blank"><img src="<jstl:out value="${advertisement.bannerURL}"/>" title="${advertisement.title}" alt="<jstl:out value="${advertisement.title}" />" style="max-height:150px; padding: 8px; margin-left:auto; margin-right:auto;"/></a>
 	</display:column>
 	<display:column titleKey="advertisement.agent">
 		<jstl:out value="${advertisement.agent.name} ${advertisement.agent.surnames}"/>

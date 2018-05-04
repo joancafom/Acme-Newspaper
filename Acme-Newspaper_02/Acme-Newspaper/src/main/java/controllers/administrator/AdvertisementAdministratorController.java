@@ -21,7 +21,7 @@ import domain.Advertisement;
 @RequestMapping("/advertisement/administrator")
 public class AdvertisementAdministratorController extends AbstractController {
 
-	//private final String			ACTOR_WS	= "administrator/";
+	private final String			ACTOR_WS	= "administrator/";
 
 	/* Services */
 	@Autowired
@@ -33,7 +33,7 @@ public class AdvertisementAdministratorController extends AbstractController {
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listTabooed(@RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
+	public ModelAndView listTabooed(@RequestParam(value = "d-4281171-p", defaultValue = "1") final Integer page) {
 		ModelAndView result = null;
 
 		final Page<Advertisement> pageResult = this.advertisementService.findTabooedAdvertisements(page, 5);
@@ -44,6 +44,7 @@ public class AdvertisementAdministratorController extends AbstractController {
 		result.addObject("advertisements", advertisements);
 		result.addObject("resultSize", resultSize);
 		result.addObject("landing", "list");
+		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;
 	}

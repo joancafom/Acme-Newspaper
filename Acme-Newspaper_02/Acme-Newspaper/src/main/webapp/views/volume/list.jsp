@@ -20,11 +20,11 @@
 <jstl:set var="i" value="0" />
 <display:table name="volumes" id="volume" requestURI="volume/${actorWS}list.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true" size="${resultSize}">
 
-	<display:column titleKey="volume.title">
+	<display:column titleKey="volume.title" sortable="true">
 		<a href="volume/${actorWS}display.do?volumeId=${volume.id}"><jstl:out value="${volume.title}"/></a>
 	</display:column>
-	<display:column property="description" titleKey="volume.description" />
-	<display:column property="year" titleKey="volume.year" />
+	<display:column property="description" titleKey="volume.description" sortable="true"/>
+	<display:column property="year" titleKey="volume.year" sortable="true"/>
 	<security:authorize access="hasRole('USER')">
 	<display:column>
 		<a href="user/${actorWS}display.do?userId=${creators[i].id}"><jstl:out value="${creators[i].name}" /></a>
