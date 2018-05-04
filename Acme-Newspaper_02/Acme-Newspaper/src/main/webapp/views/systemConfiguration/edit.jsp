@@ -21,6 +21,7 @@
 <form action="systemConfiguration/administrator/edit.do" method="get">
 	<label><spring:message code="systemConfiguration.tabooWords.tabooWord"/>: </label>
 	<input type="text" name="tabooWord" value="${tabooWord}" />
-	<input type="submit" value="<spring:message code="systemConfiguration.save"/>"/>
+
+	<acme:submit name="save" code="systemConfiguration.save"/>
 	<acme:cancel url="systemConfiguration/administrator/listTabooWords.do" code="systemConfiguration.cancel"/>
 </form>

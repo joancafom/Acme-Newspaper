@@ -146,7 +146,7 @@
 			<br/>
 		
 			<acme:submit name="saveBroadcast" code="anMessage.send"/>
-			<acme:cancel url="folder/administraor/list.do" code="anMessage.cancel"/>
+			<acme:cancel url="folder/administrator/list.do" code="anMessage.cancel"/>
 			
 		</form:form>
 	</security:authorize>	
