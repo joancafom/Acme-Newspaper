@@ -30,7 +30,7 @@
 			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
 		</display:column>
 		<display:column titleKey="chirp.user" style="width:30%">
-			 <a href="user/${actorWS}display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a>
+			 <a href="user/${actorWS}display.do?userId=${chirp.user.id}"><jstl:out value="${chirp.user.name}" /> <jstl:out value="${chirp.user.surnames}" /></a>
 		</display:column>
 		<display:column titleKey="chirp.title" property="title"/>
 		<display:column titleKey="chirp.description" property="description"/>
