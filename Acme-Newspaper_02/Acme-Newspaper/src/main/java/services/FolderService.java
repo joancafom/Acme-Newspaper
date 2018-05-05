@@ -221,31 +221,26 @@ public class FolderService {
 
 	/* v1.0 - josembell */
 	public Folder reconstruct(final Folder prunedFolder, final BindingResult binding) {
-		Folder res = null;
+		Assert.notNull(prunedFolder);
+		//final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+
 		if (prunedFolder.getId() == 0) {
-			res = prunedFolder;
-			res.setChildFolders(new HashSet<Folder>());
-			res.setActor(this.actorService.findByUserAccount(LoginService.getPrincipal()));
-			res.setAnMessages(new HashSet<ANMessage>());
-			res.setIsSystem(false);
+			prunedFolder.setChildFolders(new HashSet<Folder>());
+			prunedFolder.setActor(this.actorService.findByUserAccount(LoginService.getPrincipal()));
+			prunedFolder.setAnMessages(new HashSet<ANMessage>());
+			prunedFolder.setIsSystem(false);
 
-			this.validator.validate(res, binding);
 		} else {
-			final Folder old = this.folderRepository.findOne(prunedFolder.getId());
-			final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
-			res = this.create(actor, prunedFolder.getParentFolder());
+			final Folder old = this.findOne(prunedFolder.getId());
+			prunedFolder.setChildFolders(old.getChildFolders());
+			prunedFolder.setAnMessages(old.getAnMessages());
+			prunedFolder.setIsSystem(old.getIsSystem());
+			prunedFolder.setActor(old.getActor());
 
-			res.setId(old.getId());
-			res.setVersion(old.getVersion());
-			res.setChildFolders(old.getChildFolders());
-			res.setAnMessages(old.getAnMessages());
-			res.setIsSystem(old.getIsSystem());
-			res.setName(prunedFolder.getName());
-			res.setParentFolder(prunedFolder.getParentFolder());
-
-			this.validator.validate(res, binding);
 		}
-		return res;
+
+		this.validator.validate(prunedFolder, binding);
+		return prunedFolder;
 	}
 
 	/* v1.0 - josembell */

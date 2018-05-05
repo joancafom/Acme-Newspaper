@@ -33,16 +33,16 @@
 
 
 <display:table name="articles" id="article" requestURI="article/${actorWS}list.do" pagesize="5" class="displaytag" style="width:100%"  partialList="true"  size="${resultSize}">
-	<display:column titleKey="article.title" style="width:30%">
+	<display:column titleKey="article.title" style="width:30%" sortable="true">
 		<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 	</display:column>
-	<display:column titleKey="article.newspaper">
+	<display:column titleKey="article.newspaper" sortable="true">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${article.newspaper.id}"><jstl:out value="${article.newspaper.title}"/></a>
 	</display:column>
-	<display:column titleKey="article.writer" style="width:10%">
+	<display:column titleKey="article.writer" style="width:10%" sortable="true">
 		<a href="user/${actorWS}display.do?userId=${article.writer.id}">${article.writer.name} ${article.writer.surnames}</a>
 	</display:column>
-	<display:column titleKey="article.summary" style="width:60%">
+	<display:column titleKey="article.summary" style="width:60%" sortable="true">
 		<jstl:if test="${fn:length(article.summary)<=100}">
 			<jstl:out value="${article.summary}"/>
 		</jstl:if>

@@ -29,11 +29,11 @@
 		<display:column titleKey="chirp.moment">
 			<acme:dateFormat code="date.format2" value="${chirp.moment}"/>
 		</display:column>
-		<display:column titleKey="chirp.user" style="width:30%">
+		<display:column titleKey="chirp.user" style="width:30%" sortable="true">
 			 <a href="user/${actorWS}display.do?userId=${chirp.user.id}">${chirp.user.name} ${chirp.user.surnames}</a>
 		</display:column>
-		<display:column titleKey="chirp.title" property="title"/>
-		<display:column titleKey="chirp.description" property="description"/>
+		<display:column titleKey="chirp.title" property="title" sortable="true"/>
+		<display:column titleKey="chirp.description" property="description" sortable="true"/>
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<display:column>
 				 <a href="chirp/administrator/delete.do?chirpId=${chirp.id}"><spring:message code="chirp.delete"/></a>

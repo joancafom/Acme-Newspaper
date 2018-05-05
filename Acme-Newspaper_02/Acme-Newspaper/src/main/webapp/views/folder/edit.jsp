@@ -22,8 +22,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${folder.id!=0}">
-		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/></form:label>
-		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/></form:label>
+		<form:label path="parentFolder"><spring:message code="folder.parentFolder"/>:</form:label>
 		<form:select path="parentFolder">
 			<form:option value="0" label="----"/>
 			<jstl:forEach items="${folders}" var="f">
