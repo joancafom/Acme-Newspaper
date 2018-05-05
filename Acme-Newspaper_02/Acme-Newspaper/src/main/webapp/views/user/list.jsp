@@ -19,7 +19,7 @@
 
 <display:table name="users" id="user" requestURI="user/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true" size="${resultSize}">
 
-	<display:column titleKey="user.name" sortable="true">
+	<display:column titleKey="user.name">
 		<a href="user/${actorWS}display.do?userId=${user.id}"><jstl:out value="${user.name}"/></a>
 	</display:column>
 	<display:column property="surnames" titleKey="user.surnames" sortable="true"/>

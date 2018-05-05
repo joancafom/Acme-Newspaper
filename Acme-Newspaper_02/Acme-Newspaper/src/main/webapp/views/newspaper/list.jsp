@@ -22,10 +22,10 @@
 </jstl:if>
 
 <display:table name="newspapers" id="newspaper" requestURI="newspaper/${actorWS}${landing}.do" pagesize="5" class="displaytag" style="width: 100%" partialList="true"  size="${resultSize}">
-	<display:column titleKey="newspaper.title" sortable="true">
+	<display:column titleKey="newspaper.title">
 		<a href="newspaper/${actorWS}display.do?newspaperId=${newspaper.id}"><jstl:out value="${newspaper.title}"/></a>
 	</display:column>
-	<display:column titleKey="newspaper.description" sortable="true">
+	<display:column titleKey="newspaper.description">
 		<jstl:out value="${newspaper.description}"/>
 	</display:column>
 	<jstl:if test="${!unpublished}">
