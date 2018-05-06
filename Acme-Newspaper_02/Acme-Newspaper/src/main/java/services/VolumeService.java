@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.VolumeRepository;
 import security.LoginService;
@@ -29,6 +31,9 @@ public class VolumeService {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	//CRUD Methods
@@ -108,6 +113,16 @@ public class VolumeService {
 		newspaper.getVolumes().remove(volume);
 		volume.getNewspapers().remove(newspaper);
 
+	}
+
+	public Volume reconstruct(final Volume prunedVolume, final BindingResult binding) {
+		Assert.notNull(prunedVolume);
+		//final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+
+		prunedVolume.setNewspapers(new HashSet<Newspaper>());
+
+		this.validator.validate(prunedVolume, binding);
+		return prunedVolume;
 	}
 
 	//Other Business Methods

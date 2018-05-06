@@ -11,8 +11,6 @@
 <form:form action="volumeSubscription/customer/edit.do" modelAttribute="volumeSubscription">
 
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
-	<form:hidden path="subscriber"/>
 	<form:hidden path="volume"/>
 	
 	<acme:textbox code="creditCard.holderName" path="creditCard.holderName"/>

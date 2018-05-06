@@ -9,6 +9,8 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.SubscriptionRepository;
 import security.LoginService;
@@ -31,6 +33,9 @@ public class SubscriptionService {
 
 	@Autowired
 	private AdministratorService	adminService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	//CRUD Methods ----------
@@ -118,6 +123,17 @@ public class SubscriptionService {
 		Assert.notNull(newspaper);
 
 		return this.subscriptionRepository.getSubscriptionByNewspaper(newspaper.getId());
+	}
+
+	public Subscription reconstruct(final Subscription prunedSubscription, final BindingResult binding) {
+		Assert.notNull(prunedSubscription);
+		final Customer subscriber = this.customerService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(subscriber);
+
+		prunedSubscription.setSubscriber(subscriber);
+
+		this.validator.validate(prunedSubscription, binding);
+		return prunedSubscription;
 	}
 
 }

@@ -11,8 +11,6 @@
 <form:form action="subscription/customer/edit.do" modelAttribute="subscription">
 
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
-	<form:hidden path="subscriber"/>
 	<form:hidden path="newspaper"/>
 	
 	<acme:textbox code="creditCard.holderName" path="creditCard.holderName"/>

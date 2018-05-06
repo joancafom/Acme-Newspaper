@@ -21,8 +21,6 @@
 <form:form action="volume/user/edit.do" modelAttribute="volume">
 	<!-- Hidden inputs -->
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
-	<form:hidden path="newspapers"/>
 	
 	<!-- Inputs -->
 	<acme:textbox code="volume.title" path="title"/>

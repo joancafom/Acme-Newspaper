@@ -116,9 +116,12 @@ public class VolumeUserController extends AbstractController {
 	}
 
 	/* v1.0 - josembell */
+	/* v2.0 - josembell -> pruned */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Volume volume, final BindingResult binding) {
+	public ModelAndView save(final Volume prunedVolume, final BindingResult binding) {
 		ModelAndView res;
+
+		final Volume volume = this.volumeService.reconstruct(prunedVolume, binding);
 
 		if (binding.hasErrors())
 			res = this.createEditModelAndView(volume);

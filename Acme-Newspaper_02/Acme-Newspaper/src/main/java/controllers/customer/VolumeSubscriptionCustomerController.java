@@ -10,8 +10,6 @@
 
 package controllers.customer;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -69,9 +67,12 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 	}
 
 	//v1.0 - Implemented by Alicia
+	/* v2.0 - josembell -> pruned */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final VolumeSubscription volumeSubscription, final BindingResult binding) {
+	public ModelAndView save(final VolumeSubscription prunedVolumeSubscription, final BindingResult binding) {
 		ModelAndView res;
+
+		final VolumeSubscription volumeSubscription = this.volumeSubscriptionService.reconstruct(prunedVolumeSubscription, binding);
 
 		if (binding.hasErrors())
 			res = this.createEditModelAndView(volumeSubscription);

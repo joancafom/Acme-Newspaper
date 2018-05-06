@@ -9,6 +9,8 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.VolumeSubscriptionRepository;
 import security.LoginService;
@@ -30,6 +32,9 @@ public class VolumeSubscriptionService {
 
 	@Autowired
 	private CustomerService					customerService;
+	
+	@Autowired
+	private Validator			validator;
 
 
 	// CRUD Methods ------------------------------------------
@@ -99,12 +104,24 @@ public class VolumeSubscriptionService {
 
 		return !res.isEmpty();
 	}
+
 	// v1.0 - Implemented by Alicia
 	public Boolean hasVolumeSubscriptionVolume(final Customer customer, final Volume volume) {
 		Assert.notNull(customer);
 		Assert.notNull(volume);
 
 		return this.volumeSubscriptionRepository.getVolumeSubscriptionCustomerVolumeId(customer.getId(), volume.getId()) == null ? false : true;
+	}
+
+	public VolumeSubscription reconstruct(final VolumeSubscription prunedVolumeSubscription, final BindingResult binding) {
+		Assert.notNull(prunedVolumeSubscription);
+		final Customer subscriber = this.customerService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(subscriber);
+
+		prunedVolumeSubscription.setSubscriber(subscriber);
+
+		this.validator.validate(prunedVolumeSubscription, binding);
+		return prunedVolumeSubscription;
 	}
 
 }
