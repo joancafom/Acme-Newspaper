@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.SubscriptionRepository;
 import security.LoginService;
+import domain.Administrator;
 import domain.Customer;
 import domain.Newspaper;
 import domain.Subscription;
@@ -27,6 +28,9 @@ public class SubscriptionService {
 	//Supporting Services
 	@Autowired
 	private CustomerService			customerService;
+
+	@Autowired
+	private AdministratorService	adminService;
 
 
 	//CRUD Methods ----------
@@ -82,6 +86,19 @@ public class SubscriptionService {
 		return this.subscriptionRepository.save(subscription);
 	}
 
+	public void delete(final Subscription subscription) {
+
+		Assert.notNull(subscription);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		subscription.getSubscriber().getSubscriptions().remove(subscription);
+		this.customerService.saveCascade(subscription.getSubscriber());
+
+		this.subscriptionRepository.delete(subscription);
+	}
+
 	/* v1.0 - josembell */
 	public void flush() {
 		this.subscriptionRepository.flush();
@@ -95,6 +112,12 @@ public class SubscriptionService {
 		Assert.notNull(newspaper);
 
 		return this.subscriptionRepository.getSubscriptionCustomerNewspaperId(customer.getId(), newspaper.getId()) == null ? false : true;
+	}
+
+	public Collection<Subscription> getSubscriptionByNewspaper(final Newspaper newspaper) {
+		Assert.notNull(newspaper);
+
+		return this.subscriptionRepository.getSubscriptionByNewspaper(newspaper.getId());
 	}
 
 }

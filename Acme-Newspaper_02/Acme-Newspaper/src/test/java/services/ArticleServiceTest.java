@@ -183,11 +183,11 @@ public class ArticleServiceTest extends AbstractTest {
 	 * 
 	 * Involved REQs: 5.1, 7.1
 	 * 
-	 * Test Cases (6; 3+ 3-):
+	 * Test Cases (6; 2+ 4-):
 	 * 
 	 * + 1) An Admin logs in a select a final article from a Newspaper to remove and successfully performs the operation
 	 * 
-	 * + 2) An Admin logs in a select a draft article from a Newspaper to remove and successfully performs the operation
+	 * - 2) An Admin logs in a select a draft article from a Newspaper and tries to remove it from the system (only final ones)
 	 * 
 	 * + 3) An Admin logs in a select a followUp article from a Newspaper to remove and successfully performs the operation
 	 * 
@@ -209,7 +209,7 @@ public class ArticleServiceTest extends AbstractTest {
 			{
 				"admin", "article1", null
 			}, {
-				"admin", "article6", null
+				"admin", "article6", IllegalArgumentException.class
 			}, {
 				"admin", "article4", null
 			}, {

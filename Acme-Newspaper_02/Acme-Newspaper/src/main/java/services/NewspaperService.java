@@ -22,6 +22,7 @@ import domain.Advertisement;
 import domain.Agent;
 import domain.Article;
 import domain.Newspaper;
+import domain.Subscription;
 import domain.User;
 import domain.Volume;
 
@@ -45,6 +46,9 @@ public class NewspaperService {
 
 	@Autowired
 	private ArticleService				articleService;
+
+	@Autowired
+	private SubscriptionService			subscriptionService;
 
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
@@ -161,7 +165,12 @@ public class NewspaperService {
 		Assert.notNull(admin);
 
 		for (final Article a : new HashSet<Article>(newspaper.getArticles()))
-			this.articleService.delete(a);
+			this.articleService.deleteCascade(a);
+
+		final Collection<Subscription> subscription = this.subscriptionService.getSubscriptionByNewspaper(newspaper);
+
+		for (final Subscription s : subscription)
+			this.subscriptionService.delete(s);
 
 		final User publisher = this.userService.getPublisher(newspaper);
 		Assert.notNull(publisher);
@@ -171,7 +180,6 @@ public class NewspaperService {
 		this.newspaperRepository.delete(newspaper);
 
 	}
-
 	// Other Business Methods -------------------------------
 
 	// C-Level Requirements  ----------------------------

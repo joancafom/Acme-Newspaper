@@ -21,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.ANMessage;
+import domain.Administrator;
 import domain.Customer;
 import domain.Subscription;
 import domain.VolumeSubscription;
@@ -32,18 +33,21 @@ public class CustomerService {
 
 	// Managed Repository
 	@Autowired
-	private CustomerRepository	customerRepository;
+	private CustomerRepository		customerRepository;
 
 	// Supporting Services
 
 	@Autowired
-	private FolderService		folderService;
+	private FolderService			folderService;
 
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	adminService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// CRUD Methods -------------------------------
@@ -132,6 +136,18 @@ public class CustomerService {
 	// v1.0 - Implemented by JA
 	public void flush() {
 		this.customerRepository.flush();
+	}
+
+	/* v1.0 - josembell */
+	public Customer saveCascade(final Customer customer) {
+
+		Assert.notNull(customer);
+		Assert.isTrue(customer.getId() != 0);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		return this.customerRepository.save(customer);
 	}
 
 	//v1.0 - Implemented by JA

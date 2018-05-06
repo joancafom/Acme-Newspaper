@@ -339,6 +339,24 @@ public class ArticleService {
 		return prunedArticle;
 	}
 
+	// v1.0 - Implemented by JA
+	public void deleteCascade(final Article article) {
+		Assert.notNull(article);
+
+		final Administrator admin = this.adminService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(admin);
+
+		final Collection<Article> followUps = new HashSet<Article>(article.getFollowUps());
+		for (final Article followUp : followUps)
+			if (this.articleRepository.exists(followUp.getId())) {
+				followUp.setMainArticle(null);
+				this.articleRepository.save(followUp);
+			}
+
+		article.getNewspaper().getArticles().remove(article);
+
+		this.articleRepository.delete(article);
+	}
 	// v1.0 - Implemented by Alicia
 	public Collection<Article> getPublishedAndPublicByWriter(final User user) {
 		Assert.notNull(user);

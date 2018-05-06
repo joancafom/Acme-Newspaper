@@ -99,6 +99,8 @@ public class ArticleUserController extends AbstractController {
 		Boolean owned = false;
 		if (article.getWriter().equals(user))
 			owned = true;
+		else
+			Assert.isTrue(article.getIsFinal() || user.getNewspapers().contains(article.getNewspaper()));
 
 		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
 

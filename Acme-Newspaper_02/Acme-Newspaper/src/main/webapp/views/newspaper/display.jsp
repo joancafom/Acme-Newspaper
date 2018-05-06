@@ -87,10 +87,10 @@
 		</security:authorize>
 		
 		<security:authorize access="isAnonymous()">
-		<jstl:if test="${newspaper.isPublic or subscriber}">
+		<jstl:if test="${newspaper.isPublic}">
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</jstl:if>
-		<jstl:if test="${!newspaper.isPublic and !subscriber}">
+		<jstl:if test="${!newspaper.isPublic}">
 			<jstl:out value="${article.title}"/>
 		</jstl:if>
 		</security:authorize>
@@ -108,12 +108,7 @@
 			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</security:authorize>
 		<security:authorize access="hasRole('USER')">
-			<jstl:if test="${newspaper.isPublic or userId eq article.writer.id or own}">
-				<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
-			</jstl:if>
-			<jstl:if test="${!newspaper.isPublic and userId ne article.writer.id and !own}">
-				<jstl:out value="${article.title}"/>
-			</jstl:if>
+			<a href="article/${actorWS}display.do?articleId=${article.id}"><jstl:out value="${article.title}"/></a>
 		</security:authorize>
 	</display:column>
 	
