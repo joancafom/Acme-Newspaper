@@ -89,13 +89,16 @@ public class VolumeSubscriptionService {
 	// B-Level Requirements ----------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Modified by JA
 	public Boolean hasVolumeSubscriptionNewspaper(final Customer customer, final Newspaper newspaper) {
 		Assert.notNull(customer);
 		Assert.notNull(newspaper);
 
-		return this.volumeSubscriptionRepository.getVolumeSubscriptionCustomerNewspaperId(customer.getId(), newspaper.getId()) == null ? false : true;
-	}
+		final Collection<VolumeSubscription> res = this.volumeSubscriptionRepository.getVolumeSubscriptionCustomerNewspaperId(customer.getId(), newspaper.getId());
+		Assert.notNull(res);
 
+		return !res.isEmpty();
+	}
 	// v1.0 - Implemented by Alicia
 	public Boolean hasVolumeSubscriptionVolume(final Customer customer, final Volume volume) {
 		Assert.notNull(customer);
