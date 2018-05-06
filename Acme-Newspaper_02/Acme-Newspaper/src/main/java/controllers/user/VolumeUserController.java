@@ -218,22 +218,29 @@ public class VolumeUserController extends AbstractController {
 	}
 
 	/* v1.0 - josembell */
+	//v2.0 - Modified by JA (Laziness)
 	protected ModelAndView manageModelAndView(final ManageVolumeForm form, final String message) {
 		ModelAndView result;
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
 
+		//To prevent Laziness of the system when trying to recover the list of newspapers
+		//associated to a Volume, we recover the original Volume from the DB
+		Assert.notNull(form.getVolume());
+		final Volume originalVolume = this.volumeService.findOne(form.getVolume().getId());
+		Assert.notNull(originalVolume);
+
 		result = new ModelAndView("volume/manage");
 		result.addObject("addNewspaper", true);
 		result.addObject("manageVolumeForm", form);
-		result.addObject("newspapers", this.newspaperService.findNewspapersYetToBeIncludedInVolume(form.getVolume()));
+		result.addObject("newspapers", this.newspaperService.findPublishedNewspapersYetToBeIncludedInVolume(form.getVolume()));
 		result.addObject("message", message);
 
 		if (user.getNewspapers().isEmpty())
 			result.addObject("noNewspaperCreated", true);
-		if (form.getVolume().getNewspapers().containsAll(user.getNewspapers()) && !user.getNewspapers().isEmpty())
+		if (originalVolume.getNewspapers().containsAll(user.getNewspapers()) && !user.getNewspapers().isEmpty())
 			result.addObject("noMoreNewspapers", true);
-		else if (!form.getVolume().getNewspapers().containsAll(user.getNewspapers()))
+		else if (!originalVolume.getNewspapers().containsAll(user.getNewspapers()))
 			result.addObject("noMoreNewspapers", false);
 
 		return result;

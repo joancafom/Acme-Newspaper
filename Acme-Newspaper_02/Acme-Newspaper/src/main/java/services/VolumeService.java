@@ -91,6 +91,7 @@ public class VolumeService {
 		Assert.notNull(user);
 		Assert.notNull(volume);
 		Assert.notNull(newspaper);
+		Assert.notNull(newspaper.getPublicationDate());
 		Assert.isTrue(user.getNewspapers().contains(newspaper));
 		Assert.isTrue(user.getVolumes().contains(volume));
 		Assert.isTrue(!volume.getNewspapers().contains(newspaper));

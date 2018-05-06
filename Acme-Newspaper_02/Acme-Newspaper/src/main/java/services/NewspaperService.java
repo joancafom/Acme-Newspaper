@@ -405,13 +405,13 @@ public class NewspaperService {
 	}
 
 	/* v1.0 - josembell */
-	public Collection<Newspaper> findNewspapersYetToBeIncludedInVolume(final Volume volume) {
+	public Collection<Newspaper> findPublishedNewspapersYetToBeIncludedInVolume(final Volume volume) {
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
 		Assert.notNull(volume);
 		Assert.isTrue(user.getVolumes().contains(volume));
 
-		return this.newspaperRepository.findNewspapersYetToBeIncludedInVolume(volume.getId(), user.getId());
+		return this.newspaperRepository.findPublishedNewspapersYetToBeIncludedInVolume(volume.getId(), user.getId());
 	}
 
 }

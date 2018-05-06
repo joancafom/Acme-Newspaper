@@ -127,6 +127,7 @@ public class FolderCustomerController extends AbstractController {
 		folder = this.folderService.findOne(folderId);
 		Assert.notNull(folder);
 		Assert.isTrue(folder.getActor().equals(actor));
+		Assert.isTrue(!folder.getIsSystem());
 
 		result = this.createEditModelAndView(folder);
 		result.addObject("actorWS", this.ACTOR_WS);
@@ -135,6 +136,7 @@ public class FolderCustomerController extends AbstractController {
 	}
 
 	/* v1.0 - josembell */
+	//v2.0 - Modified by JA
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Folder prunedFolder, final BindingResult binding) {
 		ModelAndView result;
@@ -180,15 +182,22 @@ public class FolderCustomerController extends AbstractController {
 	}
 
 	/* v1.0 - josembell */
+	//v2.0 - Modified by JA (Laziness)
 	protected ModelAndView createEditModelAndView(final Folder folder, final String message) {
 		ModelAndView result;
+
+		Assert.notNull(folder);
 
 		result = new ModelAndView("folder/edit");
 		result.addObject("folder", folder);
 		result.addObject("message", message);
 		final Collection<Folder> folders = this.folderService.findAllNotSystemByPrincipal();
-		folders.remove(folder);
-		folders.removeAll(folder.getChildFolders());
+
+		final Folder originalFolder = this.folderService.findOne(folder.getId());
+		if (originalFolder != null) {
+			folders.remove(originalFolder);
+			folders.removeAll(originalFolder.getChildFolders());
+		}
 		result.addObject("folders", folders);
 		result.addObject("actorWS", this.ACTOR_WS);
 

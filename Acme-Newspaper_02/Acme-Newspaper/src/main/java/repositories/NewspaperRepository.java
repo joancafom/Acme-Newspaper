@@ -88,7 +88,8 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	Page<Newspaper> findPublishedByVolume(int volumeId, Pageable pageable);
 
 	/* v1.0 - josembell */
-	@Query("select n from Newspaper n, User u, Volume v where n member of u.newspapers and v.id=?1 and u.id=?2 and n not member of v.newspapers")
-	Collection<Newspaper> findNewspapersYetToBeIncludedInVolume(int volumeId, int userId);
+	// v2.0 - Modified by JA
+	@Query("select n from Newspaper n, User u, Volume v where n member of u.newspapers and v.id=?1 and u.id=?2 and n not member of v.newspapers and n.publicationDate != null")
+	Collection<Newspaper> findPublishedNewspapersYetToBeIncludedInVolume(int volumeId, int userId);
 
 }
