@@ -162,9 +162,9 @@ public class SystemConfigurationService {
 	// v2.0 - Modified by JA
 	public String addTabooWord(final String tabooWordIn) {
 
+		Assert.notNull(tabooWordIn);
+		Assert.isTrue(!tabooWordIn.equals(""));
 		final String tabooWord = tabooWordIn.toLowerCase();
-		Assert.notNull(tabooWord);
-		Assert.isTrue(!tabooWord.equals(""));
 		Assert.isTrue(!this.getTabooWords().contains(tabooWord));
 		Assert.isTrue(!tabooWord.contains("|"));
 

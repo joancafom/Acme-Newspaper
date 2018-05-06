@@ -66,9 +66,11 @@ public class VolumeService {
 
 	/* v1.0 - josembell */
 	public Volume save(final Volume volume) {
+
 		Assert.notNull(volume);
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(user);
+
 		final LocalDate now = LocalDate.now();
 		Assert.isTrue(volume.getYear() <= now.getYear());
 
@@ -115,9 +117,10 @@ public class VolumeService {
 
 	}
 
+	//v1.0 - Implemented by rat-bellido
+	//v2.0 - Modified by JA
 	public Volume reconstruct(final Volume prunedVolume, final BindingResult binding) {
 		Assert.notNull(prunedVolume);
-		//final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
 
 		prunedVolume.setNewspapers(new HashSet<Newspaper>());
 

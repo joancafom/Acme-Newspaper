@@ -74,6 +74,7 @@ public class SubscriptionService {
 		final Customer subscriber = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(subscriber);
 		Assert.notNull(subscription.getNewspaper());
+		Assert.isTrue(subscriber.equals(subscription.getSubscriber()));
 
 		Assert.isTrue(!this.hasSubscription(subscriber, subscription.getNewspaper()));
 		Assert.isTrue(!subscription.getNewspaper().getIsPublic());
@@ -125,8 +126,13 @@ public class SubscriptionService {
 		return this.subscriptionRepository.getSubscriptionByNewspaper(newspaper.getId());
 	}
 
+	//v1.0 - Implemented by rat-bellido
+	//v2.0 - Modified by JA
 	public Subscription reconstruct(final Subscription prunedSubscription, final BindingResult binding) {
+
 		Assert.notNull(prunedSubscription);
+		Assert.isTrue(prunedSubscription.getId() == 0);
+
 		final Customer subscriber = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(subscriber);
 

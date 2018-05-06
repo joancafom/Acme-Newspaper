@@ -32,9 +32,9 @@ public class VolumeSubscriptionService {
 
 	@Autowired
 	private CustomerService					customerService;
-	
+
 	@Autowired
-	private Validator			validator;
+	private Validator						validator;
 
 
 	// CRUD Methods ------------------------------------------
@@ -113,8 +113,13 @@ public class VolumeSubscriptionService {
 		return this.volumeSubscriptionRepository.getVolumeSubscriptionCustomerVolumeId(customer.getId(), volume.getId()) == null ? false : true;
 	}
 
+	//v1.0 - Implemented by rat-bellido
+	//v2.0 - Modified by JA
 	public VolumeSubscription reconstruct(final VolumeSubscription prunedVolumeSubscription, final BindingResult binding) {
+
 		Assert.notNull(prunedVolumeSubscription);
+		Assert.isTrue(prunedVolumeSubscription.getId() == 0);
+
 		final Customer subscriber = this.customerService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(subscriber);
 
