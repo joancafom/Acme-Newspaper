@@ -24,11 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.CustomerService;
 import services.NewspaperService;
+import services.UserService;
 import services.VolumeService;
 import services.VolumeSubscriptionService;
 import controllers.AbstractController;
 import domain.Customer;
 import domain.Newspaper;
+import domain.User;
 import domain.Volume;
 
 @Controller
@@ -51,6 +53,9 @@ public class VolumeCustomerController extends AbstractController {
 	@Autowired
 	private VolumeSubscriptionService	volumeSubscriptionService;
 
+	@Autowired
+	private UserService					userService;
+
 
 	//Level C Requirements
 
@@ -72,8 +77,11 @@ public class VolumeCustomerController extends AbstractController {
 
 		final Boolean subscriber = this.volumeSubscriptionService.hasVolumeSubscriptionVolume(customer, volume);
 
+		final User publisher = this.userService.findPublisherByVolume(volume);
+
 		res = new ModelAndView("volume/display");
 		res.addObject("volume", volume);
+		res.addObject("publisher", publisher);
 		res.addObject("newspapers", newspapers);
 		res.addObject("resultSize", resultSize);
 		res.addObject("subscriber", subscriber);

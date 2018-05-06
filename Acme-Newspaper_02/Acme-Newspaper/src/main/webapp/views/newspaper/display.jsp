@@ -54,7 +54,10 @@
 <jstl:if test="${own}">
 	<h3 style="color: green; text-align: center;"><spring:message code="yourNewspaper"/></h3>
 </jstl:if>
-<img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
+
+<jstl:if test="${(newspaper.picture ne null) and (newspaper.picture ne '')}">
+	<img src="${newspaper.picture}" style="display:block; margin-left: auto; margin-right:auto; width: 20%">
+</jstl:if>
 
 <jstl:if test="${own and (newspaper.publicationDate eq null)}">
 

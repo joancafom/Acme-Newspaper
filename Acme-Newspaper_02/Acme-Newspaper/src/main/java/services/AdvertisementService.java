@@ -86,6 +86,7 @@ public class AdvertisementService {
 	}
 
 	/* v1.0 - josembell */
+	//v2.0 - Modified by JA
 	public Advertisement save(final Advertisement advertisement) {
 		Assert.notNull(advertisement);
 		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
@@ -98,11 +99,23 @@ public class AdvertisementService {
 		final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(advertisement.getTitle());
 		advertisement.setContainsTaboo(containsTabooVeredict);
 
-		// Assert (year == current && month == current) || year == future || (year == current && month == future)
-		Assert.isTrue((now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() == advertisement.getCreditCard().getMonth()) || (now.getYear() < advertisement.getCreditCard().getYear())
-			|| (now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() < advertisement.getCreditCard().getMonth()));
+		// Assert (year == future || (year == current && month == future)
+		Assert.isTrue((now.getYear() < advertisement.getCreditCard().getYear()) || (now.getYear() == advertisement.getCreditCard().getYear() && now.getMonthOfYear() < advertisement.getCreditCard().getMonth()));
+
+		if (advertisement.getId() != 0) {
+
+			final Advertisement oldAdver = this.findOne(advertisement.getId());
+			Assert.notNull(oldAdver);
+			Assert.isTrue(agent.equals(oldAdver.getAgent()));
+			Assert.isTrue(oldAdver.getBannerURL().equals(advertisement.getBannerURL()));
+			Assert.isTrue(oldAdver.getCreditCard().equals(advertisement.getCreditCard()));
+			Assert.isTrue(oldAdver.getTargetURL().equals(advertisement.getTargetURL()));
+			Assert.isTrue(oldAdver.getTitle().equals(advertisement.getTitle()));
+
+		}
 
 		final Advertisement saved = this.advertisementRepository.save(advertisement);
+
 		if (advertisement.getId() == 0)
 			agent.getAdvertisements().add(saved);
 
@@ -229,6 +242,7 @@ public class AdvertisementService {
 		Advertisement res = null;
 
 		Assert.notNull(prunedAdvertisement);
+		Assert.isTrue(prunedAdvertisement.getId() == 0);
 		res = prunedAdvertisement;
 		final Agent agent = this.agentService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(agent);

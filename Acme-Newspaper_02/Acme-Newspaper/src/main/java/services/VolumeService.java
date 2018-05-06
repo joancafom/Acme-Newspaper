@@ -112,9 +112,4 @@ public class VolumeService {
 
 	//Other Business Methods
 
-	// v1.0 - Implemented by JA
-	public Page<User> findAllCreators(final int page, final int size) {
-		return this.volumeRepository.findAllWithCreator(new PageRequest(page - 1, size));
-	}
-
 }

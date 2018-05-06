@@ -30,7 +30,10 @@
 		<h4  style="text-align:center"><a href="volumeSubscription/customer/create.do?volumeId=${volume.id}"><spring:message code="volume.subscribe.now"/></a></h4>
 	</jstl:if>
 </security:authorize>
-
+<p style="text-align:center"><spring:message code="volume.by"/> <a href="user/${actorWS}display.do?userId=${publisher.id}">${publisher.name} ${publisher.surnames}</a></p><br/>
+<jstl:if test="${mine}">
+	<h3 style="color: green; text-align: center;"><spring:message code="yourVolume"/></h3>
+</jstl:if>
 <br>
 <jstl:out value="${volume.description}"/>
 <br>

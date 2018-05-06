@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import domain.Newspaper;
 import domain.User;
+import domain.Volume;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -36,5 +37,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	// v1.0 - Implemented by Alicia
 	@Query("select u from User u, Newspaper n where n.id = ?1 and n member of u.newspapers")
 	User findUserByNewspaperId(int newspaperId);
+
+	//v1.0 - Implemented by JA
+	@Query("select u from User u where ?1 member of u.volumes")
+	User findByVolume(Volume volume);
 
 }

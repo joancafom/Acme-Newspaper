@@ -232,6 +232,16 @@ public class UserService {
 		return res;
 	}
 
+	// v1.0 - Implemented by JA
+	public User findPublisherByVolume(final Volume volume) {
+		Assert.notNull(volume);
+
+		final User res = this.userRepository.findByVolume(volume);
+		Assert.notNull(res);
+
+		return res;
+	}
+
 	// v1.0 - Implemented by Alicia
 	public User getWriterByNewspaper(final Newspaper newspaper) {
 		Assert.notNull(newspaper);

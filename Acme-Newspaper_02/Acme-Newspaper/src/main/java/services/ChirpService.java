@@ -168,20 +168,13 @@ public class ChirpService {
 
 	public Chirp reconstruct(final Chirp prunedChirp, final BindingResult binding) {
 		Assert.notNull(prunedChirp);
+		Assert.isTrue(prunedChirp.getId() == 0);
 
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 
-		if (prunedChirp.getId() == 0) {
-			prunedChirp.setMoment(new Date());
-			prunedChirp.setContainsTaboo(false);
-			prunedChirp.setUser(user);
-		} else {
-			final Chirp oldChirp = this.findOne(prunedChirp.getId());
-
-			prunedChirp.setMoment(oldChirp.getMoment());
-			prunedChirp.setContainsTaboo(oldChirp.getContainsTaboo());
-			prunedChirp.setUser(oldChirp.getUser());
-		}
+		prunedChirp.setMoment(new Date());
+		prunedChirp.setContainsTaboo(false);
+		prunedChirp.setUser(user);
 
 		this.validator.validate(prunedChirp, binding);
 

@@ -159,7 +159,10 @@ public class SystemConfigurationService {
 
 	}
 	/* v1.0 - josembell */
-	public String addTabooWord(final String tabooWord) {
+	// v2.0 - Modified by JA
+	public String addTabooWord(final String tabooWordIn) {
+
+		final String tabooWord = tabooWordIn.toLowerCase();
 		Assert.notNull(tabooWord);
 		Assert.isTrue(!tabooWord.equals(""));
 		Assert.isTrue(!this.getTabooWords().contains(tabooWord));
@@ -173,7 +176,7 @@ public class SystemConfigurationService {
 		String tabooWords = sysConfig.getTabooWords();
 
 		if (tabooWords.equals("") || tabooWords == null)
-			tabooWords = tabooWords + tabooWord;
+			tabooWords = tabooWord;
 		else
 			tabooWords = tabooWords + "|" + tabooWord;
 

@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.NewspaperService;
+import services.UserService;
 import services.VolumeService;
 import controllers.AbstractController;
 import domain.Newspaper;
+import domain.User;
 import domain.Volume;
 
 @Controller
@@ -39,6 +41,9 @@ public class VolumeAgentController extends AbstractController {
 
 	@Autowired
 	private NewspaperService	newspaperService;
+
+	@Autowired
+	private UserService			userService;
 
 
 	//Level B Requirements
@@ -56,8 +61,11 @@ public class VolumeAgentController extends AbstractController {
 		final Collection<Newspaper> newspapers = pageResult.getContent();
 		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
 
+		final User publisher = this.userService.findPublisherByVolume(volume);
+
 		res = new ModelAndView("volume/display");
 		res.addObject("volume", volume);
+		res.addObject("publisher", publisher);
 		res.addObject("newspapers", newspapers);
 		res.addObject("resultSize", resultSize);
 
