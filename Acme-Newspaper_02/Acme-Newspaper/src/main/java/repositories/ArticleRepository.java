@@ -27,7 +27,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	Collection<Article> unpublishedArticlesByWriterNewspaperId(final int userId, final int newspaperId);
 
 	// v2.0 - Implemented by JA
-	@Query("select a from Article a where (a.newspaper.publicationDate = null and a.writer.id = ?1 or a.isFinal = true) and  a.newspaper.id = ?2")
+	// v3.0 - Updated by Alicia
+	@Query("select a from Article a where (a.newspaper.publicationDate = null and a.writer.id = ?1 or a.isFinal = true) and  a.newspaper.id = ?2 and a.mainArticle = null")
 	Page<Article> unpublishedAndFinalArticlesByWriterNewspaperId(final int userId, final int newspaperId, Pageable pageable);
 
 	/* v1.0 - josembell */
@@ -47,11 +48,13 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	Integer getAllFinalByNewspaperIdSize(int newspaperId);
 
 	// v1.0 - Implemented by Alicia
-	@Query("select a from Article a where a.isFinal = true and a.newspaper.id = ?1")
+	// v2.0 - Updated by Alicia
+	@Query("select a from Article a where a.isFinal = true and a.newspaper.id = ?1 and a.mainArticle = null")
 	Page<Article> getAllFinalByNewspaperId(int newspaperId, Pageable pageable);
 
 	// v1.0 - Implemented by JA
-	@Query("select a from Article a where a.newspaper.id = ?1")
+	// v2.0 - Updated by Alicia
+	@Query("select a from Article a where a.newspaper.id = ?1 and a.mainArticle = null")
 	Page<Article> getAllByNewspaperId(int newspaperId, Pageable pageable);
 
 	// v1.0 - Implemented by JA
@@ -97,5 +100,17 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	// v1.0 - Implemented by JA
 	@Query("select distinct a from Article a, Subscription s where (a.title like %?1% or a.summary like %?1% or a.body like %?1%) and ((a.newspaper.publicationDate != null and a.newspaper.isPublic = true) or (s.subscriber.id = ?2 and a.newspaper = s.newspaper))")
 	Page<Article> customerSearchResults(String keyword, int customerId, Pageable pageable);
+
+	// v1.0 - Implemented by Alicia
+	@Query("select a from Article a where a.mainArticle.id = ?1")
+	Collection<Article> findFollowUpsByArticleId(int articleId);
+
+	// v1.0 - Implemented by Alicia
+	@Query("select a from Article a where a.mainArticle.id = ?1")
+	Page<Article> findFollowUpsByArticleId(int articleId, Pageable pageable);
+
+	// v1.0 - Implemented by Alicia
+	@Query("select a from Article a where a.mainArticle = null")
+	Collection<Article> findMainArticles();
 
 }

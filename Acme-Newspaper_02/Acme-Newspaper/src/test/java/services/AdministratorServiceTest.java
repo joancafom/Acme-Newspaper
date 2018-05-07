@@ -766,6 +766,7 @@ public class AdministratorServiceTest extends AbstractTest {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	private void templateAverageFollowUpsOneWeekAfterPerArticle(final String username, final Class<?> expected) {
 		Class<?> caught = null;
 		/* 1. Loggearse como admin */
@@ -777,13 +778,14 @@ public class AdministratorServiceTest extends AbstractTest {
 			/* Computar */
 			Double computeResult = 0.0;
 			Double num = 0.0;
-			final Double denom = new Double(this.articleService.findAll().size());
-			for (final Article a : this.articleService.findAll())
+			final Double denom = new Double(this.articleService.getMainArticles().size());
+
+			for (final Article a : this.articleService.getMainArticles())
 				for (final Article followUp : a.getFollowUps()) {
 					final LocalDateTime date1 = new LocalDateTime(followUp.getPublicationDate());
 					final LocalDateTime date2 = new LocalDateTime(a.getPublicationDate());
 
-					if (date2.plusDays(7).isBefore(date1))
+					if (date1.isBefore(date2.plusDays(7)))
 						num++;
 				}
 
@@ -832,24 +834,27 @@ public class AdministratorServiceTest extends AbstractTest {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Updated by Alicia
 	private void templateAverageFollowUpTwoWeeksAfterPerArticle(final String username, final Class<?> expected) {
 		Class<?> caught = null;
 		/* 1. Loggearse como admin */
 		this.authenticate(username);
 
 		try {
+
 			final Double queryResult = this.administratorService.getAvgFollowUpsPerArticleTwoWeeks();
 
 			/* Computar */
 			Double computeResult = 0.0;
 			Double num = 0.0;
-			final Double denom = new Double(this.articleService.findAll().size());
-			for (final Article a : this.articleService.findAll())
+			final Double denom = new Double(this.articleService.getMainArticles().size());
+
+			for (final Article a : this.articleService.getMainArticles())
 				for (final Article followUp : a.getFollowUps()) {
 					final LocalDateTime date1 = new LocalDateTime(followUp.getPublicationDate());
 					final LocalDateTime date2 = new LocalDateTime(a.getPublicationDate());
 
-					if (date2.plusDays(14).isBefore(date1))
+					if (date1.isBefore(date2.plusDays(14)))
 						num++;
 				}
 

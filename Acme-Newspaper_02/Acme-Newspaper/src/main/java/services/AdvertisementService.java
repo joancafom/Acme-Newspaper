@@ -186,7 +186,7 @@ public class AdvertisementService {
 		newspaper.getAdvertisements().add(advertisement);
 		advertisement.getNewspapers().add(newspaper);
 
-		this.save(advertisement);
+		this.advertisementRepository.save(advertisement);
 		this.newspaperService.save(newspaper);
 
 	}

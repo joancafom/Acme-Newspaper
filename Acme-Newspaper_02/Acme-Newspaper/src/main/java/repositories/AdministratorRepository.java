@@ -65,11 +65,13 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	Double avgFollowUpsPerArticle();
 
 	// v1.0 - Implemented by Alicia
-	@Query("select count(a1) * 1.0 / (select count(a2) * 1.0 from Article a2) from Article a1 where a1.mainArticle != null and datediff(a1.newspaper.publicationDate, a1.mainArticle.newspaper.publicationDate) <= 7")
+	// v2.0 - Updated by Alicia
+	@Query("select count(a1) * 1.0 / (select count(a) - (select sum(1) from Article a2 where a2.mainArticle != null) from Article a) from Article a1 where a1.mainArticle != null and datediff(a1.publicationDate, a1.mainArticle.publicationDate) <= 7")
 	Double avgFollowUpsPerArticleOneWeek();
 
 	// v1.0 - Implemented by Alicia
-	@Query("select count(a1) * 1.0 / (select count(a2) * 1.0 from Article a2) from Article a1 where a1.mainArticle != null and datediff(a1.newspaper.publicationDate, a1.mainArticle.newspaper.publicationDate) <= 14")
+	// v2.0 - Updated by Alicia
+	@Query("select count(a1) * 1.0 / (select count(a) - (select sum(1) from Article a2 where a2.mainArticle != null) from Article a) from Article a1 where a1.mainArticle != null and datediff(a1.publicationDate, a1.mainArticle.publicationDate) <= 14")
 	Double avgFollowUpsPerArticleTwoWeeks();
 
 	// v1.0 - Implemented by Alicia

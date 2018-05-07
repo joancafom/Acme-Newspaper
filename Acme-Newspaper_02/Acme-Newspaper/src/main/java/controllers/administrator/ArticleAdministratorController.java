@@ -81,18 +81,29 @@ public class ArticleAdministratorController extends AbstractController {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by JA (ads)
+	// v3.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int articleId) {
+	public ModelAndView display(@RequestParam final int articleId, @RequestParam(value = "d-4004458-p", defaultValue = "1") final Integer page) {
 		final ModelAndView res;
 
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
-		Assert.isTrue(article.getIsFinal());
+
+		if (article.getMainArticle() == null)
+			Assert.isTrue(article.getIsFinal());
+		else
+			Assert.isTrue(article.getMainArticle().getIsFinal());
 
 		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
 
+		final Page<Article> pageResult = this.articleService.getFollowUpsByArticle(article, page, 5);
+		final Collection<Article> followUps = pageResult.getContent();
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
 		res = new ModelAndView("article/display");
 		res.addObject("article", article);
+		res.addObject("followUps", followUps);
+		res.addObject("resultSize", resultSize);
 		res.addObject("ad", ad);
 
 		res.addObject("actorWS", "administrator/");

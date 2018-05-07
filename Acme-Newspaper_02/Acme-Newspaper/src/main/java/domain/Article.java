@@ -13,13 +13,16 @@ import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -29,6 +32,7 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 public class Article extends DomainEntity {
 
 	private String				title;
+	private Date				publicationDate;
 	private String				summary;
 	private String				body;
 	private Collection<String>	pictures;
@@ -42,9 +46,11 @@ public class Article extends DomainEntity {
 		return this.title;
 	}
 
-	@Transient
+	@Temporal(TemporalType.TIMESTAMP)
+	@Past
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getPublicationDate() {
-		return this.getNewspaper().getPublicationDate();
+		return this.publicationDate;
 	}
 
 	@NotBlank
@@ -79,6 +85,10 @@ public class Article extends DomainEntity {
 
 	public void setTitle(final String title) {
 		this.title = title;
+	}
+
+	public void setPublicationDate(final Date publicationDate) {
+		this.publicationDate = publicationDate;
 	}
 
 	public void setSummary(final String summary) {
@@ -130,7 +140,6 @@ public class Article extends DomainEntity {
 		return this.mainArticle;
 	}
 
-	@NotNull
 	@Valid
 	@OneToMany(mappedBy = "mainArticle")
 	public Collection<Article> getFollowUps() {

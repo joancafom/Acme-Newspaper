@@ -127,7 +127,10 @@ public class NewspaperService {
 			Assert.notNull(oldNewspaper);
 			Assert.isTrue(oldNewspaper.getIsPublic() == newspaperToSave.getIsPublic());
 			Assert.isTrue(oldNewspaper.getDescription().equals(newspaperToSave.getDescription()));
-			Assert.isTrue(oldNewspaper.getPicture().equals(newspaperToSave.getPicture()));
+			Assert.isTrue((oldNewspaper.getPicture() != null && newspaperToSave.getPicture() != null) || (oldNewspaper.getPicture() == null && newspaperToSave.getPicture() == null));
+			if (oldNewspaper.getPicture() != null && newspaperToSave.getPicture() != null)
+				Assert.isTrue(oldNewspaper.getPicture().equals(newspaperToSave.getPicture()));
+
 		}
 
 		//Check for taboo words
@@ -239,6 +242,7 @@ public class NewspaperService {
 	}
 
 	//v2.0 - Implemented by JA
+	// v3.0 - Updated by Alicia
 	public Newspaper publish(final Newspaper newspaperToPublish) {
 
 		Assert.notNull(newspaperToPublish);
@@ -251,6 +255,11 @@ public class NewspaperService {
 
 		final Date nowMinusMillis = new Date(System.currentTimeMillis() - 1000L);
 		newspaperToPublish.setPublicationDate(nowMinusMillis);
+
+		for (final Article a : newspaperToPublish.getArticles()) {
+			a.setPublicationDate(nowMinusMillis);
+			this.articleService.savePublish(a);
+		}
 
 		return this.save(newspaperToPublish);
 	}

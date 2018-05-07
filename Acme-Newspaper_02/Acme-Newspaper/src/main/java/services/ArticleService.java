@@ -4,6 +4,7 @@ package services;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.transaction.Transactional;
@@ -75,6 +76,8 @@ public class ArticleService {
 	}
 
 	// v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
+	// v3.0 - Updated by Alicia
 	public Article create(final Article mainArticle) {
 
 		Assert.notNull(mainArticle);
@@ -91,11 +94,9 @@ public class ArticleService {
 		article.setContainsTaboo(false);
 		article.setMainArticle(mainArticle);
 		article.setWriter(user);
+		article.setNewspaper(mainArticle.getNewspaper());
 
 		mainArticle.getFollowUps().add(article);
-
-		final Collection<Article> followUps = new HashSet<Article>();
-		article.setFollowUps(followUps);
 
 		final Collection<String> pictures = new HashSet<String>();
 		article.setPictures(pictures);
@@ -312,6 +313,7 @@ public class ArticleService {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by Alicia
+	// v3.0 - Updated by Alicia
 	public Article reconstructSave(final Article prunedArticle, final Newspaper newspaper, final Article mainArticle, final BindingResult binding) {
 		Assert.notNull(prunedArticle);
 
@@ -321,13 +323,21 @@ public class ArticleService {
 		if (newspaper != null)
 			prunedArticle.setNewspaper(newspaper);
 
-		if (mainArticle != null)
-			prunedArticle.setMainArticle(mainArticle);
+		if (mainArticle != null) {
+			Assert.isTrue(prunedArticle.getId() == 0);
 
-		if (prunedArticle.getId() == 0) {
-			prunedArticle.setContainsTaboo(false);
-			prunedArticle.setFollowUps(new HashSet<Article>());
-		} else {
+			final Date nowMinusMillis = new Date(System.currentTimeMillis() - 1000L);
+
+			prunedArticle.setPublicationDate(nowMinusMillis);
+			prunedArticle.setMainArticle(mainArticle);
+			prunedArticle.setNewspaper(mainArticle.getNewspaper());
+			prunedArticle.setIsFinal(true);
+
+			final Boolean containsTabooVeredict = this.systemConfigurationService.containsTaboo(prunedArticle.getTitle() + " " + prunedArticle.getSummary() + " " + prunedArticle.getBody());
+			prunedArticle.setContainsTaboo(containsTabooVeredict);
+		}
+
+		if (prunedArticle.getId() != 0 && newspaper != null) {
 			final Article oldArticle = this.findOne(prunedArticle.getId());
 
 			prunedArticle.setContainsTaboo(oldArticle.getContainsTaboo());
@@ -337,6 +347,21 @@ public class ArticleService {
 		this.validator.validate(prunedArticle, binding);
 
 		return prunedArticle;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Article savePublish(final Article article) {
+		Assert.notNull(article);
+		Assert.isTrue(article.getId() != 0);
+		Assert.isTrue(article.getIsFinal());
+		Assert.notNull(article.getPublicationDate());
+
+		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(user);
+
+		Assert.isTrue(this.userService.getPublisher(article.getNewspaper()).equals(user));
+
+		return this.articleRepository.save(article);
 	}
 
 	// v1.0 - Implemented by JA
@@ -435,6 +460,31 @@ public class ArticleService {
 		Assert.notNull(keyword);
 
 		final Page<Article> res = this.articleRepository.findPublicAndPublishedByKeyword(keyword, new PageRequest(page - 1, size));
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getFollowUpsByArticle(final Article article) {
+		Assert.notNull(article);
+
+		final Collection<Article> res = this.articleRepository.findFollowUpsByArticleId(article.getId());
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Page<Article> getFollowUpsByArticle(final Article article, final int page, final int size) {
+		Assert.notNull(article);
+
+		final Page<Article> res = this.articleRepository.findFollowUpsByArticleId(article.getId(), new PageRequest(page - 1, size));
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getMainArticles() {
+		final Collection<Article> res = this.articleRepository.findMainArticles();
 
 		return res;
 	}

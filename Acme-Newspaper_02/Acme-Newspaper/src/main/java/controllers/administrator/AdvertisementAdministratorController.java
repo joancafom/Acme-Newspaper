@@ -49,6 +49,7 @@ public class AdvertisementAdministratorController extends AbstractController {
 		return result;
 	}
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
 		ModelAndView res = null;
@@ -61,6 +62,8 @@ public class AdvertisementAdministratorController extends AbstractController {
 		res.addObject("advertisements", advertisements);
 		res.addObject("resultSize", resultSize);
 		res.addObject("landing", "listAll");
+
+		res.addObject("actorWS", this.ACTOR_WS);
 
 		return res;
 	}

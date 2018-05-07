@@ -63,7 +63,7 @@ public class VolumeServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 				// 1 - (+) A User successfully adds a Newspaper to a Volume.
-				"user5", "newspaper7", "volume2", null
+				"user5", "newspaper5", "volume4", null
 			}, {
 				// 2 - (-) A User adds a Newspaper he hasn't written to a Volume.
 				"user5", "newspaper1", "volume2", IllegalArgumentException.class

@@ -699,6 +699,11 @@
 
 	<bean id="article1" class="domain.Article">
 		<property name="title" value="Here's What a Single Milkshake Does to Your Blood Vessels"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="29/10/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="A chocolate milkshake may be bliss for your taste buds, but it's not so good for your blood vessels."/>
 		<property name="body" value="A small new study suggests that consuming just a single, high-fat meal or food item, like a milkshake, may lead to unhealthy changes in your blood vessels and red blood cells.
 
@@ -737,6 +742,11 @@
 
 	<bean id="article2" class="domain.Article">
 		<property name="title" value="Chocolate Facts"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="29/10/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="Chocolate is the most popular sweet treat in the world. People around the world (but mostly in Europe and the United States) consume more than 3 million tons of cocoa beans a year, according to the World Cocoa Foundation. And, not only does eating chocolate make you feel good, it may also be good for your heart and your brain."/>
 
 		<property name="body" value="Several recent studies have examined the role that chocolate may have on heart health. Cacao beans are full of phytonutrients, which act as antioxidants and provide additional benefits. Furthermore, cacao beans are rich sources of iron, copper, magnesium, zinc and phosphorus, according to the Harvard T.H. Chan School of Public Health. Dark chocolate contains two to three times more beneficial flavanols than milk chocolate because milk chocolate's cacao concentration is diluted with milk and possibly more sugar.
@@ -764,6 +774,11 @@
 
 	<bean id="article3" class="domain.Article">
 		<property name="title" value="Playing video games is good for your brain"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="08/02/2018"/>
+			</bean>
+		</property>
 		<property name="summary" value="Whether playing video games has negative effects is something that has been debated for 30 years, in much the same way that rock and roll, television, and even the novel faced similar criticisms in their time."/>
 
 		<property name="body" value="Purported negative effects such as addiction, increased aggression, and various health consequences such as obesity and repetitive strain injuries tend to get far more media coverage than the positives. I know from my own research examining both sides that my papers on video game addiction receive far more publicity than my research into the social benefits of, for example, playing online role-playing games.
@@ -792,6 +807,11 @@
 
 	<bean id="article4" class="domain.Article">
 		<property name="title" value="6 Scientific Benefits of Playing Videogames"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="03/11/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="Not only can gaming be a whole lot of fun, but recent research has revealed there's also a range of scientific benefits to playing videogames – everything from increasing brain matter to pain relief.
 
 		Here are six of the best benefits to tell your friends next time you blow off drinks to game:"/>
@@ -831,17 +851,18 @@
 		</property>
 		<property name="isFinal" value="true"/>
 		<property name="containsTaboo" value="false"/>
-		<property name="newspaper" ref="newspaper2"/>
+		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user2"/>
 		<property name="mainArticle" ref="article1"/>
-		<property name="followUps">
-			<list>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="article5" class="domain.Article">
 		<property name="title" value="Lorde's Melodrama up for album of the year at Grammys"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="21/02/2018"/>
+			</bean>
+		</property>
 		<property name="summary" value="Lorde has been nominated for album of the year at the Grammy Awards for Melodrama."/>
 
 		<property name="body" value="Lorde will compete against Jay-Z's 4.44, RnB star Bruno Mars' 24K Magic, Childish Gambino's Awaken, My Love! and Kendrick Lamar's Damn.
@@ -942,6 +963,11 @@
 
 	<bean id="article9" class="domain.Article">
 		<property name="title" value="Environment ministry responds to Aris Oil Company pollution allegations"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="21/05/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="According to the MET Spokesperson, Romeo Muyunda, after learning about the concerns on 28 March, the ministry immediately dispatched an inspection team to investigate the allegations at the site and found that the allegations made by the public were false."/>
 
 		<property name="body" value="“This was not the first time the site has been inspected, the Environmental Commissioner has inspected the site in 2017 and it was found that the site operation is an enclosed system that is meant for smoke and odor recovery,” Muyunda said.
@@ -969,6 +995,11 @@
 
 	<bean id="article10" class="domain.Article">
 		<property name="title" value="MIT researchers develop new portable device to monitor white blood cell levels"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="29/10/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="One of the major side effects of chemotherapy is a sharp drop in white blood cells, which leaves patients vulnerable to dangerous infections. MIT researchers have now developed a portable device that could be used to monitor patients' white blood cell levels at home, without taking blood samples."/>
 
 		<property name="body" value="Such a device could prevent thousands of sex infections every year among chemotherapy patients, the researchers say. Their tabletop prototype records video of blood cells flowing through capillaries just below the surface of the skin at the base of the fingernail. A computer algorithm can analyze the images to determine if white blood cell levels are below the threshold that doctors consider dangerous.
@@ -995,6 +1026,11 @@
 
 	<bean id="article11" class="domain.Article">
 		<property name="title" value="Tired of Sucking in 'Overwatch?' Try Cognitive-Behavioral Therapy"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="08/02/2018"/>
+			</bean>
+		</property>
 		<property name="summary" value="A series of bad losses sent an 'Overwatch' player over the edge, until his therapist wife handed him a mood log worksheet."/>
 
 		<property name="body" value="An Overwatch player has been very frustrated with his matches recently, so his wife, who is a therapist, gave him a mood log worksheet to help manage his emotions. The sheet went viral on Reddit, with 14,500 upvotes and more than a thousand comments. Many are from other players who can relate and are asking how they, too, can calm the fuck down after particularly soul-sucking loss.
@@ -1032,6 +1068,11 @@
 
 	<bean id="article12" class="domain.Article">
 		<property name="title" value="Underwater melting of Antarctic ice far greater than thought, study finds"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="21/05/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="The base of the ice around the south pole shrank by 1,463 square kilometres between 2010 and 2016."/>
 
 		<property name="body" value="Hidden underwater melt-off in the Antarctic is doubling every 20 years and could soon overtake Greenland to become the biggest source of sea-level rise, according to the first complete underwater map of the world’s largest body of ice.
@@ -1064,6 +1105,11 @@
 
 	<bean id="article13" class="domain.Article">
 		<property name="title" value="5 Things: All about ice"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="30/05/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="Important facts aboout ice and climate change"/>
 
 		<property name="body" value="1. Earth’s changing cryosphere
@@ -1097,10 +1143,6 @@
 		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper5"/>
 		<property name="writer" ref="user5"/>
-		<property name="followUps">
-			<list>
-			</list>
-		</property>
 		<property name="mainArticle" ref="article9"/>
 	</bean>
 	
@@ -1132,6 +1174,11 @@
 	
 	<bean id="article15" class="domain.Article">
 		<property name="title" value="Van Gogh resuscitates in Seville"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="05/02/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="The most visited multisensory exhibition in the world lands for the first time in Spain to present the life and work of the author as we have never seen it before."/>
 
 		<property name="body" value="Imagine 'The Starry Night' by Van Gogh. Now, imagine that you enter inside the box. Even more difficult: imagine that the constellations move over your head. That's just the tip of the iceberg of what you'll find in Van Gogh Alive, a show that breaks with the traditional concept of a museum and proposes a new way of living art.
@@ -1157,6 +1204,11 @@ Starting in February, the Seville Navigation Pavilion hosts an unconventional ex
 	
 	<bean id="article16" class="domain.Article">
 		<property name="title" value="Fajr foreign cineastes visit Louvre Museum show in Tehran"/>
+		<property name="publicationDate">
+			<bean factory-method="parse" factory-bean="dateFormat2">
+				<constructor-arg value="05/02/2017"/>
+			</bean>
+		</property>
 		<property name="summary" value="A number of foreign cineastes attending the 36th Fajr International Film Festival visited the Louvre Museum exhibit underway at the National Museum of Iran in downtown Tehran."/>
 
 		<property name="body" value="The visitors were mostly fascinated by the collection of photos by auteur Abbas Kiarostami from his “Look at Me” series taken during his many visits to the Louvre Museum, displayed on the margins of the Louvre exhibit, the organizers announced on Tuesday.
@@ -1364,6 +1416,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 			<list>
 				<ref bean="article1"/>
 				<ref bean="article2"/>
+				<ref bean="article4"/>
 				<ref bean="article10"/>
 			</list>
 		</property>
@@ -1395,7 +1448,6 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="articles">
 			<list>
 				<ref bean="article3"/>
-				<ref bean="article4"/>
 				<ref bean="article11"/>
 			</list>
 		</property>
