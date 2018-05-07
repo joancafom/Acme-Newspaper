@@ -127,7 +127,10 @@ public class NewspaperService {
 			Assert.notNull(oldNewspaper);
 			Assert.isTrue(oldNewspaper.getIsPublic() == newspaperToSave.getIsPublic());
 			Assert.isTrue(oldNewspaper.getDescription().equals(newspaperToSave.getDescription()));
-			Assert.isTrue(oldNewspaper.getPicture().equals(newspaperToSave.getPicture()));
+			Assert.isTrue((oldNewspaper.getPicture() != null && newspaperToSave.getPicture() != null) || (oldNewspaper.getPicture() == null && newspaperToSave.getPicture() == null));
+			if (oldNewspaper.getPicture() != null && newspaperToSave.getPicture() != null)
+				Assert.isTrue(oldNewspaper.getPicture().equals(newspaperToSave.getPicture()));
+
 		}
 
 		//Check for taboo words
