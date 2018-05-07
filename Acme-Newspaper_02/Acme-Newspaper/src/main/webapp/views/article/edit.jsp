@@ -20,6 +20,7 @@
 
 <jstl:choose>
 	<jstl:when test="${isFollowUp}">
+		<h3><spring:message code="article.create.followUp"/></h3>
 		<jstl:set var="entityId" value="${mainArticleId}"/>
 	</jstl:when>
 	<jstl:otherwise>
@@ -42,22 +43,13 @@
 	<acme:textarea code="article.body" path="body"/><br>
 	<acme:textarea code="article.pictures" path="pictures"/><br>
 	
-	<jstl:if test="${isFollowUp}">
-		<form:label path="newspaper"><spring:message code="article.newspaper"/>: </form:label>
-		<form:select path="newspaper">
-			<form:option value="0" label="----"/>
-			<jstl:forEach items="${unpublishedNewspapers}" var="n">
-				<form:option value="${n.id}" label="${n.title}"/>
-			</jstl:forEach>
-		</form:select>
-		<form:errors cssClass="error" path="newspaper"/>
+	<jstl:if test="${!isFollowUp}">
+		<form:label path="isFinal"><spring:message code="article.isFinal"/>: </form:label>
+		<form:radiobutton path="isFinal" value="false"/><spring:message code="article.draft"/>
+		<form:radiobutton path="isFinal" value="true"/><spring:message code="article.final"/>
+		<form:errors cssClass="error" path="isFinal"/>
+		<br/>
 	</jstl:if>
-	<br/>
-	<form:label path="isFinal"><spring:message code="article.isFinal"/>: </form:label>
-	<form:radiobutton path="isFinal" value="false"/><spring:message code="article.draft"/>
-	<form:radiobutton path="isFinal" value="true"/><spring:message code="article.final"/>
-	<form:errors cssClass="error" path="isFinal"/>
-	<br/>
 	
 	<acme:submit name="save" code="article.save"/>
 	<jstl:choose>

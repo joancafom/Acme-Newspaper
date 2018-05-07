@@ -43,23 +43,35 @@ public class ArticleController extends AbstractController {
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
 	// v3.0 - Updated by JA (ads)
+	// v4.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int articleId) {
+	public ModelAndView display(@RequestParam final int articleId, @RequestParam(value = "d-4004458-p", defaultValue = "1") final Integer page) {
 		ModelAndView result;
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
-		Assert.isTrue(article.getPublicationDate() != null);
-		Assert.isTrue(article.getNewspaper().getIsPublic());
+
+		if (article.getMainArticle() == null) {
+			Assert.isTrue(article.getPublicationDate() != null);
+			Assert.isTrue(article.getNewspaper().getIsPublic());
+		} else {
+			Assert.isTrue(article.getMainArticle().getPublicationDate() != null);
+			Assert.isTrue(article.getMainArticle().getNewspaper().getIsPublic());
+		}
 
 		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
 
+		final Page<Article> pageResult = this.articleService.getFollowUpsByArticle(article, page, 5);
+		final Collection<Article> followUps = pageResult.getContent();
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
+		result.addObject("followUps", followUps);
+		result.addObject("resultSize", resultSize);
 		result.addObject("ad", ad);
 
 		return result;
 	}
-
 	/* v1.0 - josembell */
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView search() {

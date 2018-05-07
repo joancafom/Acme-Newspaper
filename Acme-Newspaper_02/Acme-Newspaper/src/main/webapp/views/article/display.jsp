@@ -49,6 +49,31 @@
 	<h4><a href="article/user/edit.do?articleId=${article.id}"><spring:message code="article.edit"/></a></h4>
 </jstl:if>
 
-<jstl:if test="${owned and article.isFinal and article.newspaper.publicationDate ne null}">
+<jstl:if test="${owned and article.isFinal and article.newspaper.publicationDate ne null and article.mainArticle eq null}">
 	<h4><a href="article/user/create.do?entityId=${article.id}"><spring:message code="article.followUp.write"/></a></h4>
 </jstl:if>
+
+<display:table name="followUps" id="followUp" requestURI="article/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%">
+	<display:column titleKey="article.title" style="width:30%">
+		<a href="article/${actorWS}display.do?articleId=${followUp.id}"><jstl:out value="${followUp.title}"/></a>
+	</display:column>
+	
+	<display:column titleKey="article.writer" style="width:10%">
+		<a href="user/${actorWS}display.do?userId=${followUp.writer.id}">${followUp.writer.name} ${followUp.writer.surnames}</a>
+	</display:column>
+	
+	<display:column titleKey="article.summary" style="width:60%">
+		<jstl:if test="${fn:length(followUp.summary)<=100}">
+			<jstl:out value="${followUp.summary}"/>
+		</jstl:if>
+		<jstl:if test="${fn:length(followUp.summary)>100}">
+			<jstl:out value="${fn:substring(followUp.summary, 0, 100)}"/>...
+		</jstl:if>
+	</display:column>
+	
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+			<a href="article/administrator/delete.do?articleId=${followUp.id}"><spring:message code="article.delete"/></a>
+		</display:column>
+	</security:authorize>
+</display:table>

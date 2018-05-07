@@ -75,6 +75,7 @@ public class ArticleService {
 	}
 
 	// v1.0 - Implemented by JA
+	// v2.0 - Updated by Alicia
 	public Article create(final Article mainArticle) {
 
 		Assert.notNull(mainArticle);
@@ -91,6 +92,7 @@ public class ArticleService {
 		article.setContainsTaboo(false);
 		article.setMainArticle(mainArticle);
 		article.setWriter(user);
+		article.setNewspaper(mainArticle.getNewspaper());
 
 		mainArticle.getFollowUps().add(article);
 
@@ -321,8 +323,15 @@ public class ArticleService {
 		if (newspaper != null)
 			prunedArticle.setNewspaper(newspaper);
 
-		if (mainArticle != null)
+		if (mainArticle != null) {
+			Assert.isTrue(mainArticle.getWriter().equals(writer));
+			Assert.isTrue(mainArticle.getIsFinal());
+			Assert.notNull(mainArticle.getNewspaper().getPublicationDate());
+
 			prunedArticle.setMainArticle(mainArticle);
+			prunedArticle.setNewspaper(mainArticle.getNewspaper());
+			prunedArticle.setIsFinal(true);
+		}
 
 		if (prunedArticle.getId() == 0) {
 			prunedArticle.setContainsTaboo(false);
@@ -435,6 +444,24 @@ public class ArticleService {
 		Assert.notNull(keyword);
 
 		final Page<Article> res = this.articleRepository.findPublicAndPublishedByKeyword(keyword, new PageRequest(page - 1, size));
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Collection<Article> getFollowUpsByArticle(final Article article) {
+		Assert.notNull(article);
+
+		final Collection<Article> res = this.articleRepository.findFollowUpsByArticleId(article.getId());
+
+		return res;
+	}
+
+	// v1.0 - Implemented by Alicia
+	public Page<Article> getFollowUpsByArticle(final Article article, final int page, final int size) {
+		Assert.notNull(article);
+
+		final Page<Article> res = this.articleRepository.findFollowUpsByArticleId(article.getId(), new PageRequest(page - 1, size));
 
 		return res;
 	}

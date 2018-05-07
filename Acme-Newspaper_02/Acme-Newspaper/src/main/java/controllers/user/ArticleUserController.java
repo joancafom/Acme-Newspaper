@@ -11,8 +11,6 @@
 package controllers.user;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +56,7 @@ public class ArticleUserController extends AbstractController {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by JA
+	// v3.0 - Updated by Alicia
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int entityId) {
 		final ModelAndView res;
@@ -77,6 +76,8 @@ public class ArticleUserController extends AbstractController {
 			res = this.createEditModelAndView(article);
 
 		} else {
+			Assert.isNull(mainArticle.getMainArticle());
+
 			article = this.articleService.create(mainArticle);
 			res = this.createEditModelAndView(article);
 		}
@@ -87,8 +88,9 @@ public class ArticleUserController extends AbstractController {
 	/* v1.0 - josembell */
 	// v2.0 - Updated by Alicia
 	// v3.0 - Updated by JA (ads)
+	// v4.0 - Updated by Alicia
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int articleId) {
+	public ModelAndView display(@RequestParam final int articleId, @RequestParam(value = "d-4004458-p", defaultValue = "1") final Integer page) {
 		final ModelAndView result;
 		final Article article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
@@ -99,13 +101,22 @@ public class ArticleUserController extends AbstractController {
 		Boolean owned = false;
 		if (article.getWriter().equals(user))
 			owned = true;
-		else
+
+		if (!article.getWriter().equals(user) && article.getMainArticle() == null)
 			Assert.isTrue(article.getIsFinal() || user.getNewspapers().contains(article.getNewspaper()));
+		else if (!article.getWriter().equals(user) && article.getMainArticle() != null)
+			Assert.isTrue(article.getMainArticle().getIsFinal() || user.getNewspapers().contains(article.getMainArticle().getNewspaper()));
 
 		final Advertisement ad = this.advertisementService.getRandomAdvertisement(article.getNewspaper());
 
+		final Page<Article> pageResult = this.articleService.getFollowUpsByArticle(article, page, 5);
+		final Collection<Article> followUps = pageResult.getContent();
+		final Integer resultSize = new Long(pageResult.getTotalElements()).intValue();
+
 		result = new ModelAndView("article/display");
 		result.addObject("article", article);
+		result.addObject("followUps", followUps);
+		result.addObject("resultSize", resultSize);
 		result.addObject("ad", ad);
 		result.addObject("owned", owned);
 
@@ -198,6 +209,7 @@ public class ArticleUserController extends AbstractController {
 
 	// v1.0 - Unknown (josembell maybe)
 	// v2.0 - Modified by JA
+	// v3.0 - Updated by Alicia
 	private ModelAndView createEditModelAndView(final Article article, final String message) {
 
 		final ModelAndView res;
@@ -210,9 +222,7 @@ public class ArticleUserController extends AbstractController {
 		if (article.getMainArticle() != null) {
 			//We are in a Follow Up
 
-			final Set<Newspaper> unpublishedNewspapers = new HashSet<Newspaper>(this.newspaperService.findAllUnpublished());
 			res.addObject("mainArticleId", article.getMainArticle().getId());
-			res.addObject("unpublishedNewspapers", unpublishedNewspapers);
 			res.addObject("isFollowUp", true);
 		} else {
 			res.addObject("newspaperId", article.getNewspaper().getId());
