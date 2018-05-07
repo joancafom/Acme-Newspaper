@@ -831,7 +831,7 @@
 		</property>
 		<property name="isFinal" value="true"/>
 		<property name="containsTaboo" value="false"/>
-		<property name="newspaper" ref="newspaper2"/>
+		<property name="newspaper" ref="newspaper1"/>
 		<property name="writer" ref="user2"/>
 		<property name="mainArticle" ref="article1"/>
 		<property name="followUps">
