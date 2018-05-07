@@ -3355,7 +3355,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 			<list>
 			</list>
 		</property>
-		<property name="actor" ref="customer1"/>
+		<property name="actor" ref="customer3"/>
 		<property name="parentFolder" ref="folder94"/>
 	</bean>
 	

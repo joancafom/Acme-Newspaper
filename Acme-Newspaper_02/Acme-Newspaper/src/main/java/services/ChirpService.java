@@ -172,7 +172,7 @@ public class ChirpService {
 
 		final User user = this.userService.findByUserAccount(LoginService.getPrincipal());
 
-		prunedChirp.setMoment(new Date());
+		prunedChirp.setMoment(new Date(System.currentTimeMillis() - 1000));
 		prunedChirp.setContainsTaboo(false);
 		prunedChirp.setUser(user);
 

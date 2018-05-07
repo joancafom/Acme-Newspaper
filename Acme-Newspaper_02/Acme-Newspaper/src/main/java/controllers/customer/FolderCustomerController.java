@@ -183,22 +183,21 @@ public class FolderCustomerController extends AbstractController {
 
 	/* v1.0 - josembell */
 	//v2.0 - Modified by JA (Laziness)
+	//v3.0 - Modified by JA (moving)
 	protected ModelAndView createEditModelAndView(final Folder folder, final String message) {
 		ModelAndView result;
 
 		Assert.notNull(folder);
-
 		result = new ModelAndView("folder/edit");
 		result.addObject("folder", folder);
 		result.addObject("message", message);
-		final Collection<Folder> folders = this.folderService.findAllNotSystemByPrincipal();
 
-		final Folder originalFolder = this.folderService.findOne(folder.getId());
-		if (originalFolder != null) {
-			folders.remove(originalFolder);
-			folders.removeAll(originalFolder.getChildFolders());
+		//We add a list of folders we can move to in case it is an edition
+		if (folder.getId() != 0) {
+			final Collection<Folder> folders = this.folderService.findCompatibleFoldersToMove(folder);
+			result.addObject("folders", folders);
 		}
-		result.addObject("folders", folders);
+
 		result.addObject("actorWS", this.ACTOR_WS);
 
 		return result;

@@ -26,6 +26,9 @@ public interface FolderRepository extends JpaRepository<Folder, Integer> {
 	@Query("select f from Folder f where f.actor.id = ?1 and f.isSystem=false")
 	Collection<Folder> findAllNotSystemByActorId(int actorId);
 
+	@Query("select f from Folder f where f.isSystem=false and f.actor.id = ?2 and f not in ?1")
+	Collection<Folder> findCompatibleFoldersToMoveByExcludedAndActorId(Collection<Folder> excluded, int actorId);
+
 	@Query("select f from Folder f where f.actor.id = ?1 and f.name = ?2")
 	Folder findByActorIdAndName(int actorId, String name);
 

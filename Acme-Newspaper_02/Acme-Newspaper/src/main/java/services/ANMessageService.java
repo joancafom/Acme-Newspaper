@@ -132,8 +132,10 @@ public class ANMessageService {
 	// Other Business Methods ------------------------------------------------
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Modified by JA
 	public ANMessage reconstruct(final ANMessageForm anMessageForm, final BindingResult binding) {
 		Assert.notNull(anMessageForm);
+		Assert.isTrue(anMessageForm.getId() == 0);
 
 		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(sender);
@@ -164,8 +166,10 @@ public class ANMessageService {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by Alicia
+	// v3.0 - Modified by JA
 	public ANMessage reconstruct(final ANMessage anMessage, final BindingResult binding) {
 		Assert.notNull(anMessage);
+		Assert.isTrue(anMessage.getId() != 0);
 
 		final Actor sender = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.notNull(sender);

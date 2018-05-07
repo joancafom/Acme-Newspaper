@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -106,6 +107,7 @@ public class FolderService {
 			Assert.isTrue(folder.getParentFolder().getIsSystem() == false);
 			Assert.isTrue(!folder.getParentFolder().equals(folder));
 			Assert.isTrue(folder.getParentFolder().getActor().equals(actor));
+			Assert.isTrue(this.isHierarchyCompatible(folder, folder.getParentFolder()));
 		}
 
 		/*
@@ -126,29 +128,40 @@ public class FolderService {
 	}
 
 	/* v1.0 - josembell */
+	// v2.0 - Modified by JA
 	public void deleteByPrincipal(final Folder folder) {
 		Assert.notNull(folder);
 		Assert.isTrue(!folder.getIsSystem());
+
 		final UserAccount us = LoginService.getPrincipal();
 		final Actor actor = this.actorService.findByUserAccount(us);
 		Assert.notNull(actor);
 		Assert.isTrue(folder.getActor().equals(actor));
 
+		this.deleteHierarchy(folder);
+	}
+
+	// v1.0 - Implemented by JA
+	private void deleteHierarchy(final Folder folder) {
+
+		/*
+		 * Recursively delete all the hierarchy of one folder
+		 */
+
+		Assert.notNull(folder);
+
 		for (final ANMessage m : folder.getAnMessages())
 			this.anMessageService.delete(m);
 
-		if (folder.getParentFolder() == null)
-			for (final Folder f : folder.getChildFolders()) {
-				f.setParentFolder(null);
-				this.folderRepository.save(f);
-			}
-		else
-			for (final Folder f : folder.getChildFolders()) {
-				f.setParentFolder(folder.getParentFolder());
-				this.folderRepository.save(f);
-			}
+		final Collection<Folder> childrenCopy = new HashSet<Folder>(folder.getChildFolders());
+		for (final Folder childFolder : childrenCopy)
+			this.deleteHierarchy(childFolder);
+
+		if (folder.getParentFolder() != null)
+			folder.getParentFolder().getChildFolders().remove(folder);
 
 		this.folderRepository.delete(folder);
+
 	}
 	//Other Business Methods -------------------------------------------------
 
@@ -216,6 +229,26 @@ public class FolderService {
 				res.add(f);
 
 		return res;
+
+	}
+
+	//v1.0 - Implemented by JA
+	private Boolean isHierarchyCompatible(final Folder folderToMove, final Folder destiny) {
+
+		/*
+		 * Private method only called within the code, so no need to check
+		 * if the parameters are valid or not
+		 * 
+		 * Checks that the destiny folder is not in the same branch as the
+		 * folderToMove
+		 */
+
+		if (destiny.getParentFolder() == null)
+			return true;
+		else if (destiny.getParentFolder().equals(folderToMove))
+			return false;
+		else
+			return this.isHierarchyCompatible(folderToMove, destiny.getParentFolder());
 
 	}
 
@@ -289,4 +322,44 @@ public class FolderService {
 		return this.folderRepository.findChildFoldersOfFolderByPrincipalPaged(actor.getId(), folder.getId(), new PageRequest(page - 1, size));
 	}
 
+	//v1.0 - Implemented by JA
+	public Collection<Folder> findCompatibleFoldersToMove(final Folder folderToMove) {
+
+		final Actor actor = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		Assert.notNull(actor);
+		Assert.notNull(folderToMove);
+
+		//Watch out for Transients!
+		Assert.isTrue(folderToMove.getId() != 0);
+		Assert.isTrue(folderToMove.getActor().equals(actor));
+		Assert.isTrue(!folderToMove.getIsSystem());
+
+		final Folder originalFolder = this.findOne(folderToMove.getId());
+
+		final Collection<Folder> excludedFolders = this.getExludedRecursive(originalFolder);
+		excludedFolders.add(originalFolder);
+
+		return this.folderRepository.findCompatibleFoldersToMoveByExcludedAndActorId(excludedFolders, actor.getId());
+	}
+
+	//v1.0 - Implemented by JA
+	private Set<Folder> getExludedRecursive(final Folder folder) {
+
+		/*
+		 * Compute the folders to exclude from the hierarchy
+		 */
+
+		Assert.notNull(folder);
+
+		final Set<Folder> res = new HashSet<Folder>();
+
+		if (!folder.getChildFolders().isEmpty()) {
+			res.addAll(folder.getChildFolders());
+			for (final Folder child : folder.getChildFolders())
+				res.addAll(this.getExludedRecursive(child));
+		}
+
+		return res;
+
+	}
 }
