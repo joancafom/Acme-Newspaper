@@ -57,6 +57,7 @@ public class ArticleUserController extends AbstractController {
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by JA
 	// v3.0 - Updated by Alicia
+	// v4.0 - Updated by Alicia
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int entityId) {
 		final ModelAndView res;
@@ -77,6 +78,9 @@ public class ArticleUserController extends AbstractController {
 
 		} else {
 			Assert.isNull(mainArticle.getMainArticle());
+			Assert.isTrue(mainArticle.getWriter().equals(user));
+			Assert.isTrue(mainArticle.getIsFinal());
+			Assert.notNull(mainArticle.getNewspaper().getPublicationDate());
 
 			article = this.articleService.create(mainArticle);
 			res = this.createEditModelAndView(article);
@@ -145,9 +149,10 @@ public class ArticleUserController extends AbstractController {
 	}
 
 	// v1.0 - Implemented by Alicia
+	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView edit(@RequestParam final int entityId, final Article prunedArticle, final BindingResult binding) {
-		ModelAndView res;
+		ModelAndView res = null;
 
 		final Newspaper newspaper = this.newspaperService.findOne(entityId);
 		final Article mainArticle = this.articleService.findOne(entityId);
@@ -161,7 +166,10 @@ public class ArticleUserController extends AbstractController {
 		else
 			try {
 				this.articleService.save(article);
-				res = new ModelAndView("redirect:/newspaper/user/display.do?newspaperId=" + article.getNewspaper().getId());
+				if (mainArticle != null)
+					res = new ModelAndView("redirect:/article/user/display.do?articleId=" + mainArticle.getId());
+				else if (newspaper != null)
+					res = new ModelAndView("redirect:/newspaper/user/display.do?newspaperId" + newspaper.getId());
 			} catch (final Throwable oops) {
 				res = this.createEditModelAndView(article, "article.commit.error");
 			}

@@ -1,5 +1,5 @@
 #./src/main/resources/Entities.map
-#Mon May 07 12:14:37 CEST 2018
+#Mon May 07 16:27:44 CEST 2018
 volume6=5336
 volume5=5335
 newspaper8=5503
@@ -16,7 +16,7 @@ folder79=5422
 newspaper3=5492
 folder78=5421
 article7=5494
-newspaper2=5488
+newspaper2=5489
 folder77=5420
 article6=5493
 newspaper1=5484
@@ -24,9 +24,9 @@ folder76=5419
 admin=5323
 article5=5500
 folder75=5418
-article4=5490
+article4=5487
 folder74=5417
-article3=5489
+article3=5490
 folder73=5416
 article2=5486
 folder72=5415
@@ -82,7 +82,7 @@ article12=5496
 folder43=5386
 article11=5491
 folder42=5385
-article10=5487
+article10=5488
 folder41=5384
 folder40=5383
 customer6=5322

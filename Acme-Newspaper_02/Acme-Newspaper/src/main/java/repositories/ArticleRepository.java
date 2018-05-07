@@ -109,4 +109,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.mainArticle.id = ?1")
 	Page<Article> findFollowUpsByArticleId(int articleId, Pageable pageable);
 
+	// v1.0 - Implemented by Alicia
+	@Query("select a from Article a where a.mainArticle = null")
+	Collection<Article> findMainArticles();
+
 }
