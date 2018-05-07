@@ -194,8 +194,10 @@ public class FolderAdministratorController extends AbstractController {
 		final Collection<Folder> folders = this.folderService.findAllNotSystemByPrincipal();
 
 		final Folder originalFolder = this.folderService.findOne(folder.getId());
-		if (originalFolder != null)
+		if (originalFolder != null) {
 			folders.remove(originalFolder);
+			folders.removeAll(originalFolder.getChildFolders());
+		}
 		result.addObject("folders", folders);
 		result.addObject("actorWS", this.ACTOR_WS);
 
