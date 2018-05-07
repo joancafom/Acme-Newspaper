@@ -102,6 +102,13 @@ public class FolderService {
 		Assert.isTrue(!folderName.equals("trash box"));
 		Assert.isTrue(!folderName.equals("spam box"));
 
+		final Folder oldFolder = this.findOne(folder.getId());
+		final Collection<Folder> children = new HashSet<Folder>(folder.getChildFolders());
+		for (final Folder f : children) {
+			f.setParentFolder(oldFolder.getParentFolder());
+			this.folderRepository.save(f);
+		}
+
 		if (folder.getParentFolder() != null) {
 			Assert.isTrue(folder.getParentFolder().getIsSystem() == false);
 			Assert.isTrue(!folder.getParentFolder().equals(folder));
