@@ -852,7 +852,7 @@
 		<property name="isFinal" value="true"/>
 		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper1"/>
-		<property name="writer" ref="user2"/>
+		<property name="writer" ref="user1"/>
 		<property name="mainArticle" ref="article1"/>
 	</bean>
 
@@ -1142,7 +1142,7 @@
 		<property name="isFinal" value="true"/>
 		<property name="containsTaboo" value="false"/>
 		<property name="newspaper" ref="newspaper5"/>
-		<property name="writer" ref="user5"/>
+		<property name="writer" ref="user4"/>
 		<property name="mainArticle" ref="article9"/>
 	</bean>
 	
@@ -1646,6 +1646,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 			<list>
 				<ref bean="article1"/>
 				<ref bean="article2"/>
+				<ref bean="article4"/>
 			</list>
 		</property>
 		<property name="chirps">
@@ -1706,7 +1707,6 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 		<property name="articles">
 			<list>
 				<ref bean="article3"/>
-				<ref bean="article4"/>
 				<ref bean="article5"/>
 				<ref bean="article15"/>
 				<ref bean="article16"/>
@@ -1815,6 +1815,7 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 			<list>
 				<ref bean="article7"/>
 				<ref bean="article9"/>
+				<ref bean="article13"/>
 			</list>
 		</property>
 		<property name="chirps">
@@ -1867,7 +1868,6 @@ The Fajr International Film Festival will run at Tehran’s Charsu Cineplex unti
 				<ref bean="article10"/>
 				<ref bean="article11"/>
 				<ref bean="article12"/>
-				<ref bean="article13"/>
 				<ref bean="article14"/>
 			</list>
 		</property>

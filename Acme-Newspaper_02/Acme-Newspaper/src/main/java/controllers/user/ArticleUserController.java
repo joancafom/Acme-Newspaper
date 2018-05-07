@@ -169,7 +169,7 @@ public class ArticleUserController extends AbstractController {
 				if (mainArticle != null)
 					res = new ModelAndView("redirect:/article/user/display.do?articleId=" + mainArticle.getId());
 				else if (newspaper != null)
-					res = new ModelAndView("redirect:/newspaper/user/display.do?newspaperId" + newspaper.getId());
+					res = new ModelAndView("redirect:/newspaper/user/display.do?newspaperId=" + newspaper.getId());
 			} catch (final Throwable oops) {
 				res = this.createEditModelAndView(article, "article.commit.error");
 			}

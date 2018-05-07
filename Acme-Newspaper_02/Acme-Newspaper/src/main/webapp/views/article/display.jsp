@@ -56,7 +56,7 @@
 <jstl:if test="${article.mainArticle eq null and article.isFinal}">
 	<h3><spring:message code="article.followUps"/></h3>
 
-	<display:table name="followUps" id="followUp" requestURI="article/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%">
+	<display:table name="followUps" id="followUp" requestURI="article/${actorWS}display.do" pagesize="5" class="displaytag" style="width:100%" partialList="true" size="${resultSize}">
 		<display:column titleKey="article.title" style="width:20%">
 			<a href="article/${actorWS}display.do?articleId=${followUp.id}"><jstl:out value="${followUp.title}"/></a>
 		</display:column>

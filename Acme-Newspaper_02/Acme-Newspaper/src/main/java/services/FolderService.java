@@ -96,6 +96,8 @@ public class FolderService {
 
 		Assert.isTrue(!folder.getIsSystem());
 		Assert.isTrue(folder.getActor().getUserAccount().equals(LoginService.getPrincipal()));
+
+		Assert.notNull(folder.getName());
 		final String folderName = folder.getName().toLowerCase();
 		Assert.isTrue(!folderName.equals("in box"));
 		Assert.isTrue(!folderName.equals("out box"));

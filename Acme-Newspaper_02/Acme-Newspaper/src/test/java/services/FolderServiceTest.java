@@ -153,15 +153,15 @@ public class FolderServiceTest extends AbstractTest {
 	 * 
 	 * Test Cases (5; 2+ 3-):
 	 * 
-	 * + 1) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside another custom Folder
+	 * + 1) An Actor logs in, lists her/his folders and selects a non-system Folder to nest in inside another custom Folder
 	 * 
-	 * - 2) An Actor logs in, list her/his folders and selects a system Folder to nest in inside another custom Folder (only custom Folders may be organized)
+	 * - 2) An Actor logs in, lists her/his folders and selects a system Folder to nest in inside another custom Folder (only custom Folders may be organized)
 	 * 
-	 * - 3) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside a system Folder (only nested in custom Folders)
+	 * - 3) An Actor logs in, lists her/his folders and selects a non-system Folder to nest in inside a system Folder (only nested in custom Folders)
 	 * 
-	 * - 4) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside itself (makes no sense to nest inside itself)
+	 * - 4) An Actor logs in, lists her/his folders and selects a non-system Folder to nest in inside itself (makes no sense to nest inside itself)
 	 * 
-	 * - 5) An Actor logs in, list her/his folders and selects a non-system Folder to nest in inside another actor's custom Folder
+	 * - 5) An Actor logs in, lists her/his folders and selects a non-system Folder to nest in inside another actor's custom Folder
 	 */
 
 	@Test
@@ -175,7 +175,7 @@ public class FolderServiceTest extends AbstractTest {
 
 		final Object testingData[][] = {
 			{
-				"customer3", "Meetings", "Year 2017", "customer3", null
+				"customer3", "December", "Meetings", "customer3", null
 			}, {
 				"customer3", "In Box", "Year 2017", "customer3", IllegalArgumentException.class
 			}, {
@@ -183,7 +183,7 @@ public class FolderServiceTest extends AbstractTest {
 			}, {
 				"customer3", "Meetings", "Meetings", "customer3", IllegalArgumentException.class
 			}, {
-				"customer3", "Meetings", "December", "customer1", IllegalArgumentException.class
+				"customer3", "Meetings", "Etc", "agent1", IllegalArgumentException.class
 			}
 		};
 
@@ -191,6 +191,7 @@ public class FolderServiceTest extends AbstractTest {
 		Folder inToNest = null;
 
 		for (int i = 0; i < testingData.length; i++) {
+
 			if (testingData[i][1] != null)
 				toMove = this.folderService.findByActorAndName(this.actorService.findOne(this.getEntityId((String) testingData[i][0])), (String) testingData[i][1]);
 

@@ -116,6 +116,7 @@ public class ArticleService {
 
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Modified by JA (taboo)
+	//v3.0 - Modified by JA (followUp)
 	public Article save(final Article article) {
 		Assert.notNull(article);
 
@@ -128,9 +129,18 @@ public class ArticleService {
 
 		if (article.getId() != 0) {
 			oldArticle = this.articleRepository.findOne(article.getId());
+			Assert.notNull(oldArticle);
+
 			Assert.isTrue(!oldArticle.getIsFinal());
 			Assert.isTrue(oldArticle.getWriter().equals(article.getWriter()));
+			Assert.isTrue(oldArticle.getNewspaper().equals(article.getNewspaper()));
 			Assert.isNull(oldArticle.getPublicationDate());
+			Assert.isNull(oldArticle.getMainArticle());
+		}
+
+		if (article.getMainArticle() != null) {
+			Assert.isTrue(user.equals(article.getMainArticle().getWriter()));
+			Assert.isNull(article.getMainArticle().getMainArticle());
 		}
 
 		Assert.notNull(article.getPictures());
@@ -320,11 +330,18 @@ public class ArticleService {
 		final User writer = this.userService.findByUserAccount(LoginService.getPrincipal());
 		prunedArticle.setWriter(writer);
 
-		if (newspaper != null)
-			prunedArticle.setNewspaper(newspaper);
+		Assert.isTrue(newspaper == null || mainArticle == null);
 
+		if (newspaper != null) {
+
+			//Write a normal article
+			Assert.isNull(newspaper.getPublicationDate());
+			prunedArticle.setNewspaper(newspaper);
+		}
 		if (mainArticle != null) {
+			//Write a follow-up
 			Assert.isTrue(prunedArticle.getId() == 0);
+			Assert.isTrue(writer.equals(mainArticle.getWriter()));
 
 			final Date nowMinusMillis = new Date(System.currentTimeMillis() - 1000L);
 
@@ -337,8 +354,13 @@ public class ArticleService {
 			prunedArticle.setContainsTaboo(containsTabooVeredict);
 		}
 
-		if (prunedArticle.getId() != 0 && newspaper != null) {
+		if (prunedArticle.getId() != 0) {
+			//Modify a current article, a follow cannot be modified
+			Assert.notNull(newspaper);
+
 			final Article oldArticle = this.findOne(prunedArticle.getId());
+			Assert.notNull(oldArticle);
+			Assert.isNull(oldArticle.getMainArticle());
 
 			prunedArticle.setContainsTaboo(oldArticle.getContainsTaboo());
 			prunedArticle.setFollowUps(oldArticle.getFollowUps());
