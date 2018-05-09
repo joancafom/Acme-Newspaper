@@ -51,7 +51,7 @@ public class AdvertisementAdministratorController extends AbstractController {
 	// v1.0 - Implemented by Alicia
 	// v2.0 - Updated by Alicia
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(value = "d-3664915-p", defaultValue = "1") final Integer page) {
+	public ModelAndView list(@RequestParam(value = "d-4281171-p", defaultValue = "1") final Integer page) {
 		ModelAndView res = null;
 
 		final Page<Advertisement> pageResult = this.advertisementService.findAll(page, 5);
